@@ -13,7 +13,7 @@
     <result column="delivery_place" property="deliveryPlace" jdbcType="VARCHAR" />
     <result column="requirements" property="requirements" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-    <result column="req_status" property="reqStatus" jdbcType="SMALLINT" />
+    <result column="purch_requisition_status" property="purchRequisitionStatus" jdbcType="SMALLINT" />
     <result column="purch_status" property="purchStatus" jdbcType="SMALLINT" />
     <result column="purchase_uid" property="purchaseUid" jdbcType="BIGINT" />
     <result column="single_person_id" property="singlePersonId" jdbcType="BIGINT" />
@@ -84,8 +84,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, project_id, pm_uid, department, submit_date, trade_method, trans_mode_bn, factory_send, 
-    delivery_place, requirements, remarks, req_status, purch_status, purchase_uid, single_person_id, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, delete_time
+    delivery_place, requirements, remarks, purch_requisition_status, purch_status, purchase_uid, 
+    single_person_id, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchRequisitionExample" >
     select
@@ -121,7 +122,7 @@
     insert into purch_requisition (id, project_id, pm_uid, 
       department, submit_date, trade_method, 
       trans_mode_bn, factory_send, delivery_place, 
-      requirements, remarks, req_status, 
+      requirements, remarks, purch_requisition_status, 
       purch_status, purchase_uid, single_person_id, 
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag, delete_time
@@ -129,7 +130,7 @@
     values (#{id,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{pmUid,jdbcType=BIGINT}, 
       #{department,jdbcType=BIGINT}, #{submitDate,jdbcType=DATE}, #{tradeMethod,jdbcType=SMALLINT}, 
       #{transModeBn,jdbcType=CHAR}, #{factorySend,jdbcType=SMALLINT}, #{deliveryPlace,jdbcType=VARCHAR}, 
-      #{requirements,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{reqStatus,jdbcType=SMALLINT}, 
+      #{requirements,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{purchRequisitionStatus,jdbcType=SMALLINT}, 
       #{purchStatus,jdbcType=SMALLINT}, #{purchaseUid,jdbcType=BIGINT}, #{singlePersonId,jdbcType=BIGINT}, 
       #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
@@ -171,8 +172,8 @@
       <if test="remarks != null" >
         remarks,
       </if>
-      <if test="reqStatus != null" >
-        req_status,
+      <if test="purchRequisitionStatus != null" >
+        purch_requisition_status,
       </if>
       <if test="purchStatus != null" >
         purch_status,
@@ -236,8 +237,8 @@
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="reqStatus != null" >
-        #{reqStatus,jdbcType=SMALLINT},
+      <if test="purchRequisitionStatus != null" >
+        #{purchRequisitionStatus,jdbcType=SMALLINT},
       </if>
       <if test="purchStatus != null" >
         #{purchStatus,jdbcType=SMALLINT},
@@ -310,8 +311,8 @@
       <if test="record.remarks != null" >
         remarks = #{record.remarks,jdbcType=VARCHAR},
       </if>
-      <if test="record.reqStatus != null" >
-        req_status = #{record.reqStatus,jdbcType=SMALLINT},
+      <if test="record.purchRequisitionStatus != null" >
+        purch_requisition_status = #{record.purchRequisitionStatus,jdbcType=SMALLINT},
       </if>
       <if test="record.purchStatus != null" >
         purch_status = #{record.purchStatus,jdbcType=SMALLINT},
@@ -358,7 +359,7 @@
       delivery_place = #{record.deliveryPlace,jdbcType=VARCHAR},
       requirements = #{record.requirements,jdbcType=VARCHAR},
       remarks = #{record.remarks,jdbcType=VARCHAR},
-      req_status = #{record.reqStatus,jdbcType=SMALLINT},
+      purch_requisition_status = #{record.purchRequisitionStatus,jdbcType=SMALLINT},
       purch_status = #{record.purchStatus,jdbcType=SMALLINT},
       purchase_uid = #{record.purchaseUid,jdbcType=BIGINT},
       single_person_id = #{record.singlePersonId,jdbcType=BIGINT},
@@ -405,8 +406,8 @@
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="reqStatus != null" >
-        req_status = #{reqStatus,jdbcType=SMALLINT},
+      <if test="purchRequisitionStatus != null" >
+        purch_requisition_status = #{purchRequisitionStatus,jdbcType=SMALLINT},
       </if>
       <if test="purchStatus != null" >
         purch_status = #{purchStatus,jdbcType=SMALLINT},
@@ -450,7 +451,7 @@
       delivery_place = #{deliveryPlace,jdbcType=VARCHAR},
       requirements = #{requirements,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
-      req_status = #{reqStatus,jdbcType=SMALLINT},
+      purch_requisition_status = #{purchRequisitionStatus,jdbcType=SMALLINT},
       purch_status = #{purchStatus,jdbcType=SMALLINT},
       purchase_uid = #{purchaseUid,jdbcType=BIGINT},
       single_person_id = #{singlePersonId,jdbcType=BIGINT},

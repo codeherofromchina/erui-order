@@ -832,63 +832,63 @@ public class PurchRequisitionExample {
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusIsNull() {
-            addCriterion("req_status is null");
+        public Criteria andPurchRequisitionStatusIsNull() {
+            addCriterion("purch_requisition_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusIsNotNull() {
-            addCriterion("req_status is not null");
+        public Criteria andPurchRequisitionStatusIsNotNull() {
+            addCriterion("purch_requisition_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusEqualTo(Short value) {
-            addCriterion("req_status =", value, "reqStatus");
+        public Criteria andPurchRequisitionStatusEqualTo(Short value) {
+            addCriterion("purch_requisition_status =", value, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusNotEqualTo(Short value) {
-            addCriterion("req_status <>", value, "reqStatus");
+        public Criteria andPurchRequisitionStatusNotEqualTo(Short value) {
+            addCriterion("purch_requisition_status <>", value, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusGreaterThan(Short value) {
-            addCriterion("req_status >", value, "reqStatus");
+        public Criteria andPurchRequisitionStatusGreaterThan(Short value) {
+            addCriterion("purch_requisition_status >", value, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusGreaterThanOrEqualTo(Short value) {
-            addCriterion("req_status >=", value, "reqStatus");
+        public Criteria andPurchRequisitionStatusGreaterThanOrEqualTo(Short value) {
+            addCriterion("purch_requisition_status >=", value, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusLessThan(Short value) {
-            addCriterion("req_status <", value, "reqStatus");
+        public Criteria andPurchRequisitionStatusLessThan(Short value) {
+            addCriterion("purch_requisition_status <", value, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusLessThanOrEqualTo(Short value) {
-            addCriterion("req_status <=", value, "reqStatus");
+        public Criteria andPurchRequisitionStatusLessThanOrEqualTo(Short value) {
+            addCriterion("purch_requisition_status <=", value, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusIn(List<Short> values) {
-            addCriterion("req_status in", values, "reqStatus");
+        public Criteria andPurchRequisitionStatusIn(List<Short> values) {
+            addCriterion("purch_requisition_status in", values, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusNotIn(List<Short> values) {
-            addCriterion("req_status not in", values, "reqStatus");
+        public Criteria andPurchRequisitionStatusNotIn(List<Short> values) {
+            addCriterion("purch_requisition_status not in", values, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusBetween(Short value1, Short value2) {
-            addCriterion("req_status between", value1, value2, "reqStatus");
+        public Criteria andPurchRequisitionStatusBetween(Short value1, Short value2) {
+            addCriterion("purch_requisition_status between", value1, value2, "purchRequisitionStatus");
             return (Criteria) this;
         }
 
-        public Criteria andReqStatusNotBetween(Short value1, Short value2) {
-            addCriterion("req_status not between", value1, value2, "reqStatus");
+        public Criteria andPurchRequisitionStatusNotBetween(Short value1, Short value2) {
+            addCriterion("purch_requisition_status not between", value1, value2, "purchRequisitionStatus");
             return (Criteria) this;
         }
 

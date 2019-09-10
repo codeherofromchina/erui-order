@@ -1,0 +1,466 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.DeliverNoticeMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.DeliverNotice" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="deliver_notice_no" property="deliverNoticeNo" jdbcType="CHAR" />
+    <result column="deliver_consign_id" property="deliverConsignId" jdbcType="BIGINT" />
+    <result column="sender_id" property="senderId" jdbcType="BIGINT" />
+    <result column="contract_no" property="contractNo" jdbcType="CHAR" />
+    <result column="operation_specialist_id" property="operationSpecialistId" jdbcType="BIGINT" />
+    <result column="operation_specialist" property="operationSpecialist" jdbcType="VARCHAR" />
+    <result column="send_date" property="sendDate" jdbcType="DATE" />
+    <result column="numbers" property="numbers" jdbcType="INTEGER" />
+    <result column="other_req" property="otherReq" jdbcType="VARCHAR" />
+    <result column="package_req" property="packageReq" jdbcType="VARCHAR" />
+    <result column="prepare_req" property="prepareReq" jdbcType="VARCHAR" />
+    <result column="deliver_notice_status" property="deliverNoticeStatus" jdbcType="SMALLINT" />
+    <result column="handle_status" property="handleStatus" jdbcType="SMALLINT" />
+    <result column="packing_time" property="packingTime" jdbcType="DATE" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, deliver_notice_no, deliver_consign_id, sender_id, contract_no, operation_specialist_id, 
+    operation_specialist, send_date, numbers, other_req, package_req, prepare_req, deliver_notice_status, 
+    handle_status, packing_time, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, delete_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverNoticeExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from deliver_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from deliver_notice
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from deliver_notice
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.DeliverNoticeExample" >
+    delete from deliver_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverNotice" >
+    insert into deliver_notice (id, deliver_notice_no, deliver_consign_id, 
+      sender_id, contract_no, operation_specialist_id, 
+      operation_specialist, send_date, numbers, 
+      other_req, package_req, prepare_req, 
+      deliver_notice_status, handle_status, packing_time, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{deliverNoticeNo,jdbcType=CHAR}, #{deliverConsignId,jdbcType=BIGINT}, 
+      #{senderId,jdbcType=BIGINT}, #{contractNo,jdbcType=CHAR}, #{operationSpecialistId,jdbcType=BIGINT}, 
+      #{operationSpecialist,jdbcType=VARCHAR}, #{sendDate,jdbcType=DATE}, #{numbers,jdbcType=INTEGER}, 
+      #{otherReq,jdbcType=VARCHAR}, #{packageReq,jdbcType=VARCHAR}, #{prepareReq,jdbcType=VARCHAR}, 
+      #{deliverNoticeStatus,jdbcType=SMALLINT}, #{handleStatus,jdbcType=SMALLINT}, #{packingTime,jdbcType=DATE}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverNotice" >
+    insert into deliver_notice
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="deliverNoticeNo != null" >
+        deliver_notice_no,
+      </if>
+      <if test="deliverConsignId != null" >
+        deliver_consign_id,
+      </if>
+      <if test="senderId != null" >
+        sender_id,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="operationSpecialistId != null" >
+        operation_specialist_id,
+      </if>
+      <if test="operationSpecialist != null" >
+        operation_specialist,
+      </if>
+      <if test="sendDate != null" >
+        send_date,
+      </if>
+      <if test="numbers != null" >
+        numbers,
+      </if>
+      <if test="otherReq != null" >
+        other_req,
+      </if>
+      <if test="packageReq != null" >
+        package_req,
+      </if>
+      <if test="prepareReq != null" >
+        prepare_req,
+      </if>
+      <if test="deliverNoticeStatus != null" >
+        deliver_notice_status,
+      </if>
+      <if test="handleStatus != null" >
+        handle_status,
+      </if>
+      <if test="packingTime != null" >
+        packing_time,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="deliverNoticeNo != null" >
+        #{deliverNoticeNo,jdbcType=CHAR},
+      </if>
+      <if test="deliverConsignId != null" >
+        #{deliverConsignId,jdbcType=BIGINT},
+      </if>
+      <if test="senderId != null" >
+        #{senderId,jdbcType=BIGINT},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=CHAR},
+      </if>
+      <if test="operationSpecialistId != null" >
+        #{operationSpecialistId,jdbcType=BIGINT},
+      </if>
+      <if test="operationSpecialist != null" >
+        #{operationSpecialist,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        #{sendDate,jdbcType=DATE},
+      </if>
+      <if test="numbers != null" >
+        #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="otherReq != null" >
+        #{otherReq,jdbcType=VARCHAR},
+      </if>
+      <if test="packageReq != null" >
+        #{packageReq,jdbcType=VARCHAR},
+      </if>
+      <if test="prepareReq != null" >
+        #{prepareReq,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverNoticeStatus != null" >
+        #{deliverNoticeStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="handleStatus != null" >
+        #{handleStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="packingTime != null" >
+        #{packingTime,jdbcType=DATE},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.DeliverNoticeExample" resultType="java.lang.Integer" >
+    select count(*) from deliver_notice
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update deliver_notice
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.deliverNoticeNo != null" >
+        deliver_notice_no = #{record.deliverNoticeNo,jdbcType=CHAR},
+      </if>
+      <if test="record.deliverConsignId != null" >
+        deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
+      </if>
+      <if test="record.senderId != null" >
+        sender_id = #{record.senderId,jdbcType=BIGINT},
+      </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=CHAR},
+      </if>
+      <if test="record.operationSpecialistId != null" >
+        operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
+      </if>
+      <if test="record.operationSpecialist != null" >
+        operation_specialist = #{record.operationSpecialist,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sendDate != null" >
+        send_date = #{record.sendDate,jdbcType=DATE},
+      </if>
+      <if test="record.numbers != null" >
+        numbers = #{record.numbers,jdbcType=INTEGER},
+      </if>
+      <if test="record.otherReq != null" >
+        other_req = #{record.otherReq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packageReq != null" >
+        package_req = #{record.packageReq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.prepareReq != null" >
+        prepare_req = #{record.prepareReq,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliverNoticeStatus != null" >
+        deliver_notice_status = #{record.deliverNoticeStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.handleStatus != null" >
+        handle_status = #{record.handleStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.packingTime != null" >
+        packing_time = #{record.packingTime,jdbcType=DATE},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null" >
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update deliver_notice
+    set id = #{record.id,jdbcType=BIGINT},
+      deliver_notice_no = #{record.deliverNoticeNo,jdbcType=CHAR},
+      deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
+      sender_id = #{record.senderId,jdbcType=BIGINT},
+      contract_no = #{record.contractNo,jdbcType=CHAR},
+      operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
+      operation_specialist = #{record.operationSpecialist,jdbcType=VARCHAR},
+      send_date = #{record.sendDate,jdbcType=DATE},
+      numbers = #{record.numbers,jdbcType=INTEGER},
+      other_req = #{record.otherReq,jdbcType=VARCHAR},
+      package_req = #{record.packageReq,jdbcType=VARCHAR},
+      prepare_req = #{record.prepareReq,jdbcType=VARCHAR},
+      deliver_notice_status = #{record.deliverNoticeStatus,jdbcType=SMALLINT},
+      handle_status = #{record.handleStatus,jdbcType=SMALLINT},
+      packing_time = #{record.packingTime,jdbcType=DATE},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.DeliverNotice" >
+    update deliver_notice
+    <set >
+      <if test="deliverNoticeNo != null" >
+        deliver_notice_no = #{deliverNoticeNo,jdbcType=CHAR},
+      </if>
+      <if test="deliverConsignId != null" >
+        deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
+      </if>
+      <if test="senderId != null" >
+        sender_id = #{senderId,jdbcType=BIGINT},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=CHAR},
+      </if>
+      <if test="operationSpecialistId != null" >
+        operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
+      </if>
+      <if test="operationSpecialist != null" >
+        operation_specialist = #{operationSpecialist,jdbcType=VARCHAR},
+      </if>
+      <if test="sendDate != null" >
+        send_date = #{sendDate,jdbcType=DATE},
+      </if>
+      <if test="numbers != null" >
+        numbers = #{numbers,jdbcType=INTEGER},
+      </if>
+      <if test="otherReq != null" >
+        other_req = #{otherReq,jdbcType=VARCHAR},
+      </if>
+      <if test="packageReq != null" >
+        package_req = #{packageReq,jdbcType=VARCHAR},
+      </if>
+      <if test="prepareReq != null" >
+        prepare_req = #{prepareReq,jdbcType=VARCHAR},
+      </if>
+      <if test="deliverNoticeStatus != null" >
+        deliver_notice_status = #{deliverNoticeStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="handleStatus != null" >
+        handle_status = #{handleStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="packingTime != null" >
+        packing_time = #{packingTime,jdbcType=DATE},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.DeliverNotice" >
+    update deliver_notice
+    set deliver_notice_no = #{deliverNoticeNo,jdbcType=CHAR},
+      deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
+      sender_id = #{senderId,jdbcType=BIGINT},
+      contract_no = #{contractNo,jdbcType=CHAR},
+      operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
+      operation_specialist = #{operationSpecialist,jdbcType=VARCHAR},
+      send_date = #{sendDate,jdbcType=DATE},
+      numbers = #{numbers,jdbcType=INTEGER},
+      other_req = #{otherReq,jdbcType=VARCHAR},
+      package_req = #{packageReq,jdbcType=VARCHAR},
+      prepare_req = #{prepareReq,jdbcType=VARCHAR},
+      deliver_notice_status = #{deliverNoticeStatus,jdbcType=SMALLINT},
+      handle_status = #{handleStatus,jdbcType=SMALLINT},
+      packing_time = #{packingTime,jdbcType=DATE},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

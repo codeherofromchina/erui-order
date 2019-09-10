@@ -11,7 +11,7 @@
     <result column="inquiry_no" property="inquiryNo" jdbcType="VARCHAR" />
     <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
     <result column="order_source" property="orderSource" jdbcType="SMALLINT" />
-    <result column="signingDate" property="signingDate" jdbcType="DATE" />
+    <result column="signing_date" property="signingDate" jdbcType="DATE" />
     <result column="delivery_date" property="deliveryDate" jdbcType="VARCHAR" />
     <result column="signing_co" property="signingCo" jdbcType="VARCHAR" />
     <result column="agent_id" property="agentId" jdbcType="BIGINT" />
@@ -126,7 +126,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, contract_no, framework_no, contract_no_os, po_no, inquiry_id, inquiry_no, project_no, 
-    order_source, signingDate, delivery_date, signing_co, agent_id, exec_co_code, region,
+    order_source, signing_date, delivery_date, signing_co, agent_id, exec_co_code, region, 
     country, buyer_id, crm_code, customer_type, per_liable_repay_id, business_unit_id, 
     technical_id, grant_type, financing, trade_terms, transport_type, from_country, from_port, 
     from_place, to_country, to_port, to_place, total_price, total_price_usd, exchange_rate, 
@@ -171,7 +171,7 @@
     insert into order (id, contract_no, framework_no, 
       contract_no_os, po_no, inquiry_id, 
       inquiry_no, project_no, order_source, 
-      signingDate, delivery_date, signing_co,
+      signing_date, delivery_date, signing_co, 
       agent_id, exec_co_code, region, 
       country, buyer_id, crm_code, 
       customer_type, per_liable_repay_id, business_unit_id, 
@@ -244,7 +244,7 @@
         order_source,
       </if>
       <if test="signingDate != null" >
-        signingDate,
+        signing_date,
       </if>
       <if test="deliveryDate != null" >
         delivery_date,
@@ -635,7 +635,7 @@
         order_source = #{record.orderSource,jdbcType=SMALLINT},
       </if>
       <if test="record.signingDate != null" >
-        signingDate = #{record.signingDate,jdbcType=DATE},
+        signing_date = #{record.signingDate,jdbcType=DATE},
       </if>
       <if test="record.deliveryDate != null" >
         delivery_date = #{record.deliveryDate,jdbcType=VARCHAR},
@@ -812,7 +812,7 @@
       inquiry_no = #{record.inquiryNo,jdbcType=VARCHAR},
       project_no = #{record.projectNo,jdbcType=VARCHAR},
       order_source = #{record.orderSource,jdbcType=SMALLINT},
-      signingDate = #{record.signingDate,jdbcType=DATE},
+      signing_date = #{record.signingDate,jdbcType=DATE},
       delivery_date = #{record.deliveryDate,jdbcType=VARCHAR},
       signing_co = #{record.signingCo,jdbcType=VARCHAR},
       agent_id = #{record.agentId,jdbcType=BIGINT},
@@ -898,7 +898,7 @@
         order_source = #{orderSource,jdbcType=SMALLINT},
       </if>
       <if test="signingDate != null" >
-        signingDate = #{signingDate,jdbcType=DATE},
+        signing_date = #{signingDate,jdbcType=DATE},
       </if>
       <if test="deliveryDate != null" >
         delivery_date = #{deliveryDate,jdbcType=VARCHAR},
@@ -1072,7 +1072,7 @@
       inquiry_no = #{inquiryNo,jdbcType=VARCHAR},
       project_no = #{projectNo,jdbcType=VARCHAR},
       order_source = #{orderSource,jdbcType=SMALLINT},
-      signingDate = #{signingDate,jdbcType=DATE},
+      signing_date = #{signingDate,jdbcType=DATE},
       delivery_date = #{deliveryDate,jdbcType=VARCHAR},
       signing_co = #{signingCo,jdbcType=VARCHAR},
       agent_id = #{agentId,jdbcType=BIGINT},

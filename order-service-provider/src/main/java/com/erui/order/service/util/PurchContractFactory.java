@@ -26,7 +26,7 @@ public class PurchContractFactory {
         response.setSupplierName(purchContract.getSupplierName());
         response.setLowercasePrice(purchContract.getLowercasePrice());
         response.setCurrencyBn(purchContract.getCurrencyBn());
-        response.setContractStatus(purchContract.getContractStatus());
+        response.setContractStatus(purchContract.getPurchContractStatus());
         response.setContractType(purchContract.getContractType());
 
         return response;
@@ -46,7 +46,7 @@ public class PurchContractFactory {
         purchContract.setSupplierName(saveRequest.getSupplierName());
         purchContract.setLowercasePrice(saveRequest.getLowercasePrice());
         purchContract.setCurrencyBn(saveRequest.getCurrencyBn());
-        purchContract.setContractStatus(saveRequest.getContractStatus());
+        purchContract.setPurchContractStatus(saveRequest.getContractStatus());
         purchContract.setContractType(saveRequest.getContractType());
         purchContract.setTaxPoint(saveRequest.getTaxPoint());
         purchContract.setCapitalizedPrice(saveRequest.getCapitalizedPrice());
@@ -70,7 +70,7 @@ public class PurchContractFactory {
         purchContractDetailResponse.setSupplierName(purchContract.getSupplierName());
         purchContractDetailResponse.setLowercasePrice(purchContract.getLowercasePrice());
         purchContractDetailResponse.setCurrencyBn(purchContract.getCurrencyBn());
-        purchContractDetailResponse.setContractStatus(purchContract.getContractStatus());
+        purchContractDetailResponse.setContractStatus(purchContract.getPurchContractStatus());
         purchContractDetailResponse.setContractType(purchContract.getContractType());
         purchContractDetailResponse.setTaxPoint(purchContract.getTaxPoint());
         purchContractDetailResponse.setCapitalizedPrice(purchContract.getCapitalizedPrice());

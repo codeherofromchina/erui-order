@@ -5,7 +5,7 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="purch_contract_no" property="purchContractNo" jdbcType="CHAR" />
     <result column="contract_type" property="contractType" jdbcType="SMALLINT" />
-    <result column="contract_status" property="contractStatus" jdbcType="SMALLINT" />
+    <result column="purch_contract_status" property="purchContractStatus" jdbcType="SMALLINT" />
     <result column="signing_date" property="signingDate" jdbcType="DATE" />
     <result column="supplier_id" property="supplierId" jdbcType="BIGINT" />
     <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
@@ -84,7 +84,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, purch_contract_no, contract_type, contract_status, signing_date, supplier_id, 
+    id, purch_contract_no, contract_type, purch_contract_status, signing_date, supplier_id, 
     supplier_name, signing_place, agent_id, tax_point, capitalized_price, lowercase_price, 
     goods_remarks, currency_bn, country_bn, region_bn, create_user_id, create_time, update_user_id, 
     update_time, delete_flag, delete_time
@@ -121,7 +121,7 @@
   </delete>
   <insert id="insert" parameterType="com.erui.order.model.entity.PurchContract" >
     insert into purch_contract (id, purch_contract_no, contract_type, 
-      contract_status, signing_date, supplier_id, 
+      purch_contract_status, signing_date, supplier_id, 
       supplier_name, signing_place, agent_id, 
       tax_point, capitalized_price, lowercase_price, 
       goods_remarks, currency_bn, country_bn, 
@@ -129,7 +129,7 @@
       update_user_id, update_time, delete_flag, 
       delete_time)
     values (#{id,jdbcType=BIGINT}, #{purchContractNo,jdbcType=CHAR}, #{contractType,jdbcType=SMALLINT}, 
-      #{contractStatus,jdbcType=SMALLINT}, #{signingDate,jdbcType=DATE}, #{supplierId,jdbcType=BIGINT}, 
+      #{purchContractStatus,jdbcType=SMALLINT}, #{signingDate,jdbcType=DATE}, #{supplierId,jdbcType=BIGINT}, 
       #{supplierName,jdbcType=VARCHAR}, #{signingPlace,jdbcType=VARCHAR}, #{agentId,jdbcType=BIGINT}, 
       #{taxPoint,jdbcType=DECIMAL}, #{capitalizedPrice,jdbcType=VARCHAR}, #{lowercasePrice,jdbcType=DECIMAL}, 
       #{goodsRemarks,jdbcType=VARCHAR}, #{currencyBn,jdbcType=CHAR}, #{countryBn,jdbcType=VARCHAR}, 
@@ -149,8 +149,8 @@
       <if test="contractType != null" >
         contract_type,
       </if>
-      <if test="contractStatus != null" >
-        contract_status,
+      <if test="purchContractStatus != null" >
+        purch_contract_status,
       </if>
       <if test="signingDate != null" >
         signing_date,
@@ -217,8 +217,8 @@
       <if test="contractType != null" >
         #{contractType,jdbcType=SMALLINT},
       </if>
-      <if test="contractStatus != null" >
-        #{contractStatus,jdbcType=SMALLINT},
+      <if test="purchContractStatus != null" >
+        #{purchContractStatus,jdbcType=SMALLINT},
       </if>
       <if test="signingDate != null" >
         #{signingDate,jdbcType=DATE},
@@ -294,8 +294,8 @@
       <if test="record.contractType != null" >
         contract_type = #{record.contractType,jdbcType=SMALLINT},
       </if>
-      <if test="record.contractStatus != null" >
-        contract_status = #{record.contractStatus,jdbcType=SMALLINT},
+      <if test="record.purchContractStatus != null" >
+        purch_contract_status = #{record.purchContractStatus,jdbcType=SMALLINT},
       </if>
       <if test="record.signingDate != null" >
         signing_date = #{record.signingDate,jdbcType=DATE},
@@ -361,7 +361,7 @@
     set id = #{record.id,jdbcType=BIGINT},
       purch_contract_no = #{record.purchContractNo,jdbcType=CHAR},
       contract_type = #{record.contractType,jdbcType=SMALLINT},
-      contract_status = #{record.contractStatus,jdbcType=SMALLINT},
+      purch_contract_status = #{record.purchContractStatus,jdbcType=SMALLINT},
       signing_date = #{record.signingDate,jdbcType=DATE},
       supplier_id = #{record.supplierId,jdbcType=BIGINT},
       supplier_name = #{record.supplierName,jdbcType=VARCHAR},
@@ -393,8 +393,8 @@
       <if test="contractType != null" >
         contract_type = #{contractType,jdbcType=SMALLINT},
       </if>
-      <if test="contractStatus != null" >
-        contract_status = #{contractStatus,jdbcType=SMALLINT},
+      <if test="purchContractStatus != null" >
+        purch_contract_status = #{purchContractStatus,jdbcType=SMALLINT},
       </if>
       <if test="signingDate != null" >
         signing_date = #{signingDate,jdbcType=DATE},
@@ -457,7 +457,7 @@
     update purch_contract
     set purch_contract_no = #{purchContractNo,jdbcType=CHAR},
       contract_type = #{contractType,jdbcType=SMALLINT},
-      contract_status = #{contractStatus,jdbcType=SMALLINT},
+      purch_contract_status = #{purchContractStatus,jdbcType=SMALLINT},
       signing_date = #{signingDate,jdbcType=DATE},
       supplier_id = #{supplierId,jdbcType=BIGINT},
       supplier_name = #{supplierName,jdbcType=VARCHAR},

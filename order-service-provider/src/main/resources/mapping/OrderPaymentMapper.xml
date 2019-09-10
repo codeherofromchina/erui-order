@@ -26,14 +26,14 @@
                   and ${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.code}
+                  and ${criterion.condition} #{criterion.value}
                 </when>
                 <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.code} and #{criterion.secondValue}
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
                 <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.code" item="listItem" open="(" close=")" separator="," >
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -55,14 +55,14 @@
                   and ${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.code}
+                  and ${criterion.condition} #{criterion.value}
                 </when>
                 <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.code} and #{criterion.secondValue}
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
                 <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.code" item="listItem" open="(" close=")" separator="," >
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>

@@ -1,0 +1,339 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.InstockGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.InstockGoods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
+    <result column="instock_id" property="instockId" jdbcType="BIGINT" />
+    <result column="contract_no" property="contractNo" jdbcType="CHAR" />
+    <result column="qualified_num" property="qualifiedNum" jdbcType="INTEGER" />
+    <result column="inspect_apply_goods_id" property="inspectApplyGoodsId" jdbcType="BIGINT" />
+    <result column="instock_num" property="instockNum" jdbcType="INTEGER" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, order_goods_id, instock_id, contract_no, qualified_num, inspect_apply_goods_id, 
+    instock_num, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    delete_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.InstockGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from instock_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from instock_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from instock_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.InstockGoodsExample" >
+    delete from instock_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.InstockGoods" >
+    insert into instock_goods (id, order_goods_id, instock_id, 
+      contract_no, qualified_num, inspect_apply_goods_id, 
+      instock_num, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      delete_time)
+    values (#{id,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT}, #{instockId,jdbcType=BIGINT}, 
+      #{contractNo,jdbcType=CHAR}, #{qualifiedNum,jdbcType=INTEGER}, #{inspectApplyGoodsId,jdbcType=BIGINT}, 
+      #{instockNum,jdbcType=INTEGER}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.InstockGoods" >
+    insert into instock_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="orderGoodsId != null" >
+        order_goods_id,
+      </if>
+      <if test="instockId != null" >
+        instock_id,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="qualifiedNum != null" >
+        qualified_num,
+      </if>
+      <if test="inspectApplyGoodsId != null" >
+        inspect_apply_goods_id,
+      </if>
+      <if test="instockNum != null" >
+        instock_num,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="orderGoodsId != null" >
+        #{orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="instockId != null" >
+        #{instockId,jdbcType=BIGINT},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=CHAR},
+      </if>
+      <if test="qualifiedNum != null" >
+        #{qualifiedNum,jdbcType=INTEGER},
+      </if>
+      <if test="inspectApplyGoodsId != null" >
+        #{inspectApplyGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="instockNum != null" >
+        #{instockNum,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.InstockGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from instock_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update instock_goods
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderGoodsId != null" >
+        order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.instockId != null" >
+        instock_id = #{record.instockId,jdbcType=BIGINT},
+      </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=CHAR},
+      </if>
+      <if test="record.qualifiedNum != null" >
+        qualified_num = #{record.qualifiedNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.inspectApplyGoodsId != null" >
+        inspect_apply_goods_id = #{record.inspectApplyGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.instockNum != null" >
+        instock_num = #{record.instockNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null" >
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update instock_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
+      instock_id = #{record.instockId,jdbcType=BIGINT},
+      contract_no = #{record.contractNo,jdbcType=CHAR},
+      qualified_num = #{record.qualifiedNum,jdbcType=INTEGER},
+      inspect_apply_goods_id = #{record.inspectApplyGoodsId,jdbcType=BIGINT},
+      instock_num = #{record.instockNum,jdbcType=INTEGER},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.InstockGoods" >
+    update instock_goods
+    <set >
+      <if test="orderGoodsId != null" >
+        order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="instockId != null" >
+        instock_id = #{instockId,jdbcType=BIGINT},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=CHAR},
+      </if>
+      <if test="qualifiedNum != null" >
+        qualified_num = #{qualifiedNum,jdbcType=INTEGER},
+      </if>
+      <if test="inspectApplyGoodsId != null" >
+        inspect_apply_goods_id = #{inspectApplyGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="instockNum != null" >
+        instock_num = #{instockNum,jdbcType=INTEGER},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.InstockGoods" >
+    update instock_goods
+    set order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      instock_id = #{instockId,jdbcType=BIGINT},
+      contract_no = #{contractNo,jdbcType=CHAR},
+      qualified_num = #{qualifiedNum,jdbcType=INTEGER},
+      inspect_apply_goods_id = #{inspectApplyGoodsId,jdbcType=BIGINT},
+      instock_num = #{instockNum,jdbcType=INTEGER},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

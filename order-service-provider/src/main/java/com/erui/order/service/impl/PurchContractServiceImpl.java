@@ -110,7 +110,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         if (purchContract == null) {
             throw new Exception("采购合同唯一标识错误");
         }
-        if (PurchContractStatusEnum.valueOf(purchContract.getContractStatus()) != PurchContractStatusEnum.READY) {
+        if (PurchContractStatusEnum.valueOf(purchContract.getPurchContractStatus()) != PurchContractStatusEnum.READY) {
             throw new Exception("采购合同当前状态错误");
         }
 
@@ -175,7 +175,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         }
         // 采购合同状态
         if (queryRequest.getContractStatus() != null) {
-            criteria.andContractStatusEqualTo(queryRequest.getContractStatus());
+            criteria.andPurchContractStatusEqualTo(queryRequest.getContractStatus());
         }
         // 采购合同类型
         if (queryRequest.getContractType() != null) {

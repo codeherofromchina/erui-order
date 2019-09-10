@@ -14,7 +14,7 @@
     <result column="gender" property="gender" jdbcType="CHAR" />
     <result column="mobile2" property="mobile2" jdbcType="VARCHAR" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
-    <result column="orderStatus" property="orderStatus" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="CHAR" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="CHAR" />
   </resultMap>
@@ -29,14 +29,14 @@
                   and ${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.code}
+                  and ${criterion.condition} #{criterion.value}
                 </when>
                 <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.code} and #{criterion.secondValue}
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
                 <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.code" item="listItem" open="(" close=")" separator="," >
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -58,14 +58,14 @@
                   and ${criterion.condition}
                 </when>
                 <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.code}
+                  and ${criterion.condition} #{criterion.value}
                 </when>
                 <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.code} and #{criterion.secondValue}
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
                 </when>
                 <when test="criterion.listValue" >
                   and ${criterion.condition}
-                  <foreach collection="criterion.code" item="listItem" open="(" close=")" separator="," >
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
                     #{listItem}
                   </foreach>
                 </when>
@@ -78,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, user_no, user_name, nick_name, email, mobile, password_hash, citizenship, avatar, 
-    gender, mobile2, remarks, orderStatus, create_time, delete_flag
+    gender, mobile2, remarks, status, create_time, delete_flag
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.UserExample" >
     select
@@ -115,13 +115,13 @@
       nick_name, email, mobile, 
       password_hash, citizenship, avatar, 
       gender, mobile2, remarks, 
-      orderStatus, create_time, delete_flag
+      status, create_time, delete_flag
       )
     values (#{id,jdbcType=BIGINT}, #{userNo,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, 
       #{nickName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{passwordHash,jdbcType=VARCHAR}, #{citizenship,jdbcType=CHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{gender,jdbcType=CHAR}, #{mobile2,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
-      #{orderStatus,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=CHAR}
+      #{status,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=CHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.User" >
@@ -163,8 +163,8 @@
       <if test="remarks != null" >
         remarks,
       </if>
-      <if test="orderStatus != null" >
-        orderStatus,
+      <if test="status != null" >
+        status,
       </if>
       <if test="createTime != null" >
         create_time,
@@ -210,8 +210,8 @@
       <if test="remarks != null" >
         #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="orderStatus != null" >
-        #{orderStatus,jdbcType=CHAR},
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
       </if>
       <if test="createTime != null" >
         #{createTime,jdbcType=TIMESTAMP},
@@ -266,8 +266,8 @@
       <if test="record.remarks != null" >
         remarks = #{record.remarks,jdbcType=VARCHAR},
       </if>
-      <if test="record.orderStatus != null" >
-        orderStatus = #{record.orderStatus,jdbcType=CHAR},
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=CHAR},
       </if>
       <if test="record.createTime != null" >
         create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -294,7 +294,7 @@
       gender = #{record.gender,jdbcType=CHAR},
       mobile2 = #{record.mobile2,jdbcType=VARCHAR},
       remarks = #{record.remarks,jdbcType=VARCHAR},
-      orderStatus = #{record.orderStatus,jdbcType=CHAR},
+      status = #{record.status,jdbcType=CHAR},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=CHAR}
     <if test="_parameter != null" >
@@ -337,8 +337,8 @@
       <if test="remarks != null" >
         remarks = #{remarks,jdbcType=VARCHAR},
       </if>
-      <if test="orderStatus != null" >
-        orderStatus = #{orderStatus,jdbcType=CHAR},
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
       </if>
       <if test="createTime != null" >
         create_time = #{createTime,jdbcType=TIMESTAMP},
@@ -362,7 +362,7 @@
       gender = #{gender,jdbcType=CHAR},
       mobile2 = #{mobile2,jdbcType=VARCHAR},
       remarks = #{remarks,jdbcType=VARCHAR},
-      orderStatus = #{orderStatus,jdbcType=CHAR},
+      status = #{status,jdbcType=CHAR},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=CHAR}
     where id = #{id,jdbcType=BIGINT}

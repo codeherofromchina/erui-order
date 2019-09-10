@@ -6,7 +6,14 @@ package com.erui.order.common.enums;
  */
 public enum AttachmentTargetObjEnum {
     ORDER("ORDER", "订单"), PROJECT("PROJECT", "项目"), PURCH_REQUISITION("PURCH_REQUISITION", "采购申请"),
-    PURCH_CONTRACT("PURCH_CONTRACT", "采购合同"), PURCH("PURCH", "采购");
+    PURCH_CONTRACT("PURCH_CONTRACT", "采购合同"), PURCH("PURCH", "采购"),INSPECT_APPLY("INSPECT_APPLY","报检"),
+    DELIVER_CONSIGN("DELIVER_CONSIGN","xxxx"), ORDER_ACCOUNT("ORDER_ACCOUNT","xxxx"),
+    DELIVER_DETAIL("DELIVER_DETAIL","xxxx"),
+    INSPECT_REPORT("INSPECT_REPORT","xxxx"),
+    LOGISTICS_DATA("LOGISTICS_DATA","xxxx"),
+    DELIVER_NOTICE("DELIVER_NOTICE","xxxx"),
+    ORDER_ACCOUNT_DELIVER("ORDER_ACCOUNT_DELIVER","xxxx"),
+    INSTOCK("INSTOCK","xxxx");
 
     private String code;
     private String msg;

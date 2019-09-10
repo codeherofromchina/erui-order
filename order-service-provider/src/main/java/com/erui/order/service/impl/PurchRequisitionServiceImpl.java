@@ -52,7 +52,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         if (purchRequisition == null) {
             throw new Exception("采购申请唯一标识错误");
         }
-        if (PurchRequisitionStatusEnum.valueOf(purchRequisition.getReqStatus()) != PurchRequisitionStatusEnum.SAVE) {
+        if (PurchRequisitionStatusEnum.valueOf(purchRequisition.getPurchRequisitionStatus()) != PurchRequisitionStatusEnum.SAVE) {
             throw new Exception("采购申请当前状态错误");
         }
 
@@ -125,7 +125,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         example.setOrderByClause("id desc");
         PurchRequisitionExample.Criteria criteria = example.createCriteria();
         // 未删除,且已提交
-        criteria.andDeleteFlagEqualTo(Boolean.FALSE).andReqStatusEqualTo(PurchRequisitionStatusEnum.SUBMIT.getCode());
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE).andPurchRequisitionStatusEqualTo(PurchRequisitionStatusEnum.SUBMIT.getCode());
         // TODO
         // 销售合同号
         // 项目号

@@ -323,63 +323,63 @@ public class PurchContractExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusIsNull() {
-            addCriterion("contract_status is null");
+        public Criteria andPurchContractStatusIsNull() {
+            addCriterion("purch_contract_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusIsNotNull() {
-            addCriterion("contract_status is not null");
+        public Criteria andPurchContractStatusIsNotNull() {
+            addCriterion("purch_contract_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusEqualTo(Short value) {
-            addCriterion("contract_status =", value, "contractStatus");
+        public Criteria andPurchContractStatusEqualTo(Short value) {
+            addCriterion("purch_contract_status =", value, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusNotEqualTo(Short value) {
-            addCriterion("contract_status <>", value, "contractStatus");
+        public Criteria andPurchContractStatusNotEqualTo(Short value) {
+            addCriterion("purch_contract_status <>", value, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusGreaterThan(Short value) {
-            addCriterion("contract_status >", value, "contractStatus");
+        public Criteria andPurchContractStatusGreaterThan(Short value) {
+            addCriterion("purch_contract_status >", value, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusGreaterThanOrEqualTo(Short value) {
-            addCriterion("contract_status >=", value, "contractStatus");
+        public Criteria andPurchContractStatusGreaterThanOrEqualTo(Short value) {
+            addCriterion("purch_contract_status >=", value, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusLessThan(Short value) {
-            addCriterion("contract_status <", value, "contractStatus");
+        public Criteria andPurchContractStatusLessThan(Short value) {
+            addCriterion("purch_contract_status <", value, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusLessThanOrEqualTo(Short value) {
-            addCriterion("contract_status <=", value, "contractStatus");
+        public Criteria andPurchContractStatusLessThanOrEqualTo(Short value) {
+            addCriterion("purch_contract_status <=", value, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusIn(List<Short> values) {
-            addCriterion("contract_status in", values, "contractStatus");
+        public Criteria andPurchContractStatusIn(List<Short> values) {
+            addCriterion("purch_contract_status in", values, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusNotIn(List<Short> values) {
-            addCriterion("contract_status not in", values, "contractStatus");
+        public Criteria andPurchContractStatusNotIn(List<Short> values) {
+            addCriterion("purch_contract_status not in", values, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusBetween(Short value1, Short value2) {
-            addCriterion("contract_status between", value1, value2, "contractStatus");
+        public Criteria andPurchContractStatusBetween(Short value1, Short value2) {
+            addCriterion("purch_contract_status between", value1, value2, "purchContractStatus");
             return (Criteria) this;
         }
 
-        public Criteria andContractStatusNotBetween(Short value1, Short value2) {
-            addCriterion("contract_status not between", value1, value2, "contractStatus");
+        public Criteria andPurchContractStatusNotBetween(Short value1, Short value2) {
+            addCriterion("purch_contract_status not between", value1, value2, "purchContractStatus");
             return (Criteria) this;
         }
 

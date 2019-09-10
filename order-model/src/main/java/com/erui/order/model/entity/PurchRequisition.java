@@ -25,7 +25,7 @@ public class PurchRequisition {
 
     private String remarks;
 
-    private Short reqStatus;
+    private Short purchRequisitionStatus;
 
     private Short purchStatus;
 
@@ -133,12 +133,12 @@ public class PurchRequisition {
         this.remarks = remarks;
     }
 
-    public Short getReqStatus() {
-        return reqStatus;
+    public Short getPurchRequisitionStatus() {
+        return purchRequisitionStatus;
     }
 
-    public void setReqStatus(Short reqStatus) {
-        this.reqStatus = reqStatus;
+    public void setPurchRequisitionStatus(Short purchRequisitionStatus) {
+        this.purchRequisitionStatus = purchRequisitionStatus;
     }
 
     public Short getPurchStatus() {

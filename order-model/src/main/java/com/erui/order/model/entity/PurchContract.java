@@ -10,7 +10,7 @@ public class PurchContract {
 
     private Short contractType;
 
-    private Short contractStatus;
+    private Short purchContractStatus;
 
     private Date signingDate;
 
@@ -72,12 +72,12 @@ public class PurchContract {
         this.contractType = contractType;
     }
 
-    public Short getContractStatus() {
-        return contractStatus;
+    public Short getPurchContractStatus() {
+        return purchContractStatus;
     }
 
-    public void setContractStatus(Short contractStatus) {
-        this.contractStatus = contractStatus;
+    public void setPurchContractStatus(Short purchContractStatus) {
+        this.purchContractStatus = purchContractStatus;
     }
 
     public Date getSigningDate() {

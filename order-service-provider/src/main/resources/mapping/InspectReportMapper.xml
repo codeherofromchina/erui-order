@@ -1,0 +1,496 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.InspectReportMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.InspectReport" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="inspect_apply_id" property="inspectApplyId" jdbcType="BIGINT" />
+    <result column="inspect_apply_no" property="inspectApplyNo" jdbcType="CHAR" />
+    <result column="check_times" property="checkTimes" jdbcType="SMALLINT" />
+    <result column="check_date" property="checkDate" jdbcType="DATE" />
+    <result column="report_first" property="reportFirst" jdbcType="BIT" />
+    <result column="check_dept_id" property="checkDeptId" jdbcType="BIGINT" />
+    <result column="check_dept_name" property="checkDeptName" jdbcType="VARCHAR" />
+    <result column="check_user_id" property="checkUserId" jdbcType="BIGINT" />
+    <result column="done_date" property="doneDate" jdbcType="DATE" />
+    <result column="msg" property="msg" jdbcType="VARCHAR" />
+    <result column="report_process" property="reportProcess" jdbcType="BIT" />
+    <result column="report_remarks" property="reportRemarks" jdbcType="VARCHAR" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
+    <result column="inspect_report_status" property="inspectReportStatus" jdbcType="SMALLINT" />
+    <result column="last_done_date" property="lastDoneDate" jdbcType="DATE" />
+    <result column="is_show" property="isShow" jdbcType="BIT" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, inspect_apply_id, inspect_apply_no, check_times, check_date, report_first, check_dept_id, 
+    check_dept_name, check_user_id, done_date, msg, report_process, report_remarks, supplier_name, 
+    inspect_report_status, last_done_date, is_show, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, delete_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.InspectReportExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from inspect_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from inspect_report
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from inspect_report
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.InspectReportExample" >
+    delete from inspect_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.InspectReport" >
+    insert into inspect_report (id, inspect_apply_id, inspect_apply_no, 
+      check_times, check_date, report_first, 
+      check_dept_id, check_dept_name, check_user_id, 
+      done_date, msg, report_process, 
+      report_remarks, supplier_name, inspect_report_status, 
+      last_done_date, is_show, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, delete_time)
+    values (#{id,jdbcType=BIGINT}, #{inspectApplyId,jdbcType=BIGINT}, #{inspectApplyNo,jdbcType=CHAR}, 
+      #{checkTimes,jdbcType=SMALLINT}, #{checkDate,jdbcType=DATE}, #{reportFirst,jdbcType=BIT}, 
+      #{checkDeptId,jdbcType=BIGINT}, #{checkDeptName,jdbcType=VARCHAR}, #{checkUserId,jdbcType=BIGINT}, 
+      #{doneDate,jdbcType=DATE}, #{msg,jdbcType=VARCHAR}, #{reportProcess,jdbcType=BIT}, 
+      #{reportRemarks,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{inspectReportStatus,jdbcType=SMALLINT}, 
+      #{lastDoneDate,jdbcType=DATE}, #{isShow,jdbcType=BIT}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.InspectReport" >
+    insert into inspect_report
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="inspectApplyId != null" >
+        inspect_apply_id,
+      </if>
+      <if test="inspectApplyNo != null" >
+        inspect_apply_no,
+      </if>
+      <if test="checkTimes != null" >
+        check_times,
+      </if>
+      <if test="checkDate != null" >
+        check_date,
+      </if>
+      <if test="reportFirst != null" >
+        report_first,
+      </if>
+      <if test="checkDeptId != null" >
+        check_dept_id,
+      </if>
+      <if test="checkDeptName != null" >
+        check_dept_name,
+      </if>
+      <if test="checkUserId != null" >
+        check_user_id,
+      </if>
+      <if test="doneDate != null" >
+        done_date,
+      </if>
+      <if test="msg != null" >
+        msg,
+      </if>
+      <if test="reportProcess != null" >
+        report_process,
+      </if>
+      <if test="reportRemarks != null" >
+        report_remarks,
+      </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
+      <if test="inspectReportStatus != null" >
+        inspect_report_status,
+      </if>
+      <if test="lastDoneDate != null" >
+        last_done_date,
+      </if>
+      <if test="isShow != null" >
+        is_show,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="inspectApplyId != null" >
+        #{inspectApplyId,jdbcType=BIGINT},
+      </if>
+      <if test="inspectApplyNo != null" >
+        #{inspectApplyNo,jdbcType=CHAR},
+      </if>
+      <if test="checkTimes != null" >
+        #{checkTimes,jdbcType=SMALLINT},
+      </if>
+      <if test="checkDate != null" >
+        #{checkDate,jdbcType=DATE},
+      </if>
+      <if test="reportFirst != null" >
+        #{reportFirst,jdbcType=BIT},
+      </if>
+      <if test="checkDeptId != null" >
+        #{checkDeptId,jdbcType=BIGINT},
+      </if>
+      <if test="checkDeptName != null" >
+        #{checkDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null" >
+        #{checkUserId,jdbcType=BIGINT},
+      </if>
+      <if test="doneDate != null" >
+        #{doneDate,jdbcType=DATE},
+      </if>
+      <if test="msg != null" >
+        #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="reportProcess != null" >
+        #{reportProcess,jdbcType=BIT},
+      </if>
+      <if test="reportRemarks != null" >
+        #{reportRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectReportStatus != null" >
+        #{inspectReportStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="lastDoneDate != null" >
+        #{lastDoneDate,jdbcType=DATE},
+      </if>
+      <if test="isShow != null" >
+        #{isShow,jdbcType=BIT},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.InspectReportExample" resultType="java.lang.Integer" >
+    select count(*) from inspect_report
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update inspect_report
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.inspectApplyId != null" >
+        inspect_apply_id = #{record.inspectApplyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.inspectApplyNo != null" >
+        inspect_apply_no = #{record.inspectApplyNo,jdbcType=CHAR},
+      </if>
+      <if test="record.checkTimes != null" >
+        check_times = #{record.checkTimes,jdbcType=SMALLINT},
+      </if>
+      <if test="record.checkDate != null" >
+        check_date = #{record.checkDate,jdbcType=DATE},
+      </if>
+      <if test="record.reportFirst != null" >
+        report_first = #{record.reportFirst,jdbcType=BIT},
+      </if>
+      <if test="record.checkDeptId != null" >
+        check_dept_id = #{record.checkDeptId,jdbcType=BIGINT},
+      </if>
+      <if test="record.checkDeptName != null" >
+        check_dept_name = #{record.checkDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkUserId != null" >
+        check_user_id = #{record.checkUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.doneDate != null" >
+        done_date = #{record.doneDate,jdbcType=DATE},
+      </if>
+      <if test="record.msg != null" >
+        msg = #{record.msg,jdbcType=VARCHAR},
+      </if>
+      <if test="record.reportProcess != null" >
+        report_process = #{record.reportProcess,jdbcType=BIT},
+      </if>
+      <if test="record.reportRemarks != null" >
+        report_remarks = #{record.reportRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.inspectReportStatus != null" >
+        inspect_report_status = #{record.inspectReportStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.lastDoneDate != null" >
+        last_done_date = #{record.lastDoneDate,jdbcType=DATE},
+      </if>
+      <if test="record.isShow != null" >
+        is_show = #{record.isShow,jdbcType=BIT},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null" >
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update inspect_report
+    set id = #{record.id,jdbcType=BIGINT},
+      inspect_apply_id = #{record.inspectApplyId,jdbcType=BIGINT},
+      inspect_apply_no = #{record.inspectApplyNo,jdbcType=CHAR},
+      check_times = #{record.checkTimes,jdbcType=SMALLINT},
+      check_date = #{record.checkDate,jdbcType=DATE},
+      report_first = #{record.reportFirst,jdbcType=BIT},
+      check_dept_id = #{record.checkDeptId,jdbcType=BIGINT},
+      check_dept_name = #{record.checkDeptName,jdbcType=VARCHAR},
+      check_user_id = #{record.checkUserId,jdbcType=BIGINT},
+      done_date = #{record.doneDate,jdbcType=DATE},
+      msg = #{record.msg,jdbcType=VARCHAR},
+      report_process = #{record.reportProcess,jdbcType=BIT},
+      report_remarks = #{record.reportRemarks,jdbcType=VARCHAR},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      inspect_report_status = #{record.inspectReportStatus,jdbcType=SMALLINT},
+      last_done_date = #{record.lastDoneDate,jdbcType=DATE},
+      is_show = #{record.isShow,jdbcType=BIT},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.InspectReport" >
+    update inspect_report
+    <set >
+      <if test="inspectApplyId != null" >
+        inspect_apply_id = #{inspectApplyId,jdbcType=BIGINT},
+      </if>
+      <if test="inspectApplyNo != null" >
+        inspect_apply_no = #{inspectApplyNo,jdbcType=CHAR},
+      </if>
+      <if test="checkTimes != null" >
+        check_times = #{checkTimes,jdbcType=SMALLINT},
+      </if>
+      <if test="checkDate != null" >
+        check_date = #{checkDate,jdbcType=DATE},
+      </if>
+      <if test="reportFirst != null" >
+        report_first = #{reportFirst,jdbcType=BIT},
+      </if>
+      <if test="checkDeptId != null" >
+        check_dept_id = #{checkDeptId,jdbcType=BIGINT},
+      </if>
+      <if test="checkDeptName != null" >
+        check_dept_name = #{checkDeptName,jdbcType=VARCHAR},
+      </if>
+      <if test="checkUserId != null" >
+        check_user_id = #{checkUserId,jdbcType=BIGINT},
+      </if>
+      <if test="doneDate != null" >
+        done_date = #{doneDate,jdbcType=DATE},
+      </if>
+      <if test="msg != null" >
+        msg = #{msg,jdbcType=VARCHAR},
+      </if>
+      <if test="reportProcess != null" >
+        report_process = #{reportProcess,jdbcType=BIT},
+      </if>
+      <if test="reportRemarks != null" >
+        report_remarks = #{reportRemarks,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
+      <if test="inspectReportStatus != null" >
+        inspect_report_status = #{inspectReportStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="lastDoneDate != null" >
+        last_done_date = #{lastDoneDate,jdbcType=DATE},
+      </if>
+      <if test="isShow != null" >
+        is_show = #{isShow,jdbcType=BIT},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.InspectReport" >
+    update inspect_report
+    set inspect_apply_id = #{inspectApplyId,jdbcType=BIGINT},
+      inspect_apply_no = #{inspectApplyNo,jdbcType=CHAR},
+      check_times = #{checkTimes,jdbcType=SMALLINT},
+      check_date = #{checkDate,jdbcType=DATE},
+      report_first = #{reportFirst,jdbcType=BIT},
+      check_dept_id = #{checkDeptId,jdbcType=BIGINT},
+      check_dept_name = #{checkDeptName,jdbcType=VARCHAR},
+      check_user_id = #{checkUserId,jdbcType=BIGINT},
+      done_date = #{doneDate,jdbcType=DATE},
+      msg = #{msg,jdbcType=VARCHAR},
+      report_process = #{reportProcess,jdbcType=BIT},
+      report_remarks = #{reportRemarks,jdbcType=VARCHAR},
+      supplier_name = #{supplierName,jdbcType=VARCHAR},
+      inspect_report_status = #{inspectReportStatus,jdbcType=SMALLINT},
+      last_done_date = #{lastDoneDate,jdbcType=DATE},
+      is_show = #{isShow,jdbcType=BIT},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

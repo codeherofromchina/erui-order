@@ -1,0 +1,592 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.LogisticsDataMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.LogisticsData" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="the_awb_no" property="theAwbNo" jdbcType="CHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="CHAR" />
+    <result column="deliver_detail_no" property="deliverDetailNo" jdbcType="CHAR" />
+    <result column="release_date" property="releaseDate" jdbcType="DATE" />
+    <result column="logistics_user_id" property="logisticsUserId" jdbcType="BIGINT" />
+    <result column="logistics_date" property="logisticsDate" jdbcType="DATE" />
+    <result column="booking_time" property="bookingTime" jdbcType="DATE" />
+    <result column="logi_invoice_no" property="logiInvoiceNo" jdbcType="VARCHAR" />
+    <result column="packing_time" property="packingTime" jdbcType="DATE" />
+    <result column="leave_factory" property="leaveFactory" jdbcType="DATE" />
+    <result column="sailing_date" property="sailingDate" jdbcType="DATE" />
+    <result column="customs_clearance" property="customsClearance" jdbcType="DATE" />
+    <result column="leave_port_time" property="leavePortTime" jdbcType="DATE" />
+    <result column="arrival_port_time" property="arrivalPortTime" jdbcType="DATE" />
+    <result column="accomplish_date" property="accomplishDate" jdbcType="DATE" />
+    <result column="logistics_logs" property="logisticsLogs" jdbcType="VARCHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="logistics_data_status" property="logisticsDataStatus" jdbcType="SMALLINT" />
+    <result column="submenu_id" property="submenuId" jdbcType="SMALLINT" />
+    <result column="logistics_price_usd" property="logisticsPriceUsd" jdbcType="DECIMAL" />
+    <result column="logistics_cost" property="logisticsCost" jdbcType="DECIMAL" />
+    <result column="logistics_cost_type" property="logisticsCostType" jdbcType="CHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, the_awb_no, contract_no, deliver_detail_no, release_date, logistics_user_id, 
+    logistics_date, booking_time, logi_invoice_no, packing_time, leave_factory, sailing_date, 
+    customs_clearance, leave_port_time, arrival_port_time, accomplish_date, logistics_logs, 
+    remarks, logistics_data_status, submenu_id, logistics_price_usd, logistics_cost, 
+    logistics_cost_type, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    delete_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.LogisticsDataExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from logistics_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from logistics_data
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from logistics_data
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.LogisticsDataExample" >
+    delete from logistics_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.LogisticsData" >
+    insert into logistics_data (id, the_awb_no, contract_no, 
+      deliver_detail_no, release_date, logistics_user_id, 
+      logistics_date, booking_time, logi_invoice_no, 
+      packing_time, leave_factory, sailing_date, 
+      customs_clearance, leave_port_time, arrival_port_time, 
+      accomplish_date, logistics_logs, remarks, 
+      logistics_data_status, submenu_id, logistics_price_usd, 
+      logistics_cost, logistics_cost_type, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, delete_time)
+    values (#{id,jdbcType=BIGINT}, #{theAwbNo,jdbcType=CHAR}, #{contractNo,jdbcType=CHAR}, 
+      #{deliverDetailNo,jdbcType=CHAR}, #{releaseDate,jdbcType=DATE}, #{logisticsUserId,jdbcType=BIGINT}, 
+      #{logisticsDate,jdbcType=DATE}, #{bookingTime,jdbcType=DATE}, #{logiInvoiceNo,jdbcType=VARCHAR}, 
+      #{packingTime,jdbcType=DATE}, #{leaveFactory,jdbcType=DATE}, #{sailingDate,jdbcType=DATE}, 
+      #{customsClearance,jdbcType=DATE}, #{leavePortTime,jdbcType=DATE}, #{arrivalPortTime,jdbcType=DATE}, 
+      #{accomplishDate,jdbcType=DATE}, #{logisticsLogs,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{logisticsDataStatus,jdbcType=SMALLINT}, #{submenuId,jdbcType=SMALLINT}, #{logisticsPriceUsd,jdbcType=DECIMAL}, 
+      #{logisticsCost,jdbcType=DECIMAL}, #{logisticsCostType,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.LogisticsData" >
+    insert into logistics_data
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="theAwbNo != null" >
+        the_awb_no,
+      </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="deliverDetailNo != null" >
+        deliver_detail_no,
+      </if>
+      <if test="releaseDate != null" >
+        release_date,
+      </if>
+      <if test="logisticsUserId != null" >
+        logistics_user_id,
+      </if>
+      <if test="logisticsDate != null" >
+        logistics_date,
+      </if>
+      <if test="bookingTime != null" >
+        booking_time,
+      </if>
+      <if test="logiInvoiceNo != null" >
+        logi_invoice_no,
+      </if>
+      <if test="packingTime != null" >
+        packing_time,
+      </if>
+      <if test="leaveFactory != null" >
+        leave_factory,
+      </if>
+      <if test="sailingDate != null" >
+        sailing_date,
+      </if>
+      <if test="customsClearance != null" >
+        customs_clearance,
+      </if>
+      <if test="leavePortTime != null" >
+        leave_port_time,
+      </if>
+      <if test="arrivalPortTime != null" >
+        arrival_port_time,
+      </if>
+      <if test="accomplishDate != null" >
+        accomplish_date,
+      </if>
+      <if test="logisticsLogs != null" >
+        logistics_logs,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="logisticsDataStatus != null" >
+        logistics_data_status,
+      </if>
+      <if test="submenuId != null" >
+        submenu_id,
+      </if>
+      <if test="logisticsPriceUsd != null" >
+        logistics_price_usd,
+      </if>
+      <if test="logisticsCost != null" >
+        logistics_cost,
+      </if>
+      <if test="logisticsCostType != null" >
+        logistics_cost_type,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="theAwbNo != null" >
+        #{theAwbNo,jdbcType=CHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=CHAR},
+      </if>
+      <if test="deliverDetailNo != null" >
+        #{deliverDetailNo,jdbcType=CHAR},
+      </if>
+      <if test="releaseDate != null" >
+        #{releaseDate,jdbcType=DATE},
+      </if>
+      <if test="logisticsUserId != null" >
+        #{logisticsUserId,jdbcType=BIGINT},
+      </if>
+      <if test="logisticsDate != null" >
+        #{logisticsDate,jdbcType=DATE},
+      </if>
+      <if test="bookingTime != null" >
+        #{bookingTime,jdbcType=DATE},
+      </if>
+      <if test="logiInvoiceNo != null" >
+        #{logiInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="packingTime != null" >
+        #{packingTime,jdbcType=DATE},
+      </if>
+      <if test="leaveFactory != null" >
+        #{leaveFactory,jdbcType=DATE},
+      </if>
+      <if test="sailingDate != null" >
+        #{sailingDate,jdbcType=DATE},
+      </if>
+      <if test="customsClearance != null" >
+        #{customsClearance,jdbcType=DATE},
+      </if>
+      <if test="leavePortTime != null" >
+        #{leavePortTime,jdbcType=DATE},
+      </if>
+      <if test="arrivalPortTime != null" >
+        #{arrivalPortTime,jdbcType=DATE},
+      </if>
+      <if test="accomplishDate != null" >
+        #{accomplishDate,jdbcType=DATE},
+      </if>
+      <if test="logisticsLogs != null" >
+        #{logisticsLogs,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsDataStatus != null" >
+        #{logisticsDataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="submenuId != null" >
+        #{submenuId,jdbcType=SMALLINT},
+      </if>
+      <if test="logisticsPriceUsd != null" >
+        #{logisticsPriceUsd,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsCost != null" >
+        #{logisticsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsCostType != null" >
+        #{logisticsCostType,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.LogisticsDataExample" resultType="java.lang.Integer" >
+    select count(*) from logistics_data
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update logistics_data
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.theAwbNo != null" >
+        the_awb_no = #{record.theAwbNo,jdbcType=CHAR},
+      </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=CHAR},
+      </if>
+      <if test="record.deliverDetailNo != null" >
+        deliver_detail_no = #{record.deliverDetailNo,jdbcType=CHAR},
+      </if>
+      <if test="record.releaseDate != null" >
+        release_date = #{record.releaseDate,jdbcType=DATE},
+      </if>
+      <if test="record.logisticsUserId != null" >
+        logistics_user_id = #{record.logisticsUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.logisticsDate != null" >
+        logistics_date = #{record.logisticsDate,jdbcType=DATE},
+      </if>
+      <if test="record.bookingTime != null" >
+        booking_time = #{record.bookingTime,jdbcType=DATE},
+      </if>
+      <if test="record.logiInvoiceNo != null" >
+        logi_invoice_no = #{record.logiInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.packingTime != null" >
+        packing_time = #{record.packingTime,jdbcType=DATE},
+      </if>
+      <if test="record.leaveFactory != null" >
+        leave_factory = #{record.leaveFactory,jdbcType=DATE},
+      </if>
+      <if test="record.sailingDate != null" >
+        sailing_date = #{record.sailingDate,jdbcType=DATE},
+      </if>
+      <if test="record.customsClearance != null" >
+        customs_clearance = #{record.customsClearance,jdbcType=DATE},
+      </if>
+      <if test="record.leavePortTime != null" >
+        leave_port_time = #{record.leavePortTime,jdbcType=DATE},
+      </if>
+      <if test="record.arrivalPortTime != null" >
+        arrival_port_time = #{record.arrivalPortTime,jdbcType=DATE},
+      </if>
+      <if test="record.accomplishDate != null" >
+        accomplish_date = #{record.accomplishDate,jdbcType=DATE},
+      </if>
+      <if test="record.logisticsLogs != null" >
+        logistics_logs = #{record.logisticsLogs,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logisticsDataStatus != null" >
+        logistics_data_status = #{record.logisticsDataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="record.submenuId != null" >
+        submenu_id = #{record.submenuId,jdbcType=SMALLINT},
+      </if>
+      <if test="record.logisticsPriceUsd != null" >
+        logistics_price_usd = #{record.logisticsPriceUsd,jdbcType=DECIMAL},
+      </if>
+      <if test="record.logisticsCost != null" >
+        logistics_cost = #{record.logisticsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="record.logisticsCostType != null" >
+        logistics_cost_type = #{record.logisticsCostType,jdbcType=CHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null" >
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update logistics_data
+    set id = #{record.id,jdbcType=BIGINT},
+      the_awb_no = #{record.theAwbNo,jdbcType=CHAR},
+      contract_no = #{record.contractNo,jdbcType=CHAR},
+      deliver_detail_no = #{record.deliverDetailNo,jdbcType=CHAR},
+      release_date = #{record.releaseDate,jdbcType=DATE},
+      logistics_user_id = #{record.logisticsUserId,jdbcType=BIGINT},
+      logistics_date = #{record.logisticsDate,jdbcType=DATE},
+      booking_time = #{record.bookingTime,jdbcType=DATE},
+      logi_invoice_no = #{record.logiInvoiceNo,jdbcType=VARCHAR},
+      packing_time = #{record.packingTime,jdbcType=DATE},
+      leave_factory = #{record.leaveFactory,jdbcType=DATE},
+      sailing_date = #{record.sailingDate,jdbcType=DATE},
+      customs_clearance = #{record.customsClearance,jdbcType=DATE},
+      leave_port_time = #{record.leavePortTime,jdbcType=DATE},
+      arrival_port_time = #{record.arrivalPortTime,jdbcType=DATE},
+      accomplish_date = #{record.accomplishDate,jdbcType=DATE},
+      logistics_logs = #{record.logisticsLogs,jdbcType=VARCHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      logistics_data_status = #{record.logisticsDataStatus,jdbcType=SMALLINT},
+      submenu_id = #{record.submenuId,jdbcType=SMALLINT},
+      logistics_price_usd = #{record.logisticsPriceUsd,jdbcType=DECIMAL},
+      logistics_cost = #{record.logisticsCost,jdbcType=DECIMAL},
+      logistics_cost_type = #{record.logisticsCostType,jdbcType=CHAR},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.LogisticsData" >
+    update logistics_data
+    <set >
+      <if test="theAwbNo != null" >
+        the_awb_no = #{theAwbNo,jdbcType=CHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=CHAR},
+      </if>
+      <if test="deliverDetailNo != null" >
+        deliver_detail_no = #{deliverDetailNo,jdbcType=CHAR},
+      </if>
+      <if test="releaseDate != null" >
+        release_date = #{releaseDate,jdbcType=DATE},
+      </if>
+      <if test="logisticsUserId != null" >
+        logistics_user_id = #{logisticsUserId,jdbcType=BIGINT},
+      </if>
+      <if test="logisticsDate != null" >
+        logistics_date = #{logisticsDate,jdbcType=DATE},
+      </if>
+      <if test="bookingTime != null" >
+        booking_time = #{bookingTime,jdbcType=DATE},
+      </if>
+      <if test="logiInvoiceNo != null" >
+        logi_invoice_no = #{logiInvoiceNo,jdbcType=VARCHAR},
+      </if>
+      <if test="packingTime != null" >
+        packing_time = #{packingTime,jdbcType=DATE},
+      </if>
+      <if test="leaveFactory != null" >
+        leave_factory = #{leaveFactory,jdbcType=DATE},
+      </if>
+      <if test="sailingDate != null" >
+        sailing_date = #{sailingDate,jdbcType=DATE},
+      </if>
+      <if test="customsClearance != null" >
+        customs_clearance = #{customsClearance,jdbcType=DATE},
+      </if>
+      <if test="leavePortTime != null" >
+        leave_port_time = #{leavePortTime,jdbcType=DATE},
+      </if>
+      <if test="arrivalPortTime != null" >
+        arrival_port_time = #{arrivalPortTime,jdbcType=DATE},
+      </if>
+      <if test="accomplishDate != null" >
+        accomplish_date = #{accomplishDate,jdbcType=DATE},
+      </if>
+      <if test="logisticsLogs != null" >
+        logistics_logs = #{logisticsLogs,jdbcType=VARCHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="logisticsDataStatus != null" >
+        logistics_data_status = #{logisticsDataStatus,jdbcType=SMALLINT},
+      </if>
+      <if test="submenuId != null" >
+        submenu_id = #{submenuId,jdbcType=SMALLINT},
+      </if>
+      <if test="logisticsPriceUsd != null" >
+        logistics_price_usd = #{logisticsPriceUsd,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsCost != null" >
+        logistics_cost = #{logisticsCost,jdbcType=DECIMAL},
+      </if>
+      <if test="logisticsCostType != null" >
+        logistics_cost_type = #{logisticsCostType,jdbcType=CHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.LogisticsData" >
+    update logistics_data
+    set the_awb_no = #{theAwbNo,jdbcType=CHAR},
+      contract_no = #{contractNo,jdbcType=CHAR},
+      deliver_detail_no = #{deliverDetailNo,jdbcType=CHAR},
+      release_date = #{releaseDate,jdbcType=DATE},
+      logistics_user_id = #{logisticsUserId,jdbcType=BIGINT},
+      logistics_date = #{logisticsDate,jdbcType=DATE},
+      booking_time = #{bookingTime,jdbcType=DATE},
+      logi_invoice_no = #{logiInvoiceNo,jdbcType=VARCHAR},
+      packing_time = #{packingTime,jdbcType=DATE},
+      leave_factory = #{leaveFactory,jdbcType=DATE},
+      sailing_date = #{sailingDate,jdbcType=DATE},
+      customs_clearance = #{customsClearance,jdbcType=DATE},
+      leave_port_time = #{leavePortTime,jdbcType=DATE},
+      arrival_port_time = #{arrivalPortTime,jdbcType=DATE},
+      accomplish_date = #{accomplishDate,jdbcType=DATE},
+      logistics_logs = #{logisticsLogs,jdbcType=VARCHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      logistics_data_status = #{logisticsDataStatus,jdbcType=SMALLINT},
+      submenu_id = #{submenuId,jdbcType=SMALLINT},
+      logistics_price_usd = #{logisticsPriceUsd,jdbcType=DECIMAL},
+      logistics_cost = #{logisticsCost,jdbcType=DECIMAL},
+      logistics_cost_type = #{logisticsCostType,jdbcType=CHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
