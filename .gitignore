@@ -1,0 +1,17 @@
+.idea/
+logs/
+*.jar
+*.log
+*.war
+*.DS_Store
+
+.gradle/
+build/
+target/
+bin/
+
+
+*.iml
+*.ipr
+*.iws
+*.idea
