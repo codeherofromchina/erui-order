@@ -1,0 +1,224 @@
+<script type="text/javascript">
+var deliver_consign_list_auditing_process_nodes = {};
+var deliver_consign_list_auditing_process_node_arr = [];
+!function(){
+    var data = syncAjaxJson({"url":"http://java.eruidev.com:85/order/orderManage/nodes"},{
+        "tenant":"erui",
+        "category":"order",
+        "subCategory":"booking_order"
+    });
+    if (data.code == 200) {
+        $.each(data.data,function(index,node) {
+            deliver_consign_list_auditing_process_node_arr.push({"actId":node.actId,"actName":node.actName});
+            deliver_consign_list_auditing_process_nodes[node.actId] = node.actName;
+        });
+        deliver_consign_list_auditing_process_node_arr.push({"actId":"999","actName":"已完成"});
+        deliver_consign_list_auditing_process_node_arr.unshift({"actId":"","actName":"全部"});
+    }
+    deliver_consign_list_auditing_process_nodes["999"] = "已完成";
+}();
+</script>
+<!-- 订舱数据表 -->
+<table id="deliver_consign_list_table" toolbar="#deliver_consign_list_table_toolbar"></table>
+<!-- /数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="deliver_consign_list_table_toolbar">
+    <div class="search-div">
+        <form id="deliver_consign_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>出口通知单号：</label>
+                    <input type="text" class="easyui-textbox" name="deliverConsignNo"/>
+                </li>
+                <li>
+                    <label>客户代码：</label>
+                    <input type="text" class="easyui-textbox" name="crmCodeOrName"/>
+                </li>
+                <li>
+                    <label>审核状态：</label>
+                    <select class="easyui-combobox" editable="false" name="auditingStatus">
+                        <option code="">全部</option>
+                        <option code="1">未审核</option>
+                        <option code="2">审核中</option>
+                        <option code="4">已完成</option>
+                    </select>
+                </li>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>发货申请部门：</label>
+                    <input type="text" id="deliver_consign_list_table_toolbar_form_dept_id_field" class="easyui-textbox" editable="false" name="deptId" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#deliver_consign_list_dept_dialog').dialog('open');$('#deliver_consign_list_dept_dialog').dialog('refresh', 'common/deptDialog.html');}"  />
+                </li>
+                <li>
+                    <label>审核进度：</label>
+                    <select  class="easyui-combobox" data-options="editable:false,valueField: 'actId',textField: 'actName',data:deliver_consign_list_auditing_process_node_arr" name="auditingProcess"></select>
+                </li>
+                <li>
+                    <label>订舱提交日期：</label>
+                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox" name="startTime">
+                    <span>-</span>
+                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox" name="endTime">
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_consign_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_consign_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<!-- 发货申请部门弹出框 -->
+<div id="deliver_consign_list_dept_dialog" style="width:600px;height:350px;">
+</div>
+<!-- /发货申请部门弹出框 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#deliver_consign_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'deliverConsignNo',title:'出口通知单号'},
+                {field:'contractNo',title:'销售合同号'},
+                {field:'crmCodeOrName',title:'客户代码'},
+                {field:'declareCustomsMoneyUsd',title:'发货金额',
+                    formatter:function(code,row,index) {
+                        if (!code) {
+                            code = 0;
+                        }
+                        code = code.toFixed(2);
+                        if (row.currencyBn) {
+                            code =  row.currencyBn + " " + code;
+                        }
+                        return code;
+                    }
+                },
+                {field:'deptName',title:'发货申请部门',
+                    formatter:function(code,row,index) {
+                        var company = COMPANY[code];
+                        if (company) {
+                            return company;
+                        }
+                        return code;
+                    }
+                },
+                {field:'auditingProcess',title:'审核进度',
+                    formatter:function(code,row,index) {
+                        if (code) {
+                            var splitArr = code.split(",");
+                            var resultV = [];
+                            $.each(splitArr, function (index, a) {
+                                var d = deliver_consign_list_auditing_process_nodes[a];
+                                if (d) {
+                                    resultV.push(d);
+                                } else {
+                                    resultV.push(a);
+                                }
+                            });
+                            return resultV.join(",");
+                        }
+                        return "";
+                    }
+                },
+                {field:'auditingStatus',title:'审核状态',
+                    formatter:function(code,row,index){
+                        var respStr;
+                        switch (code) {
+                            case 1:
+                            respStr = "未审核";
+                            break;
+                            case 2:
+                                respStr = "审核中";
+                                break;
+                            case 3:
+                                respStr = "驳回";
+                                break;
+                            case 4:
+                                respStr = "已完成";
+                                break;
+                            default:
+                                respStr = code;
+                        }
+                        return respStr;
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/deliverConsign/deliverConsignManage',
+            onBeforeLoad:function(param){
+                var data = $('#deliver_consign_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        $("#deliver_consign_list_dept_dialog").dialog({
+            title:'发货申请部门',
+            resizable:true,
+            modal:true,
+            closed:true,
+            buttons:[{
+                text:'确定',
+                iconCls:'icon-ok',
+                handler:function(){
+                    var deptTableRow = $("#common_dept_dialog_table").datagrid("getSelected");
+                    if (deptTableRow) {
+                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setValue",deptTableRow.name);
+                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setText",deptTableRow.name);
+                    } else {
+                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("clear");
+                    }
+                    $("#deliver_consign_list_dept_dialog").dialog("close");
+                }
+            },{
+                text:'取消',
+                iconCls:'icon-cancel',
+                handler:function(){
+                    $("#deliver_consign_list_dept_dialog").dialog("close");
+                }
+            }]
+        });
+        // 搜索按钮
+        $("#deliver_consign_list_table_toolbar_form_search_btn").click(function (){
+            $("#deliver_consign_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#deliver_consign_list_table_toolbar_form_clear_btn").click(function (){
+            $('#deliver_consign_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#deliver_consign_list_table");
+            $("#deliver_consign_list_table").datagrid("reload");
+        });
+    });
+</script>

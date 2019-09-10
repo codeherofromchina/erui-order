@@ -1,0 +1,189 @@
+<form id="save_purch_requisition_form">
+    <div id="save_purch_requisition_panel_baseinfo" class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>项目号：</label>
+            <input class="easyui-textbox" name="projectNo" id="save_purchase_form_project_no_field" data-options="editable:false"/>
+            <label>项目经办人：</label>
+            <input class="easyui-textbox" id="save_purchase_form_pm_uid_field" name="pmUid" data-options="editable:false"/>
+            <label>下发部门：</label>
+            <input class="easyui-textbox" id="save_purchase_form_department_field" name="department" data-options="editable:false"/>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>下发日期：</label>
+            <input type="text" class="easyui-datebox" data-options="required:true,editable:false" style="width:185px;" name="submitDate"/>
+            <label>项目类型：</label>
+            <input class="easyui-textbox" id="save_purchase_form_project_type_field" editable="false"  name="projectType"/>
+            <label>贸易术语：</label>
+            <input class="easyui-textbox" data-options="editable:false" id="save_purchase_form_teade_term_field" name="tradeTerm"/>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>是否厂家直接发货：</label>
+            <select class="easyui-combobox" editable="false" id="save_purch_requisition_form_factory_send_field" name="factorySend"
+                    data-options="required:true" validType="selectValueRequired['#save_purch_requisition_form_factory_send_field']" panelHeight="75px">
+                <option code="">请选择</option>
+                <option code="1">是</option>
+                <option code="0">否</option>
+            </select>
+            <label><span style="color:red;">*</span>交付地点：</label>
+            <input class="easyui-textbox" data-options="required:true" name="deliveryPlace"/>
+            <label><span style="color:red;">*</span>客户文件要求：</label>
+            <input class="easyui-textbox" name="requirements"/>
+        </div>
+    </div>
+
+    <div id="save_purch_requistion_panel_goods_info" class="easyui-panel" title="商品信息"
+         style="padding:2px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table id="save_purch_requistion_panel_goods_table" toolbar="#save_purch_requistion_panel_goods_table_toolbar"></table>
+        <div class="toolbar" id="save_purch_requistion_panel_goods_table_toolbar">
+            <div class="search-div">
+                <form id="edit_goods_dialog_base_info_table_toolbar_form">
+                    <label>批量操作-></label>
+                    <label>采购需用日期：</label>
+                    <input type="text" class="easyui-datebox" data-options="editable:false" />
+                    <label>质检类型：</label>
+                    <select class="easyui-combobox" editable="false" panelHeight="75px;" style="width:75px;">
+                        <option code="">请选择</option>
+                        <option code="PROCESS">过程检验</option>
+                        <option code="FIANL">终检</option>
+                    </select>
+                    <label>质检方法：</label>
+                    <select class="easyui-combobox" editable="false" panelHeight="100px;" style="width:75px;">
+                        <option code="">请选择</option>
+                        <option code="WAREHOUSE">易瑞仓库</option>
+                        <option code="OUTSIDE">外检</option>
+                        <option code="THIRD">第三方检验</option>
+                    </select>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="save_purch_requistion_panel_other_info" class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">备注：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" name="remarks" code=""  />
+        </div>
+    </div>
+
+    <div id="save_purch_requisition_panel_attachment_info" class="easyui-panel" title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:200px;">
+
+            <div data-options="region:'west',split:false,border:false" style="width:180px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">事业部项目负责人</span></div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传询价资料</a> </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传技术协议</a> </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传即投标成本价格明细</a> </div>
+                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传其它</a> </div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="contractNo" width="200">附件名称</th>
+                        <th field="projectNo" width="120">创建人</th>
+                        <th field="contractNoHw" width="170">日期</th>
+                        <th field="inquiryNo" width="80">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_purchase_form_save_btn" size="large" class="easyui-linkbutton" style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purchase_form_submit_btn" size="large" class="easyui-linkbutton" style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        $("#save_purch_requistion_panel_goods_table").datagrid({
+            border:false,
+            striped:true,
+            frozenColumns:[[{field:'ck',width:'3%',checkbox:'true'}]],
+            columns:[[
+                {field:'sku',width:120,title:'平台SKU'},
+                {field:'nameEn',width:100,title:'外文品名'},
+                {field:'nameZh',width:100,title:'中文品名\t\n'},
+                {field:'contractGoodsNum',width:80,title:'数量\t\n'},
+                {field:'unit',width:80,title:'单位\t\n'},
+                {field:'brand',width:100,title:'品牌\t\n'},
+                {field:'requirePurchaseDate',width:100,title:'采购需用日期',
+                    editor:{
+                        type:"datebox"
+                    }
+                },
+                {field:'techRequire',width:120,title:'技术要求和使用条件',
+                    editor:{
+                        type:"textbox"
+                    }
+                },
+                {field:'checkType',width:80,title:'质检类型',
+                    editor:{
+                        type:"combobox",
+                        options: {
+                            valueField: "code",
+                            textField: "text",
+                            editable: false,
+                            data:[
+                                {"text":"过程检验","code":"PROCESS"},
+                                {"text":"终检","code":"FIANL"}
+                            ]
+                        }
+                    }
+                },
+                {field:'checkMethod',width:80,title:'质检方法',
+                    editor:{
+                        type:"combobox",
+                        options: {
+                            valueField: "code",
+                            textField: "text",
+                            editable: false,
+                            data:[
+                                {"text":"易瑞仓库","code":"WAREHOUSE"},
+                                {"text":"外检","code":"OUTSIDE"},
+                                {"text":"第三方检验","code":"THIRD"}
+                            ]
+                        }
+                    }
+                },
+                {field:'certificate',width:120,title:'合格证',
+                    editor:{
+                        type:"textbox"
+                    }
+                },
+                {field:'techAudit',width:120,title:'技术审核',
+                    editor:{
+                        type:"textbox"
+                    }
+                },
+            ]],
+            onLoadSuccess:function(data) {
+                // 控制表格可以编辑
+                for (var num = 0; num < data.total; ++num) {
+                    $(this).datagrid('beginEdit', num);
+                }
+            }
+        });
+
+        $("#save_purchase_form_save_btn").click(function (e) {
+            e.preventDefault();
+            closeCurrentTab();
+
+        });
+
+    });
+
+
+
+</script>

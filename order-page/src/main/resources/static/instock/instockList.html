@@ -1,0 +1,124 @@
+<!-- 入库数据表 -->
+<table id="instock_list_table" toolbar="#instock_list_table_toolbar"></table>
+<!-- /入库数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="instock_list_table_toolbar">
+    <div class="search-div">
+        <form id="instock_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>到货报检单号：</label>
+                    <input type="text" class="easyui-textbox" name="inspectApplyNo"/>
+                </li>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>项目号：</label>
+                    <input type="text" class="easyui-textbox" name="projectNo"/>
+                </li>
+                <li>
+                    <label>入库状态：</label>
+                    <select class="easyui-combobox" panelHeight="75px" editable="false" name="orderStatus">
+                        <option code="">请选择</option>
+                        <option code="1">已入库</option>
+                        <option code="0">未入库</option>
+                    </select>
+                </li>
+                <li>
+                    <label>供应商名称：</label>
+                    <input type="text" class="easyui-textbox" name="supplierName"/>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="instock_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="instock_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#instock_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'inspectApplyNo',title:'到货报检单号'},
+                {field:'contractNos',title:'销售合同号'},
+                {field:'projectNos',title:'项目号'},
+                {field:'purchNo',title:'采购合同号'},
+                {field:'supplierName',title:'供应商名称'},
+                {field:'enterEruiWarehouse',title:'是否入易瑞仓',
+                    formatter:function(code,row,index){
+                        if(code == 1) {
+                            return "是";
+                        } else {
+                            return "否";
+                        }
+                    }
+                },
+                {field:'instockDate',title:'入库日期'},
+                {field:'orderStatus',title:'入库状态',
+                    formatter:function(code,row,index){
+                        if(code == 3) {
+                            return "已入库";
+                        } else {
+                            return "未入库";
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/instock/list',
+            onBeforeLoad:function(param){
+                var rows = param.rows;
+                delete param.rows;
+                param.pageSize =rows;
+                var data = $('#instock_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#instock_list_table_toolbar_form_search_btn").click(function (){
+            $("#instock_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#instock_list_table_toolbar_form_clear_btn").click(function (){
+            $('#instock_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#instock_list_table");
+            $("#instock_list_table").datagrid("reload");
+        });
+    });
+</script>

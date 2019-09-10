@@ -1,0 +1,246 @@
+<script type="text/javascript">
+    var purchase_list_auditing_process_nodes = {};
+    var purchase_list_auditing_process_node_arr = [];
+    !function(){
+        var data = syncAjaxJson({"url": ORDER_URL + "/order/orderManage/nodes"},{
+            "tenant":"erui",
+            "category":"order",
+            "subCategory":"purchase_order"
+        });
+        if (data.code == 200) {
+            $.each(data.data,function(index,node) {
+                purchase_list_auditing_process_node_arr.push({"actId":node.actId,"actName":node.actName});
+                purchase_list_auditing_process_nodes[node.actId] = node.actName;
+            });
+            purchase_list_auditing_process_node_arr.push({"actId":"999","actName":"已完成"});
+            purchase_list_auditing_process_node_arr.unshift({"actId":"","actName":"全部"});
+        }
+        purchase_list_auditing_process_nodes["999"] = "已完成";
+    }();
+</script>
+<!-- 项目数据表 -->
+<table id="purchase_list_table" toolbar="#purchase_list_table_toolbar"></table>
+<!-- /数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="purchase_list_table_toolbar">
+    <div class="search-div">
+        <form id="purchase_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>项目号：</label>
+                    <input type="text" class="easyui-textbox" name="projectNos"/>
+                </li>
+                <li>
+                    <label>采购合同号：</label>
+                    <input type="text" class="easyui-textbox" name="purchNo"/>
+                </li>
+                <li>
+                    <label>采购合同签订日期：</label>
+                    <input type="text" editable="false" class="easyui-datebox" name="signingDate">
+                </li>
+                <li>
+                    <label>供应商名称：</label>
+                    <input type="text" id="purchase_list_table_toolbar_form_supplier_id_field" class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#purchase_list_supplier_id_dialog').dialog('open');$('#purchase_list_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}" />
+                </li>
+                <li>
+                    <label>采购状态：</label>
+                    <select class="easyui-combobox" editable="false" name="orderStatus">
+                        <option code="">请选择</option>
+                        <option code="1">未进行</option>
+                        <option code="2">进行中</option>
+                        <option code="11">备货中</option>
+                        <option code="12">运输中</option>
+                        <option code="3">已完成</option>
+                        <option code="5">已变更</option>
+                    </select>
+                </li>
+                <li>
+                    <label>审核进度：</label>
+                    <select style="width:160px;" class="easyui-combobox" data-options="editable:false,valueField: 'actId',textField: 'actName',data:purchase_list_auditing_process_node_arr" name="auditingProcess"></select>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="purchase_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="purchase_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="ctrl-div">
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="purchase_list_table_toolbar_add_btn">新增采购订单</a>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<!-- 供应商名称弹出框 -->
+<div id="purchase_list_supplier_id_dialog" style="width:800px;height:350px;">
+</div>
+<!-- /供应商名称弹出框 -->
+
+
+<script type="text/javascript">
+    $(function(){
+        $("#purchase_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'purchNo',width:100,title:'采购合同号'},
+                {field:'signingDate',width:80,title:'采购合同签订日期'},
+                {field:'arrivalDate',width:80,title:'合同约定到货日期'},
+                {field:'contractNos',width:100,title:'销售合同号'},
+                {field:'projectNos',width:100,title:'项目号'},
+                {field:'supplierName',width:120,title:'供应商名称'},
+                {field:'totalPrice',width:100,title:'采购总金额',
+                    formatter:function(code,row,index) {
+                        if (!code) {
+                            code = 0;
+                        }
+                        code = code.toFixed(2);
+                        if (row.currencyBn) {
+                            code = row.currencyBn + " " + code;
+                        }
+                        return code;
+                    }
+                },
+                {field:'payStatus',width:100,title:'付款状态',
+                    formatter:function (code, row, index) {
+                        switch (code) {
+                            case 1:return '未付款';
+                            case 2:return '已付款';
+                            default :return code;
+                        }
+                    }
+                },
+                {field:'orderStatus',width:100,title:'采购状态',
+                    formatter:function(code,row,index) {
+                        switch (code) {
+                            case 1:return '未进行';
+                            case 2:return '进行中';
+                            case 11:return '备货中';
+                            case 12:return '运输中';
+                            case 3:return '已完成';
+                            case 5:return '已变更';
+                            default : return code;
+                        }
+                    }
+                },
+                {field:'auditingProcess',width:100,title:'审核进度',
+                    formatter:function(code,row,index) {
+                        if (code) {
+                            var splitArr = code.split(",");
+                            var resultV = [];
+                            $.each(splitArr, function (index, a) {
+                                var d = purchase_list_auditing_process_nodes[a];
+                                if (d) {
+                                    resultV.push(d);
+                                } else {
+                                    resultV.push(a);
+                                }
+                            });
+                            return resultV.join(",");
+                        }
+                        return "";
+                    }
+                },
+                {field:'auditingStatus',width:100,title:'审核状态',
+                    formatter:function(code,row,index){
+                        var respStr;
+                        switch (code) {
+                            case 1: return "未审核";
+                            case 2:return "审核中";
+                            case 3:return "驳回";
+                            case 4:return "已完成";
+                            default: return code;
+                        }
+                    }
+                },
+                {field:'operation',width:100,title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/purch/list',
+            onBeforeLoad:function(param){
+                param.auditingUserId = "39427";
+                var data = $('#purchase_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        $("#purchase_list_supplier_id_dialog").dialog({
+            title:'选择供应商',
+            resizable:true,
+            modal:true,
+            closed:true,
+            buttons:[{
+                text:'确定',
+                iconCls:'icon-ok',
+                handler:function(){
+                    var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
+                    if (selectedTableRow) {
+                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setValue",selectedTableRow.serial_no);
+                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setText",selectedTableRow.name);
+                    } else {
+                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("clear");
+                    }
+                    $("#purchase_list_supplier_id_dialog").dialog("close");
+                }
+            },{
+                text:'取消',
+                iconCls:'icon-cancel',
+                handler:function(){
+                    $("#purchase_list_supplier_id_dialog").dialog("close");
+                }
+            }]
+        });
+        // 搜索按钮
+        $("#purchase_list_table_toolbar_form_search_btn").click(function (){
+            $("#purchase_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#purchase_list_table_toolbar_form_clear_btn").click(function (){
+            $('#purchase_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#purchase_list_table");
+            $("#purchase_list_table").datagrid("reload");
+        });
+
+        // 新建采购订单按钮
+        $("#purchase_list_table_toolbar_add_btn").click(function () {
+            var newTabTitle = '新建采购订单';
+            if($("#tt").tabs("exists", newTabTitle)) { // 判断该Tab页是否已经存在
+                $("#tt").tabs("select", newTabTitle);
+            } else {
+                $("#tt").tabs("add", {
+                    title: newTabTitle,
+                    href: 'purchase/savePurchase.html',
+                    closable: true
+                });
+            }
+        });
+    });
+</script>

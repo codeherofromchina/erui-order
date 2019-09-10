@@ -1,0 +1,158 @@
+<!-- 收款管理数据表 -->
+<table id="order_account_list_table" toolbar="#order_account_list_table_toolbar"></table>
+<!-- /收款管理数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="order_account_list_table_toolbar">
+    <div class="search-div">
+        <form id="order_account_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>订单状态：</label>
+                    <select class="easyui-combobox" panelHeight="75px" editable="false" name="orderStatus">
+                        <option code="">请选择</option>
+                        <option code="3">执行中</option>
+                        <option code="4">已完成</option>
+                    </select>
+                </li>
+                <li>
+                    <label>收款状态：</label>
+                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="payStatus">
+                        <option code="">请选择</option>
+                        <option code="1">未收款</option>
+                        <option code="2">部分收款</option>
+                        <option code="3">收款完成</option>
+                    </select>
+                </li>
+                <li>
+                    <label>CRM客户代码：</label>
+                    <input type="text" id="order_account_list_table_toolbar_form_crm_code_field" class="easyui-textbox" editable="false" name="crmCode" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#order_account_list_crm_code_dialog').dialog('open');$('#order_account_list_crm_code_dialog').dialog('refresh', 'common/crmCodeDialog.html');}"  />
+
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="order_account_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="order_account_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+
+<!-- CRM客户弹出选择框 -->
+<div id="order_account_list_crm_code_dialog" style="width:600px;height:350px;"></div>
+<!-- /CRM客户弹出选择框 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#order_account_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'contractNo',title:'销售合同号'},
+                {field:'crmCode',title:'CRM客户代码'},
+                {field:'signingDate',title:'订单签约日期'},
+                {field:'orderStatus',title:'订单状态',
+                    formatter:function(code,row,index){
+                        if(code == 3) {
+                            return "执行中";
+                        } else if(code == 4){
+                            return "已完成";
+                        } else {
+                            return code;
+                        }
+                    }
+                },
+                {field:'payStatus',title:'收款状态',
+                    formatter:function(code,row,index){
+                        if(code == 1) {
+                            return "未付款";
+                        } else if(code == 2){
+                            return "部分付款";
+                        } else if (code == 3) {
+                            return "收款完成";
+                        } else {
+                            return code;
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/financeManage/gatheringManage',
+            onBeforeLoad:function(param){
+                var data = $('#order_account_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // CRM客户弹出框
+        $("#order_account_list_crm_code_dialog").dialog({
+            title:'选择CRM客户代码',
+            resizable:true,
+            modal:true,
+            closed:true,
+            cache: false,
+            buttons:[{
+                text:'确定',
+                handler: function() {
+                    var crmTableRow = $("#common_crm_code_dialog_table").datagrid("getSelected");
+                    if (crmTableRow) {
+                        $("#order_account_list_table_toolbar_form_crm_code_field").textbox("setValue",crmTableRow.buyer_code);
+                        $("#order_account_list_table_toolbar_form_crm_code_field").textbox("setText",crmTableRow.buyer_code);
+                    } else {
+                        $("#order_account_list_table_toolbar_form_crm_code_field").textbox("clear");
+                    }
+                    $("#order_account_list_crm_code_dialog").dialog("close");
+                }
+            },{
+                text:'取消',
+                handler:function(){
+                    $("#order_account_list_crm_code_dialog").dialog("close");
+                }
+            }]
+        });
+        // 搜索按钮
+        $("#order_account_list_table_toolbar_form_search_btn").click(function (){
+            $("#order_account_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#order_account_list_table_toolbar_form_clear_btn").click(function (){
+            $('#order_account_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#order_account_list_table");
+            $("#order_account_list_table").datagrid("reload");
+        });
+    });
+</script>

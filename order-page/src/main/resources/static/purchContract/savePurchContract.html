@@ -1,0 +1,205 @@
+<form id="save_purch_contract_form">
+    <div class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>合同签订日期：</label>
+            <input class="easyui-datebox" data-options="editable:false" style="width:180px;"/>
+            <label>供应商名称：</label>
+            <input class="easyui-textbox" data-options="editable:false"/>
+            <label><span style="color:red;">*</span>合同签订地点：</label>
+            <input class="easyui-textbox" required="true"/>
+        </div>
+        <div class="fitem">
+            <label>采购经办人：</label>
+            <input class="easyui-textbox" />
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>项目号：</label>
+            <input class="easyui-textbox" />
+            <label><span style="color:red;">*</span>税点%：</label>
+            <input class="easyui-textbox" />
+            <label style="width:130px;"><span style="color:red;">*</span>采购总金额（大写）：</label>
+            <input class="easyui-textbox" />
+        </div>
+        <div class="fitem">
+            <label style="width:130px;margin-left:5px;"><span style="color:red;">*</span>采购总金额（小写）：</label>
+            <input class="easyui-textbox" />
+            <label><span style="color:red;">*</span>币种：</label>
+            <select class="easyui-combobox" editable="false" panelHeight="100px">
+                <option code="CAD">CAD</option>
+                <option code="CNY">CNY</option>
+                <option code="EUR">EUR</option>
+                <option code="USD">USD</option>
+            </select>
+        </div>
+
+        <table id="save_purch_contract_form_goods_table"></table>
+    </div>
+
+
+    <div class="easyui-panel" style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true,border:false" >
+        <div class="purch-contract">
+            <table style="border-top-width:0;width:100%;">
+                <tr>
+                    <td style="width: 150px;">出卖人：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">买受人：</td>
+                    <td>
+                        <input type="text" code="易瑞国际电子商务有限公司" style="width:250px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">法定代表人或授权代表：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">法定代表人或授权代表：</td>
+                    <td>
+                        <input type="text" code="冷成志" style="width:250px" />
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 150px;">地址：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">地址：</td>
+                    <td>
+                        <input type="text" code="山东省东营市东营区南二路224号" style="width:250px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">开户行：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">开户行：</td>
+                    <td>
+                        <input type="text" code="工行东营西城支行" style="width:250px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">账号：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">账号：</td>
+                    <td>
+                        <input type="text" code="1615005009200150152" style="width:250px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">统一社会信用代码证：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">统一社会信用代码证：</td>
+                    <td>
+                        <input type="text" code="91370502MA3CD4NA32" style="width:250px" />
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">电话/传真：</td>
+                    <td>
+                        <input type="text" style="width:250px" />
+                    </td>
+                    <td style="width: 150px;">电话/传真：：</td>
+                    <td>
+                        <input type="text" code="0546-8167000" style="width:250px" />
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div id="save_purch_contract_attachment_info" class="easyui-panel" title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
+
+            <div data-options="region:'west',split:false,border:false" style="width:150px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">采购执行部</span></div>
+                    <div style="margin-bottom:10px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传合同</a> </div>
+                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传其它</a> </div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="contractNo" width="200">附件名称</th>
+                        <th field="projectNo" width="120">创建人</th>
+                        <th field="contractNoHw" width="170">日期</th>
+                        <th field="inquiryNo" width="80">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_purch_contract_form_save_btn" size="large" class="easyui-linkbutton" style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purch_contract_form_submit_btn" size="large" class="easyui-linkbutton" style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+
+
+<script type="text/javascript">
+    $(function(){
+        $("#save_purch_contract_form_goods_table").datagrid({
+            border:false,
+            singleSelect:true,
+            striped:true,
+            rownumbers:true,
+            columns:[[
+                {field:'projectNo',width:110,title:'项目号'},
+                {field:'sku',width:125,title:'平台SKU'},
+                {field:'nameZh',width:80,title:'中文品名'},
+                {field:'unit',width:40,title:'单位'},
+                {field:'brand',width:80,title:'品牌'},
+                {field:'contractNum',width:80,title:'销售合同数量'},
+                {field:'purchasedNum',width:90,title:'已采购数量'},
+                {field:'purchaseNum',width:100,title:'本次采购数量',
+                    editor:{
+                        type:"numberbox",
+                        options: {
+                            min:1,
+                            precision:0
+                        }
+                    }
+                },
+                {field:'purchasePrice',width:100,title:'单价',
+                    editor:{
+                        type:"numberbox",
+                        options: {
+                            required: true,
+                            min:0.01,
+                            precision:2
+                        }
+                    }
+                },
+                {field:'purchaseTotalPrice',width:100,title:'金额'},
+                {field:'purchaseRemark',width:120,title:'备注',
+                    editor:{
+                        type:"textbox"
+                    }
+                }
+            ]]
+        });
+    });
+
+</script>

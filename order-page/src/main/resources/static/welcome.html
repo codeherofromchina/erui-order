@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>管理首页</title>
+    <link rel="stylesheet" type="text/css" href="resources/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="resources/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/common.css">
+    <script type="text/javascript" src="resources/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="resources/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="resources/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="resources/js/common.js"></script>
+</head>
+<body>
+<div class="easyui-accordion" data-options="fit:true">
+    <div title="待办事项">
+        <!--待办事项内容列表 -->
+        <table id="todoItems" fit="true">
+        </table>
+    </div>
+    <!--
+    <div title="系统公告">
+
+    </div>
+    -->
+</div>
+<script type="text/javascript">
+    var sysMap = {"order":"订单","invoice":"订单"};
+    $("#todoItems").datagrid({
+        pagination:true,
+        pageSize:10,
+        fitColumn:true,
+        rownumbers:true,
+        border:false,
+        singleSelect:true,
+        url: BPM_URL + '/task/user/018410/bizTodoList',
+        columns:[[
+            {field:'content',title:'信息',width:'70%',
+                formatter:function (code, row, index) {
+                    var sys = "";
+                    var actName = row.taskName;
+                    var showNo = "";
+                    var time = row.createTime;
+                    if (row.formKey) {
+                        var sysFlag = row.formKey.split(":")[1];
+                        var s = sysMap[sysFlag];
+                        if (s) {
+                            sys = s;
+                        } else {
+                            sys = sysFlag;
+                        }
+                    }
+                    if (row.bizContents && row.bizContents.needContent) {
+                        showNo = row.bizContents.needContent;
+                    }
+                    return sys + " - " + actName + " - " + showNo + " - " + time;
+                }
+            },
+            {field:'operator',title:'操作',width:'30%',
+                formatter:function(code,row,index) {
+                    var str = "";
+                    if (row.assigneeId) {
+                        str += "<a href='#' class='easyui-linkbutton'>办理</a>";
+                        if (row.claimTime) {
+                            str += "&nbsp;&nbsp;&nbsp;&nbsp;<a href='#' class='easyui-linkbutton'>放回任务池</a>";
+                        }
+                    } else {
+                        str += "<a href='#' class='easyui-linkbutton'>申领</a>";
+                    }
+                    return str;
+                }
+            }
+        ]],
+        onBeforeLoad:function(param){
+            var page = param.page; //保存下值
+            var rows = param.rows; //保存下值
+            delete param.page; //删掉
+            delete param.rows; //删掉
+            param.pageNo = page; //这里就是重新命名
+            param.pageSize = rows; //这里就是重新命名了
+        },
+        loader:function(param,success,error) {
+            var opts = $(this).datagrid("options");
+            return tokenAjaxLoader(opts,param,success,error);
+        },
+        loadFilter:function(data) {
+            var finalData = {};
+            finalData.total = 0;
+            if (data.code == 0) {
+                finalData.total = data.count;
+                finalData.rows = data.response;
+            }
+            return finalData;
+        }
+    });
+
+</script>
+</body>
+</html>

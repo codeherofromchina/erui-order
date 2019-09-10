@@ -1,0 +1,113 @@
+<!-- 看货通知单数据表 -->
+<table id="deliver_notice_list_table" toolbar="#deliver_notice_list_table_toolbar"></table>
+<!-- /看货通知单数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="deliver_notice_list_table_toolbar">
+    <div class="search-div">
+        <form id="deliver_notice_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>客户代码：</label>
+                    <input type="text" class="easyui-textbox" name="crmCodeOrName"/>
+                </li>
+                <li>
+                    <label>看货状态：</label>
+                    <select class="easyui-combobox" editable="false" name="handleStatus">
+                        <option code="">请选择</option>
+                        <option code="1">未处理</option>
+                        <option code="2">已完成</option>
+                    </select>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_notice_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_notice_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#deliver_notice_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'contractNo',title:'销售合同号'},
+                {field:'crmCodeOrName',title:'客户代码'},
+                {field:'arrivalDate',title:'项目要求交付日期'},
+                {field:'deptName',title:'发货申请部门',
+                    formatter:function(code,row,index) {
+                        var company = COMPANY[code];
+                        if (company) {
+                            return company;
+                        }
+                        return code;
+                    }
+                },
+                {field:'wareHousemanName',title:'仓储经办人'},
+                {field:'operationSpecialist',title:'单证操作'},
+                {field:'handleStatus',title:'看货状态',
+                    formatter:function(code,row,index){
+                        if(code == 1) {
+                            return "未处理";
+                        } else if(code == 2){
+                            return "已完成";
+                        }
+                        return code;
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/deliverNotice/list',
+            onBeforeLoad:function(param){
+                var data = $('#deliver_notice_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#deliver_notice_list_table_toolbar_form_search_btn").click(function (){
+            $("#deliver_notice_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#deliver_notice_list_table_toolbar_form_clear_btn").click(function (){
+            $('#deliver_notice_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#deliver_notice_list_table");
+            $("#deliver_notice_list_table").datagrid("reload");
+        });
+    });
+</script>

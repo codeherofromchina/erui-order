@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>易瑞订单</title>
+    <link rel="stylesheet" type="text/css" href="resources/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="resources/easyui/themes/icon.css">
+    <link rel="stylesheet" type="text/css" href="resources/css/common.css" />
+    <script type="text/javascript" src="resources/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="resources/easyui/jquery.easyui.min.js"></script>
+    <script type="text/javascript" src="resources/easyui/locale/easyui-lang-zh_CN.js"></script>
+    <script type="text/javascript" src="resources/js/common.js"></script>
+</head>
+<body class="easyui-layout" id="layout" style="visibility:hidden;">
+<div region="north" id="header">
+    <img src="resources/img/logo.png" class="logo" />
+    <div class="top-btns">
+        <span>欢迎您，管理员</span>
+        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
+    </div>
+</div>
+
+<div region="west" split="true" title="订单管理" id="naver">
+    <div class="easyui-accordion" fit="true" id="navmenu">
+        <div title="采购合同管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="purchContract/purchContractSimpleList.html">简易合同管理</a></li>
+                <li><a href="#" data-url="purchContract/savePurchContractSimple.html">*新增简易合同</a></li>
+                <li><a href="#" data-url="purchContract/purchContractSimpleInfo.html">*查看简易合同</a></li>
+                <li><a href="#" data-url="purchContract/purchContractStandardList.html">标准合同管理</a></li>
+                <li><a href="#" data-url="purchContract/savePurchContractStandard.html">*新增标准合同</a></li>
+                <li><a href="#" data-url="purchContract/purchContractStandardInfo.html">*查看标准合同</a></li>
+                <li><a href="#" data-url="purchContract/purchContractList.html">非标准合同管理</a></li>
+                <li><a href="#" data-url="purchContract/savePurchContract.html">*新增非标准合同</a></li>
+                <li><a href="#" data-url="purchContract/purchContractInfo.html">*查看非标准合同</a></li>
+            </ul>
+        </div>
+        <div title="订单管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="deliverConsign/deliverConsignList.html">订舱列表</a></li>
+                <li><a href="#" data-url="order/orderList.html">订单列表</a></li>
+            </ul>
+        </div>
+        <div title="项目管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="project/projectList.html">项目列表</a></li>
+            </ul>
+        </div>
+        <div title="采购管理" selected="true">
+            <ul class="navmenu">
+                <li><a href="#" data-url="purchRequisition/purchRequisitionList.html">采购申请列表</a></li>
+                <li><a href="#" data-url="purchRequisition/savePurchRequisition.html">*新增采购申请</a></li>
+                <li><a href="#" data-url="purchase/purchaseList.html">采购订单列表</a></li>
+            </ul>
+
+        </div>
+        <div title="品控管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="inspectReport/inspectReportList.html">入库质检</a></li>
+                <li><a href="#" data-url="outstockQuality/outstockQualityList.html">出库质检</a></li>
+                <li><a href="#" data-url="outstockQuality/saveOutstockQuality.html">*办理出库质检</a></li>
+            </ul>
+        </div>
+        <div title="仓库管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="deliverNotice/deliverNoticeList.html">看货通知单</a></li>
+                <li><a href="#" data-url="instock/instockList.html">入库管理</a></li>
+                <li><a href="#" data-url="deliverDetail/deliverDetailList.html">出库管理</a></li>
+            </ul>
+        </div>
+        <div title="物流管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="deliverCustoms/deliverCustomsList.html">报关管理</a></li>
+                <li><a href="#" data-url="iogistics/iogisticsList.html">出库信息管理</a></li>
+                <li><a href="#" data-url="logisticsData/logisticsDataList.html">物流跟踪管理</a></li>
+            </ul>
+        </div>
+        <div title="财务管理">
+            <ul class="navmenu">
+                <li><a href="#" data-url="purchPayApplication/purchPayApplicationList.html">付款管理</a></li>
+                <li><a href="#" data-url="orderAccount/orderAccountList.html">收款管理</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div region="center" id="content">
+    <div class="easyui-tabs" fit="true" id="tt">
+        <div title="首页" closable="false" iconCls="icon-ok" href="welcome.html"></div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    /**
+     * 扩展combox验证，easyui原始只验证select text的值，不支持value验证
+     */
+    $.extend($.fn.validatebox.defaults.rules, {
+        selectValueRequired: {
+            validator: function(code,param){
+                return $(param[0]).find("option:contains('"+code+"')").val() != '';
+            },
+            message: 'select code required.'
+        }
+    });
+    $(function() {
+        //添加新的Tab页
+        $("#navmenu").on("click", "a[data-url]", function(e) {
+            e.preventDefault();
+            var tabTitle = $(this).text();
+            var tabUrl = $(this).data("url");
+
+            if($("#tt").tabs("exists", tabTitle)) { //判断该Tab页是否已经存在
+                $("#tt").tabs("select", tabTitle);
+            }else {
+                $("#tt").tabs("add", {
+                    title: tabTitle,
+                    href: tabUrl,
+                    closable: true
+                });
+            }
+            $("#navmenu .active").removeClass("active");
+            $(this).parent().addClass("active");
+        });
+
+        //解决闪屏的问题
+        window.setTimeout(function() {
+            $("#layout").css("visibility", "visible");
+        }, 800);
+    });
+</script>
+</body>
+</html>

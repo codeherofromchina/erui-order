@@ -1,0 +1,143 @@
+
+
+<!-- 报关数据表 -->
+<table id="deliver_customs_list_table" toolbar="#deliver_customs_list_table_toolbar"></table>
+<!-- /报关数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="deliver_customs_list_table_toolbar">
+    <div class="search-div">
+        <form id="deliver_customs_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>地区国家：</label>
+                    <input class="easyui-combobox" name="countryCode"/>
+                </li>
+                <li>
+                    <label>审核状态：</label>
+                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="auditingStatus">
+                        <option code="">请选择</option>
+                        <option code="1">未审核</option>
+                        <option code="2">审核中</option>
+                        <option code="3">已完成</option>
+                    </select>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_customs_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_customs_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="ctrl-div">
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="deliver_customs_list_table_toolbar_add_btn">新建报关</a>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#deliver_customs_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'deliverCustomsNo',title:'报关单号'},
+                {field:'contractNo',title:'销售合同号'},
+                {field:'regionCode',title:'地区国家',
+                    formatter:function(code,row,index){
+                        var finalValue = code;
+                        if (row.countryCode) {
+                            finalValue += "/" + row.countryCode;
+                        }
+                        return finalValue;
+                    }
+                },
+                {field:'lowCustomsMoney',title:'报关总金额',
+                    formatter:function(code,row,index){
+                        if (!code) {
+                            code = 0;
+                        }
+                        code = code.toFixed(2);
+                        if (row.currencyBn) {
+                            code = row.currencyBn + " " + code;
+                        }
+
+                        return code;
+                    }
+                },
+                {field:'auditingProcess',title:'审核进度',
+                    formatter:function(code,row,index){
+                        var finalValue = code;
+                        if (row.auditingUser) {
+                            finalValue += "("+row.auditingUser+")";
+                        }
+                        return finalValue;
+                    }
+                },
+                {field:'auditingStatus',title:'审核状态',
+                    formatter:function(code,row,index){
+                        if(code == 1) {
+                            return "未审核";
+                        } else if(code == 2){
+                            return "审核中";
+                        } else if (code == 3) {
+                            return "驳回";
+                        } else if (code == 4) {
+                            return "已完成";
+                        } else {
+                            return code;
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/deliverCustoms/list',
+            onBeforeLoad:function(param){
+                var data = $('#deliver_customs_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#deliver_customs_list_table_toolbar_form_search_btn").click(function (){
+            $("#deliver_customs_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#deliver_customs_list_table_toolbar_form_clear_btn").click(function (){
+            $('#deliver_customs_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#deliver_customs_list_table");
+            $("#deliver_customs_list_table").datagrid("reload");
+        });
+    });
+</script>

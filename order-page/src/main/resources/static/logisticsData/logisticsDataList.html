@@ -1,0 +1,112 @@
+<!-- 物流跟踪数据表 -->
+<table id="logistics_data_list_table" toolbar="#logistics_data_list_table_toolbar"></table>
+<!-- /物流跟踪数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="logistics_data_list_table_toolbar">
+    <div class="search-div">
+        <form id="logistics_data_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>产品放行单号：</label>
+                    <input type="text" class="easyui-textbox" name="deliverDetailNo"/>
+                </li>
+                <li>
+                    <label>放行日期：</label>
+                    <input type="text" class="easyui-datebox" editable="false" name="releaseDate"/>
+                </li>
+                <li>
+                    <label>跟踪状态：</label>
+                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="orderStatus">
+                        <option code="">请选择</option>
+                        <option code="5">待执行</option>
+                        <option code="6">执行中</option>
+                        <option code="7">已完成</option>
+                    </select>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="logistics_data_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="logistics_data_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#logistics_data_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'theAwbNo',title:'运单号'},
+                {field:'contractNo',title:'销售合同号'},
+                {field:'deliverDetailNo',title:'产品放行单号'},
+                {field:'leaveFactory',title:'放行日期'},
+                {field:'accomplishDate',title:'实际完成日期'},
+                {field:'orderStatus',title:'跟踪状态',
+                    formatter:function(code,row,index){
+                        if(code == 5) {
+                            return "待执行";
+                        } else if(code == 6){
+                            return "执行中";
+                        } else if (code == 7) {
+                            return "已完成";
+                        } else {
+                            return code;
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/iogisticsData/trackingList',
+            onBeforeLoad:function(param){
+                var data = $('#logistics_data_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#logistics_data_list_table_toolbar_form_search_btn").click(function (){
+            $("#logistics_data_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#logistics_data_list_table_toolbar_form_clear_btn").click(function (){
+            $('#logistics_data_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#logistics_data_list_table");
+            $("#logistics_data_list_table").datagrid("reload");
+        });
+    });
+</script>

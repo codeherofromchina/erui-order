@@ -1,0 +1,118 @@
+<!-- 出库数据表 -->
+<table id="deliver_detail_list_table" toolbar="#deliver_detail_list_table_toolbar"></table>
+<!-- /出库数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="deliver_detail_list_table_toolbar">
+    <div class="search-div">
+        <form id="deliver_detail_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>产品放行单号：</label>
+                    <input type="text" class="easyui-textbox" name="deliverDetailNo"/>
+                </li>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>项目号：</label>
+                    <input type="text" class="easyui-textbox" name="projectNo"/>
+                </li>
+                <li>
+                    <label>出口通知单号：</label>
+                    <input type="text" class="easyui-textbox" name="deliverConsignNo"/>
+                </li>
+                <li>
+                    <label>出库状态：</label>
+                    <select class="easyui-combobox" panelHeight="125px" editable="false" name="orderStatus">
+                        <option code="">请选择</option>
+                        <option code="1">未质检</option>
+                        <option code="2">质检中</option>
+                        <option code="3">质检完成</option>
+                        <option code="4">已出库</option>
+                    </select>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_detail_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_detail_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#deliver_detail_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'deliverDetailNo',title:'产品放行单号'},
+                {field:'contractNo',title:'销售合同号'},
+                {field:'deliverConsignNo',title:'出口通知单号'},
+                {field:'projectNo',title:'项目号'},
+                {field:'releaseDate',title:'放行日期'},
+                {field:'leaveDate',title:'出库日期'},
+                {field:'orderStatus',title:'出库状态',
+                    formatter:function(code,row,index){
+                        if(code <= 1) {
+                            return "未质检";
+                        } else if(code == 2){
+                            return "质检中";
+                        } else if (code == 3) {
+                            return "质检完成";
+                        } else {
+                            return "已出库";
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/storehouseManage/outboundManage',
+            onBeforeLoad:function(param){
+                var data = $('#deliver_detail_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#deliver_detail_list_table_toolbar_form_search_btn").click(function (){
+            $("#deliver_detail_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#deliver_detail_list_table_toolbar_form_clear_btn").click(function (){
+            $('#deliver_detail_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#deliver_detail_list_table");
+            $("#deliver_detail_list_table").datagrid("reload");
+        });
+    });
+</script>

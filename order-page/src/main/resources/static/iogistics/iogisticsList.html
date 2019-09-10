@@ -1,0 +1,161 @@
+<!-- 出库信息管理数据表 -->
+<table id="iogistics_list_table" toolbar="#iogistics_list_table_toolbar"></table>
+<!-- /出库信息管理数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="iogistics_list_table_toolbar">
+    <div class="search-div">
+        <form id="iogistics_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>产品放行单号：</label>
+                    <input type="text" class="easyui-textbox" name="deliverDetailNo"/>
+                </li>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>项目号：</label>
+                    <input type="text" class="easyui-textbox" name="projectNo"/>
+                </li>
+                <li>
+                    <label>出口通知单号：</label>
+                    <input type="text" class="easyui-textbox" name="deliverConsignNo"/>
+                </li>
+                <li>
+                    <label>开单日期：</label>
+                    <input type="text" class="easyui-datebox" editable="false" name="billingDate"/>
+                </li>
+                <li>
+                    <label>放行日期：</label>
+                    <input type="text" class="easyui-datebox" editable="false" name="releaseDate"/>
+                </li>
+                <li>
+                    <label>仓库经办人：</label>
+                    <input type="text" id="iogistics_list_table_toolbar_form_ware_houseman_field" class="easyui-textbox" editable="false" name="wareHouseman" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#iogistics_list_ware_houseman_dialog').dialog('open');$('#iogistics_list_ware_houseman_dialog').dialog('refresh', 'common/userDialog.html');}"  />
+
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="iogistics_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="iogistics_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="ctrl-div">
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="iogistics_list_table_toolbar_change_user_btn">转交经办人</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="iogistics_list_table_toolbar_handle_btn">办理</a>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+
+<!-- 仓库经办人弹出框 -->
+<div id="iogistics_list_ware_houseman_dialog" style="width:600px;height:350px;">
+</div>
+<!-- /仓库经办人弹出框 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#iogistics_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'deliverDetailNo',title:'产品放行单号'},
+                {field:'contractNo',title:'销售合同号'},
+                {field:'deliverConsignNo',title:'出口通知单号'},
+                {field:'projectNo',title:'项目号'},
+                {field:'projectNo',title:'经办部门'},
+                {field:'projectNo',title:'开单日期'},
+                {field:'releaseDate',title:'放行日期'},
+                {field:'leaveDate',title:'出库日期'},
+                {field:'leaveDate',title:'仓库经办人'},
+                {field:'orderStatus',title:'是否厂家直接发货',
+                    formatter:function(code,row,index){
+                        if(code <= 1) {
+                            return "未质检";
+                        } else if(code == 2){
+                            return "质检中";
+                        } else if (code == 3) {
+                            return "质检完成";
+                        } else {
+                            return "已出库";
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/iogistics/list',
+            onBeforeLoad:function(param){
+                var data = $('#iogistics_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        $("#iogistics_list_ware_houseman_dialog").dialog({
+            title:'选择仓库经办人',
+            resizable:true,
+            modal:true,
+            closed:true,
+            buttons:[{
+                text:'确定',
+                iconCls:'icon-ok',
+                handler:function(){
+                    var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    if (selectedTableRow) {
+                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setValue",selectedTableRow.id);
+                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setText",selectedTableRow.name);
+                    } else {
+                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("clear");
+                    }
+                    $("#iogistics_list_ware_houseman_dialog").dialog("close");
+                }
+            },{
+                text:'取消',
+                iconCls:'icon-cancel',
+                handler:function(){
+                    $("#iogistics_list_ware_houseman_dialog").dialog("close");
+                }
+            }]
+        });
+        // 搜索按钮
+        $("#iogistics_list_table_toolbar_form_search_btn").click(function (){
+            $("#iogistics_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#iogistics_list_table_toolbar_form_clear_btn").click(function (){
+            $('#iogistics_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#iogistics_list_table");
+            $("#iogistics_list_table").datagrid("reload");
+        });
+    });
+</script>

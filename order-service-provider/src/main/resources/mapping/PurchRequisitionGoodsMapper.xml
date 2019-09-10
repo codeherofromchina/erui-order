@@ -1,0 +1,371 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.PurchRequisitionGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.PurchRequisitionGoods" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="purch_requisition_id" property="purchRequisitionId" jdbcType="BIGINT" />
+    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
+    <result column="require_purchase_date" property="requirePurchaseDate" jdbcType="DATE" />
+    <result column="tech_require" property="techRequire" jdbcType="VARCHAR" />
+    <result column="check_type" property="checkType" jdbcType="CHAR" />
+    <result column="check_method" property="checkMethod" jdbcType="CHAR" />
+    <result column="certificate" property="certificate" jdbcType="VARCHAR" />
+    <result column="tech_audit" property="techAudit" jdbcType="VARCHAR" />
+    <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
+    <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, purch_requisition_id, order_goods_id, require_purchase_date, tech_require, check_type, 
+    check_method, certificate, tech_audit, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, delete_time
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchRequisitionGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from purch_requisition_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from purch_requisition_goods
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from purch_requisition_goods
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.PurchRequisitionGoodsExample" >
+    delete from purch_requisition_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
+    insert into purch_requisition_goods (id, purch_requisition_id, order_goods_id, 
+      require_purchase_date, tech_require, check_type, 
+      check_method, certificate, tech_audit, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{purchRequisitionId,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT}, 
+      #{requirePurchaseDate,jdbcType=DATE}, #{techRequire,jdbcType=VARCHAR}, #{checkType,jdbcType=CHAR}, 
+      #{checkMethod,jdbcType=CHAR}, #{certificate,jdbcType=VARCHAR}, #{techAudit,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
+    insert into purch_requisition_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="purchRequisitionId != null" >
+        purch_requisition_id,
+      </if>
+      <if test="orderGoodsId != null" >
+        order_goods_id,
+      </if>
+      <if test="requirePurchaseDate != null" >
+        require_purchase_date,
+      </if>
+      <if test="techRequire != null" >
+        tech_require,
+      </if>
+      <if test="checkType != null" >
+        check_type,
+      </if>
+      <if test="checkMethod != null" >
+        check_method,
+      </if>
+      <if test="certificate != null" >
+        certificate,
+      </if>
+      <if test="techAudit != null" >
+        tech_audit,
+      </if>
+      <if test="createUserId != null" >
+        create_user_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag,
+      </if>
+      <if test="deleteTime != null" >
+        delete_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="purchRequisitionId != null" >
+        #{purchRequisitionId,jdbcType=BIGINT},
+      </if>
+      <if test="orderGoodsId != null" >
+        #{orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="requirePurchaseDate != null" >
+        #{requirePurchaseDate,jdbcType=DATE},
+      </if>
+      <if test="techRequire != null" >
+        #{techRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="checkType != null" >
+        #{checkType,jdbcType=CHAR},
+      </if>
+      <if test="checkMethod != null" >
+        #{checkMethod,jdbcType=CHAR},
+      </if>
+      <if test="certificate != null" >
+        #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="techAudit != null" >
+        #{techAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.PurchRequisitionGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from purch_requisition_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update purch_requisition_goods
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.purchRequisitionId != null" >
+        purch_requisition_id = #{record.purchRequisitionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orderGoodsId != null" >
+        order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="record.requirePurchaseDate != null" >
+        require_purchase_date = #{record.requirePurchaseDate,jdbcType=DATE},
+      </if>
+      <if test="record.techRequire != null" >
+        tech_require = #{record.techRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.checkType != null" >
+        check_type = #{record.checkType,jdbcType=CHAR},
+      </if>
+      <if test="record.checkMethod != null" >
+        check_method = #{record.checkMethod,jdbcType=CHAR},
+      </if>
+      <if test="record.certificate != null" >
+        certificate = #{record.certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.techAudit != null" >
+        tech_audit = #{record.techAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.createUserId != null" >
+        create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateUserId != null" >
+        update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deleteFlag != null" >
+        delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="record.deleteTime != null" >
+        delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update purch_requisition_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      purch_requisition_id = #{record.purchRequisitionId,jdbcType=BIGINT},
+      order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
+      require_purchase_date = #{record.requirePurchaseDate,jdbcType=DATE},
+      tech_require = #{record.techRequire,jdbcType=VARCHAR},
+      check_type = #{record.checkType,jdbcType=CHAR},
+      check_method = #{record.checkMethod,jdbcType=CHAR},
+      certificate = #{record.certificate,jdbcType=VARCHAR},
+      tech_audit = #{record.techAudit,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
+    update purch_requisition_goods
+    <set >
+      <if test="purchRequisitionId != null" >
+        purch_requisition_id = #{purchRequisitionId,jdbcType=BIGINT},
+      </if>
+      <if test="orderGoodsId != null" >
+        order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      </if>
+      <if test="requirePurchaseDate != null" >
+        require_purchase_date = #{requirePurchaseDate,jdbcType=DATE},
+      </if>
+      <if test="techRequire != null" >
+        tech_require = #{techRequire,jdbcType=VARCHAR},
+      </if>
+      <if test="checkType != null" >
+        check_type = #{checkType,jdbcType=CHAR},
+      </if>
+      <if test="checkMethod != null" >
+        check_method = #{checkMethod,jdbcType=CHAR},
+      </if>
+      <if test="certificate != null" >
+        certificate = #{certificate,jdbcType=VARCHAR},
+      </if>
+      <if test="techAudit != null" >
+        tech_audit = #{techAudit,jdbcType=VARCHAR},
+      </if>
+      <if test="createUserId != null" >
+        create_user_id = #{createUserId,jdbcType=BIGINT},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateUserId != null" >
+        update_user_id = #{updateUserId,jdbcType=BIGINT},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deleteFlag != null" >
+        delete_flag = #{deleteFlag,jdbcType=BIT},
+      </if>
+      <if test="deleteTime != null" >
+        delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
+    update purch_requisition_goods
+    set purch_requisition_id = #{purchRequisitionId,jdbcType=BIGINT},
+      order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      require_purchase_date = #{requirePurchaseDate,jdbcType=DATE},
+      tech_require = #{techRequire,jdbcType=VARCHAR},
+      check_type = #{checkType,jdbcType=CHAR},
+      check_method = #{checkMethod,jdbcType=CHAR},
+      certificate = #{certificate,jdbcType=VARCHAR},
+      tech_audit = #{techAudit,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

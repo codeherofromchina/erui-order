@@ -1,0 +1,123 @@
+<!-- 采购申请数据表 -->
+<table id="purch_requisition_list_table" toolbar="#purch_requisition_list_table_toolbar"></table>
+<!-- /采购申请数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="purch_requisition_list_table_toolbar">
+    <div class="search-div">
+        <form id="purch_requisition_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>销售合同号：</label>
+                    <input type="text" class="easyui-textbox" name="contractNo"/>
+                </li>
+                <li>
+                    <label>项目号：</label>
+                    <input type="text" class="easyui-textbox" name="projectNo"/>
+                </li>
+                <li>
+                    <label>合同标的：</label>
+                    <input type="text" class="easyui-textbox" name="projectName"/>
+                </li>
+                <li>
+                    <label>下发采购日期：</label>
+                    <input type="text" editable="false" class="easyui-datebox" name="submitDate">
+                </li>
+                <li>
+                    <label>要求采购到货日期：</label>
+                    <input type="text" editable="false" class="easyui-datebox" name="requirePurchaseDate">
+                </li>
+                <li>
+                    <label>采购状态：</label>
+                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="purchStatus">
+                        <option code="">全部状态</option>
+                        <option code="1">未进行</option>
+                        <option code="2">进行中</option>
+                        <option code="5">已变更</option>
+                    </select>
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="purch_requisition_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="purch_requisition_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+    <div class="ctrl-div">
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-man" plain="true" id="purch_requisition_list_table_toolbar_form_add_btn">转交经办人</a>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#purch_requisition_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'contractNo',title:'销售合同号'},
+                {field:'projectNo',title:'项目号'},
+                {field:'projectName',title:'合同标的'},
+                {field:'businessName',title:'事业部项目负责人'},
+                {field:'startDate',title:'项目开始日期'},
+                {field:'submitDate',title:'下发采购日期'},
+                {field:'requirePurchaseDate',title:'要求采购到货日期'},
+                {field:'purchStatus',title:'采购状态',
+                    formatter:function (code, row, index) {
+                        switch(code) {
+                            case 1:return "未进行";
+                            case 2:return "进行中";
+                            case 5:return "已变更";
+                            default : return code;
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/purchRequestion/listByPage',
+            onBeforeLoad:function(param){
+                param.purchaseUid = "39427";
+                var data = $('#purch_requisition_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#purch_requisition_list_table_toolbar_form_search_btn").click(function (){
+            $("#purch_requisition_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#purch_requisition_list_table_toolbar_form_clear_btn").click(function (){
+            $('#purch_requisition_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#purch_requisition_list_table");
+            $("#purch_requisition_list_table").datagrid("reload");
+        });
+    });
+</script>

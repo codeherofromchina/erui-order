@@ -1,0 +1,168 @@
+<form id="save_outstock_quality_form">
+    <div id="save_outstock_quality_panel_baseinfo" class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>开单日期：</label>
+            <div class="input-div">1970-01-01</div>
+            <label>贸易术语：</label>
+            <div class="input-div">DDP</div>
+            <label>目的港：</label>
+            <div class="input-div">奥兰（机场）</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:2px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+
+        <table id="save_outstock_quality_panel_goods_table" class="easyui-datagrid" border="false">
+            <thead>
+                <tr>
+                    <th data-options="field:'contractNo'">销售合同号</th>
+                    <th data-options="field:'projectNo'">项目号</th>
+                    <th data-options="field:'sku'">平台SKU</th>
+                    <th data-options="field:'nameZh'">商品名称</th>
+                    <th data-options="field:'clientDesc'">描述</th>
+                    <th data-options="field:'sendNum'">本批次发货数量</th>
+                    <th data-options="field:'outboundNum'">出库数量</th>
+                    <th data-options="field:'straightNum'">厂家直发数量</th>
+                    <th data-options="field:'brand'">单位</th>
+                    <th data-options="field:'remarks'">备注</th>
+                </tr>
+            </thead>
+
+        </table>
+    </div>
+
+    <div style="overflow: hidden;">
+        <div style="margin:10px 15px;float:right;">总包装件数： 0 PCS</div>
+    </div>
+
+    <div class="easyui-panel" title="运输信息" style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>承运单位名称：</label>
+            <div class="input-div"></div>
+            <label>司机姓名：</label>
+            <div class="input-div"></div>
+            <label>车牌号码：</label>
+            <div class="input-div"></div>
+        </div>
+        <div class="fitem">
+            <label>提货日期：</label>
+            <div class="input-div">1970-01-01</div>
+            <label>联系电话：</label>
+            <div class="input-div"></div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="人员信息" style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>仓库经办人：</label>
+            <div class="input-div">王继宾</div>
+            <label>经办部门：</label>
+            <div class="input-div">仓储配送中心</div>
+            <label>发运日期：</label>
+            <div class="input-div">1970-01-01</div>
+        </div>
+        <div class="fitem">
+            <label>发运人员：</label>
+            <div class="input-div"></div>
+            <label>协办/复核人：</label>
+            <div class="input-div"></div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="质检信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>实物检验结论：</label>
+            <select class="easyui-combobox" editable="false" name="goodsChkStatus" panelHeight="50px">
+                <option code="1">合格</option>
+                <option code="0">不合格</option>
+            </select>
+            <label>资料检验结论：</label>
+            <select class="easyui-combobox" editable="false" name="billsChkStatus" panelHeight="50px">
+                <option code="1">合格</option>
+                <option code="0">不合格</option>
+            </select>
+            <label>检验员：</label>
+            <input class="easyui-textbox" name="checkerUid" data-options="editable:false" />
+        </div>
+        <div class="fitem">
+            <label>质检部门：</label>
+            <input class="easyui-textbox" name="checkDept" data-options="editable:false" />
+            <label><span style="color:red;">*</span>检验日期：</label>
+            <input type="text" class="easyui-datebox" data-options="required:true,editable:false" style="width:185px;" name="checkDate"/>
+            <label>最终放行人：</label>
+            <input class="easyui-textbox" data-options="editable:false" name="releaseUid" buttonText="请选择"/>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>放行日期：</label>
+            <input type="text" class="easyui-datebox" data-options="required:true,editable:false" style="width:185px;" name="releaseDate"/>
+            <label>质量分管领导：</label>
+            <input class="easyui-textbox" data-options="editable:false" name="qualityLeaderId" buttonText="请选择"/>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="特殊放行信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>申请人：</label>
+            <input class="easyui-textbox" data-options="editable:false" name="applicant" buttonText="请选择"/>
+            <label>申请日期：</label>
+            <input type="text" class="easyui-datebox" data-options="editable:false" style="width:185px;" name="applicantDate"/>
+            <label>批准人：</label>
+            <input class="easyui-textbox" data-options="editable:false" name="approver" buttonText="请选择"/>
+        </div>
+        <div class="fitem">
+            <label>批准日期：</label>
+            <input type="text" class="easyui-datebox" data-options="editable:false" style="width:185px;" name="approvalDate"/>
+        </div>
+        <div class="fitem">
+            <label style="width:140px;margin-left:-5px;">特殊情况产品放行原因：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" name="reason" code=""  />
+        </div>
+        <div class="fitem">
+            <label>审核意见：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" name="opinion" code=""  />
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:140px;">
+
+            <div data-options="region:'west',split:false,border:false" style="width:150px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:24px;margin-bottom:20px;"><span style="font-size: 14px;">品控部</span></div>
+                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传附件</a> </div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="contractNo" width="200">附件名称</th>
+                        <th field="projectNo" width="120">创建人</th>
+                        <th field="contractNoHw" width="170">日期</th>
+                        <th field="inquiryNo" width="80">操作</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_outstock_quality_form_save_btn" size="large" class="easyui-linkbutton" style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_outstock_quality_form_submit_btn" size="large" class="easyui-linkbutton" style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>

@@ -1,0 +1,154 @@
+[
+  {
+    "code": "PC",
+    "text": "件"
+  },
+  {
+    "code": "GRO",
+    "text": "套"
+  },
+  {
+    "code": "M",
+    "text": "米"
+  },
+  {
+    "code": "SET",
+    "text": "台"
+  },
+  {
+    "code": "PC1",
+    "text": "个"
+  },
+  {
+    "code": "pair2",
+    "text": "双"
+  },
+  {
+    "code": "pair1",
+    "text": "副"
+  },
+  {
+    "code": "TON",
+    "text": "吨"
+  },
+  {
+    "code": "P",
+    "text": "辆"
+  },
+  {
+    "code": "BAG",
+    "text": "包"
+  },
+  {
+    "code": "BAR",
+    "text": "桶"
+  },
+  {
+    "code": "ft",
+    "text": "英尺"
+  },
+  {
+    "code": "PC2",
+    "text": "节"
+  },
+  {
+    "code": "KG",
+    "text": "千克"
+  },
+  {
+    "code": "L",
+    "text": "升"
+  },
+  {
+    "code": "PC3",
+    "text": "批"
+  },
+  {
+    "code": "M2",
+    "text": "平方米"
+  },
+  {
+    "code": "ROL",
+    "text": "卷"
+  },
+  {
+    "code": "PC4",
+    "text": "只"
+  },
+  {
+    "code": "PC5",
+    "text": "块"
+  },
+  {
+    "code": "DAY",
+    "text": "天"
+  },
+  {
+    "code": "PAC1",
+    "text": "对"
+  },
+  {
+    "code": "PC6",
+    "text": "张"
+  },
+  {
+    "code": "PC7",
+    "text": "把"
+  },
+  {
+    "code": "PC8",
+    "text": "捆"
+  },
+  {
+    "code": "PC9",
+    "text": "支"
+  },
+  {
+    "code": "PC10",
+    "text": "条"
+  },
+  {
+    "code": "PC11",
+    "text": "根"
+  },
+  {
+    "code": "PC12",
+    "text": "片"
+  },
+  {
+    "code": "BOT",
+    "text": "瓶"
+  },
+  {
+    "code": "BOX",
+    "text": "盒"
+  },
+  {
+    "code": "CAR",
+    "text": "箱"
+  },
+  {
+    "code": "GRO1",
+    "text": "组"
+  },
+  {
+    "code": "BAG1",
+    "text": "袋"
+  },
+  {
+    "code": "PC13",
+    "text": "顶"
+  },
+  {
+    "code": "PC14",
+    "text": "盘"
+  },
+  {
+    "code": "km",
+    "text": "千米"
+  },
+  {
+    "code": "in",
+    "text": "英寸"
+  }
+]

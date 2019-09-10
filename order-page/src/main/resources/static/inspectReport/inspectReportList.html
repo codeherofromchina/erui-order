@@ -1,0 +1,124 @@
+<!-- 入库报检数据表 -->
+<table id="inspect_report_list_table" toolbar="#inspect_report_list_table_toolbar"></table>
+<!-- /入库报检数据表 -->
+
+<!-- 数据表工具栏 -->
+<div class="toolbar" id="inspect_report_list_table_toolbar">
+    <div class="search-div">
+        <form id="inspect_report_list_table_toolbar_form">
+            <ul>
+                <li>
+                    <label>到货报检单号：</label>
+                    <input type="text" class="easyui-textbox" name="inspectApplyNo"/>
+                </li>
+                <li>
+                    <label>采购合同号：</label>
+                    <input type="text" class="easyui-textbox" name="purchNo"/>
+                </li>
+                <li>
+                    <label>项目号：</label>
+                    <input type="text" class="easyui-textbox" name="projectNo"/>
+                </li>
+                <li>
+                    <label>供应商名称：</label>
+                    <input type="text" class="easyui-textbox" name="supplierName"/>
+                </li>
+                <li>
+                    <label>质检状态：</label>
+                    <select class="easyui-combobox" editable="false" name="process">
+                        <option code="">请选择</option>
+                        <option code="true">未完成</option>
+                        <option code="false">已完成</option>
+                    </select>
+                </li>
+                <li>
+                    <label>质检次数：</label>
+                    <input type="text" class="easyui-numberbox" precision="0"  name="checkTimes"/>
+                </li>
+                <li>
+                    <label>报检日期：</label>
+                    <input type="text" editable="false" class="easyui-datebox" name="inspectDate">
+                </li>
+                <li>
+                    <span class="search-btn">
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="inspect_report_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="inspect_report_list_table_toolbar_form_clear_btn">清空</a>
+                    </span>
+                </li>
+            </ul>
+        </form>
+    </div>
+</div>
+<!-- /数据表工具栏 -->
+
+<script type="text/javascript">
+    $(function(){
+        $("#inspect_report_list_table").datagrid({
+            fit:true,
+            fitColumn:true,
+            method:'post',
+            striped:true,
+            rownumbers:true,
+            pagination:true,
+            singleSelect:true,
+            idField:'id',
+            columns:[[
+                {field:'inspectApplyNo',title:'到货报检单号'},
+                {field:'contractNo',title:'销售合同号'},
+                {field:'projectNo',title:'项目号'},
+                {field:'purchNo',title:'采购合同号'},
+                {field:'supplierName',title:'供应商名称'},
+                {field:'inspectDate',title:'报检日期'},
+                {field:'checkTimes',title:'报检次数'},
+                {field:'process',title:'质检状态',
+                    formatter:function(code,row,index){
+                        if(code) {
+                            return "未完成";
+                        } else {
+                            return "已完成";
+                        }
+                    }
+                },
+                {field:'operation',title:'操作',
+                    formatter:function(code,row,index){
+                        return '查看';
+                    }
+                },
+            ]],
+            url:ORDER_URL + '/order/inspectReport/list',
+            onBeforeLoad:function(param){
+                var rows = param.rows;
+                delete param.rows;
+                param.pageSize = rows;
+                var data = $('#inspect_report_list_table_toolbar_form').serializeJson();
+                if (data) {
+                    for(var attr in data){
+                        param[attr]= data[attr];
+                    }
+                }
+            },
+            loader:function(param,success,error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts,param,success,error);
+            },
+            loadFilter:function(data) {
+                var finalData = {"total":0,"rows":[]};
+                if (data.code == 200) {
+                    finalData.total = data.data.totalElements;
+                    finalData.rows = data.data.content;
+                }
+                return finalData;
+            }
+        });
+        // 搜索按钮
+        $("#inspect_report_list_table_toolbar_form_search_btn").click(function (){
+            $("#inspect_report_list_table").datagrid("reload");
+        });
+        // 清空按钮
+        $("#inspect_report_list_table_toolbar_form_clear_btn").click(function (){
+            $('#inspect_report_list_table_toolbar_form').form("reset");
+            setDatagridToFirstPage("#inspect_report_list_table");
+            $("#inspect_report_list_table").datagrid("reload");
+        });
+    });
+</script>
