@@ -6,5 +6,13 @@ package com.erui.order.service;
  */
 public interface FastdfsFileService {
 
-    void insert(String group, String fileid, String originalFilename, Long size);
+    void insert(String group, String fileId, String originalFilename, Long size);
+
+    /**
+     * 获取fdfs中文件的原始名称
+     * @param group
+     * @param fileId
+     * @return
+     */
+    String findFileName(String group, String fileId);
 }

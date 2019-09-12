@@ -19,8 +19,8 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
-      max-file-size: 10240
-      max-request-size: 10240
+      max-file-size: 102400
+      max-request-size: 102400
 logging:
   path: ./logs
   level:
