@@ -9,18 +9,30 @@ public enum OrderCategoryEnum {
     ONE(1, "预投"), TWO(2, "售后"), THREE(3, "试用"), FOUR(4, "现货（出库）"), FIVE(5, "订单"), SIX(6, "国内订单");
 
     private int value;
-    private String msg;
+    private String name;
 
-    OrderCategoryEnum(int value, String msg) {
+    OrderCategoryEnum(int value, String name) {
         this.value = value;
-        this.msg = msg;
+        this.name = name;
     }
 
-    public String getMsg() {
-        return msg;
+    public String getName() {
+        return name;
     }
 
     public int getValue() {
         return value;
+    }
+
+
+    public static OrderCategoryEnum valueOf(Integer code) {
+        if (code != null) {
+            for (OrderCategoryEnum statusEnum : OrderCategoryEnum.values()) {
+                if (statusEnum.getValue() == code) {
+                    return statusEnum;
+                }
+            }
+        }
+        return null;
     }
 }

@@ -12,7 +12,7 @@
     <result column="check_dept_name" property="checkDeptName" jdbcType="VARCHAR" />
     <result column="check_user_id" property="checkUserId" jdbcType="BIGINT" />
     <result column="done_date" property="doneDate" jdbcType="DATE" />
-    <result column="msg" property="msg" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="report_process" property="reportProcess" jdbcType="BIT" />
     <result column="report_remarks" property="reportRemarks" jdbcType="VARCHAR" />
     <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
@@ -86,7 +86,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, inspect_apply_id, inspect_apply_no, check_times, check_date, report_first, check_dept_id, 
-    check_dept_name, check_user_id, done_date, msg, report_process, report_remarks, supplier_name, 
+    check_dept_name, check_user_id, done_date, name, report_process, report_remarks, supplier_name,
     inspect_report_status, last_done_date, is_show, create_user_id, create_time, update_user_id, 
     update_time, delete_flag, delete_time
   </sql>
@@ -124,7 +124,7 @@
     insert into inspect_report (id, inspect_apply_id, inspect_apply_no, 
       check_times, check_date, report_first, 
       check_dept_id, check_dept_name, check_user_id, 
-      done_date, msg, report_process, 
+      done_date, name, report_process,
       report_remarks, supplier_name, inspect_report_status, 
       last_done_date, is_show, create_user_id, 
       create_time, update_user_id, update_time, 
@@ -132,7 +132,7 @@
     values (#{id,jdbcType=BIGINT}, #{inspectApplyId,jdbcType=BIGINT}, #{inspectApplyNo,jdbcType=CHAR}, 
       #{checkTimes,jdbcType=SMALLINT}, #{checkDate,jdbcType=DATE}, #{reportFirst,jdbcType=BIT}, 
       #{checkDeptId,jdbcType=BIGINT}, #{checkDeptName,jdbcType=VARCHAR}, #{checkUserId,jdbcType=BIGINT}, 
-      #{doneDate,jdbcType=DATE}, #{msg,jdbcType=VARCHAR}, #{reportProcess,jdbcType=BIT}, 
+      #{doneDate,jdbcType=DATE}, #{name,jdbcType=VARCHAR}, #{reportProcess,jdbcType=BIT},
       #{reportRemarks,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{inspectReportStatus,jdbcType=SMALLINT}, 
       #{lastDoneDate,jdbcType=DATE}, #{isShow,jdbcType=BIT}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -171,8 +171,8 @@
       <if test="doneDate != null" >
         done_date,
       </if>
-      <if test="msg != null" >
-        msg,
+      <if test="name != null" >
+        name,
       </if>
       <if test="reportProcess != null" >
         report_process,
@@ -242,8 +242,8 @@
       <if test="doneDate != null" >
         #{doneDate,jdbcType=DATE},
       </if>
-      <if test="msg != null" >
-        #{msg,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="reportProcess != null" >
         #{reportProcess,jdbcType=BIT},
@@ -322,8 +322,8 @@
       <if test="record.doneDate != null" >
         done_date = #{record.doneDate,jdbcType=DATE},
       </if>
-      <if test="record.msg != null" >
-        msg = #{record.msg,jdbcType=VARCHAR},
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.reportProcess != null" >
         report_process = #{record.reportProcess,jdbcType=BIT},
@@ -378,7 +378,7 @@
       check_dept_name = #{record.checkDeptName,jdbcType=VARCHAR},
       check_user_id = #{record.checkUserId,jdbcType=BIGINT},
       done_date = #{record.doneDate,jdbcType=DATE},
-      msg = #{record.msg,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       report_process = #{record.reportProcess,jdbcType=BIT},
       report_remarks = #{record.reportRemarks,jdbcType=VARCHAR},
       supplier_name = #{record.supplierName,jdbcType=VARCHAR},
@@ -425,8 +425,8 @@
       <if test="doneDate != null" >
         done_date = #{doneDate,jdbcType=DATE},
       </if>
-      <if test="msg != null" >
-        msg = #{msg,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="reportProcess != null" >
         report_process = #{reportProcess,jdbcType=BIT},
@@ -478,7 +478,7 @@
       check_dept_name = #{checkDeptName,jdbcType=VARCHAR},
       check_user_id = #{checkUserId,jdbcType=BIGINT},
       done_date = #{doneDate,jdbcType=DATE},
-      msg = #{msg,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       report_process = #{reportProcess,jdbcType=BIT},
       report_remarks = #{reportRemarks,jdbcType=VARCHAR},
       supplier_name = #{supplierName,jdbcType=VARCHAR},

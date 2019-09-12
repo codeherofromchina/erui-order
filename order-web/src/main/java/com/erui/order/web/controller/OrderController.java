@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 /**
@@ -41,13 +40,12 @@ public class OrderController {
     /**
      * 保存Order
      *
-     * @param request
      * @param saveRequest
      * @param bindingResult
      * @return
      */
     @RequestMapping(value = "saveOrder", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<Void> saveOrder(HttpServletRequest request, @RequestBody @Valid OrderSaveRequest saveRequest, BindingResult bindingResult) {
+    public Result<Void> saveOrder(@RequestBody @Valid OrderSaveRequest saveRequest, BindingResult bindingResult) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         LOGGER.info("saveOrder - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
         Result<Void> result = new Result<>();

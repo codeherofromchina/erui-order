@@ -15,7 +15,7 @@
     <result column="remark" property="remark" jdbcType="VARCHAR" />
     <result column="history" property="history" jdbcType="BIT" />
     <result column="num" property="num" jdbcType="SMALLINT" />
-    <result column="msg" property="msg" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
     <result column="inspect_apply_status" property="inspectApplyStatus" jdbcType="SMALLINT" />
     <result column="tmp_msg" property="tmpMsg" jdbcType="VARCHAR" />
     <result column="pub_status" property="pubStatus" jdbcType="SMALLINT" />
@@ -86,7 +86,7 @@
   </sql>
   <sql id="Base_Column_List" >
     id, inspect_apply_no, purch_no, purch_id, masteer, p_id, department, purchase_name_id, 
-    supplier_name, inspect_date, remark, history, num, msg, inspect_apply_status, tmp_msg, 
+    supplier_name, inspect_date, remark, history, num, name, inspect_apply_status, tmp_msg,
     pub_status, create_user_id, create_time, update_user_id, update_time, delete_flag, 
     delete_time
   </sql>
@@ -125,7 +125,7 @@
       purch_id, masteer, p_id, department, 
       purchase_name_id, supplier_name, inspect_date, 
       remark, history, num, 
-      msg, inspect_apply_status, tmp_msg, 
+      name, inspect_apply_status, tmp_msg,
       pub_status, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       delete_time)
@@ -133,7 +133,7 @@
       #{purchId,jdbcType=BIGINT}, #{masteer,jdbcType=BIT}, #{pId,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR}, 
       #{purchaseNameId,jdbcType=BIGINT}, #{supplierName,jdbcType=VARCHAR}, #{inspectDate,jdbcType=DATE}, 
       #{remark,jdbcType=VARCHAR}, #{history,jdbcType=BIT}, #{num,jdbcType=SMALLINT}, 
-      #{msg,jdbcType=VARCHAR}, #{inspectApplyStatus,jdbcType=SMALLINT}, #{tmpMsg,jdbcType=VARCHAR}, 
+      #{name,jdbcType=VARCHAR}, #{inspectApplyStatus,jdbcType=SMALLINT}, #{tmpMsg,jdbcType=VARCHAR},
       #{pubStatus,jdbcType=SMALLINT}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
       #{deleteTime,jdbcType=TIMESTAMP})
@@ -180,8 +180,8 @@
       <if test="num != null" >
         num,
       </if>
-      <if test="msg != null" >
-        msg,
+      <if test="name != null" >
+        name,
       </if>
       <if test="inspectApplyStatus != null" >
         inspect_apply_status,
@@ -251,8 +251,8 @@
       <if test="num != null" >
         #{num,jdbcType=SMALLINT},
       </if>
-      <if test="msg != null" >
-        #{msg,jdbcType=VARCHAR},
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
       </if>
       <if test="inspectApplyStatus != null" >
         #{inspectApplyStatus,jdbcType=SMALLINT},
@@ -331,8 +331,8 @@
       <if test="record.num != null" >
         num = #{record.num,jdbcType=SMALLINT},
       </if>
-      <if test="record.msg != null" >
-        msg = #{record.msg,jdbcType=VARCHAR},
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
       </if>
       <if test="record.inspectApplyStatus != null" >
         inspect_apply_status = #{record.inspectApplyStatus,jdbcType=SMALLINT},
@@ -381,7 +381,7 @@
       remark = #{record.remark,jdbcType=VARCHAR},
       history = #{record.history,jdbcType=BIT},
       num = #{record.num,jdbcType=SMALLINT},
-      msg = #{record.msg,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
       inspect_apply_status = #{record.inspectApplyStatus,jdbcType=SMALLINT},
       tmp_msg = #{record.tmpMsg,jdbcType=VARCHAR},
       pub_status = #{record.pubStatus,jdbcType=SMALLINT},
@@ -434,8 +434,8 @@
       <if test="num != null" >
         num = #{num,jdbcType=SMALLINT},
       </if>
-      <if test="msg != null" >
-        msg = #{msg,jdbcType=VARCHAR},
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
       </if>
       <if test="inspectApplyStatus != null" >
         inspect_apply_status = #{inspectApplyStatus,jdbcType=SMALLINT},
@@ -481,7 +481,7 @@
       remark = #{remark,jdbcType=VARCHAR},
       history = #{history,jdbcType=BIT},
       num = #{num,jdbcType=SMALLINT},
-      msg = #{msg,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
       inspect_apply_status = #{inspectApplyStatus,jdbcType=SMALLINT},
       tmp_msg = #{tmpMsg,jdbcType=VARCHAR},
       pub_status = #{pubStatus,jdbcType=SMALLINT},

@@ -138,6 +138,7 @@ public class OrderFactory {
         order.setExecCoCode(orderSaveRequest.getExecCoCode());
         order.setRegion(orderSaveRequest.getRegion());
         order.setCountry(orderSaveRequest.getCountry());
+        order.setBuyerId(orderSaveRequest.getBuyerId());
         order.setCrmCode(orderSaveRequest.getCrmCode());
         order.setCustomerType(orderSaveRequest.getCustomerType());
         order.setPerLiableRepayId(orderSaveRequest.getPerLiableRepayId());

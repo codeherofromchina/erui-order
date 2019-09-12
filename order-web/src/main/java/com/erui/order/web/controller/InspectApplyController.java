@@ -30,7 +30,7 @@ import javax.validation.Valid;
  * @Date 2019/7/21 下午5:26
  */
 @RestController
-@RequestMapping("order/InspectApply")
+@RequestMapping("order/inspectApply")
 @Validated
 public class InspectApplyController {
     private static final Logger LOGGER = LoggerFactory.getLogger(InspectApplyController.class);

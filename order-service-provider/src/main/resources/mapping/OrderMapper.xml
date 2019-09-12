@@ -143,7 +143,7 @@
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -154,21 +154,21 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from order
+    from `order`
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from order
+    delete from `order`
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <delete id="deleteByExample" parameterType="com.erui.order.model.entity.OrderExample" >
-    delete from order
+    delete from `order`
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Order" >
-    insert into order (id, contract_no, framework_no, 
+  <insert id="insert" keyProperty="id" keyColumn="id" useGeneratedKeys="true" parameterType="com.erui.order.model.entity.Order" >
+    insert into `order` (id, contract_no, framework_no,
       contract_no_os, po_no, inquiry_id, 
       inquiry_no, project_no, order_source, 
       signing_date, delivery_date, signing_co, 
@@ -214,7 +214,7 @@
       #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.Order" >
-    insert into order
+    insert into `order`
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
@@ -599,13 +599,13 @@
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.erui.order.model.entity.OrderExample" resultType="java.lang.Integer" >
-    select count(*) from order
+    select count(*) from `order`
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update order
+    update `order`
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
@@ -802,7 +802,7 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update order
+    update `order`
     set id = #{record.id,jdbcType=BIGINT},
       contract_no = #{record.contractNo,jdbcType=VARCHAR},
       framework_no = #{record.frameworkNo,jdbcType=VARCHAR},
@@ -871,7 +871,7 @@
     </if>
   </update>
   <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.Order" >
-    update order
+    update `order`
     <set >
       <if test="contractNo != null" >
         contract_no = #{contractNo,jdbcType=VARCHAR},
@@ -1063,7 +1063,7 @@
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.Order" >
-    update order
+    update `order`
     set contract_no = #{contractNo,jdbcType=VARCHAR},
       framework_no = #{frameworkNo,jdbcType=VARCHAR},
       contract_no_os = #{contractNoOs,jdbcType=VARCHAR},

@@ -1,5 +1,6 @@
 package com.erui.order.web.filter;
 
+import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.web.ConfigBeanProp;
 import com.erui.order.web.util.CookiesUtil;
@@ -24,6 +25,11 @@ public class SsoFilter implements Filter {
         String token = CookiesUtil.getCookieValue((HttpServletRequest) servletRequest, configBeanProp.getTokenName());
         ThreadLocalUtil.setToken(token);
 
-
+        UserInfo userInfo = new UserInfo();
+        userInfo.setId(1160L);
+        userInfo.setUserName("王晓丹");
+        userInfo.setUserNo("017340");
+        ThreadLocalUtil.setUserInfo(userInfo);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 }

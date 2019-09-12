@@ -2,12 +2,15 @@ package com.erui.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
+import com.erui.order.common.enums.OrderPayStatusEnum;
 import com.erui.order.common.enums.OrderStatusEnum;
+import com.erui.order.common.enums.ProcessProgressEnum;
 import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.OrderQueryRequest;
 import com.erui.order.common.pojo.request.OrderSaveRequest;
 import com.erui.order.common.pojo.response.OrderDetailResponse;
 import com.erui.order.common.pojo.response.OrderListResponse;
+import com.erui.order.common.util.StringUtil;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.model.entity.Order;
 import com.erui.order.model.entity.OrderExample;
@@ -17,6 +20,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -45,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
     private AttachmentService attachmentService;
     @Autowired
     private ProjectService projectService;
+    @Autowired
+    private UserService userService;
 
     @Override
     public Long insert(OrderSaveRequest insertRequest) throws Exception {
@@ -52,8 +58,16 @@ public class OrderServiceImpl implements OrderService {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
         Order order = OrderFactory.order(insertRequest);
+        // 生成出口通知单
+        String lastContractNo = findLastContractNo();
+        order.setContractNo(StringUtil.genContractNo(lastContractNo));
+        order.setPayStatus(OrderPayStatusEnum.UNPAID.code); // 设置支付状态
+        // 设置流程进度
+        order.setProcessProgress(ProcessProgressEnum.SUBMIT.getCode());
+
         order.setCreateTime(new Date());
         order.setCreateUserId(userInfo.getId());
+        order.setDeleteFlag(Boolean.FALSE);
         int insertNum = orderMapper.insert(order);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
@@ -103,18 +117,19 @@ public class OrderServiceImpl implements OrderService {
         if (order == null) {
             throw new Exception("订单唯一标识错误");
         }
-        if (OrderStatusEnum.valueOf(order.getOrderStatus()) != OrderStatusEnum.INIT) {
+        OrderStatusEnum orderStatusEnum = OrderStatusEnum.valueOf(order.getOrderStatus());
+        if (orderStatusEnum != OrderStatusEnum.INIT) {
             throw new Exception("订单当前状态错误");
         }
 
         Long orderId = order.getId();
         // 修改基本信息
-        Order order02 = OrderFactory.order(updateRequest);
-        order02.setId(orderId);
-        order02.setUpdateTime(new Date());
-        order02.setUpdateUserId(userInfo.getId());
+        Order orderSelective = OrderFactory.order(updateRequest);
+        orderSelective.setId(orderId);
+        orderSelective.setUpdateTime(new Date());
+        orderSelective.setUpdateUserId(userInfo.getId());
 
-        orderMapper.updateByPrimaryKeySelective(order02);
+        orderMapper.updateByPrimaryKeySelective(orderSelective);
 
         // 订单收款
         List<OrderPaymentInfo> orderPayments = updateRequest.getOrderPayments();
@@ -149,7 +164,7 @@ public class OrderServiceImpl implements OrderService {
             throw new Exception("订单附件数据操作失败");
         }
 
-        if (OrderStatusEnum.valueOf(order02.getOrderStatus()) == OrderStatusEnum.UNEXECUTED) {
+        if (OrderStatusEnum.valueOf(orderSelective.getOrderStatus()) == OrderStatusEnum.UNEXECUTED) {
             projectService.insert(orderId);
         }
     }
@@ -209,9 +224,17 @@ public class OrderServiceImpl implements OrderService {
         List<OrderListResponse> orderListResponses = new ArrayList<>();
         for (Order order : orders) {
             OrderListResponse orderListResponse = OrderFactory.orderListResponse(order);
-//            orderListResponse.setTechnicalName(order);
+            try {
+                UserInfo technicalUser = userService.findById(orderListResponse.getTechnicalId());
+                if (technicalUser != null) {
+                    orderListResponse.setTechnicalName(technicalUser.getUserName());
+                }
 //            orderListResponse.setBusinessUnitName(order.getBusinessUnitId());
 //            orderListResponse.setAuditingProcessName();
+            } catch (Exception e) {
+                e.printStackTrace();
+                LOGGER.error("设置订单列表异常 - {} - {}", orderListResponse.getId(), e);
+            }
             orderListResponses.add(orderListResponse);
         }
 
@@ -245,5 +268,19 @@ public class OrderServiceImpl implements OrderService {
         return detail;
     }
 
+
+    private String findLastContractNo() {
+        PageHelper.startPage(1, 1);
+        OrderExample example = new OrderExample();
+        example.setOrderByClause("contract_no desc");
+        OrderExample.Criteria criteria = example.createCriteria();
+        // 未删除
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        List<Order> orders = orderMapper.selectByExample(example);
+        if (orders != null && orders.size() > 0) {
+            return orders.get(0).getContractNo();
+        }
+        return null;
+    }
 
 }

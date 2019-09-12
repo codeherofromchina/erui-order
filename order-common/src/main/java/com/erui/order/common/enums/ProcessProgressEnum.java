@@ -12,9 +12,9 @@ public enum ProcessProgressEnum {
     IN_STORAGE("IN_STORAGE", "已入库", 6), QUALITY_INSPECTION("QUALITY_INSPECTION", "已出库质检", 7),
     OUTSTORAGE("DELAYED_UNSHIPPED", "已出库", 8), SHIPED("SHIPED", "已发运", 9);
 
-    public String code;
-    public String name;
-    public Integer order;
+    private String code;
+    private String name;
+    private Integer order;
 
     ProcessProgressEnum(String code, String name, Integer order) {
         this.code = code;

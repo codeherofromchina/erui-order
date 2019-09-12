@@ -70,6 +70,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
             orderGoods.setCreateUserId(userInfo.getId());
         }
         orderGoods.setCreateTime(new Date());
+        orderGoods.setDeleteFlag(Boolean.FALSE);
         return orderGoodsMapper.insert(orderGoods);
     }
 

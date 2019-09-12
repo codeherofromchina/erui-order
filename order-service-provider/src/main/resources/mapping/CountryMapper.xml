@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.CountryMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.Country" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="lang" property="lang" jdbcType="CHAR" />
+    <result column="region_bn" property="regionBn" jdbcType="VARCHAR" />
+    <result column="code" property="code" jdbcType="VARCHAR" />
+    <result column="bn" property="bn" jdbcType="VARCHAR" />
+    <result column="country_name" property="countryName" jdbcType="VARCHAR" />
+    <result column="int_tel_code" property="intTelCode" jdbcType="VARCHAR" />
+    <result column="time_zone" property="timeZone" jdbcType="BIGINT" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="deleted_flag" property="deletedFlag" jdbcType="CHAR" />
+    <result column="edi_code" property="ediCode" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, lang, region_bn, code, bn, country_name, int_tel_code, time_zone, status, deleted_flag, 
+    edi_code
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.CountryExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from country
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from country
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.CountryExample" >
+    delete from country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.Country" >
+    insert into country (id, lang, region_bn, 
+      code, bn, country_name, 
+      int_tel_code, time_zone, status, 
+      deleted_flag, edi_code)
+    values (#{id,jdbcType=BIGINT}, #{lang,jdbcType=CHAR}, #{regionBn,jdbcType=VARCHAR}, 
+      #{code,jdbcType=VARCHAR}, #{bn,jdbcType=VARCHAR}, #{countryName,jdbcType=VARCHAR}, 
+      #{intTelCode,jdbcType=VARCHAR}, #{timeZone,jdbcType=BIGINT}, #{status,jdbcType=VARCHAR}, 
+      #{deletedFlag,jdbcType=CHAR}, #{ediCode,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.Country" >
+    insert into country
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="lang != null" >
+        lang,
+      </if>
+      <if test="regionBn != null" >
+        region_bn,
+      </if>
+      <if test="code != null" >
+        code,
+      </if>
+      <if test="bn != null" >
+        bn,
+      </if>
+      <if test="countryName != null" >
+        country_name,
+      </if>
+      <if test="intTelCode != null" >
+        int_tel_code,
+      </if>
+      <if test="timeZone != null" >
+        time_zone,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="deletedFlag != null" >
+        deleted_flag,
+      </if>
+      <if test="ediCode != null" >
+        edi_code,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=CHAR},
+      </if>
+      <if test="regionBn != null" >
+        #{regionBn,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="bn != null" >
+        #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null" >
+        #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="intTelCode != null" >
+        #{intTelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="timeZone != null" >
+        #{timeZone,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedFlag != null" >
+        #{deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="ediCode != null" >
+        #{ediCode,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.CountryExample" resultType="java.lang.Integer" >
+    select count(*) from country
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update country
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.lang != null" >
+        lang = #{record.lang,jdbcType=CHAR},
+      </if>
+      <if test="record.regionBn != null" >
+        region_bn = #{record.regionBn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.code != null" >
+        code = #{record.code,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bn != null" >
+        bn = #{record.bn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryName != null" >
+        country_name = #{record.countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intTelCode != null" >
+        int_tel_code = #{record.intTelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.timeZone != null" >
+        time_zone = #{record.timeZone,jdbcType=BIGINT},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deletedFlag != null" >
+        deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.ediCode != null" >
+        edi_code = #{record.ediCode,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update country
+    set id = #{record.id,jdbcType=BIGINT},
+      lang = #{record.lang,jdbcType=CHAR},
+      region_bn = #{record.regionBn,jdbcType=VARCHAR},
+      code = #{record.code,jdbcType=VARCHAR},
+      bn = #{record.bn,jdbcType=VARCHAR},
+      country_name = #{record.countryName,jdbcType=VARCHAR},
+      int_tel_code = #{record.intTelCode,jdbcType=VARCHAR},
+      time_zone = #{record.timeZone,jdbcType=BIGINT},
+      status = #{record.status,jdbcType=VARCHAR},
+      deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      edi_code = #{record.ediCode,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.Country" >
+    update country
+    <set >
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=CHAR},
+      </if>
+      <if test="regionBn != null" >
+        region_bn = #{regionBn,jdbcType=VARCHAR},
+      </if>
+      <if test="code != null" >
+        code = #{code,jdbcType=VARCHAR},
+      </if>
+      <if test="bn != null" >
+        bn = #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="countryName != null" >
+        country_name = #{countryName,jdbcType=VARCHAR},
+      </if>
+      <if test="intTelCode != null" >
+        int_tel_code = #{intTelCode,jdbcType=VARCHAR},
+      </if>
+      <if test="timeZone != null" >
+        time_zone = #{timeZone,jdbcType=BIGINT},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedFlag != null" >
+        deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="ediCode != null" >
+        edi_code = #{ediCode,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.Country" >
+    update country
+    set lang = #{lang,jdbcType=CHAR},
+      region_bn = #{regionBn,jdbcType=VARCHAR},
+      code = #{code,jdbcType=VARCHAR},
+      bn = #{bn,jdbcType=VARCHAR},
+      country_name = #{countryName,jdbcType=VARCHAR},
+      int_tel_code = #{intTelCode,jdbcType=VARCHAR},
+      time_zone = #{timeZone,jdbcType=BIGINT},
+      status = #{status,jdbcType=VARCHAR},
+      deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      edi_code = #{ediCode,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

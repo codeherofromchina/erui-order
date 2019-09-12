@@ -13,14 +13,14 @@ spring:
     name: order-mybatis
     type: com.alibaba.druid.pool.DruidDataSource
     druid:
-      url: jdbc:mysql://127.0.1:3306/order_test
+      url: jdbc:mysql://127.0.1:3306/order_test?characterEncoding=UTF-8
       username: root
       password: root
       driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
-      max-file-size: 1000
-      max-request-size: 1000
+      max-file-size: 10240
+      max-request-size: 10240
 logging:
   path: ./logs
   level:

@@ -47,6 +47,8 @@ public class OrderSaveRequest {
     private String region;
     // 国家
     private String country;
+    // CRM客户ID
+    private Long buyerId;
     // CRM客户代码
     private String crmCode;
     // 客户类型
@@ -235,6 +237,14 @@ public class OrderSaveRequest {
 
     public void setCountry(String country) {
         this.country = country;
+    }
+
+    public Long getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(Long buyerId) {
+        this.buyerId = buyerId;
     }
 
     public String getCrmCode() {
