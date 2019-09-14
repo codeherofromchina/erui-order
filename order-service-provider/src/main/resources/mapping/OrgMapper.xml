@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.OrgMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.Org" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="membership" property="membership" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="BIGINT" />
+    <result column="org_name_en" property="orgNameEn" jdbcType="VARCHAR" />
+    <result column="org_name" property="orgName" jdbcType="VARCHAR" />
+    <result column="org_status" property="orgStatus" jdbcType="VARCHAR" />
+    <result column="deleted_flag" property="deletedFlag" jdbcType="CHAR" />
+    <result column="org_node" property="orgNode" jdbcType="VARCHAR" />
+    <result column="used_for_goods" property="usedForGoods" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, membership, parent_id, org_name_en, org_name, org_status, deleted_flag, org_node, 
+    used_for_goods
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.OrgExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from org
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from org
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.OrgExample" >
+    delete from org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.Org" >
+    insert into org (id, membership, parent_id, 
+      org_name_en, org_name, org_status, 
+      deleted_flag, org_node, used_for_goods
+      )
+    values (#{id,jdbcType=BIGINT}, #{membership,jdbcType=VARCHAR}, #{parentId,jdbcType=BIGINT}, 
+      #{orgNameEn,jdbcType=VARCHAR}, #{orgName,jdbcType=VARCHAR}, #{orgStatus,jdbcType=VARCHAR}, 
+      #{deletedFlag,jdbcType=CHAR}, #{orgNode,jdbcType=VARCHAR}, #{usedForGoods,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.Org" >
+    insert into org
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="membership != null" >
+        membership,
+      </if>
+      <if test="parentId != null" >
+        parent_id,
+      </if>
+      <if test="orgNameEn != null" >
+        org_name_en,
+      </if>
+      <if test="orgName != null" >
+        org_name,
+      </if>
+      <if test="orgStatus != null" >
+        org_status,
+      </if>
+      <if test="deletedFlag != null" >
+        deleted_flag,
+      </if>
+      <if test="orgNode != null" >
+        org_node,
+      </if>
+      <if test="usedForGoods != null" >
+        used_for_goods,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="membership != null" >
+        #{membership,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orgNameEn != null" >
+        #{orgNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgStatus != null" >
+        #{orgStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedFlag != null" >
+        #{deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="orgNode != null" >
+        #{orgNode,jdbcType=VARCHAR},
+      </if>
+      <if test="usedForGoods != null" >
+        #{usedForGoods,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.OrgExample" resultType="java.lang.Integer" >
+    select count(*) from org
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update org
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.membership != null" >
+        membership = #{record.membership,jdbcType=VARCHAR},
+      </if>
+      <if test="record.parentId != null" >
+        parent_id = #{record.parentId,jdbcType=BIGINT},
+      </if>
+      <if test="record.orgNameEn != null" >
+        org_name_en = #{record.orgNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgName != null" >
+        org_name = #{record.orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.orgStatus != null" >
+        org_status = #{record.orgStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deletedFlag != null" >
+        deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.orgNode != null" >
+        org_node = #{record.orgNode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.usedForGoods != null" >
+        used_for_goods = #{record.usedForGoods,jdbcType=CHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update org
+    set id = #{record.id,jdbcType=BIGINT},
+      membership = #{record.membership,jdbcType=VARCHAR},
+      parent_id = #{record.parentId,jdbcType=BIGINT},
+      org_name_en = #{record.orgNameEn,jdbcType=VARCHAR},
+      org_name = #{record.orgName,jdbcType=VARCHAR},
+      org_status = #{record.orgStatus,jdbcType=VARCHAR},
+      deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      org_node = #{record.orgNode,jdbcType=VARCHAR},
+      used_for_goods = #{record.usedForGoods,jdbcType=CHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.Org" >
+    update org
+    <set >
+      <if test="membership != null" >
+        membership = #{membership,jdbcType=VARCHAR},
+      </if>
+      <if test="parentId != null" >
+        parent_id = #{parentId,jdbcType=BIGINT},
+      </if>
+      <if test="orgNameEn != null" >
+        org_name_en = #{orgNameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="orgName != null" >
+        org_name = #{orgName,jdbcType=VARCHAR},
+      </if>
+      <if test="orgStatus != null" >
+        org_status = #{orgStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="deletedFlag != null" >
+        deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="orgNode != null" >
+        org_node = #{orgNode,jdbcType=VARCHAR},
+      </if>
+      <if test="usedForGoods != null" >
+        used_for_goods = #{usedForGoods,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.Org" >
+    update org
+    set membership = #{membership,jdbcType=VARCHAR},
+      parent_id = #{parentId,jdbcType=BIGINT},
+      org_name_en = #{orgNameEn,jdbcType=VARCHAR},
+      org_name = #{orgName,jdbcType=VARCHAR},
+      org_status = #{orgStatus,jdbcType=VARCHAR},
+      deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      org_node = #{orgNode,jdbcType=VARCHAR},
+      used_for_goods = #{usedForGoods,jdbcType=CHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

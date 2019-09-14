@@ -6,24 +6,27 @@
     <result column="order_id" property="orderId" jdbcType="BIGINT" />
     <result column="sku" property="sku" jdbcType="VARCHAR" />
     <result column="mete_type" property="meteType" jdbcType="VARCHAR" />
-    <result column="mete_name" property="meteName" jdbcType="VARCHAR" />
+    <result column="mete_type_name" property="meteTypeName" jdbcType="VARCHAR" />
     <result column="tpl_no" property="tplNo" jdbcType="VARCHAR" />
     <result column="tpl_name" property="tplName" jdbcType="VARCHAR" />
-    <result column="department_id" property="departmentId" jdbcType="VARCHAR" />
+    <result column="department_id" property="departmentId" jdbcType="BIGINT" />
     <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
     <result column="name_zh" property="nameZh" jdbcType="VARCHAR" />
     <result column="contract_goods_num" property="contractGoodsNum" jdbcType="SMALLINT" />
     <result column="unit" property="unit" jdbcType="VARCHAR" />
     <result column="price" property="price" jdbcType="DECIMAL" />
     <result column="erui_price" property="eruiPrice" jdbcType="DECIMAL" />
+    <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
     <result column="brand" property="brand" jdbcType="VARCHAR" />
-    <result column="attrs" property="attrs" jdbcType="VARCHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.erui.order.model.entity.OrderGoods" extends="BaseResultMap" >
+    <result column="attrs" property="attrs" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -84,10 +87,29 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, order_id, sku, mete_type, mete_name, tpl_no, tpl_name, department_id, name_en, 
-    name_zh, contract_goods_num, unit, price, erui_price, brand, attrs, create_user_id, 
+    id, order_id, sku, mete_type, mete_type_name, tpl_no, tpl_name, department_id, name_en, 
+    name_zh, contract_goods_num, unit, price, erui_price, total_price, brand, create_user_id, 
     create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
+  <sql id="Blob_Column_List" >
+    attrs
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.erui.order.model.entity.OrderGoodsExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from order_goods
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.OrderGoodsExample" >
     select
     <if test="distinct" >
@@ -102,9 +124,11 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
     from order_goods
     where id = #{id,jdbcType=BIGINT}
   </select>
@@ -120,21 +144,21 @@
   </delete>
   <insert id="insert" parameterType="com.erui.order.model.entity.OrderGoods" >
     insert into order_goods (id, order_id, sku, 
-      mete_type, mete_name, tpl_no, 
+      mete_type, mete_type_name, tpl_no, 
       tpl_name, department_id, name_en, 
       name_zh, contract_goods_num, unit, 
-      price, erui_price, brand, 
-      attrs, create_user_id, create_time, 
+      price, erui_price, total_price, 
+      brand, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      delete_time)
+      delete_time, attrs)
     values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{sku,jdbcType=VARCHAR}, 
-      #{meteType,jdbcType=VARCHAR}, #{meteName,jdbcType=VARCHAR}, #{tplNo,jdbcType=VARCHAR}, 
-      #{tplName,jdbcType=VARCHAR}, #{departmentId,jdbcType=VARCHAR}, #{nameEn,jdbcType=VARCHAR}, 
+      #{meteType,jdbcType=VARCHAR}, #{meteTypeName,jdbcType=VARCHAR}, #{tplNo,jdbcType=VARCHAR}, 
+      #{tplName,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT}, #{nameEn,jdbcType=VARCHAR}, 
       #{nameZh,jdbcType=VARCHAR}, #{contractGoodsNum,jdbcType=SMALLINT}, #{unit,jdbcType=VARCHAR}, 
-      #{price,jdbcType=DECIMAL}, #{eruiPrice,jdbcType=DECIMAL}, #{brand,jdbcType=VARCHAR}, 
-      #{attrs,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{price,jdbcType=DECIMAL}, #{eruiPrice,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, 
+      #{brand,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+      #{deleteTime,jdbcType=TIMESTAMP}, #{attrs,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.OrderGoods" >
     insert into order_goods
@@ -151,8 +175,8 @@
       <if test="meteType != null" >
         mete_type,
       </if>
-      <if test="meteName != null" >
-        mete_name,
+      <if test="meteTypeName != null" >
+        mete_type_name,
       </if>
       <if test="tplNo != null" >
         tpl_no,
@@ -181,11 +205,11 @@
       <if test="eruiPrice != null" >
         erui_price,
       </if>
+      <if test="totalPrice != null" >
+        total_price,
+      </if>
       <if test="brand != null" >
         brand,
-      </if>
-      <if test="attrs != null" >
-        attrs,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -205,6 +229,9 @@
       <if test="deleteTime != null" >
         delete_time,
       </if>
+      <if test="attrs != null" >
+        attrs,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -219,8 +246,8 @@
       <if test="meteType != null" >
         #{meteType,jdbcType=VARCHAR},
       </if>
-      <if test="meteName != null" >
-        #{meteName,jdbcType=VARCHAR},
+      <if test="meteTypeName != null" >
+        #{meteTypeName,jdbcType=VARCHAR},
       </if>
       <if test="tplNo != null" >
         #{tplNo,jdbcType=VARCHAR},
@@ -229,7 +256,7 @@
         #{tplName,jdbcType=VARCHAR},
       </if>
       <if test="departmentId != null" >
-        #{departmentId,jdbcType=VARCHAR},
+        #{departmentId,jdbcType=BIGINT},
       </if>
       <if test="nameEn != null" >
         #{nameEn,jdbcType=VARCHAR},
@@ -249,11 +276,11 @@
       <if test="eruiPrice != null" >
         #{eruiPrice,jdbcType=DECIMAL},
       </if>
+      <if test="totalPrice != null" >
+        #{totalPrice,jdbcType=DECIMAL},
+      </if>
       <if test="brand != null" >
         #{brand,jdbcType=VARCHAR},
-      </if>
-      <if test="attrs != null" >
-        #{attrs,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=BIGINT},
@@ -272,6 +299,9 @@
       </if>
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="attrs != null" >
+        #{attrs,jdbcType=LONGVARCHAR},
       </if>
     </trim>
   </insert>
@@ -296,8 +326,8 @@
       <if test="record.meteType != null" >
         mete_type = #{record.meteType,jdbcType=VARCHAR},
       </if>
-      <if test="record.meteName != null" >
-        mete_name = #{record.meteName,jdbcType=VARCHAR},
+      <if test="record.meteTypeName != null" >
+        mete_type_name = #{record.meteTypeName,jdbcType=VARCHAR},
       </if>
       <if test="record.tplNo != null" >
         tpl_no = #{record.tplNo,jdbcType=VARCHAR},
@@ -306,7 +336,7 @@
         tpl_name = #{record.tplName,jdbcType=VARCHAR},
       </if>
       <if test="record.departmentId != null" >
-        department_id = #{record.departmentId,jdbcType=VARCHAR},
+        department_id = #{record.departmentId,jdbcType=BIGINT},
       </if>
       <if test="record.nameEn != null" >
         name_en = #{record.nameEn,jdbcType=VARCHAR},
@@ -326,11 +356,11 @@
       <if test="record.eruiPrice != null" >
         erui_price = #{record.eruiPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.totalPrice != null" >
+        total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      </if>
       <if test="record.brand != null" >
         brand = #{record.brand,jdbcType=VARCHAR},
-      </if>
-      <if test="record.attrs != null" >
-        attrs = #{record.attrs,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -350,7 +380,39 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.attrs != null" >
+        attrs = #{record.attrs,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update order_goods
+    set id = #{record.id,jdbcType=BIGINT},
+      order_id = #{record.orderId,jdbcType=BIGINT},
+      sku = #{record.sku,jdbcType=VARCHAR},
+      mete_type = #{record.meteType,jdbcType=VARCHAR},
+      mete_type_name = #{record.meteTypeName,jdbcType=VARCHAR},
+      tpl_no = #{record.tplNo,jdbcType=VARCHAR},
+      tpl_name = #{record.tplName,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=BIGINT},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      name_zh = #{record.nameZh,jdbcType=VARCHAR},
+      contract_goods_num = #{record.contractGoodsNum,jdbcType=SMALLINT},
+      unit = #{record.unit,jdbcType=VARCHAR},
+      price = #{record.price,jdbcType=DECIMAL},
+      erui_price = #{record.eruiPrice,jdbcType=DECIMAL},
+      total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      brand = #{record.brand,jdbcType=VARCHAR},
+      create_user_id = #{record.createUserId,jdbcType=BIGINT},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{record.updateUserId,jdbcType=BIGINT},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{record.deleteFlag,jdbcType=BIT},
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      attrs = #{record.attrs,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -361,18 +423,18 @@
       order_id = #{record.orderId,jdbcType=BIGINT},
       sku = #{record.sku,jdbcType=VARCHAR},
       mete_type = #{record.meteType,jdbcType=VARCHAR},
-      mete_name = #{record.meteName,jdbcType=VARCHAR},
+      mete_type_name = #{record.meteTypeName,jdbcType=VARCHAR},
       tpl_no = #{record.tplNo,jdbcType=VARCHAR},
       tpl_name = #{record.tplName,jdbcType=VARCHAR},
-      department_id = #{record.departmentId,jdbcType=VARCHAR},
+      department_id = #{record.departmentId,jdbcType=BIGINT},
       name_en = #{record.nameEn,jdbcType=VARCHAR},
       name_zh = #{record.nameZh,jdbcType=VARCHAR},
       contract_goods_num = #{record.contractGoodsNum,jdbcType=SMALLINT},
       unit = #{record.unit,jdbcType=VARCHAR},
       price = #{record.price,jdbcType=DECIMAL},
       erui_price = #{record.eruiPrice,jdbcType=DECIMAL},
+      total_price = #{record.totalPrice,jdbcType=DECIMAL},
       brand = #{record.brand,jdbcType=VARCHAR},
-      attrs = #{record.attrs,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
@@ -395,8 +457,8 @@
       <if test="meteType != null" >
         mete_type = #{meteType,jdbcType=VARCHAR},
       </if>
-      <if test="meteName != null" >
-        mete_name = #{meteName,jdbcType=VARCHAR},
+      <if test="meteTypeName != null" >
+        mete_type_name = #{meteTypeName,jdbcType=VARCHAR},
       </if>
       <if test="tplNo != null" >
         tpl_no = #{tplNo,jdbcType=VARCHAR},
@@ -405,7 +467,7 @@
         tpl_name = #{tplName,jdbcType=VARCHAR},
       </if>
       <if test="departmentId != null" >
-        department_id = #{departmentId,jdbcType=VARCHAR},
+        department_id = #{departmentId,jdbcType=BIGINT},
       </if>
       <if test="nameEn != null" >
         name_en = #{nameEn,jdbcType=VARCHAR},
@@ -425,11 +487,11 @@
       <if test="eruiPrice != null" >
         erui_price = #{eruiPrice,jdbcType=DECIMAL},
       </if>
+      <if test="totalPrice != null" >
+        total_price = #{totalPrice,jdbcType=DECIMAL},
+      </if>
       <if test="brand != null" >
         brand = #{brand,jdbcType=VARCHAR},
-      </if>
-      <if test="attrs != null" >
-        attrs = #{attrs,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -449,7 +511,36 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="attrs != null" >
+        attrs = #{attrs,jdbcType=LONGVARCHAR},
+      </if>
     </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.erui.order.model.entity.OrderGoods" >
+    update order_goods
+    set order_id = #{orderId,jdbcType=BIGINT},
+      sku = #{sku,jdbcType=VARCHAR},
+      mete_type = #{meteType,jdbcType=VARCHAR},
+      mete_type_name = #{meteTypeName,jdbcType=VARCHAR},
+      tpl_no = #{tplNo,jdbcType=VARCHAR},
+      tpl_name = #{tplName,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=BIGINT},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      name_zh = #{nameZh,jdbcType=VARCHAR},
+      contract_goods_num = #{contractGoodsNum,jdbcType=SMALLINT},
+      unit = #{unit,jdbcType=VARCHAR},
+      price = #{price,jdbcType=DECIMAL},
+      erui_price = #{eruiPrice,jdbcType=DECIMAL},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
+      brand = #{brand,jdbcType=VARCHAR},
+      create_user_id = #{createUserId,jdbcType=BIGINT},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_user_id = #{updateUserId,jdbcType=BIGINT},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      delete_flag = #{deleteFlag,jdbcType=BIT},
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      attrs = #{attrs,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.OrderGoods" >
@@ -457,18 +548,18 @@
     set order_id = #{orderId,jdbcType=BIGINT},
       sku = #{sku,jdbcType=VARCHAR},
       mete_type = #{meteType,jdbcType=VARCHAR},
-      mete_name = #{meteName,jdbcType=VARCHAR},
+      mete_type_name = #{meteTypeName,jdbcType=VARCHAR},
       tpl_no = #{tplNo,jdbcType=VARCHAR},
       tpl_name = #{tplName,jdbcType=VARCHAR},
-      department_id = #{departmentId,jdbcType=VARCHAR},
+      department_id = #{departmentId,jdbcType=BIGINT},
       name_en = #{nameEn,jdbcType=VARCHAR},
       name_zh = #{nameZh,jdbcType=VARCHAR},
       contract_goods_num = #{contractGoodsNum,jdbcType=SMALLINT},
       unit = #{unit,jdbcType=VARCHAR},
       price = #{price,jdbcType=DECIMAL},
       erui_price = #{eruiPrice,jdbcType=DECIMAL},
+      total_price = #{totalPrice,jdbcType=DECIMAL},
       brand = #{brand,jdbcType=VARCHAR},
-      attrs = #{attrs,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},

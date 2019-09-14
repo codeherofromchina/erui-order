@@ -7,6 +7,8 @@ import com.erui.order.mapper.OrderGoodsMapper;
 import com.erui.order.model.entity.OrderGoods;
 import com.erui.order.model.entity.OrderGoodsExample;
 import com.erui.order.service.OrderGoodsService;
+import com.erui.order.service.OrgService;
+import com.erui.order.service.StandardUnitService;
 import com.erui.order.service.util.OrderGoodsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,6 +25,10 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     private static Logger LOGGER = LoggerFactory.getLogger(OrderGoodsServiceImpl.class);
     @Autowired
     private OrderGoodsMapper orderGoodsMapper;
+    @Autowired
+    private StandardUnitService standardUnitService;
+    @Autowired
+    private OrgService orgService;
 
 
     @Override
@@ -127,8 +133,10 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         if (orderGoodsInfos == null) {
             orderGoodsInfos = new ArrayList<>();
         } else {
-            // TODO 填充事业部名称和单位名称
-
+            for (OrderGoodsInfo orderGoodsInfo : orderGoodsInfos) {
+                orderGoodsInfo.setDepartmentName(orgService.findOrgNameById(orderGoodsInfo.getDepartmentId()));
+                orderGoodsInfo.setUnitName(standardUnitService.findNameByCode(orderGoodsInfo.getUnit()));
+            }
         }
         return orderGoodsInfos;
     }
@@ -136,14 +144,18 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     @Override
     public OrderGoodsInfo findById(Long id) {
         OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(id);
-        return OrderGoodsFactory.orderGoodsInfo(orderGoods);
+        OrderGoodsInfo orderGoodsInfo = OrderGoodsFactory.orderGoodsInfo(orderGoods);
+        orderGoodsInfo.setUnitName(standardUnitService.findNameByCode(orderGoodsInfo.getUnit()));
+        orderGoodsInfo.setDepartmentName(orgService.findOrgNameById(orderGoods.getDepartmentId()));
+
+        return orderGoodsInfo;
     }
 
     private List<OrderGoods> listByOrderId(Long orderId) {
         OrderGoodsExample example = new OrderGoodsExample();
         example.createCriteria().andOrderIdEqualTo(orderId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<OrderGoods> orderGoodsList = orderGoodsMapper.selectByExample(example);
+        List<OrderGoods> orderGoodsList = orderGoodsMapper.selectByExampleWithBLOBs(example);
         if (orderGoodsList == null) {
             orderGoodsList = new ArrayList<>();
         }

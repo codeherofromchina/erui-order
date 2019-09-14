@@ -5,14 +5,11 @@ import com.erui.order.common.enums.*;
 import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.PurchContractQueryRequest;
 import com.erui.order.common.pojo.request.PurchContractSaveRequest;
-import com.erui.order.common.pojo.response.OrderDetailResponse;
-import com.erui.order.common.pojo.response.OrderListResponse;
 import com.erui.order.common.pojo.response.PurchContractDetailResponse;
 import com.erui.order.common.pojo.response.PurchContractListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.model.entity.*;
 import com.erui.order.service.*;
-import com.erui.order.service.util.OrderFactory;
 import com.erui.order.service.util.PurchContractFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -162,7 +159,7 @@ public class PurchContractServiceImpl implements PurchContractService {
     @Override
     public Pager<PurchContractListResponse> list(PurchContractQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         PurchContractExample example = new PurchContractExample();
         example.setOrderByClause("id desc");

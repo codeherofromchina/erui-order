@@ -7,7 +7,8 @@
             <div data-options="region:'south',split:true" style="height:240px;">
                 <div id="edit_goods_dialog_template_attributes_tabs" class="easyui-tabs" fit="true">
                     <div title="模板属性">
-                        <table id="edit_goods_dialog_template_attributes_tabs_table" toolbar="#edit_goods_dialog_template_attributes_tabs_table_toolbar">
+                        <table id="edit_goods_dialog_template_attributes_tabs_table"
+                               toolbar="#edit_goods_dialog_template_attributes_tabs_table_toolbar">
                         </table>
                     </div>
                     <div title="商品参数" id="edit_goods_dialog_template_attributes_tabs_goods_params">
@@ -23,15 +24,19 @@
                 <div class="toolbar" id="edit_goods_dialog_base_info_table_toolbar">
                     <div class="search-div">
                         <form id="edit_goods_dialog_base_info_table_toolbar_form">
-                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="append_goods_detail()" data-options="iconCls:'icon-add'">新增一行</a>
-                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="delete_goods_detail()" data-options="iconCls:'icon-remove'">删除</a>
+                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="append_goods_detail()"
+                               data-options="iconCls:'icon-add'">新增一行</a>
+                            <a href="javascript:void(0);" class="easyui-linkbutton" onclick="delete_goods_detail()"
+                               data-options="iconCls:'icon-remove'">删除</a>
                             <label>批量操作-></label>
                             <label>单位：</label>
-                            <select class="easyui-combobox" id="edit_goods_dialog_base_info_table_toolbar_form_unit" editable="false"
+                            <select class="easyui-combobox" id="edit_goods_dialog_base_info_table_toolbar_form_unit"
+                                    editable="false"
                                     data-options="valueField:'code',textField:'text',url:'resources/data/unit.json',method:'get'">
                             </select>
                             <label>品牌：</label>
-                            <select class="easyui-combobox" id="edit_goods_dialog_base_info_table_toolbar_form_brand"></select>
+                            <select class="easyui-combobox"
+                                    id="edit_goods_dialog_base_info_table_toolbar_form_brand"></select>
                         </form>
                     </div>
                 </div>
@@ -41,507 +46,546 @@
 </div>
 
 
-
 <script type="text/javascript">
-var editGoodsTableData = [];
-if (add_order_form_goods_info_data) {
-    editGoodsTableData = add_order_form_goods_info_data;
-}
-$(function(){
-    $("#edit_goods_dialog_goods_attr_tpl_tree").tree({
-        url:'http://api.eruidev.com/v3/orderGoods/Attrtpl/promptTree',
-        formatter:function(node){
-            if (node.children) {
-                return node.label;
-            }
-            return node.label + "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='editGoodsDialogSelectTpl(true)'>选择</a>";
-        },
-        loader:function(param,success,error){
-            var opts = $(this).tree("options");
-            return tokenAjaxLoader(opts,param,success,error);
-        },
-        onLoadSuccess:function(){
-          $(this).tree("collapseAll");
-        },
-        loadFilter: function(data){
-            var finalData = [];
-            if (data.code == 1) {
-                finalData = data.data;
-            }
-            return finalData;
-        },
-        onClick:function(node){
-            if (!node.children){
-                var attrsRespData = syncAjaxJson({"url":"http://api.eruidev.com/v3/orderGoods/Attrtplattr/getAttrs"},{"attr_tpl_no": node.code});
-                var loadData = [];
-                if (attrsRespData.code == 1) {
-                    loadData = attrsRespData.data;
+    var editGoodsTableData = [];
+    if (add_order_form_goods_info_data) {
+        editGoodsTableData = add_order_form_goods_info_data;
+    }
+    $(function () {
+        $("#edit_goods_dialog_goods_attr_tpl_tree").tree({
+            url: 'http://api.eruidev.com/v3/goods/Attrtpl/promptTree',
+            formatter: function (node) {
+                if (node.children) {
+                    return node.label;
                 }
-                $("#edit_goods_dialog_template_attributes_tabs_table").datagrid("loadData",loadData);
-                $("#edit_goods_dialog_template_attributes_tabs").tabs("select", '模板属性');
-                editGoodsDialogSelectTpl(false, loadData);
-            }
-        }
-    });
-    // 模板属性表格框
-    $("#edit_goods_dialog_template_attributes_tabs_table").datagrid({
-        fitColumns:true,
-        border:false,
-        fit:true,
-        singleSelect:true,
-        striped:true,
-        rownumbers:true,
-        columns:[[
-            {field:'attr_no',title:'属性编码'},
-            {field:'name',title:'属性中文名'},
-            {field:'name_en',title:'属性英文名'},
-            {field:'attr_type',title:'属性类别',
-                formatter: function(code,row,index){
-                    if (code == 'text'){
-                        return '文本';
-                    } else if (code == 'number') {
-                        return '数字';
-                    } else {
-                        return code;
-                    }
-                }
+                return node.label + "&nbsp;&nbsp;<a href='javascript:void(0)' onclick='editGoodsDialogSelectTpl(true)'>选择</a>";
             },
-            {field:'is_required',title:'是否必填',
-                formatter: function(code,row,index){
-                    if (code == 'Y'){
-                        return '是';
-                    } else {
-                        return '否';
-                    }
-                }
+            loader: function (param, success, error) {
+                var opts = $(this).tree("options");
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            {field:'attr_unit_catname',width:50,title:'单位类别',
-                formatter: function(code,row,index){
-                    var u = [];
-                    $.each(row.attr_unit,function(index,ele){
-                        if (ele.code && u.indexOf(ele.code) == -1) {
-                            u.push(ele.code);
-                        }
-                    });
-                    return code + "(" + u.join(",") + ")";
-                }
-            }
-        ]]
-    });
-    // 批量操作单位下拉框
-    $("#edit_goods_dialog_base_info_table_toolbar_form_unit").combobox({
-        onSelect:function(record){
-            // 批量更新主基础信息的单位
-            // 查看基础信息中的商品表格是否有选中行
-            var selectRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
-            if(selectRows.length == 0){
-                return;
-            }
-            $.each(selectRows,function(index,row){
-                var i = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex",row);
-                var edUnitName = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:i,field:'unitName'});
-                $(edUnitName.target).combobox('setValue',record.code);
-            });
-        }
-    });
-    // 批量操作品牌下拉框
-    $("#edit_goods_dialog_base_info_table_toolbar_form_brand").combobox({
-        valueField:"name_zh",
-        textField:"name_zh",
-        editable:false,
-        url: 'http://api.eruidev.com/v3/Common/brand/Brandlist',
-        loader:function(param,success,error) {
-            var opts = $(this).combobox("options");
-            return tokenAjaxLoader(opts,param,success,error);
-        },
-        loadFilter:function(data) {
-            var finalData = [];
-            if (data.code == 1) {
-                if (data.data) {
+            onLoadSuccess: function () {
+                $(this).tree("collapseAll");
+            },
+            loadFilter: function (data) {
+                var finalData = [];
+                if (data.code == 1) {
                     finalData = data.data;
                 }
+                return finalData;
+            },
+            onClick: function (node) {
+                if (!node.children) {
+                    var attrsRespData = syncAjaxJson({"url": "http://api.eruidev.com/v3/goods/Attrtplattr/getAttrs"}, {"attr_tpl_no": node.value});
+                    var loadData = [];
+                    if (attrsRespData.code == 1) {
+                        loadData = attrsRespData.data;
+                    }
+                    $("#edit_goods_dialog_template_attributes_tabs_table").datagrid("loadData", loadData);
+                    $("#edit_goods_dialog_template_attributes_tabs").tabs("select", '模板属性');
+                    editGoodsDialogSelectTpl(false, loadData);
+                }
             }
-            return finalData;
-        },
-        onSelect:function(record){
-            // 批量更新主基础信息的品牌
-            // 查看基础信息中的商品表格是否有选中行
-            var selectRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
-            if(selectRows.length == 0){
-                return;
-            }
-            $.each(selectRows,function(index,row){
-                var i = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex",row);
-                var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:i,field:'brand'});
-                $(edBrand.target).combobox('setValue',record.name_zh);
-            });
-        }
-    });
-    // 商品信息表格
-    $("#edit_goods_dialog_base_info_table").datagrid({
-        fitColumns:true,
-        border:false,
-        fit:true,
-        striped:true,
-        rownumbers:true,
-        singleSelect:true,
-        selectOnCheck:false,
-        checkOnSelect:false,
-        frozenColumns:[[{field:'ck',width:'3%',checkbox:'true'}]],
-        columns:[[
-            {field:'meteTypeName',width:'10%',title:'物料分类'},
-            {field:'tplName',width:'10%',title:'模板名称'},
-            {field:'departmentName',width:'10%',title:'商品所属事业部'},
-            {field:'nameEn',width:'10%',title:'外文品名',
-                editor:{
-                    type:"textbox",
-                    options: {
-                        required: true
+        });
+        // 模板属性表格框
+        $("#edit_goods_dialog_template_attributes_tabs_table").datagrid({
+            fitColumns: true,
+            border: false,
+            fit: true,
+            singleSelect: true,
+            striped: true,
+            rownumbers: true,
+            columns: [[
+                {field: 'attr_no', title: '属性编码'},
+                {field: 'name', title: '属性中文名'},
+                {field: 'name_en', title: '属性英文名'},
+                {
+                    field: 'attr_type', title: '属性类别',
+                    formatter: function (code, row, index) {
+                        if (code == 'text') {
+                            return '文本';
+                        } else if (code == 'number') {
+                            return '数字';
+                        } else {
+                            return code;
+                        }
                     }
-                }
-            },
-            {field:'nameZh',width:'10%',title:'中文品名',
-                editor:{
-                    type:"textbox",
-                    options: {
-                        required: true
+                },
+                {
+                    field: 'is_required', title: '是否必填',
+                    formatter: function (code, row, index) {
+                        if (code == 'Y') {
+                            return '是';
+                        } else {
+                            return '否';
+                        }
                     }
-                }
-            },
-            {field:'contractGoodsNum',width:'10%',title:'合同数量',
-                editor:{
-                    type:"numberbox",
-                    options: {
-                        required: true,
-                        min:1,
-                        precision:0
-                    }
-                }
-            },
-            {field:'unitName',width:'10%',title:'单位',
-                editor:{
-                    type:"combobox",
-                    options: {
-                        url: 'resources/data/unit.json',
-                        valueField: "code",
-                        textField: "text",
-                        editable: false,
-                        required: true,
-                        method:'get'
-                    }
-                }
-            },
-            {field:'price',width:'10%',title:'客户销售单价',
-                editor:{
-                    type:"numberbox",
-                    options: {
-                        required: true,
-                        min:0.01,
-                        precision:2
-                    }
-                }
-            },
-            {field:'eruiPrice',width:'10%',title:'易瑞销售单价',
-                editor:{
-                    type:"numberbox",
-                    options: {
-                        required: true,
-                        min:0.01,
-                        precision:2
-                    }
-                }
-            },
-            {field:'brand',width:'10%',title:'品牌',
-                editor:{
-                    type:"combobox",
-                    options: {
-                        valueField: "name_zh",
-                        textField: "name_zh",
-                        editable: false,
-                        required: true,
-                        url: 'http://api.eruidev.com/v3/Common/brand/Brandlist',
-                        loader:function(param,success,error) {
-                            var opts = $(this).combobox("options");
-                            return tokenAjaxLoader(opts,param,success,error);
-                        },
-                        loadFilter:function(data) {
-                            var finalData = [];
-                            if (data.code == 1) {
-                                if (data.data) {
-                                    finalData = data.data;
-                                }
+                },
+                {
+                    field: 'attr_unit_catname', width: 50, title: '单位类别',
+                    formatter: function (code, row, index) {
+                        var u = [];
+                        $.each(row.attr_unit, function (index, ele) {
+                            if (ele.code && u.indexOf(ele.code) == -1) {
+                                u.push(ele.code);
                             }
-                            return finalData;
+                        });
+                        return code + "(" + u.join(",") + ")";
+                    }
+                }
+            ]]
+        });
+        // 批量操作单位下拉框
+        $("#edit_goods_dialog_base_info_table_toolbar_form_unit").combobox({
+            onSelect: function (record) {
+                // 批量更新主基础信息的单位
+                // 查看基础信息中的商品表格是否有选中行
+                var selectRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
+                if (selectRows.length == 0) {
+                    return;
+                }
+                $.each(selectRows, function (index, row) {
+                    var i = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", row);
+                    var edUnit = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {
+                        index: i,
+                        field: 'unit'
+                    });
+                    $(edUnit.target).combobox('setValue', record.code);
+                });
+            }
+        });
+        // 批量操作品牌下拉框
+        $("#edit_goods_dialog_base_info_table_toolbar_form_brand").combobox({
+            valueField: "name_zh",
+            textField: "name_zh",
+            editable: false,
+            url: 'http://api.eruidev.com/v3/Common/brand/Brandlist',
+            loader: function (param, success, error) {
+                var opts = $(this).combobox("options");
+                return tokenAjaxLoader(opts, param, success, error);
+            },
+            loadFilter: function (data) {
+                var finalData = [];
+                if (data.code == 1) {
+                    if (data.data) {
+                        finalData = data.data;
+                    }
+                }
+                return finalData;
+            },
+            onSelect: function (record) {
+                // 批量更新主基础信息的品牌
+                // 查看基础信息中的商品表格是否有选中行
+                var selectRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
+                if (selectRows.length == 0) {
+                    return;
+                }
+                $.each(selectRows, function (index, row) {
+                    var i = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", row);
+                    var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {
+                        index: i,
+                        field: 'brand'
+                    });
+                    $(edBrand.target).combobox('setValue', record.name_zh);
+                });
+            }
+        });
+        // 商品信息表格
+        $("#edit_goods_dialog_base_info_table").datagrid({
+            fitColumns: true,
+            border: false,
+            fit: true,
+            striped: true,
+            rownumbers: true,
+            singleSelect: true,
+            selectOnCheck: false,
+            checkOnSelect: false,
+            frozenColumns: [[{field: 'ck', width: '3%', checkbox: 'true'}]],
+            columns: [[
+                {field: 'meteTypeName', width: '10%', title: '物料分类'},
+                {field: 'tplName', width: '10%', title: '模板名称'},
+                {field: 'departmentName', width: '10%', title: '商品所属事业部'},
+                {
+                    field: 'nameEn', width: '10%', title: '外文品名',
+                    editor: {
+                        type: "textbox",
+                        options: {
+                            required: true
+                        }
+                    }
+                },
+                {
+                    field: 'nameZh', width: '10%', title: '中文品名',
+                    editor: {
+                        type: "textbox",
+                        options: {
+                            required: true
+                        }
+                    }
+                },
+                {
+                    field: 'contractGoodsNum', width: '10%', title: '合同数量',
+                    editor: {
+                        type: "numberbox",
+                        options: {
+                            required: true,
+                            min: 1,
+                            precision: 0
+                        }
+                    }
+                },
+                {
+                    field: 'unit', width: '10%', title: '单位',
+                    editor: {
+                        type: "combobox",
+                        options: {
+                            url: 'resources/data/unit.json',
+                            valueField: "code",
+                            textField: "text",
+                            editable: false,
+                            required: true,
+                            method: 'get'
+                        }
+                    }
+                },
+                {
+                    field: 'price', width: '10%', title: '客户销售单价',
+                    editor: {
+                        type: "numberbox",
+                        options: {
+                            required: true,
+                            min: 0.01,
+                            precision: 2
+                        }
+                    }
+                },
+                {
+                    field: 'eruiPrice', width: '10%', title: '易瑞销售单价',
+                    editor: {
+                        type: "numberbox",
+                        options: {
+                            required: true,
+                            min: 0.01,
+                            precision: 2
+                        }
+                    }
+                },
+                {
+                    field: 'brand', width: '10%', title: '品牌',
+                    editor: {
+                        type: "combobox",
+                        options: {
+                            valueField: "name_zh",
+                            textField: "name_zh",
+                            editable: false,
+                            required: true,
+                            url: 'http://api.eruidev.com/v3/Common/brand/Brandlist',
+                            loader: function (param, success, error) {
+                                var opts = $(this).combobox("options");
+                                return tokenAjaxLoader(opts, param, success, error);
+                            },
+                            loadFilter: function (data) {
+                                var finalData = [];
+                                if (data.code == 1) {
+                                    if (data.data) {
+                                        finalData = data.data;
+                                    }
+                                }
+                                return finalData;
+                            }
                         }
                     }
                 }
-            }
-        ]],
-        onSelect:function(rowIndex, rowData){
-            // 1.绘制表单
-            $("#edit_goods_dialog_template_attributes_tabs_goods_params_form").html("");
-            $("#edit_goods_dialog_template_attributes_tabs").tabs("select", '商品参数');
-            if (!rowData.tplNo) {
-                return;
-            }
-            var respAttrsData = syncAjaxJson({"url":"http://api.eruidev.com/v3/orderGoods/Attrtplattr/getAttrs","method":"POST"},{"attr_tpl_no":rowData.tplNo});
-            if (respAttrsData.code != 1) {
-                return;
-            }
-
-            var appendHtml = "";
-            var curIndex = 0;
-
-
-            $.each(respAttrsData.data,function(index,attrData){
-                if (curIndex%3==0) {
-                    appendHtml += '<div class="fitem">';
+            ]],
+            onSelect: function (rowIndex, rowData) {
+                // 1.绘制表单
+                $("#edit_goods_dialog_template_attributes_tabs_goods_params_form").html("");
+                $("#edit_goods_dialog_template_attributes_tabs").tabs("select", '商品参数');
+                if (!rowData.tplNo) {
+                    return;
                 }
-                appendHtml += '<label>'+attrData.name+'：</label>';
-                if (attrData.attr_type=='text') {
-                    appendHtml += '<input class="easyui-textbox" name="'+attrData.attr_no+'_value" data-options="onChange:editGoodsDialogFieldDataChanged"  style="width:90px;"/>';
-                } else {
-                    appendHtml += '<input class="easyui-numberbox" name="'+attrData.attr_no+'_value" data-options="onChange:editGoodsDialogFieldDataChanged" precision="2" style="width:90px;"/>';
+                var respAttrsData = syncAjaxJson({
+                    "url": "http://api.eruidev.com/v3/goods/Attrtplattr/getAttrs",
+                    "method": "POST"
+                }, {"attr_tpl_no": rowData.tplNo});
+                if (respAttrsData.code != 1) {
+                    return;
                 }
 
-                if (attrData.attr_unit) { // 单位
-                    appendHtml += '<select class="easyui-combobox" name="' + attrData.attr_no + '_unit" data-options="onSelect:editGoodsDialogFieldDataChanged" style="width:60px;" editable="false">';
-                    $.each(attrData.attr_unit, function (i, d) {
-                        appendHtml += '<option code="' + d.name + '">' + d.name + '</option>';
-                    })
-                    appendHtml += "</select>";
-                }
-                if ((curIndex+1)%3==0) {
+                var appendHtml = "";
+                var curIndex = 0;
+
+
+                $.each(respAttrsData.data, function (index, attrData) {
+                    if (curIndex % 3 == 0) {
+                        appendHtml += '<div class="fitem">';
+                    }
+                    appendHtml += '<label>' + attrData.name + '：</label>';
+                    if (attrData.attr_type == 'text') {
+                        appendHtml += '<input class="easyui-textbox" name="' + attrData.attr_no + '_value" data-options="onChange:editGoodsDialogFieldDataChanged"  style="width:90px;"/>';
+                    } else {
+                        appendHtml += '<input class="easyui-numberbox" name="' + attrData.attr_no + '_value" data-options="onChange:editGoodsDialogFieldDataChanged" precision="2" style="width:90px;"/>';
+                    }
+
+                    if (attrData.attr_unit) { // 单位
+                        appendHtml += '<select class="easyui-combobox" name="' + attrData.attr_no + '_unit" data-options="onSelect:editGoodsDialogFieldDataChanged" style="width:60px;" editable="false">';
+                        $.each(attrData.attr_unit, function (i, d) {
+                            appendHtml += '<option value="' + d.name + '">' + d.name + '</option>';
+                        })
+                        appendHtml += "</select>";
+                    }
+                    if ((curIndex + 1) % 3 == 0) {
+                        appendHtml += '</div>';
+                    }
+                    curIndex++;
+                });
+                if ((curIndex + 1) % 3 != 0) {
                     appendHtml += '</div>';
                 }
-                curIndex++;
-            });
-            if ((curIndex+1)%3!=0) {
-                appendHtml += '</div>';
-            }
-            var targetObj = $(appendHtml).appendTo("#edit_goods_dialog_template_attributes_tabs_goods_params_form");
-            $.parser.parse(targetObj);
+                var targetObj = $(appendHtml).appendTo("#edit_goods_dialog_template_attributes_tabs_goods_params_form");
+                $.parser.parse(targetObj);
 
-            // 2.填充表单数据
-            if (rowData.attrs){
-                var d = {};
-                $.each(rowData.attrs, function (index, attrData) {
-                    d[attrData.attrId + "_value"] = attrData.attrValue;
-                    if (attrData.hasUnit) {
-                        d[attrData.attrId + "_unit"] = attrData.attrUnit;
+                // 2.填充表单数据
+                if (rowData.attrs) {
+                    var d = {};
+                    $.each(rowData.attrs, function (index, attrData) {
+                        d[attrData.attrId + "_value"] = attrData.attrValue;
+                        if (attrData.hasUnit) {
+                            d[attrData.attrId + "_unit"] = attrData.attrUnit;
+                        }
+                    });
+                    $('#edit_goods_dialog_template_attributes_tabs_goods_params_form').form('load', d);
+                }
+            },
+            onLoadSuccess: function (data) {
+                // 控制表格可以编辑
+                for (var num = 0; num < data.total; ++num) {
+                    $(this).datagrid('beginEdit', num);
+                }
+            },
+            data: editGoodsTableData
+        });
+    });
+
+    //添加一行
+    function append_goods_detail() {
+        // 真实数据添加一行
+        editGoodsTableData.push({
+            "nameEn": "",
+            "nameZh": "",
+            "contractGoodsNum": "",
+            "unit": "",
+            "price": "",
+            "eruiPrice": "",
+            "brand": ""
+        });
+        refreshGoodsTable([editGoodsTableData.length - 1]);
+    }
+
+    //批量删除
+    function delete_goods_detail() {
+        var selectObj = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
+        if (selectObj.length == 0) {
+            $.messager.alert("提示", "请选择需要删除的数据。");
+            return;
+        }
+        $.messager.confirm('确认框', '您确定要删除这些数据吗？', function (r) {
+            if (r) {
+                var deleteRows = [];
+                for (var x = selectObj.length - 1; x >= 0; --x) {
+                    var data = selectObj[x];
+                    var deleteIndex = $('#edit_goods_dialog_base_info_table').datagrid('getRowIndex', data);
+                    deleteRows.push(deleteIndex);
+                }
+                refreshGoodsTable([], deleteRows);
+            }
+        });
+    }
+
+    // editGoodsDialogSelectTpl方法控制变量
+    var editGoodsDialogSelectTplWait = false;
+
+    // 模板选择事件方法 如果是选择调用flag=true ,其他调用flag=false
+    function editGoodsDialogSelectTpl(flag, attrsData) {
+        if (flag) {
+            editGoodsDialogSelectTplWait = flag;
+            return;
+        }
+        editGoodsDialogSelectTplWait = flag;
+
+        // 查看基础信息中的商品表格是否有选中行
+        var selectRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
+        if (selectRows.length == 0) {
+            $.messager.alert("提示", "请勾选要设置的商品记录。");
+            return;
+        }
+        $("#edit_goods_dialog_template_attributes_tabs").tabs("select", '模板属性');
+        // 获取点击树的节点内容
+        var node = $('#edit_goods_dialog_goods_attr_tpl_tree').tree('getSelected');
+        // 获取物料分类和商品所属事业部信息
+        var pNode = $('#edit_goods_dialog_goods_attr_tpl_tree').tree('getParent', node.target);
+        var respData = syncAjaxJson({
+            "url": "http://api.eruidev.com/v3/goods/Orgattrtpl/getOrgs",
+            "method": "POST"
+        }, {"attr_tpl_no": node.value});
+        var orgName;
+        var orgId;
+        if (respData.code == 1) {
+            orgName = respData.data[0].org_name;
+            orgId = respData.data[0].org_id;
+        }
+
+        var newAttrs = [];
+        if (attrsData) {
+            $.each(attrsData, function (index, data) {
+                var attr = {};
+                attr.attrId = data.attr_no;
+                attr.attrName = data.name;
+                attr.attrValue = "";
+                attr.attrUnit = "";
+                attr.required = data.is_required == 'Y';
+                if (data.attr_unit && data.attr_unit.length > 0) {
+                    attr.hasUnit = true;
+                } else {
+                    attr.hasUnit = false;
+                }
+                attr.isTplAttr = true;
+                newAttrs.push(attr);
+            });
+        }
+
+
+        $.each(selectRows, function (index, row) {
+            var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", row);
+            // 设置表格中编辑框中内容
+            // 设置模板内容
+            var oldTpl = editGoodsTableData[rowNum].tplNo;
+            editGoodsTableData[rowNum].meteTypeName = pNode.label;
+            editGoodsTableData[rowNum].meteType = pNode.value;
+            editGoodsTableData[rowNum].tplName = node.label;
+            editGoodsTableData[rowNum].tplNo = node.value;
+            editGoodsTableData[rowNum].departmentId = orgId;
+            editGoodsTableData[rowNum].departmentName = orgName;
+            if (editGoodsTableData[rowNum].tplNo != oldTpl) {
+                // 属性模板有变化，清除原来的属性
+                delete editGoodsTableData[rowNum].attrs;
+                editGoodsTableData[rowNum].attrs = newAttrs;
+            }
+        });
+
+        refreshGoodsTable();
+    }
+
+    // 表单有变化时触发方法，重新更新数据
+    function editGoodsDialogFieldDataChanged() {
+        var formJson = $('#edit_goods_dialog_template_attributes_tabs_goods_params_form').serializeJson();
+
+        var selectedRow = $("#edit_goods_dialog_base_info_table").datagrid("getSelected");
+        if (selectedRow) {
+            var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", selectedRow);
+            if (editGoodsTableData[rowNum].attrs) {
+                $.each(editGoodsTableData[rowNum].attrs, function (index, attr) {
+                    editGoodsTableData[rowNum].attrs[index]['attrValue'] = formJson[attr.attrId + "_value"];
+                    if (attr.hasUnit) {
+                        editGoodsTableData[rowNum].attrs[index]['attrUnit'] = formJson[attr.attrId + "_unit"];
                     }
                 });
-                $('#edit_goods_dialog_template_attributes_tabs_goods_params_form').form('load',d);
             }
-        },
-        onLoadSuccess:function(data) {
-            // 控制表格可以编辑
-            for (var num = 0; num < data.total; ++num) {
-                $(this).datagrid('beginEdit', num);
-            }
-        },
-        data:editGoodsTableData
-    });
-});
-
-//添加一行
-function append_goods_detail() {
-    // 真实数据添加一行
-    editGoodsTableData.push({"nameEn":"","nameZh":"","contractGoodsNum":"","unitName":"","price":"","eruiPrice":"","brand":""});
-    refreshGoodsTable([editGoodsTableData.length - 1]);
-}
-
-//批量删除
-function delete_goods_detail() {
-    var selectObj = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
-    if(selectObj.length==0){
-        $.messager.alert("提示","请选择需要删除的数据。");
-        return;
-    }
-    $.messager.confirm('确认框', '您确定要删除这些数据吗？', function(r) {
-        if(r){
-            var deleteRows = [];
-            for(var x = selectObj.length -1; x >= 0; --x){
-                var data = selectObj[x];
-                var deleteIndex = $('#edit_goods_dialog_base_info_table').datagrid('getRowIndex',data);
-                deleteRows.push(deleteIndex);
-            }
-            refreshGoodsTable([],deleteRows);
         }
-    });
-}
-// editGoodsDialogSelectTpl方法控制变量
-var editGoodsDialogSelectTplWait = false;
-// 模板选择事件方法 如果是选择调用flag=true ,其他调用flag=false
-function editGoodsDialogSelectTpl(flag, attrsData) {
-    if(flag){
-        editGoodsDialogSelectTplWait = flag;
-        return;
-    }
-    editGoodsDialogSelectTplWait = flag;
-
-    // 查看基础信息中的商品表格是否有选中行
-    var selectRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
-    if(selectRows.length == 0){
-        $.messager.alert("提示","请勾选要设置的商品记录。");
-        return;
-    }
-    $("#edit_goods_dialog_template_attributes_tabs").tabs("select", '模板属性');
-    // 获取点击树的节点内容
-    var node = $('#edit_goods_dialog_goods_attr_tpl_tree').tree('getSelected');
-    // 获取物料分类和商品所属事业部信息
-    var pNode = $('#edit_goods_dialog_goods_attr_tpl_tree').tree('getParent',node.target);
-    var respData = syncAjaxJson({"url":"http://api.eruidev.com/v3/orderGoods/Orgattrtpl/getOrgs","method":"POST"},{"attr_tpl_no":node.code});
-    var orgName;
-    var orgId;
-    if (respData.code == 1) {
-        orgName = respData.data[0].org_name;
-        orgId = respData.data[0].org_id;
     }
 
-    var newAttrs = [];
-    if (attrsData) {
-        $.each(attrsData,function(index,data) {
-            var attr = {};
-            attr.attrId = data.attr_no;
-            attr.attrName = data.name;
-            attr.attrValue = "";
-            attr.attrUnit = "";
-            attr.required = data.is_required == 'Y';
-            if (data.attr_unit && data.attr_unit.length > 0) {
-                attr.hasUnit = true;
-            } else {
-                attr.hasUnit = false;
-            }
-            attr.isTplAttr = true;
-            newAttrs.push(attr);
-        });
-    }
-
-
-    $.each(selectRows,function(index,row){
-        var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex",row);
-        // 设置表格中编辑框中内容
-        // 设置模板内容
-        var oldTpl = editGoodsTableData[rowNum].tplNo;
-        editGoodsTableData[rowNum].meteTypeName = pNode.label;
-        editGoodsTableData[rowNum].meteType = pNode.code;
-        editGoodsTableData[rowNum].tplName = node.label;
-        editGoodsTableData[rowNum].tplNo = node.code;
-        editGoodsTableData[rowNum].department = orgId;
-        editGoodsTableData[rowNum].departmentName = orgName;
-        if (editGoodsTableData[rowNum].tplNo != oldTpl) {
-            // 属性模板有变化，清除原来的属性
-            delete editGoodsTableData[rowNum].attrs;
-            editGoodsTableData[rowNum].attrs = newAttrs;
+    function refreshGoodsTable(checkedRows, deleteRows) {
+        var selectedRowNums = [];
+        if (!checkedRows) {
+            checkedRows = [];
         }
-    });
+        if (!deleteRows) {
+            getGoodsTableCheckedAndSelectedRows(checkedRows, selectedRowNums);
+        }
 
-    refreshGoodsTable();
-}
-// 表单有变化时触发方法，重新更新数据
-function editGoodsDialogFieldDataChanged() {
-    var formJson = $('#edit_goods_dialog_template_attributes_tabs_goods_params_form').serializeJson();
+        for (var num = 0; num < editGoodsTableData.length; ++num) {
+            if (deleteRows && $.inArray(num, deleteRows) != -1) {
+                continue;
+            }
+            // 外文品名
+            var edNameEn = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'nameEn'});
+            if (!edNameEn) {
+                continue;
+            }
+            var nameEnValue = $(edNameEn.target).textbox('getValue');
+            editGoodsTableData[num].nameEn = nameEnValue;
+            // 中文品名
+            var edNameZh = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'nameZh'});
+            var nameZhValue = $(edNameZh.target).textbox('getValue');
+            editGoodsTableData[num].nameZh = nameZhValue;
+            // 合同数量
+            var edContractGoodsNum = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {
+                index: num,
+                field: 'contractGoodsNum'
+            });
+            var contractGoodsNumValue = $(edContractGoodsNum.target).numberbox('getValue');
+            editGoodsTableData[num].contractGoodsNum = contractGoodsNumValue;
+            // 单位
+            var edUnit = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'unit'});
+            var unitValue = $(edUnit.target).combobox('getValue');
+            var unitNameValue = $(edUnit.target).combobox('getText');
+            editGoodsTableData[num].unit = unitValue;
+            editGoodsTableData[num].unitName = unitNameValue;
+            // 客户销售单价
+            var edPrice = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'price'});
+            var priceValue = $(edPrice.target).numberbox('getValue');
+            editGoodsTableData[num].price = priceValue;
+            // 易瑞销售单价
+            var edEruiPrice = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {
+                index: num,
+                field: 'eruiPrice'
+            });
+            var eruiPriceValue = $(edEruiPrice.target).numberbox('getValue');
+            editGoodsTableData[num].eruiPrice = eruiPriceValue;
+            // 品牌
+            var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'brand'});
+            var brandValue = $(edBrand.target).combobox('getValue');
+            editGoodsTableData[num].brand = brandValue;
 
-    var selectedRow = $("#edit_goods_dialog_base_info_table").datagrid("getSelected");
-    if (selectedRow) {
-        var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", selectedRow);
-        if (editGoodsTableData[rowNum].attrs) {
-            $.each(editGoodsTableData[rowNum].attrs,function(index,attr) {
-                editGoodsTableData[rowNum].attrs[index]['attrValue'] = formJson[attr.attrId + "_value"];
-                if (attr.hasUnit) {
-                    editGoodsTableData[rowNum].attrs[index]['attrUnit'] = formJson[attr.attrId + "_unit"];
-                }
+            if ($.inArray(num, selectedRowNums) != -1) {
+                // TODO 加载属性面板中的内容到数据源中
+
+
+            }
+        }
+
+        if (deleteRows) {
+            $.each(deleteRows, function (index, num) {
+                editGoodsTableData.remove(num);
+            });
+        }
+
+        $('#edit_goods_dialog_base_info_table').datagrid('loadData', editGoodsTableData);
+
+        if (!deleteRows) {
+            $.each(checkedRows, function (index, num) {
+                $('#edit_goods_dialog_base_info_table').datagrid('checkRow', num);
+            });
+            $.each(selectedRowNums, function (index, num) {
+                $('#edit_goods_dialog_base_info_table').datagrid('selectRow', num);
             });
         }
     }
-}
 
-function refreshGoodsTable(checkedRows,deleteRows) {
-    var selectedRowNums = [];
-    if (!checkedRows) {
-        checkedRows = [];
-    }
-    if (!deleteRows) {
-        getGoodsTableCheckedAndSelectedRows(checkedRows, selectedRowNums);
-    }
+    function getGoodsTableCheckedAndSelectedRows(checkedRowNums, selectedRowNums) {
+        var checkedRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
+        $.each(checkedRows, function (index, row) {
+            var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", row);
+            checkedRowNums.push(rowNum);
+        });
+        checkedRowNums.push(editGoodsTableData.length - 1);
 
-    for (var num = 0; num < editGoodsTableData.length; ++num) {
-        if (deleteRows && $.inArray(num, deleteRows) != -1) {
-            continue;
-        }
-        // 外文品名
-        var edNameEn = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'nameEn'});
-        if (!edNameEn) {
-            continue;
-        }
-        var nameEnValue = $(edNameEn.target).textbox('getValue');
-        editGoodsTableData[num].nameEn = nameEnValue;
-        // 中文品名
-        var edNameZh = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'nameZh'});
-        var nameZhValue = $(edNameZh.target).textbox('getValue');
-        editGoodsTableData[num].nameZh = nameZhValue;
-        // 合同数量
-        var edContractGoodsNum = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'contractGoodsNum'});
-        var contractGoodsNumValue = $(edContractGoodsNum.target).numberbox('getValue');
-        editGoodsTableData[num].contractGoodsNum = contractGoodsNumValue;
-        // 单位
-        var edUnitName = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'unitName'});
-        var unitNameValue = $(edUnitName.target).combobox('getValue');
-        editGoodsTableData[num].unitName = unitNameValue;
-        // 客户销售单价
-        var edPrice = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'price'});
-        var priceValue = $(edPrice.target).numberbox('getValue');
-        editGoodsTableData[num].price = priceValue;
-        // 易瑞销售单价
-        var edEruiPrice = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'eruiPrice'});
-        var eruiPriceValue = $(edEruiPrice.target).numberbox('getValue');
-        editGoodsTableData[num].eruiPrice = eruiPriceValue;
-        // 品牌
-        var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index:num,field:'brand'});
-        var brandValue = $(edBrand.target).combobox('getValue');
-        editGoodsTableData[num].brand = brandValue;
-
-        if ($.inArray(num, selectedRowNums) != -1) {
-            // TODO 加载属性面板中的内容到数据源中
-
-
-
+        var selectedRow = $("#edit_goods_dialog_base_info_table").datagrid("getSelected");
+        if (selectedRow) {
+            var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", selectedRow);
+            selectedRowNums.push(rowNum);
         }
     }
-
-    if (deleteRows) {
-        $.each(deleteRows, function(index,num){
-            editGoodsTableData.remove(num);
-        });
-    }
-
-    $('#edit_goods_dialog_base_info_table').datagrid('loadData', editGoodsTableData);
-
-    if (!deleteRows) {
-        $.each(checkedRows, function (index, num) {
-            $('#edit_goods_dialog_base_info_table').datagrid('checkRow', num);
-        });
-        $.each(selectedRowNums, function (index, num) {
-            $('#edit_goods_dialog_base_info_table').datagrid('selectRow', num);
-        });
-    }
-}
-
-function getGoodsTableCheckedAndSelectedRows(checkedRowNums,selectedRowNums) {
-    var checkedRows = $("#edit_goods_dialog_base_info_table").datagrid("getChecked");
-    $.each(checkedRows,function(index,row) {
-        var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", row);
-        checkedRowNums.push(rowNum);
-    });
-    checkedRowNums.push(editGoodsTableData.length - 1);
-
-    var selectedRow = $("#edit_goods_dialog_base_info_table").datagrid("getSelected");
-    if (selectedRow) {
-        var rowNum = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", selectedRow);
-        selectedRowNums.push(rowNum);
-    }
-}
 
 
 </script>

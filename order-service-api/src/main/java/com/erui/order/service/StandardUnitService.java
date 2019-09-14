@@ -19,9 +19,16 @@ public interface StandardUnitService {
     StandardUnitInfo findByCode(String unitCode);
 
     /**
+     * 通过单位查找名称
+     * @param unitCode
+     * @return
+     */
+    String findNameByCode(String unitCode);
+
+    /**
      * 查找所有商品单位列表
      *
      * @return
      */
-    List<StandardUnitInfo> findByCode();
+    List<StandardUnitInfo> findAll();
 }

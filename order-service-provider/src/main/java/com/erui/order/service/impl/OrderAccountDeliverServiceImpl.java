@@ -103,7 +103,7 @@ public class OrderAccountDeliverServiceImpl implements OrderAccountDeliverServic
     @Override
     public Pager<OrderAccountDeliverListResponse> list(OrderAccountDeliverQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         OrderAccountDeliverExample example = new OrderAccountDeliverExample();
         example.setOrderByClause("id desc");

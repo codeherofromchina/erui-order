@@ -25,7 +25,16 @@ public class OrderFactory {
         OrderDetailResponse detailResponse = new OrderDetailResponse();
         detailResponse.setId(order.getId());
         detailResponse.setOrderCategory(order.getOrderCategory());
+        OrderCategoryEnum orderCategoryEnum = OrderCategoryEnum.valueOf(order.getOrderCategory());
+        if (orderCategoryEnum != null) {
+            detailResponse.setOrderCategoryName(orderCategoryEnum.getName());
+        }
+
         detailResponse.setOverseasSales(order.getOverseasSales());
+        OrderOverseasSalesEnum orderOverseasSalesEnum = OrderOverseasSalesEnum.valueOf(order.getOverseasSales());
+        if (orderOverseasSalesEnum != null) {
+            detailResponse.setOverseasSalesName(orderOverseasSalesEnum.getName());
+        }
         detailResponse.setFrameworkNo(order.getFrameworkNo());
         detailResponse.setPoNo(order.getPoNo());
         detailResponse.setInquiryId(order.getInquiryId());
@@ -37,6 +46,10 @@ public class OrderFactory {
         detailResponse.setAgentId(order.getAgentId());
         detailResponse.setAcquireId(order.getAcquireId());
         detailResponse.setSigningCo(order.getSigningCo());
+        CompanyEnum companyEnum02 = CompanyEnum.fromCode(order.getSigningCo());
+        if (companyEnum02 != null) {
+            detailResponse.setSigningCoName(companyEnum02.getName());
+        }
         detailResponse.setBusinessUnitId(order.getBusinessUnitId());
         CompanyEnum companyEnum = CompanyEnum.fromCode(order.getExecCoCode());
         if (companyEnum != null) {
@@ -46,13 +59,32 @@ public class OrderFactory {
         detailResponse.setRegion(order.getRegion());
         detailResponse.setCountry(order.getCountry());
         detailResponse.setCrmCode(order.getCrmCode());
+        detailResponse.setBuyerId(order.getBuyerId());
         detailResponse.setCustomerType(order.getCustomerType());
+        OrderCustomerTypeEnum orderCustomerTypeEnum = OrderCustomerTypeEnum.valueOf(order.getCustomerType());
+        if (orderCustomerTypeEnum != null) {
+            detailResponse.setCustomerTypeName(orderCustomerTypeEnum.getName());
+        }
         detailResponse.setPerLiableRepayId(order.getPerLiableRepayId());
         detailResponse.setTechnicalId(order.getTechnicalId());
         detailResponse.setFinancing(order.getFinancing());
+        OrderFinancingEnum orderFinancingEnum = OrderFinancingEnum.valueOf(order.getFinancing());
+        if (orderFinancingEnum != null) {
+            detailResponse.setFinancingName(orderFinancingEnum.getName());
+        }
         detailResponse.setGrantType(order.getGrantType());
+        OrderGrantTypeEnum orderGrantTypeEnum = OrderGrantTypeEnum.valueOf(order.getGrantType());
+        if (orderGrantTypeEnum != null) {
+            detailResponse.setGrantTypeName(orderGrantTypeEnum.getName());
+        }
         detailResponse.setTradeTerms(order.getTradeTerms());
+
+
         detailResponse.setTransportType(order.getTransportType());
+        OrderTransportTypeEnum orderTransportTypeEnum = OrderTransportTypeEnum.fromCode(order.getTransportType());
+        if (orderTransportTypeEnum != null) {
+            detailResponse.setTransportTypeName(orderTransportTypeEnum.getName());
+        }
         detailResponse.setFromCountry(order.getFromCountry());
         detailResponse.setFromPort(order.getFromPort());
         detailResponse.setFromPlace(order.getFromPlace());
@@ -61,11 +93,20 @@ public class OrderFactory {
         detailResponse.setToPlace(order.getToPlace());
         detailResponse.setTotalPriceUsd(order.getTotalPriceUsd());
         detailResponse.setTotalPrice(order.getTotalPrice());
+        detailResponse.setEruiTotalPrice(order.getEruiTotalPrice());
         detailResponse.setCurrencyBn(order.getCurrencyBn());
         detailResponse.setExchangeRate(order.getExchangeRate());
         detailResponse.setTaxBearing(order.getTaxBearing());
+        TaxBearingEnum taxBearingEnum = TaxBearingEnum.valueOf(order.getTaxBearing());
+        if (taxBearingEnum != null) {
+            detailResponse.setTaxBearingName(taxBearingEnum.getName());
+        }
         detailResponse.setQualityFunds(order.getQualityFunds());
         detailResponse.setPaymentModeBn(order.getPaymentModeBn());
+        OrderPaymentModeBnEnum orderPaymentModeBnEnum = OrderPaymentModeBnEnum.valueOf(order.getPaymentModeBn());
+        if (orderPaymentModeBnEnum != null) {
+            detailResponse.setPaymentModeBnName(orderPaymentModeBnEnum.getName());
+        }
         detailResponse.setDeliveryRequires(order.getDeliveryRequires());
         detailResponse.setCustomerContext(order.getCustomerContext());
         detailResponse.setProcessId(order.getProcessId());
@@ -89,6 +130,7 @@ public class OrderFactory {
         orderListResponse.setDeliveryDate(order.getDeliveryDate());
         orderListResponse.setBuyerId(order.getBuyerId());
         orderListResponse.setCrmCode(order.getCrmCode());
+        orderListResponse.setBuyerId(order.getBuyerId());
         orderListResponse.setTotalPriceUsd(order.getTotalPriceUsd());
         orderListResponse.setPayStatus(order.getPayStatus());
         OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getPayStatus());
@@ -138,8 +180,8 @@ public class OrderFactory {
         order.setExecCoCode(orderSaveRequest.getExecCoCode());
         order.setRegion(orderSaveRequest.getRegion());
         order.setCountry(orderSaveRequest.getCountry());
-        order.setBuyerId(orderSaveRequest.getBuyerId());
         order.setCrmCode(orderSaveRequest.getCrmCode());
+        order.setBuyerId(orderSaveRequest.getBuyerId());
         order.setCustomerType(orderSaveRequest.getCustomerType());
         order.setPerLiableRepayId(orderSaveRequest.getPerLiableRepayId());
         order.setTechnicalId(orderSaveRequest.getTechnicalId());
@@ -156,12 +198,14 @@ public class OrderFactory {
         order.setTotalPrice(orderSaveRequest.getTotalPrice());
         order.setCurrencyBn(orderSaveRequest.getCurrencyBn());
         order.setExchangeRate(orderSaveRequest.getExchangeRate());
+        order.setTotalPriceUsd(orderSaveRequest.getTotalPriceUsd());
         order.setTaxBearing(orderSaveRequest.getTaxBearing());
         order.setQualityFunds(orderSaveRequest.getQualityFunds());
         order.setPaymentModeBn(orderSaveRequest.getPaymentModeBn());
         order.setDeliveryRequires(orderSaveRequest.getDeliveryRequires());
         order.setCustomerContext(orderSaveRequest.getCustomerContext());
         order.setOrderStatus(orderSaveRequest.getOrderStatus());
+        order.setEruiTotalPrice(orderSaveRequest.getEruiTotalPrice());
 
         return order;
     }

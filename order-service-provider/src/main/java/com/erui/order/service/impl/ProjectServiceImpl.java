@@ -65,6 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
         if (userInfo != null) {
             project.setCreateUserId(userInfo.getId());
         }
+        project.setDeleteFlag(Boolean.FALSE);
         project.setCreateTime(new Date());
 
 //        project.setExecCoName(order1.getExecCoName());
@@ -128,7 +129,7 @@ public class ProjectServiceImpl implements ProjectService {
      */
     public Pager<ProjectListResponse> list(ProjectQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         ProjectExample example = new ProjectExample();
         example.setOrderByClause("id desc");

@@ -603,6 +603,66 @@ public class OrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andOrderSourceIsNull() {
+            addCriterion("order_source is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceIsNotNull() {
+            addCriterion("order_source is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceEqualTo(Short value) {
+            addCriterion("order_source =", value, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceNotEqualTo(Short value) {
+            addCriterion("order_source <>", value, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceGreaterThan(Short value) {
+            addCriterion("order_source >", value, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceGreaterThanOrEqualTo(Short value) {
+            addCriterion("order_source >=", value, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceLessThan(Short value) {
+            addCriterion("order_source <", value, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceLessThanOrEqualTo(Short value) {
+            addCriterion("order_source <=", value, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceIn(List<Short> values) {
+            addCriterion("order_source in", values, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceNotIn(List<Short> values) {
+            addCriterion("order_source not in", values, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceBetween(Short value1, Short value2) {
+            addCriterion("order_source between", value1, value2, "orderSource");
+            return (Criteria) this;
+        }
+
+        public Criteria andOrderSourceNotBetween(Short value1, Short value2) {
+            addCriterion("order_source not between", value1, value2, "orderSource");
+            return (Criteria) this;
+        }
+
         public Criteria andProjectNoIsNull() {
             addCriterion("project_no is null");
             return (Criteria) this;
@@ -670,66 +730,6 @@ public class OrderExample {
 
         public Criteria andProjectNoNotBetween(String value1, String value2) {
             addCriterion("project_no not between", value1, value2, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceIsNull() {
-            addCriterion("order_source is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceIsNotNull() {
-            addCriterion("order_source is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceEqualTo(Short value) {
-            addCriterion("order_source =", value, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceNotEqualTo(Short value) {
-            addCriterion("order_source <>", value, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceGreaterThan(Short value) {
-            addCriterion("order_source >", value, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceGreaterThanOrEqualTo(Short value) {
-            addCriterion("order_source >=", value, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceLessThan(Short value) {
-            addCriterion("order_source <", value, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceLessThanOrEqualTo(Short value) {
-            addCriterion("order_source <=", value, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceIn(List<Short> values) {
-            addCriterion("order_source in", values, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceNotIn(List<Short> values) {
-            addCriterion("order_source not in", values, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceBetween(Short value1, Short value2) {
-            addCriterion("order_source between", value1, value2, "orderSource");
-            return (Criteria) this;
-        }
-
-        public Criteria andOrderSourceNotBetween(Short value1, Short value2) {
-            addCriterion("order_source not between", value1, value2, "orderSource");
             return (Criteria) this;
         }
 
@@ -4170,6 +4170,66 @@ public class OrderExample {
 
         public Criteria andDeleteTimeNotBetween(Date value1, Date value2) {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceIsNull() {
+            addCriterion("erui_total_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceIsNotNull() {
+            addCriterion("erui_total_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price =", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceNotEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price <>", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceGreaterThan(BigDecimal value) {
+            addCriterion("erui_total_price >", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price >=", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceLessThan(BigDecimal value) {
+            addCriterion("erui_total_price <", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price <=", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceIn(List<BigDecimal> values) {
+            addCriterion("erui_total_price in", values, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceNotIn(List<BigDecimal> values) {
+            addCriterion("erui_total_price not in", values, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("erui_total_price between", value1, value2, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("erui_total_price not between", value1, value2, "eruiTotalPrice");
             return (Criteria) this;
         }
     }

@@ -107,7 +107,7 @@ public class InspectApplyServiceImpl implements InspectApplyService {
     @Override
     public Pager<InspectApplyListResponse> list(InspectApplyQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         InspectApplyExample example = new InspectApplyExample();
         example.setOrderByClause("id desc");

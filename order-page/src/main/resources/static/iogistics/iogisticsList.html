@@ -133,7 +133,7 @@
                     var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setValue",selectedTableRow.id);
-                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setText",selectedTableRow.name);
+                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setText",selectedTableRow.userName);
                     } else {
                         $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("clear");
                     }

@@ -28,7 +28,7 @@
     var sysMap = {"order":"订单","invoice":"订单"};
     $("#todoItems").datagrid({
         pagination:true,
-        pageSize:10,
+        rows:10,
         fitColumn:true,
         rownumbers:true,
         border:false,
@@ -77,7 +77,7 @@
             delete param.page; //删掉
             delete param.rows; //删掉
             param.pageNo = page; //这里就是重新命名
-            param.pageSize = rows; //这里就是重新命名了
+            param.rows = rows; //这里就是重新命名了
         },
         loader:function(param,success,error) {
             var opts = $(this).datagrid("options");

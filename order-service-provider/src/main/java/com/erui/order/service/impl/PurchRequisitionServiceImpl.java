@@ -119,7 +119,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
     @Override
     public Pager<PurchRequisitionListResponse> list(PurchRequisitionQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         PurchRequisitionExample example = new PurchRequisitionExample();
         example.setOrderByClause("id desc");

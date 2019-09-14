@@ -69,7 +69,7 @@
                 delete param.page; //删掉
                 delete param.rows; //删掉
                 param.orderStatus = "APPROVED";
-                param.pageSize = rows;
+                param.rows = rows;
                 param.currentPage = page;
                 var data = $('#common_supplier_dialog_table_toolbar_form').serializeJson();
                 if (data) {

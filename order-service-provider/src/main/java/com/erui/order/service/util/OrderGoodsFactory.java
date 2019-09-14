@@ -1,9 +1,7 @@
 package com.erui.order.service.util;
 
 import com.erui.order.common.pojo.OrderGoodsInfo;
-import com.erui.order.common.pojo.OrderPaymentInfo;
 import com.erui.order.model.entity.OrderGoods;
-import com.erui.order.model.entity.OrderPayment;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,7 +30,7 @@ public class OrderGoodsFactory {
         orderGoodsInfo.setId(orderGoods.getId());
         orderGoodsInfo.setSku(orderGoods.getSku());
         orderGoodsInfo.setMeteType(orderGoods.getMeteType());
-        orderGoodsInfo.setMeteName(orderGoods.getMeteName());
+        orderGoodsInfo.setMeteTypeName(orderGoods.getMeteTypeName());
         orderGoodsInfo.setTplNo(orderGoods.getTplNo());
         orderGoodsInfo.setTplName(orderGoods.getTplName());
         orderGoodsInfo.setDepartmentId(orderGoods.getDepartmentId());
@@ -42,6 +40,7 @@ public class OrderGoodsFactory {
         orderGoodsInfo.setUnit(orderGoods.getUnit());
         orderGoodsInfo.setPrice(orderGoods.getPrice());
         orderGoodsInfo.setEruiPrice(orderGoods.getEruiPrice());
+        orderGoodsInfo.setTotalPrice(orderGoods.getTotalPrice());
         orderGoodsInfo.setBrand(orderGoods.getBrand());
         orderGoodsInfo.setAttrs(orderGoods.getAttrs());
 
@@ -54,7 +53,7 @@ public class OrderGoodsFactory {
         orderGoods.setOrderId(orderId);
         orderGoods.setSku(orderGoodsInfo.getSku());
         orderGoods.setMeteType(orderGoodsInfo.getMeteType());
-        orderGoods.setMeteName(orderGoodsInfo.getMeteName());
+        orderGoods.setMeteTypeName(orderGoodsInfo.getMeteTypeName());
         orderGoods.setTplNo(orderGoodsInfo.getTplNo());
         orderGoods.setTplName(orderGoodsInfo.getTplName());
         orderGoods.setDepartmentId(orderGoodsInfo.getDepartmentId());
@@ -64,6 +63,7 @@ public class OrderGoodsFactory {
         orderGoods.setUnit(orderGoodsInfo.getUnit());
         orderGoods.setPrice(orderGoodsInfo.getPrice());
         orderGoods.setEruiPrice(orderGoodsInfo.getEruiPrice());
+        orderGoods.setTotalPrice(orderGoodsInfo.getTotalPrice());
         orderGoods.setBrand(orderGoodsInfo.getBrand());
         orderGoods.setAttrs(orderGoodsInfo.getAttrs());
 

@@ -107,7 +107,7 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
     @Override
     public Pager<DeliverNoticeListResponse> list(DeliverNoticeQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         DeliverNoticeExample example = new DeliverNoticeExample();
         example.setOrderByClause("id desc");

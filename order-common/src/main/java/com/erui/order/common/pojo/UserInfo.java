@@ -1,14 +1,16 @@
 package com.erui.order.common.pojo;
 
+import java.util.List;
+
 /**
  * @Auther 王晓丹
  * @Date 2019/9/7 上午10:58
  */
 public class UserInfo {
-
     private Long id;
     private String userNo;
     private String userName;
+    private String groupName;
 
 
     public String getUserNo() {
@@ -33,5 +35,13 @@ public class UserInfo {
 
     public void setUserName(String userName) {
         this.userName = userName;
+    }
+
+    public String getGroupName() {
+        return groupName;
+    }
+
+    public void setGroupName(String groupName) {
+        this.groupName = groupName;
     }
 }

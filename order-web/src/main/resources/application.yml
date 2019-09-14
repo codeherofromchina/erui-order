@@ -4,7 +4,8 @@ server:
     uri-encoding: UTF-8
 spring:
   jackson:
-    date-format: yyyy-MM-dd HH:mm:ss
+    date-format[0]: yyyy-MM-dd HH:mm:ss
+    date-format[1]: yyyy-MM-dd
     time-zone: GMT+8
   devtools:
     remote:
@@ -19,8 +20,8 @@ spring:
       driver-class-name: com.mysql.cj.jdbc.Driver
   servlet:
     multipart:
-      max-file-size: 102400
-      max-request-size: 102400
+      max-file-size: 10240000
+      max-request-size: 10240000
 logging:
   path: ./logs
   level:

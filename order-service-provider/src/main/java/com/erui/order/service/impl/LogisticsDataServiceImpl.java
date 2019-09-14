@@ -107,7 +107,7 @@ public class LogisticsDataServiceImpl implements LogisticsDataService {
     @Override
     public Pager<LogisticsDataListResponse> list(LogisticsDataQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         LogisticsDataExample example = new LogisticsDataExample();
         example.setOrderByClause("id desc");

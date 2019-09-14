@@ -5,15 +5,16 @@
     <title>易瑞订单</title>
     <link rel="stylesheet" type="text/css" href="resources/easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="resources/easyui/themes/icon.css">
-    <link rel="stylesheet" type="text/css" href="resources/css/common.css" />
+    <link rel="stylesheet" type="text/css" href="resources/css/common.css"/>
     <script type="text/javascript" src="resources/easyui/jquery.min.js"></script>
     <script type="text/javascript" src="resources/easyui/jquery.easyui.min.js"></script>
     <script type="text/javascript" src="resources/easyui/locale/easyui-lang-zh_CN.js"></script>
     <script type="text/javascript" src="resources/js/common.js"></script>
+    <script type="text/javascript" src="resources/js/vue.min.js"></script>
 </head>
 <body class="easyui-layout" id="layout" style="visibility:hidden;">
 <div region="north" id="header">
-    <img src="resources/img/logo.png" class="logo" />
+    <img src="resources/img/logo.png" class="logo"/>
     <div class="top-btns">
         <span>欢迎您，管理员</span>
         <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
@@ -35,7 +36,7 @@
                 <li><a href="#" data-url="purchContract/purchContractInfo.html">*查看非标准合同</a></li>
             </ul>
         </div>
-        <div title="订单管理">
+        <div title="订单管理" selected="true">
             <ul class="navmenu">
                 <li><a href="#" data-url="deliverConsign/deliverConsignList.html">订舱列表</a></li>
                 <li><a href="#" data-url="order/orderList.html">订单列表</a></li>
@@ -46,7 +47,7 @@
                 <li><a href="#" data-url="project/projectList.html">项目列表</a></li>
             </ul>
         </div>
-        <div title="采购管理" selected="true">
+        <div title="采购管理">
             <ul class="navmenu">
                 <li><a href="#" data-url="purchRequisition/purchRequisitionList.html">采购申请列表</a></li>
                 <li><a href="#" data-url="purchRequisition/savePurchRequisition.html">*新增采购申请</a></li>
@@ -89,29 +90,29 @@
         <div title="首页" closable="false" iconCls="icon-ok" href="welcome.html"></div>
     </div>
 </div>
-
+<input id="attachment_file_input" type="file" name="file" style="display: none"/>
 <script type="text/javascript">
     /**
      * 扩展combox验证，easyui原始只验证select text的值，不支持value验证
      */
     $.extend($.fn.validatebox.defaults.rules, {
         selectValueRequired: {
-            validator: function(code,param){
-                return $(param[0]).find("option:contains('"+code+"')").val() != '';
+            validator: function (code, param) {
+                return $(param[0]).find("option:contains('" + code + "')").val() != '';
             },
             message: 'select code required.'
         }
     });
-    $(function() {
+    $(function () {
         //添加新的Tab页
-        $("#navmenu").on("click", "a[data-url]", function(e) {
+        $("#navmenu").on("click", "a[data-url]", function (e) {
             e.preventDefault();
             var tabTitle = $(this).text();
             var tabUrl = $(this).data("url");
 
-            if($("#tt").tabs("exists", tabTitle)) { //判断该Tab页是否已经存在
+            if ($("#tt").tabs("exists", tabTitle)) { //判断该Tab页是否已经存在
                 $("#tt").tabs("select", tabTitle);
-            }else {
+            } else {
                 $("#tt").tabs("add", {
                     title: tabTitle,
                     href: tabUrl,
@@ -123,9 +124,14 @@
         });
 
         //解决闪屏的问题
-        window.setTimeout(function() {
+        window.setTimeout(function () {
             $("#layout").css("visibility", "visible");
         }, 800);
+
+        $("#attachment_file_input").change(function (e) {
+            var file = e.target.files[0] || e.dataTransfer.files[0];
+            uploadFile(file, addAttachmentTableRowData);
+        });
     });
 </script>
 </body>

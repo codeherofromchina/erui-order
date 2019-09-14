@@ -1,33 +1,40 @@
+<script type="text/javascript">
+    var addOrderPageParams = getQueryStringFromGlobalParams();
+</script>
 <form id="add_order_form">
-<div id="add_order_panel_baseinfo" class="easyui-panel" title="基本信息"
-     style="padding:10px;background:#fafafa;margin-bottom:10px;"
-     data-options="collapsible:true">
+    <input type="hidden" name="id"/>
+    <div id="add_order_panel_baseinfo" class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
         <div class="fitem">
             <label><span style="color:red;">*</span>订单类别：</label>
             <select class="easyui-combobox" id="add_order_form_order_category_field" editable="false"
-                    data-options="required:true" validType="selectValueRequired['#add_order_form_order_category_field']" name="orderCategory">
-                <option code="">请选择</option>
-                <option code="1">预投</option>
-                <option code="2">售后</option>
-                <option code="3">试用</option>
-                <option code="4">现货（出库）</option>
-                <option code="5">订单</option>
-                <option code="6">国内订单</option>
+                    data-options="required:true" validType="selectValueRequired['#add_order_form_order_category_field']"
+                    name="orderCategory">
+                <option value="">请选择</option>
+                <option value="1">预投</option>
+                <option value="2">售后</option>
+                <option value="3">试用</option>
+                <option value="4">现货（出库）</option>
+                <option value="5">订单</option>
+                <option value="6">国内订单</option>
             </select>
             <label><span style="color:red;">*</span>海外销类型：</label>
-            <select class="easyui-combobox" editable="false" id="add_order_form_overseas_sales_field" name="overseasSales"
-                    data-options="required:true" validType="selectValueRequired['#add_order_form_overseas_sales_field']" >
-                <option code="">请选择订单类别</option>
-                <option code="1">易瑞海外销（易瑞采购）</option>
-                <option code="2">易瑞海外销（当地采购）</option>
-                <option code="3">易瑞销</option>
+            <select class="easyui-combobox" editable="false" id="add_order_form_overseas_sales_field"
+                    name="overseasSales"
+                    data-options="required:true"
+                    validType="selectValueRequired['#add_order_form_overseas_sales_field']">
+                <option value="">请选择订单类别</option>
+                <option value="1">易瑞海外销（易瑞采购）</option>
+                <option value="2">易瑞海外销（当地采购）</option>
+                <option value="3">易瑞销</option>
             </select>
             <label>框架协议号：</label>
             <input class="easyui-textbox" data-options="validType:'length[0,32]'" name="frameworkNo"/>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>PO号：</label>
-            <input class="easyui-textbox" required="true" name="poNo" />
+            <input class="easyui-textbox" required="true" name="poNo"/>
             <label>询单号：</label>
             <input class="easyui-textbox" name="inquiryNo"/>
             <label>海外销售合同号：</label>
@@ -36,239 +43,281 @@
         <div class="fitem">
             <label>授信情况：</label>
             <select class="easyui-combobox" name="grantType">
-                <option code="">请选择</option>
-                <option code="1">中信保</option>
-                <option code="2">集团授信</option>
-                <option code="3">无</option>
+                <option value="">请选择</option>
+                <option value="1">中信保</option>
+                <option value="2">集团授信</option>
+                <option value="3">无</option>
             </select>
             <label><span style="color:red;">*</span>合同交货日期：</label>
             <input class="easyui-textbox" required="true" name="deliveryDate"/>
             <label><span style="color:red;">*</span>市场经办人：</label>
-            <input class="easyui-textbox" id="add_order_form_agent_id_field" required="true" buttonText="请选择" editable="false"
-                   data-options="onClickButton:addOrderFormAgentUserFun" name="agentId" />
+            <input class="easyui-textbox" id="add_order_form_agent_id_field" required="true" buttonText="请选择"
+                   editable="false"
+                   data-options="onClickButton:addOrderFormAgentUserFun" name="agentId"/>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>获取人：</label>
-            <input class="easyui-textbox" id="add_order_form_acquire_id_field" required="true" buttonText="请选择" editable="false"
-                   data-options="onClickButton:addOrderFormAcquireUserFun" name="acquireId" />
+            <input class="easyui-textbox" id="add_order_form_acquire_id_field" required="true" buttonText="请选择"
+                   editable="false"
+                   data-options="onClickButton:addOrderFormAcquireUserFun" name="acquireId"/>
             <label><span style="color:red;">*</span>客户签约主体公司：</label>
             <select class="easyui-combobox" editable="false" id="add_order_form_signing_co_field" name="signingCo"
-                    data-options="required:true,valueField:'code',textField:'name',url:'resources/data/company.json',method:'get'"  validType="selectValueRequired['#add_order_form_signing_co_field']">
+                    data-options="required:true,valueField:'code',textField:'name',url:'resources/data/company.json',method:'get'"
+                    validType="selectValueRequired['#add_order_form_signing_co_field']">
             </select>
             <label><span style="color:red;">*</span>执行事业部：</label>
-            <input class="easyui-textbox" name="businessUnitId" id="add_order_form_business_unit_id_field" required="true" buttonText="请选择" editable="false"
+            <input class="easyui-textbox" name="businessUnitId" id="add_order_form_business_unit_id_field"
+                   required="true" buttonText="请选择" editable="false"
                    data-options="onClickButton:addOrderFormBusinessUnitFun"/>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>执行分公司：</label>
-            <select class="easyui-combobox" editable="false" id="add_order_form_exec_co_field" name="execCoName"
-                    data-options="required:true,valueField:'code',textField:'name',url:'resources/data/company.json',method:'get'" validType="selectValueRequired['#add_order_form_exec_co_field']">
+            <select class="easyui-combobox" editable="false" id="add_order_form_exec_co_field" name="execCoCode"
+                    data-options="required:true,valueField:'code',textField:'name',url:'resources/data/company.json',method:'get'"
+                    validType="selectValueRequired['#add_order_form_exec_co_field']">
             </select>
             <label><span style="color:red;">*</span>国家：</label>
-            <input id="add_order_form_region_field" style="width: 92px;" name="region" code="">
-            <input id="add_order_form_country_field" style="width:92px;" name="country" code=""/>
+            <input id="add_order_form_region_field" style="width: 92px;" name="region" value="">
+            <input id="add_order_form_country_field" style="width:92px;" name="country" value=""/>
             <label><span style="color:red;">*</span>CRM客户代码：</label>
-            <input class="easyui-textbox" id="add_order_form_crm_code_field" required="true" buttonText="请选择" editable="false"
-                   data-options="onClickButton:addOrderFormCrmCodeFun" name="crmCode" />
+            <input class="easyui-textbox" id="add_order_form_crm_code_field" required="true" buttonText="请选择"
+                   editable="false"
+                   data-options="onClickButton:addOrderFormCrmCodeFun" name="buyerId"/>
         </div>
 
         <div class="fitem">
             <label><span style="color:red;">*</span>客户类型：</label>
-            <select class="easyui-combobox">
-                <option code="">请选择</option>
-                <option code="Y">油气</option>
-                <option code="N">非油气</option>
+            <select class="easyui-combobox" name="customerType">
+                <option value="">请选择</option>
+                <option value="1">油气</option>
+                <option value="0">非油气</option>
             </select>
             <label><span style="color:red;">*</span>回款负责人：</label>
             <input class="easyui-textbox" id="add_order_form_per_liable_repay_id_field" required="true" buttonText="请选择"
-                   editable="false" data-options="onClickButton:addOrderFormPerLiableRepayIdFun" name="perLiableRepayId"/>
+                   editable="false" data-options="onClickButton:addOrderFormPerLiableRepayIdFun"
+                   name="perLiableRepayId"/>
             <label><span style="color:red;">*</span>事业部项目负责人：</label>
-            <input class="easyui-textbox" id="add_order_form_technical_id_field"  required="true" buttonText="请选择"
-                   editable="false" data-options="onClickButton:addOrderFormTechnicalIdFun" name="perLiableRepayId"/>
+            <input class="easyui-textbox" id="add_order_form_technical_id_field" required="true" buttonText="请选择"
+                   editable="false" data-options="onClickButton:addOrderFormTechnicalIdFun" name="technicalId"/>
         </div>
         <div class="fitem">
             <label>是否融资项目：</label>
             <select class="easyui-combobox" editable="false" name="financing">
-                <option code="">请选择</option>
-                <option code="1">融资</option>
-                <option code="0">不融资</option>
+                <option value="">请选择</option>
+                <option value="1">融资</option>
+                <option value="0">不融资</option>
             </select>
             <label>运输方式：</label>
-            <select class="easyui-combobox" editable="false" name="transportType">
-                <option code="">请选择</option>
-                <option code="Ocean">海运</option>
-                <option code="Air">空运</option>
-                <option code="Multimodal">多式联运</option>
-                <option code="Road">公路</option>
-                <option code="Railway Containers">铁路</option>
-                <option code="International Express">国际快递</option>
+            <select class="easyui-combobox" editable="false" id="add_order_form_transport_type_field"
+                    name="transportType">
+                <option value="">请选择</option>
+                <option value="Ocean">海运</option>
+                <option value="Air">空运</option>
+                <option value="Multimodal">多式联运</option>
+                <option value="Road">公路</option>
+                <option value="Railway Containers">铁路</option>
+                <option value="International Express">国际快递</option>
             </select>
             <label><span style="color:red;">*</span>贸易术语：</label>
             <select class="easyui-combobox" id="add_order_form_trade_terms_field" editable="false"
-                    data-options="required:true" validType="selectValueRequired['#add_order_form_trade_terms_field']" name="tradeTerms">
-                <option code="">请选择</option>
-                <option code="CFR">CFR</option>
-                <option code="CIF">CIF</option>
-                <option code="CIP">CIP</option>
-                <option code="CPT">CPT</option>
-                <option code="DAP">DAP</option>
-                <option code="DAT">DAT</option>
-                <option code="DDP">DDP</option>
-                <option code="EXW">EXW</option>
-                <option code="FCA">FCA</option>
-                <option code="FOB">FOB</option>
+                    data-options="required:true" validType="selectValueRequired['#add_order_form_trade_terms_field']"
+                    name="tradeTerms">
+                <option value="">请选择</option>
+                <option value="CFR">CFR</option>
+                <option value="CIF">CIF</option>
+                <option value="CIP">CIP</option>
+                <option value="CPT">CPT</option>
+                <option value="DAP">DAP</option>
+                <option value="DAT">DAT</option>
+                <option value="DDP">DDP</option>
+                <option value="EXW">EXW</option>
+                <option value="FCA">FCA</option>
+                <option value="FOB">FOB</option>
             </select>
         </div>
         <div class="fitem">
             <label>起运港：</label>
             <input class="easyui-textbox" id="add_order_form_from_port_field" buttonText="请选择" editable="false"
-                   data-options="onClickButton:addOrderFormFromPortFun" name="fromPort" />
+                   data-options="onClickButton:addOrderFormFromPortFun" name="fromPort"/>
             <label>起运国：</label>
             <input class="easyui-textbox" editable="false" id="add_order_form_from_country_field" name="fromCountry"/>
             <label>发运起始地：</label>
-            <input class="easyui-textbox" code="" name="fromPlace"/>
+            <input class="easyui-textbox" value="" name="fromPlace"/>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>目的港：</label>
-            <input class="easyui-textbox" id="add_order_form_to_port_field" required="true" buttonText="请选择" editable="false"
+            <input class="easyui-textbox" id="add_order_form_to_port_field" required="true" buttonText="请选择"
+                   editable="false"
                    data-options="onClickButton:addOrderFormToPortFun" name="toPort"/>
             <label>目的国：</label>
             <input class="easyui-textbox" editable="false" id="add_order_form_to_country_field" name="toCountry"/>
             <label>目的地：</label>
-            <input class="easyui-textbox" code="" name="toPlace" />
+            <input class="easyui-textbox" value="" name="toPlace"/>
         </div>
-</div>
-
-<div id="add_order_panel_goods_info" class="easyui-panel" title="商品信息"
-     style="padding:2px;background:#fafafa;margin-bottom:10px;"
-     data-options="collapsible:true">
-    <table id="add_order_panel_goods_info_table" style="background:#fafafa;">
-        <thead>
-        <tr>
-            <th field="sku">平台SKU</th>
-            <th field="meteTypeName"><span style="color:red;">*</span>物料分类</th>
-            <th field="tplName"><span style="color:red;">*</span>模板名称</th>
-            <th field="departmentName"><span style="color:red;">*</span>商品所属事业部</th>
-            <th field="nameEn">外文品名</th>
-            <th field="nameZh"><span style="color:red;">*</span>中文品名</th>
-            <th field="contractGoodsNum"><span style="color:red;">*</span>合同数量</th>
-            <th field="unitName">单位</th>
-            <th field="price">客户销售单价</th>
-            <th field="eruiPrice">易瑞销售单价</th>
-            <th field="brand">品牌</th>
-            <th field="totalPrice">金额</th>
-        </tr>
-        </thead>
-    </table>
-</div>
-
-<div id="add_order_panel_contract_info" class="easyui-panel" title="合同信息"
-     style="padding:10px;background:#fafafa;margin-bottom:10px;"
-     data-options="collapsible:true">
-    <div class="fitem">
-        <label>客户合同金额：</label>
-        <input class="easyui-textbox" code="" name="totalPrice" editable="false" style="width:100px;"/>
-        <select class="easyui-combobox" style="width:80px;">
-            <option code="CAD">CAD</option>
-            <option code="CNY">CNY</option>
-            <option code="EUR">EUR</option>
-            <option code="USD" selected>USD</option>
-        </select>
-        <label>易瑞合同金额：</label>
-        <input class="easyui-textbox" code="" name="eruiTotalPrice" editable="false" style="width:100px;"/>
-        <select class="easyui-combobox" style="width:80px;">
-            <option code="CAD">CAD</option>
-            <option code="CNY">CNY</option>
-            <option code="EUR">EUR</option>
-            <option code="USD" selected>USD</option>
-        </select>
-        <label><span style="color:red;">*</span>是否含税：</label>
-        <select class="easyui-combobox" editable="false" name="taxBearing">
-            <option code="">请选择</option>
-            <option code="1">含税</option>
-            <option code="2">不含税</option>
-        </select>
-    </div>
-    <div class="fitem">
-        <label><span style="color:red;">*</span>汇率：</label>
-        <input class="easyui-numberbox" data-options="min:0,precision:4" code="" name="exchangeRate" style="width:120px;"/>
-        <span style="width:80px;color:blue;"> 兑美金汇率</span>
-
-        <label>客户合同USD金额：</label>
-        <input class="easyui-textbox" code="" id="add_order_form_total_price_usd_field" editable="false"/>
-        <label>质保金：</label>
-        <input class="easyui-numberbox" data-options="min:0,precision:2" code="" name="qualityFunds" style="width: 150px;"/> <span class="standard_currency" style="color:blue;"> USD</span>
-    </div>
-    <div class="fitem">
-        <label><span style="color:red;">*</span>收款方式：</label>
-        <select class="easyui-combobox" editable="false" name="paymentModeBn">
-            <option code="">请选择</option>
-            <option code="1">信用证</option>
-            <option code="2">托收</option>
-            <option code="3">电汇</option>
-            <option code="4">信汇</option>
-            <option code="5">票汇</option>
-            <option code="6">现金</option>
-        </select>
-        <label>预收货款：</label>
-        <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments0.money" style="width: 150px;"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>
-        <label>收款日期：</label>
-        <input class="easyui-datebox" code="" name="orderPayments0.receiptDate" ediable="false" style="width: 150px;"/>
-    </div>
-    <div id="add_order_order_payment_div">
     </div>
 
-
-    <div id="add_order_panel_contract_info_add_btn_div">
-        <a href="javascript:void(0);" id="add_order_panel_contract_info_add_btn" class="easyui-linkbutton">添加收款</a>
+    <div id="add_order_panel_goods_info" class="easyui-panel" title="商品信息"
+         style="padding:2px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table id="add_order_panel_goods_info_table" style="background:#fafafa;">
+            <thead>
+            <tr>
+                <th field="sku">平台SKU</th>
+                <th field="meteTypeName"><span style="color:red;">*</span>物料分类</th>
+                <th field="tplName"><span style="color:red;">*</span>模板名称</th>
+                <th field="departmentName"><span style="color:red;">*</span>商品所属事业部</th>
+                <th field="nameEn">外文品名</th>
+                <th field="nameZh"><span style="color:red;">*</span>中文品名</th>
+                <th field="contractGoodsNum"><span style="color:red;">*</span>合同数量</th>
+                <th field="unitName">单位</th>
+                <th field="price">客户销售单价</th>
+                <th field="eruiPrice">易瑞销售单价</th>
+                <th field="brand">品牌</th>
+                <th field="totalPrice">金额</th>
+            </tr>
+            </thead>
+        </table>
     </div>
-</div>
+
+    <div id="add_order_panel_contract_info" class="easyui-panel" title="合同信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>客户合同金额：</label>
+            <input class="easyui-numberbox" precision="2" value="0" id="add_order_form_total_price_field"
+                   name="totalPrice" editable="false"
+                   style="width:100px;"/>
+            <select class="easyui-combobox" style="width:80px;" name="currencyBn">
+                <option value="CAD">CAD</option>
+                <option value="CNY">CNY</option>
+                <option value="EUR">EUR</option>
+                <option value="USD" selected>USD</option>
+            </select>
+            <label>易瑞合同金额：</label>
+            <input class="easyui-numberbox" precision="2" value="0" id="add_order_form_erui_total_price_field"
+                   name="eruiTotalPrice" editable="false"
+                   style="width:100px;"/>
+            <select class="easyui-combobox" style="width:80px;">
+                <option value="CAD">CAD</option>
+                <option value="CNY">CNY</option>
+                <option value="EUR">EUR</option>
+                <option value="USD" selected>USD</option>
+            </select>
+            <label><span style="color:red;">*</span>是否含税：</label>
+            <select class="easyui-combobox" editable="false" name="taxBearing">
+                <option value="">请选择</option>
+                <option value="1">含税</option>
+                <option value="2">不含税</option>
+            </select>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>汇率：</label>
+            <input class="easyui-numberbox" data-options="min:0,precision:4" value="1"
+                   id="add_order_form_exchange_rate_field" name="exchangeRate"
+                   style="width:120px;"/>
+            <span style="width:80px;color:blue;"> 兑美金汇率</span>
+
+            <label>客户合同USD金额：</label>
+            <input class="easyui-numberbox" data-options="min:0,precision:4" value="0"
+                   id="add_order_form_total_price_usd_field" name="totalPriceUsd" editable="false"/>
+            <label>质保金：</label>
+            <input class="easyui-numberbox" data-options="min:0,precision:2" value="" name="qualityFunds"
+                   style="width: 150px;"/> <span class="standard_currency" style="color:blue;"> USD</span>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>收款方式：</label>
+            <select class="easyui-combobox" editable="false" name="paymentModeBn">
+                <option value="">请选择</option>
+                <option value="1">信用证</option>
+                <option value="2">托收</option>
+                <option value="3">电汇</option>
+                <option value="4">信汇</option>
+                <option value="5">票汇</option>
+                <option value="6">现金</option>
+            </select>
+            <input type="hidden" value="1" name="orderPayments0.paymentType"/>
+            <label>预收货款：</label>
+            <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments0.money"
+                   style="width: 150px;"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>
+            <label>收款日期：</label>
+            <input class="easyui-datebox" value="" name="orderPayments0.receiptDate" ediable="false"
+                   style="width: 150px;"/>
+        </div>
+        <div id="add_order_order_payment_div">
+        </div>
 
 
-<div id="add_order_panel_other_info" class="easyui-panel" title="其他信息"
-     style="padding:10px;background:#fafafa;margin-bottom:10px;"
-     data-options="collapsible:true">
-    <div class="fitem">
-        <label style="width:120px;">交货要求描述：</label>
-        <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" code="" name="deliveryRequires" />
+        <div id="add_order_panel_contract_info_add_btn_div">
+            <a href="javascript:void(0);" id="add_order_panel_contract_info_add_btn" class="easyui-linkbutton">添加收款</a>
+        </div>
     </div>
-    <div class="fitem">
-        <label style="width:120px;">客户及项目背景描述：</label>
-        <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" code=""  name="customerContext"/>
+
+
+    <div id="add_order_panel_other_info" class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">交货要求描述：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="deliveryRequires"/>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">客户及项目背景描述：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="customerContext"/>
+        </div>
     </div>
-</div>
 
-<div id="add_order_panel_attachment_info" class="easyui-panel" title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
-     style="background:#fafafa;margin-bottom:30px;"
-     data-options="collapsible:true">
-    <div class="easyui-layout" style="width: 100%;height:150px;">
+    <div id="add_order_panel_attachment_info" class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
 
-        <div data-options="region:'west',split:false,border:false" style="width:150px;">
-            <div style="text-align:center;">
-                <div style="margin-top:20px;margin-bottom:20px;"><span style="font-size: 14px;">市场</span></div>
-                <div style="margin-bottom:10px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传合同</a> </div>
-                <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传其它</a> </div>
+            <div data-options="region:'west',split:false,border:false" style="width:150px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:20px;margin-bottom:20px;"><span style="font-size: 14px;">市场</span></div>
+                    <div style="margin-bottom:10px;"><a href="javascript:void(0);"
+                                                        onclick="openFileDialog(1,'add_order_form_attachment_table');"
+                                                        class="easyui-linkbutton" plain="true">上传合同</a></div>
+                    <div><a href="javascript:void(0);" onclick="openFileDialog(2,'add_order_form_attachment_table');"
+                            class="easyui-linkbutton" plain="true">上传其它</a></div>
+                </div>
             </div>
-
-        </div>
-        <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
-            <table class="easyui-datagrid" fit="true" fitColumn="true">
-                <thead>
-                <tr>
-                    <th field="contractNo" width="200">附件名称</th>
-                    <th field="projectNo" width="120">创建人</th>
-                    <th field="contractNoHw" width="170">日期</th>
-                    <th field="inquiryNo" width="80">操作</th>
-                </tr>
-                </thead>
-            </table>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" data-options="idField:'url'" singleSelect="true"
+                       id="add_order_form_attachment_table"
+                       fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '合同';
+                                    case 2: return '其它';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                        <th field="_operate" width="80" data-options="formatter:formatOper">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
         </div>
     </div>
-</div>
 </form>
 <div style="margin-top:20px;text-align: center;">
-    <a href="javascript:void(0);" id="add_order_form_save_btn" size="large" class="easyui-linkbutton" style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <a href="javascript:void(0);" id="add_order_form_submit_btn" size="large" class="easyui-linkbutton" style="margin-left:10px;">&nbsp;&nbsp;提交立项&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="add_order_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="add_order_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;提交立项&nbsp;&nbsp;</a>
 </div>
 
 <!--- 弹出框 -->
@@ -296,42 +345,42 @@
     var add_order_form_active_port_country_field = null;
     var add_order_form_goods_info_data = [];
     var add_order_form_order_payment_counter = 1;
-    $(function(){
+    $(function () {
         $("#add_order_panel_goods_info_table").datagrid({
             // title:"商品信息",
-            border:false,
-            collapsible:true,
+            border: false,
+            collapsible: true,
             toolbar: [{
                 iconCls: 'icon-edit',
-                text:'编辑商品',
-                handler: function(){
+                text: '编辑商品',
+                handler: function () {
                     $("#add_order_edit_goods_dialog").dialog("open");
                     $('#add_order_edit_goods_dialog').dialog('refresh', 'order/editGoodsDialog.html');
                 }
             }],
-            data:add_order_form_goods_info_data
+            data: add_order_form_goods_info_data
         });
         // 用户弹出框
         $("#add_order_user_dialog").dialog({
-            title:'用户',
-            resizable:true,
-            modal:true,
-            closed:true,
+            title: '用户',
+            resizable: true,
+            modal: true,
+            closed: true,
             cache: false,
-            buttons:[{
-                text:'确定',
-                handler: function() {
+            buttons: [{
+                text: '确定',
+                handler: function () {
                     var userTableRow = $("#common_user_dialog_table").datagrid("getSelected");
                     if (userTableRow && add_order_form_active_user_field) {
-                        $("#" + add_order_form_active_user_field).textbox("setValue",userTableRow.id);
-                        $("#" + add_order_form_active_user_field).textbox("setText",userTableRow.name);
+                        $("#" + add_order_form_active_user_field).textbox("setValue", userTableRow.id);
+                        $("#" + add_order_form_active_user_field).textbox("setText", userTableRow.userName);
                     }
                     $("#add_order_user_dialog").dialog("close");
                     add_order_form_active_user_field = null;
                 }
-            },{
-                text:'取消',
-                handler:function(){
+            }, {
+                text: '取消',
+                handler: function () {
                     $("#add_order_user_dialog").dialog("close");
                     add_order_form_active_user_field = null;
                 }
@@ -339,25 +388,25 @@
         });
         // 事业部弹出框
         $("#add_order_business_unit_dialog").dialog({
-            title:'执行事业部',
-            resizable:true,
-            modal:true,
-            closed:true,
+            title: '执行事业部',
+            resizable: true,
+            modal: true,
+            closed: true,
             cache: false,
-            buttons:[{
-                text:'确定',
-                handler: function() {
+            buttons: [{
+                text: '确定',
+                handler: function () {
                     var userTableRow = $("#common_business_unit_dialog_table").datagrid("getSelected");
                     if (userTableRow && add_order_form_active_business_unit_field) {
-                        $("#" + add_order_form_active_business_unit_field).textbox("setValue",userTableRow.id);
-                        $("#" + add_order_form_active_business_unit_field).textbox("setText",userTableRow.name);
+                        $("#" + add_order_form_active_business_unit_field).textbox("setValue", userTableRow.id);
+                        $("#" + add_order_form_active_business_unit_field).textbox("setText", userTableRow.orgName);
                     }
                     $("#add_order_business_unit_dialog").dialog("close");
                     add_order_form_active_business_unit_field = null;
                 }
-            },{
-                text:'取消',
-                handler:function(){
+            }, {
+                text: '取消',
+                handler: function () {
                     $("#add_order_business_unit_dialog").dialog("close");
                     add_order_form_active_business_unit_field = null;
                 }
@@ -365,254 +414,469 @@
         });
         // CRM客户弹出框
         $("#add_order_crm_code_dialog").dialog({
-            title:'选择CRM客户代码',
-            resizable:true,
-            modal:true,
-            closed:true,
+            title: '选择CRM客户代码',
+            resizable: true,
+            modal: true,
+            closed: true,
             cache: false,
-            buttons:[{
-                text:'确定',
-                handler: function() {
+            buttons: [{
+                text: '确定',
+                handler: function () {
                     var crmTableRow = $("#common_crm_code_dialog_table").datagrid("getSelected");
                     if (crmTableRow) {
-                        $("#add_order_form_crm_code_field").textbox("setValue",crmTableRow.id);
-                        $("#add_order_form_crm_code_field").textbox("setText",crmTableRow.buyer_code);
+                        $("#add_order_form_crm_code_field").textbox("setValue", crmTableRow.id);
+                        $("#add_order_form_crm_code_field").textbox("setText", crmTableRow.buyerCode);
                     }
                     $("#add_order_crm_code_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                handler:function(){
+            }, {
+                text: '取消',
+                handler: function () {
                     $("#add_order_crm_code_dialog").dialog("close");
                 }
             }]
         });
         // 国家下拉框
         $("#add_order_form_region_field").combobox({
-            valueField:'bn',
-            textField:'zh_name',
-            editable:false,
-            url:'http://api.eruidev.com/v2/Marketarea/list',
-            onBeforeLoad:function(param){
+            valueField: 'areaBn',
+            textField: 'areaName',
+            editable: false,
+            url: LOCAL_URL + '/order/common/areaList',
+            onBeforeLoad: function (param) {
                 param.lang = "zh";
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).combobox("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function (data) {
+            loadFilter: function (data) {
                 var finalData = [];
-                if (data.code == 1) {
+                if (data.code == 0) {
                     finalData = data.data;
-                    finalData.unshift({"bn":"","zh_name":"请选择"});
+                    finalData.unshift({"areaBn": "", "areaName": "请选择"});
                 }
                 return finalData;
             },
-            onLoadSuccess:function () {
-                $(this).combobox("select","");
+            onLoadSuccess: function () {
+                $(this).combobox("select", "");
             },
-            onSelect:function (rec) {
-                var url = 'http://api.eruidev.com/v2/country/listall';
+            onSelect: function (rec) {
+                var url = LOCAL_URL + '/order/common/countryList';
                 var countryOpts = $("#add_order_form_country_field").combobox("options");
-                countryOpts.queryParams.market_area_bn = rec.bn;
+                countryOpts.queryParams.areaBn = rec.areaBn;
                 $('#add_order_form_country_field').combobox('reload', url);
             }
         });
         $("#add_order_form_country_field").combobox({
-            valueField:'bn',
-            textField:'name',
-            editable:false,
-            onBeforeLoad:function(param){
+            valueField: 'countryBn',
+            textField: 'countryName',
+            editable: false,
+            onBeforeLoad: function (param) {
                 param.lang = "zh";
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).combobox("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function (data) {
+            loadFilter: function (data) {
                 var finalData = [];
-                if (data.code == 1) {
+                if (data.code == 0) {
                     finalData = data.data;
                 }
-                finalData.unshift({"bn":"","name":"请选择"});
+                finalData.unshift({"countryBn": "", "countryName": "请选择"});
                 return finalData;
             },
-            onLoadSuccess:function () {
-                $(this).combobox("select","");
+            onLoadSuccess: function () {
+                $(this).combobox("select", "");
             }
         });
         // 港口弹出框
         $("#add_order_port_dialog").dialog({
-            title:'选择港口',
-            resizable:true,
-            modal:true,
-            closed:true,
+            title: '选择港口',
+            resizable: true,
+            modal: true,
+            closed: true,
             cache: false,
-            buttons:[{
-                text:'确定',
-                handler: function() {
+            buttons: [{
+                text: '确定',
+                handler: function () {
                     var portTableRow = $("#common_port_dialog_table").datagrid("getSelected");
                     if (portTableRow) {
-                        $("#" + add_order_form_active_port_field).textbox("setValue",portTableRow.bn);
-                        $("#" + add_order_form_active_port_field).textbox("setText",portTableRow.name);
-                        $("#" + add_order_form_active_port_country_field).textbox("setValue",portTableRow.country_bn);
-                        $("#" + add_order_form_active_port_country_field).textbox("setText",portTableRow.country);
+                        $("#" + add_order_form_active_port_field).textbox("setValue", portTableRow.bn);
+                        $("#" + add_order_form_active_port_field).textbox("setText", portTableRow.portName);
+                        $("#" + add_order_form_active_port_country_field).textbox("setValue", portTableRow.countryBn);
+                        $("#" + add_order_form_active_port_country_field).textbox("setText", portTableRow.countryName);
                     }
                     $("#add_order_port_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                handler:function(){
+            }, {
+                text: '取消',
+                handler: function () {
                     $("#add_order_port_dialog").dialog("close");
                 }
             }]
         });
         // 编辑商品弹出框
         $("#add_order_edit_goods_dialog").dialog({
-            title:'编辑商品信息',
-            resizable:true,
-            modal:true,
-            closed:true,
+            title: '编辑商品信息',
+            resizable: true,
+            modal: true,
+            closed: true,
             cache: false,
-            buttons:[{
-                text:'确定',
-                iconCls:'icon-ok',
-                handler: function() {
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var totalPrice = 0;
+                    var eruiTotalPrice = 0;
                     if (editGoodsTableData.length > 0) {
-                        refreshGoodsTable([],[]);
+                        refreshGoodsTable([], []);
                         for (var n = 0; n < editGoodsTableData.length; ++n) {
-                            var validateRowFlag = $("#edit_goods_dialog_base_info_table").datagrid("validateRow",n);
+                            var validateRowFlag = $("#edit_goods_dialog_base_info_table").datagrid("validateRow", n);
                             if (!validateRowFlag) {
-                                $.messager.alert('警告','请完整填写商品必填信息');
+                                $.messager.alert('警告', '请完整填写商品必填信息');
                                 return false;
                             } else if (!editGoodsTableData[n].tplNo) {
-                                $.messager.alert('警告','请选择商品模板');
+                                $.messager.alert('警告', '请选择商品模板');
                                 $("#edit_goods_dialog_base_info_table").datagrid("uncheckAll");
-                                $("#edit_goods_dialog_base_info_table").datagrid("checkRow",n);
+                                $("#edit_goods_dialog_base_info_table").datagrid("checkRow", n);
                                 return false;
                             } else {
                                 editGoodsTableData[n].totalPrice = editGoodsTableData[n].contractGoodsNum * editGoodsTableData[n].price;
+                                totalPrice += editGoodsTableData[n].totalPrice;
+                                eruiTotalPrice += (editGoodsTableData[n].contractGoodsNum * editGoodsTableData[n].eruiPrice);
                             }
                         }
                     }
                     add_order_form_goods_info_data = editGoodsTableData;
+                    // // 设置 客户合同金额 、 易瑞合同金额 、 客户合同USD金额
+                    $("#add_order_form_total_price_field").numberbox('setValue', totalPrice);
+                    $("#add_order_form_erui_total_price_field").numberbox('setValue', eruiTotalPrice);
+                    var exchangeRate = $("#add_order_form_exchange_rate_field").numberbox('getValue');
+                    $("#add_order_form_total_price_usd_field").numberbox('setValue', totalPrice * exchangeRate);
+
                     $("#add_order_edit_goods_dialog").dialog("close");
                     $("#add_order_panel_goods_info_table").datagrid("loadData", add_order_form_goods_info_data);
                 }
-            },{
-                text:'取消',
-                iconCls:'icon-cancel',
-                handler:function(){
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
                     $("#add_order_edit_goods_dialog").dialog("close");
                 }
             }]
         });
 
+        // 汇率变化，重新计算合同美元总金额
+        $("#add_order_form_exchange_rate_field").numberbox({
+            onChange: function (newValue, oldValue) {
+                var totalPrice = $("#add_order_form_total_price_field").numberbox('getValue');
+                $("#add_order_form_total_price_usd_field").numberbox('setValue', totalPrice * newValue);
+            }
+        });
 
         // 添加收款按钮触发事件
         $("#add_order_panel_contract_info_add_btn").click(function (e) {
             e.preventDefault();
             var targetObj = $('<div class="fitem">\n' +
                 '            <label>收款：</label>\n' +
-                '            <select class="easyui-combobox" style="margin-left:200px;" editable="false" name="orderPayments'+add_order_form_order_payment_counter+'.paymentType">\n' +
-                '                <option code="">请选择</option>\n' +
-                '                <option code="4">发货后</option>\n' +
-                '                <option code="5">货到后</option>\n' +
-                '                <option code="6">提单日后</option>\n' +
-                '                <option code="7">交货后</option>\n' +
-                '                <option code="8">验收后</option>\n' +
-                '                <option code="9">工厂交货后</option>\n' +
-                '                <option code="10">装船后</option>\n' +
-                '                <option code="11">到港后</option>\n' +
+                '            <select class="easyui-combobox" style="margin-left:200px;" editable="false" name="orderPayments' + add_order_form_order_payment_counter + '.paymentType">\n' +
+                '                <option value="">请选择</option>\n' +
+                '                <option value="4">发货后</option>\n' +
+                '                <option value="5">货到后</option>\n' +
+                '                <option value="6">提单日后</option>\n' +
+                '                <option value="7">交货后</option>\n' +
+                '                <option value="8">验收后</option>\n' +
+                '                <option value="9">工厂交货后</option>\n' +
+                '                <option value="10">装船后</option>\n' +
+                '                <option value="11">到港后</option>\n' +
                 '            </select>\n' +
                 '            &nbsp;\n' +
-                '            <input class="easyui-numberbox" data-options="min:0,precision:0" name="orderPayments'+add_order_form_order_payment_counter+'.receiptTime" style="width: 100px;"/> <span class="standard_currency" style="width: 30px;"> 天：</span>\n' +
-                '            <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments'+add_order_form_order_payment_counter+'.money" style="width: 150px;"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>\n' +
+                '            <input class="easyui-numberbox" data-options="min:0,precision:0" name="orderPayments' + add_order_form_order_payment_counter + '.receiptDays" style="width: 100px;"/> <span class="standard_currency" style="width: 30px;"> 天：</span>\n' +
+                '            <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments' + add_order_form_order_payment_counter + '.money" style="width: 150px;"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>\n' +
                 '            <a href="javascript:void(0);" onclick="deleteOrderPayment(this)" style="margin-left:50px;" class="easyui-linkbutton">删除</a>\n' +
                 '        </div>').appendTo("#add_order_order_payment_div");
             $.parser.parse(targetObj);
             ++add_order_form_order_payment_counter;
         });
 
-
+        // 保存订单saveOrder
         $("#add_order_form_save_btn").click(function (e) {
             e.preventDefault();
+            var formData = assemblyOrderData();
+            formData.orderStatus = 1; // 保存订单
 
-            var formJson = $("#add_order_form").serializeJson();
-            formJson.orderStatus = 1; // 设置保存状态
-            console.info(JSON.stringify(formJson));
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/order/saveOrder"}, formData);
 
-            // 关闭新建订单面板
-            closeCurrentTab();
+            console.info("保存结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存订单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
         });
 
-        // 提交立项按钮点击
-        $("#add_order_form_submit_btn").click(function(e){
+        // 提交订单
+        $("#add_order_form_submit_btn").click(function (e) {
             e.preventDefault();
-            var validateFlag = $("#add_order_form").form("validate");
-            alert(validateFlag);
+            var formData = assemblyOrderData();
+            formData.orderStatus = 2; // 提交订单
 
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/order/saveOrder"}, formData);
+
+            console.info("提交结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交订单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
         });
 
+        if (addOrderPageParams.orderId) {
+            console.info("修改订单");
+            // 加载数据，做修改用途
+            var orderInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/order/info"}, {"id": addOrderPageParams.orderId});
+            if (orderInfoResp.code == 0) {
+                // 延迟是为了防止某些组件没有初始化完成就调用导致出错
+                setTimeout(reloadOrderData, 500, orderInfoResp.data);
+            }
+        }
     });
+
+    // 组装订单数据
+    function assemblyOrderData() {
+        var formData = $("#add_order_form").serializeJson();
+        // 基本信息
+        formData.buyerCode = $("#add_order_form_crm_code_field").textbox("getText");
+
+        // 商品内容
+        formData.orderGoods = add_order_form_goods_info_data;
+        $.each(formData.orderGoods, function (index, val) {
+            if (val.attrs) {
+                formData.orderGoods[index].attrs = JSON.stringify(val.attrs);
+            } else {
+                formData.orderGoods[index].attrs = "";
+            }
+        });
+
+        // 收款信息
+        formData.order02Payments = [];
+        Object.keys(formData).forEach(function (key) {
+
+            if (key.startsWith("orderPayments") && formData[key]) {
+                var prefix = key.substr(0, 15);
+                formData.order02Payments.push({
+                    id: formData[prefix + "id"],
+                    paymentType: formData[prefix + "paymentType"],
+                    money: formData[prefix + "money"],
+                    receiptDate: formData[prefix + "receiptDate"],
+                    receiptDays: formData[prefix + "receiptDays"]
+                });
+                delete formData[prefix + "id"];
+                delete formData[prefix + "paymentType"];
+                delete formData[prefix + "money"];
+                delete formData[prefix + "receiptDate"];
+                delete formData[prefix + "receiptDays"];
+            }
+        });
+        formData.orderPayments = formData.order02Payments;
+        delete formData.order02Payments;
+
+        // 附件内容
+        var attachmentRows = $("#add_order_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+        return formData;
+    }
+
     // 市场经办人点击事件
     function addOrderFormAgentUserFun() {
         add_order_form_active_user_field = 'add_order_form_agent_id_field';
-        $("#add_order_user_dialog").dialog("setTitle","市场经办人");
+        $("#add_order_user_dialog").dialog("setTitle", "市场经办人");
         $("#add_order_user_dialog").dialog("open");
         $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
     }
+
     // 获取人点击事件
     function addOrderFormAcquireUserFun() {
         add_order_form_active_user_field = 'add_order_form_acquire_id_field';
-        $("#add_order_user_dialog").dialog("setTitle","获取人");
+        $("#add_order_user_dialog").dialog("setTitle", "获取人");
         $("#add_order_user_dialog").dialog("open");
         $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
     }
+
     // 执行事业部点击选择事件
     function addOrderFormBusinessUnitFun() {
         add_order_form_active_business_unit_field = 'add_order_form_business_unit_id_field';
-        $("#add_order_business_unit_dialog").dialog("setTitle","执行事业部");
+        $("#add_order_business_unit_dialog").dialog("setTitle", "执行事业部");
         $("#add_order_business_unit_dialog").dialog("open");
         $('#add_order_business_unit_dialog').dialog('refresh', 'common/businessUnitDialog.html');
     }
+
     // CRM客户点击选择事件
     function addOrderFormCrmCodeFun() {
         $("#add_order_crm_code_dialog").dialog("open");
         $('#add_order_crm_code_dialog').dialog('refresh', 'common/crmCodeDialog.html');
     }
+
     // 回款负责人选择事件
     function addOrderFormPerLiableRepayIdFun() {
         add_order_form_active_user_field = 'add_order_form_per_liable_repay_id_field';
-        $("#add_order_user_dialog").dialog("setTitle","回款负责人");
+        $("#add_order_user_dialog").dialog("setTitle", "回款负责人");
         $("#add_order_user_dialog").dialog("open");
         $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
     }
+
     // 事业部负责人选择事件
     function addOrderFormTechnicalIdFun() {
         add_order_form_active_user_field = 'add_order_form_technical_id_field';
-        $("#add_order_user_dialog").dialog("setTitle","事业部项目负责人");
+        $("#add_order_user_dialog").dialog("setTitle", "事业部项目负责人");
         $("#add_order_user_dialog").dialog("open");
         $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
     }
+
     // 起运港选择事件
     function addOrderFormFromPortFun() {
         add_order_form_active_port_field = 'add_order_form_from_port_field';
         add_order_form_active_port_country_field = 'add_order_form_from_country_field';
-        $("#add_order_port_dialog").dialog("setTitle","起运港");
+        var transPortType = $("#add_order_form_transport_type_field").combobox("getValue");
+        if (transPortType) {
+            GLOBAL_PARAMS = "transMode=" + transPortType;
+        }
+        $("#add_order_port_dialog").dialog("setTitle", "起运港");
         $("#add_order_port_dialog").dialog("open");
         $('#add_order_port_dialog').dialog('refresh', 'common/portDialog.html');
     }
+
     // 目的港选择事件
     function addOrderFormToPortFun() {
         add_order_form_active_port_field = 'add_order_form_to_port_field';
         add_order_form_active_port_country_field = 'add_order_form_to_country_field';
-        $("#add_order_port_dialog").dialog("setTitle","目的港");
+        var transPortType = $("#add_order_form_transport_type_field").combobox("getValue");
+        if (transPortType) {
+            GLOBAL_PARAMS = "transMode=" + transPortType;
+        }
+        $("#add_order_port_dialog").dialog("setTitle", "目的港");
         $("#add_order_port_dialog").dialog("open");
         $('#add_order_port_dialog').dialog('refresh', 'common/portDialog.html');
     }
+
+    function formatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function deleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#add_order_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#add_order_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+
     // 删除收款按钮触发事件
-    function deleteOrderPayment(target){
+    function deleteOrderPayment(target) {
         $(target).parent().remove();
+    }
+
+
+    function reloadOrderData(orderInfo) {
+        // 填充附件数据
+        $("#add_order_form_attachment_table").datagrid('loadData', orderInfo.attachments);
+        delete orderInfo.attachments;
+        // 填充商品信息
+        add_order_form_goods_info_data = orderInfo.orderGoods;
+        $.each(add_order_form_goods_info_data, function (index, val) {
+            // 处理商品属性
+            if (val.attrs) {
+                add_order_form_goods_info_data[index].attrs = JSON.parse(val.attrs);
+            } else {
+                add_order_form_goods_info_data[index].attrs = {};
+            }
+        });
+
+        $("#add_order_panel_goods_info_table").datagrid("loadData", add_order_form_goods_info_data);
+        delete orderInfo.orderGoods;
+        // 收款信息
+        var orderPaymentIndex = 0;
+        $.each(orderInfo.orderPayments, function (index, orderPayment) {
+            orderInfo["orderPayments" + orderPaymentIndex + ".id"] = orderPayment.id;
+            orderInfo["orderPayments" + orderPaymentIndex + ".paymentType"] = orderPayment.paymentType;
+            orderInfo["orderPayments" + orderPaymentIndex + ".money"] = orderPayment.money;
+            orderInfo["orderPayments" + orderPaymentIndex + ".receiptDate"] = orderPayment.receiptDate;
+            orderInfo["orderPayments" + orderPaymentIndex + ".receiptDays"] = orderPayment.receiptDays;
+            if (orderPaymentIndex > 0) {
+                // 添加表单控件
+                var targetObj = $('<div class="fitem">\n' +
+                    ' <input type="hidden" name="orderPayments' + orderPaymentIndex + '.id">\n' +
+                    '            <label>收款：</label>\n' +
+                    '            <select class="easyui-combobox" style="margin-left:200px;" editable="false" name="orderPayments' + orderPaymentIndex + '.paymentType">\n' +
+                    '                <option value="">请选择</option>\n' +
+                    '                <option value="4">发货后</option>\n' +
+                    '                <option value="5">货到后</option>\n' +
+                    '                <option value="6">提单日后</option>\n' +
+                    '                <option value="7">交货后</option>\n' +
+                    '                <option value="8">验收后</option>\n' +
+                    '                <option value="9">工厂交货后</option>\n' +
+                    '                <option value="10">装船后</option>\n' +
+                    '                <option value="11">到港后</option>\n' +
+                    '            </select>\n' +
+                    '            &nbsp;\n' +
+                    '            <input class="easyui-numberbox" data-options="min:0,precision:0" name="orderPayments' + orderPaymentIndex + '.receiptDays" style="width: 100px;"/> <span class="standard_currency" style="width: 30px;"> 天：</span>\n' +
+                    '            <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments' + orderPaymentIndex + '.money" style="width: 150px;"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>\n' +
+                    '            <a href="javascript:void(0);" onclick="deleteOrderPayment(this)" style="margin-left:50px;" class="easyui-linkbutton">删除</a>\n' +
+                    '        </div>').appendTo("#add_order_order_payment_div");
+                $.parser.parse(targetObj);
+            }
+            ++orderPaymentIndex;
+        });
+        delete orderInfo.orderPayments;
+        // 基本信息
+        $("#add_order_form").form("load", orderInfo);
+        // 市场经办人
+        $("#add_order_form_agent_id_field").textbox("setValue", orderInfo.agentId);
+        $("#add_order_form_agent_id_field").textbox("setText", orderInfo.agentUserName);
+        // 获取人 add_order_form_acquire_id_field
+        $("#add_order_form_acquire_id_field").textbox("setValue", orderInfo.acquireId);
+        $("#add_order_form_acquire_id_field").textbox("setText", orderInfo.acquireUserName);
+        // 执行事业部
+        $("#add_order_form_business_unit_id_field").textbox("setValue", orderInfo.businessUnitId);
+        $("#add_order_form_business_unit_id_field").textbox("setText", orderInfo.businessUnitName);
+        // 回款负责人
+        $("#add_order_form_per_liable_repay_id_field").textbox("setValue", orderInfo.perLiableRepayId);
+        $("#add_order_form_per_liable_repay_id_field").textbox("setText", orderInfo.perLiableRepayUserName);
+        // CRM客户代码
+        $("#add_order_form_crm_code_field").textbox("setValue", orderInfo.buyerId);
+        $("#add_order_form_crm_code_field").textbox("setText", orderInfo.crmCode);
+        // 事业部项目负责人
+        $("#add_order_form_technical_id_field").textbox("setValue", orderInfo.technicalId);
+        $("#add_order_form_technical_id_field").textbox("setText", orderInfo.technicalUserName);
+        // 起运港
+        $("#add_order_form_from_port_field").textbox("setValue", orderInfo.fromPort);
+        $("#add_order_form_from_port_field").textbox("setText", orderInfo.fromPortName);
+        // 起运国
+        $("#add_order_form_from_country_field").textbox("setValue", orderInfo.fromCountry);
+        $("#add_order_form_from_country_field").textbox("setText", orderInfo.fromCountryName);
+        // 目的港
+        $("#add_order_form_to_port_field").textbox("setValue", orderInfo.toPort);
+        $("#add_order_form_to_port_field").textbox("setText", orderInfo.toPortName);
+        // 目的国
+        $("#add_order_form_to_country_field").textbox("setValue", orderInfo.toCountry);
+        $("#add_order_form_to_country_field").textbox("setText", orderInfo.toCountryName);
     }
 </script>

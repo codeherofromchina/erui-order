@@ -18,9 +18,9 @@ public class Order {
 
     private String inquiryNo;
 
-    private String projectNo;
-
     private Short orderSource;
+
+    private String projectNo;
 
     private Date signingDate;
 
@@ -130,6 +130,8 @@ public class Order {
 
     private Date deleteTime;
 
+    private BigDecimal eruiTotalPrice;
+
     public Long getId() {
         return id;
     }
@@ -186,20 +188,20 @@ public class Order {
         this.inquiryNo = inquiryNo;
     }
 
-    public String getProjectNo() {
-        return projectNo;
-    }
-
-    public void setProjectNo(String projectNo) {
-        this.projectNo = projectNo;
-    }
-
     public Short getOrderSource() {
         return orderSource;
     }
 
     public void setOrderSource(Short orderSource) {
         this.orderSource = orderSource;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public Date getSigningDate() {
@@ -632,5 +634,13 @@ public class Order {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public BigDecimal getEruiTotalPrice() {
+        return eruiTotalPrice;
+    }
+
+    public void setEruiTotalPrice(BigDecimal eruiTotalPrice) {
+        this.eruiTotalPrice = eruiTotalPrice;
     }
 }

@@ -107,7 +107,7 @@ public class InstockServiceImpl implements InstockService {
     @Override
     public Pager<InstockListResponse> list(InstockQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         InstockExample example = new InstockExample();
         example.setOrderByClause("id desc");

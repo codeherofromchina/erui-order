@@ -14,39 +14,39 @@ public class PagingRequest {
     public final static int DEFAULT_PAGE_SIZE = 20; // 默认每页记录条数
 
     // 页码
-    private Integer pageNum;
+    private Integer page;
     // 每页记录条数
-    private Integer pageSize;
+    private Integer rows;
     private List<PagingOrderBy> orderBy;
 
-    public Integer getPageNum() {
-        if (pageNum == null || pageNum <= 0) {
+    public Integer getPage() {
+        if (page == null || page <= 0) {
             return DEFAULT_PAGE_NO;
         }
-        return pageNum;
+        return page;
     }
 
-    public void setPageNum(Integer pageNo) {
-        this.pageNum = pageNo;
+    public void setPage(Integer pageNo) {
+        this.page = pageNo;
     }
 
-    public Integer getPageSize() {
-        if (pageSize == null || pageSize <= 0) {
+    public Integer getRows() {
+        if (rows == null || rows <= 0) {
             return DEFAULT_PAGE_SIZE;
         }
-        return pageSize;
+        return rows;
     }
 
-    public void setPageSize(Integer pageSize) {
-        this.pageSize = pageSize;
+    public void setRows(Integer rows) {
+        this.rows = rows;
     }
 
     /**
      * 获取开始的记录条数
      */
     public Integer getOffset() {
-        Integer pageNo = getPageNum();
-        Integer pageSize = getPageSize();
+        Integer pageNo = getPage();
+        Integer pageSize = getRows();
         return (pageNo - 1) * pageSize;
     }
 

@@ -1,11 +1,14 @@
 package com.erui.order.common.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 
 /**
  * @Auther 王晓丹
  * @Date 2019/9/7 下午3:29
  */
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderGoodsInfo {
     private Long id;
 
@@ -13,13 +16,13 @@ public class OrderGoodsInfo {
 
     private String meteType;
 
-    private String meteName;
+    private String meteTypeName;
 
     private String tplNo;
 
     private String tplName;
 
-    private String departmentId;
+    private Long departmentId;
 
     private String departmentName;
 
@@ -36,6 +39,8 @@ public class OrderGoodsInfo {
     private BigDecimal price;
 
     private BigDecimal eruiPrice;
+
+    private BigDecimal totalPrice;
 
     private String brand;
 
@@ -65,12 +70,12 @@ public class OrderGoodsInfo {
         this.meteType = meteType;
     }
 
-    public String getMeteName() {
-        return meteName;
+    public String getMeteTypeName() {
+        return meteTypeName;
     }
 
-    public void setMeteName(String meteName) {
-        this.meteName = meteName;
+    public void setMeteTypeName(String meteTypeName) {
+        this.meteTypeName = meteTypeName;
     }
 
     public String getTplNo() {
@@ -89,11 +94,11 @@ public class OrderGoodsInfo {
         this.tplName = tplName;
     }
 
-    public String getDepartmentId() {
+    public Long getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
 
@@ -159,6 +164,14 @@ public class OrderGoodsInfo {
 
     public void setEruiPrice(BigDecimal eruiPrice) {
         this.eruiPrice = eruiPrice;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return this.totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
     }
 
     public String getBrand() {

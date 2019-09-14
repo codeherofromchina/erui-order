@@ -107,7 +107,7 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
     @Override
     public Pager<DeliverConsignListResponse> list(DeliverConsignQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         DeliverConsignExample example = new DeliverConsignExample();
         example.setOrderByClause("id desc");

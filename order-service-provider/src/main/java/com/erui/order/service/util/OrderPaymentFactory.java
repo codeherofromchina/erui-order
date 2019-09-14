@@ -1,9 +1,9 @@
 package com.erui.order.service.util;
 
+import com.erui.order.common.enums.OrderPaymentTypeEnum;
 import com.erui.order.common.pojo.OrderPaymentInfo;
 import com.erui.order.model.entity.OrderPayment;
 
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -28,6 +28,10 @@ public class OrderPaymentFactory {
         OrderPaymentInfo orderPaymentInfo = new OrderPaymentInfo();
         orderPaymentInfo.setId(orderPayment.getId());
         orderPaymentInfo.setPaymentType(orderPayment.getPaymentType());
+        OrderPaymentTypeEnum orderPaymentTypeEnum = OrderPaymentTypeEnum.valueOf(orderPayment.getPaymentType());
+        if (orderPaymentTypeEnum != null) {
+            orderPaymentInfo.setPaymentTypeName(orderPaymentTypeEnum.getName());
+        }
         orderPaymentInfo.setMoney(orderPayment.getMoney());
         orderPaymentInfo.setReceiptDate(orderPayment.getReceiptDate());
         orderPaymentInfo.setReceiptDays(orderPayment.getReceiptDays());

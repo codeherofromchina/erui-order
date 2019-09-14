@@ -12,13 +12,13 @@ public class OrderGoods {
 
     private String meteType;
 
-    private String meteName;
+    private String meteTypeName;
 
     private String tplNo;
 
     private String tplName;
 
-    private String departmentId;
+    private Long departmentId;
 
     private String nameEn;
 
@@ -32,9 +32,9 @@ public class OrderGoods {
 
     private BigDecimal eruiPrice;
 
-    private String brand;
+    private BigDecimal totalPrice;
 
-    private String attrs;
+    private String brand;
 
     private Long createUserId;
 
@@ -47,6 +47,8 @@ public class OrderGoods {
     private Boolean deleteFlag;
 
     private Date deleteTime;
+
+    private String attrs;
 
     public Long getId() {
         return id;
@@ -80,12 +82,12 @@ public class OrderGoods {
         this.meteType = meteType;
     }
 
-    public String getMeteName() {
-        return meteName;
+    public String getMeteTypeName() {
+        return meteTypeName;
     }
 
-    public void setMeteName(String meteName) {
-        this.meteName = meteName;
+    public void setMeteTypeName(String meteTypeName) {
+        this.meteTypeName = meteTypeName;
     }
 
     public String getTplNo() {
@@ -104,11 +106,11 @@ public class OrderGoods {
         this.tplName = tplName;
     }
 
-    public String getDepartmentId() {
+    public Long getDepartmentId() {
         return departmentId;
     }
 
-    public void setDepartmentId(String departmentId) {
+    public void setDepartmentId(Long departmentId) {
         this.departmentId = departmentId;
     }
 
@@ -160,20 +162,20 @@ public class OrderGoods {
         this.eruiPrice = eruiPrice;
     }
 
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
     public String getBrand() {
         return brand;
     }
 
     public void setBrand(String brand) {
         this.brand = brand;
-    }
-
-    public String getAttrs() {
-        return attrs;
-    }
-
-    public void setAttrs(String attrs) {
-        this.attrs = attrs;
     }
 
     public Long getCreateUserId() {
@@ -222,5 +224,13 @@ public class OrderGoods {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getAttrs() {
+        return attrs;
+    }
+
+    public void setAttrs(String attrs) {
+        this.attrs = attrs;
     }
 }

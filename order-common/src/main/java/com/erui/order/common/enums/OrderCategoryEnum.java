@@ -8,11 +8,11 @@ package com.erui.order.common.enums;
 public enum OrderCategoryEnum {
     ONE(1, "预投"), TWO(2, "售后"), THREE(3, "试用"), FOUR(4, "现货（出库）"), FIVE(5, "订单"), SIX(6, "国内订单");
 
-    private int value;
+    private short value;
     private String name;
 
     OrderCategoryEnum(int value, String name) {
-        this.value = value;
+        this.value = (short) value;
         this.name = name;
     }
 
@@ -20,12 +20,12 @@ public enum OrderCategoryEnum {
         return name;
     }
 
-    public int getValue() {
+    public short getValue() {
         return value;
     }
 
 
-    public static OrderCategoryEnum valueOf(Integer code) {
+    public static OrderCategoryEnum valueOf(Short code) {
         if (code != null) {
             for (OrderCategoryEnum statusEnum : OrderCategoryEnum.values()) {
                 if (statusEnum.getValue() == code) {

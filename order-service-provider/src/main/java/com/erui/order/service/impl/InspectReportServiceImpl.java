@@ -107,7 +107,7 @@ public class InspectReportServiceImpl implements InspectReportService {
     @Override
     public Pager<InspectReportListResponse> list(InspectReportQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         InspectReportExample example = new InspectReportExample();
         example.setOrderByClause("id desc");

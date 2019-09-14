@@ -117,7 +117,7 @@
       gender, mobile2, remarks, 
       status, create_time, delete_flag
       )
-    values (#{id,jdbcType=BIGINT}, #{userNo,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{userNo,jdbcType=CHAR}, #{userName,jdbcType=VARCHAR},
       #{nickName,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{mobile,jdbcType=VARCHAR}, 
       #{passwordHash,jdbcType=VARCHAR}, #{citizenship,jdbcType=CHAR}, #{avatar,jdbcType=VARCHAR}, 
       #{gender,jdbcType=CHAR}, #{mobile2,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 

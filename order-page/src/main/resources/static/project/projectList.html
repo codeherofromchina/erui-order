@@ -1,19 +1,19 @@
 <script type="text/javascript">
     var project_list_auditing_process_nodes = {};
     var project_list_auditing_process_node_arr = [];
-    !function(){
-        var data = syncAjaxJson({"url": ORDER_URL + "/order/orderManage/nodes"},{
-            "tenant":"erui",
-            "category":"order",
-            "subCategory":"project"
+    !function () {
+        var data = syncAjaxJson({"url": ORDER_URL + "/order/orderManage/nodes"}, {
+            "tenant": "erui",
+            "category": "order",
+            "subCategory": "project"
         });
         if (data.code == 200) {
-            $.each(data.data,function(index,node) {
-                project_list_auditing_process_node_arr.push({"actId":node.actId,"actName":node.actName});
+            $.each(data.data, function (index, node) {
+                project_list_auditing_process_node_arr.push({"actId": node.actId, "actName": node.actName});
                 project_list_auditing_process_nodes[node.actId] = node.actName;
             });
-            project_list_auditing_process_node_arr.push({"actId":"999","actName":"已完成"});
-            project_list_auditing_process_node_arr.unshift({"actId":"","actName":"全部"});
+            project_list_auditing_process_node_arr.push({"actId": "999", "actName": "已完成"});
+            project_list_auditing_process_node_arr.unshift({"actId": "", "actName": "全部"});
         }
         project_list_auditing_process_nodes["999"] = "已完成";
     }();
@@ -77,13 +77,15 @@
                 </li>
                 <li>
                     <label>执行事业部：</label>
-                    <input type="text" id="project_list_table_toolbar_form_send_dept_id_field" class="easyui-textbox" editable="false" name="sendDeptId02" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#project_list_send_dept_id_dialog').dialog('open');$('#project_list_send_dept_id_dialog').dialog('refresh', 'common/businessUnitDialog.html');}"  />
+                    <input type="text" id="project_list_table_toolbar_form_send_dept_id_field" class="easyui-textbox"
+                           editable="false" name="sendDeptId02" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#project_list_send_dept_id_dialog').dialog('open');$('#project_list_send_dept_id_dialog').dialog('refresh', 'common/businessUnitDialog.html');}"/>
                 </li>
                 <li>
                     <label>事业部项目负责人：</label>
-                    <input type="text" id="project_list_table_toolbar_form_business_uid_field" class="easyui-textbox" editable="false" name="businessUid02" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#project_list_business_uid_dialog').dialog('open');$('#project_list_business_uid_dialog').dialog('refresh', 'common/userDialog.html');}"  />
+                    <input type="text" id="project_list_table_toolbar_form_business_uid_field" class="easyui-textbox"
+                           editable="false" name="businessUid02" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#project_list_business_uid_dialog').dialog('open');$('#project_list_business_uid_dialog').dialog('refresh', 'common/userDialog.html');}"/>
                 </li>
                 <li>
                     <label>项目创建日期：</label>
@@ -93,12 +95,16 @@
                 </li>
                 <li>
                     <label>审核进度：</label>
-                    <select  class="easyui-combobox" style="width:160px;" data-options="editable:false,valueField: 'actId',textField: 'actName',data:project_list_auditing_process_node_arr" name="auditingProcess"></select>
+                    <select class="easyui-combobox" style="width:160px;"
+                            data-options="editable:false,valueField: 'actId',textField: 'actName',data:project_list_auditing_process_node_arr"
+                            name="auditingProcess"></select>
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="project_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="project_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="project_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="project_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
@@ -118,60 +124,85 @@
 
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#project_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'contractNo',width:120,title:'销售合同号'},
-                {field:'projectNo',width:110,title:'项目号'},
-                {field:'projectName',width:110,title:'合同标的'},
-                {field:'businessUnitName',width:120,title:'执行事业部'},
-                {field:'businessName',width:50,title:'执行项目负责人'},
-                {field:'createTime',width:80,title:'项目创建日期'},
-                {field:'startDate',width:130,title:'项目开始日期'},
-                {field:'projectStatus',width:70,title:'项目状态',
-                    formatter:function (code, row, index) {
-                        switch(code) {
-                            case "SUBMIT": return "未执行";
-                            case "EXECUTING": return "正常执行";
-                            case "DONE": return "正常完成";
-                            case "DELAYED_EXECUTION": return "延期执行";
-                            case "DELAYED_COMPLETE": return "延期完成";
-                            case "UNSHIPPED": return "正常待发运";
-                            case "DELAYED_UNSHIPPED": return "延期待发运";
-                            case "PAUSE": return "项目暂停";
-                            case "CANCEL": return "项目取消";
-                            case "ORDERCANCEL": return "订单取消";
-                            case "CHANGE": return "已变更";
-                            default : return code;
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'contractNo', width: 120, title: '销售合同号'},
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'projectName', width: 110, title: '合同标的'},
+                {field: 'businessUnitName', width: 120, title: '执行事业部'},
+                {field: 'businessName', width: 50, title: '执行项目负责人'},
+                {field: 'createTime', width: 80, title: '项目创建日期'},
+                {field: 'startDate', width: 130, title: '项目开始日期'},
+                {
+                    field: 'projectStatus', width: 70, title: '项目状态',
+                    formatter: function (code, row, index) {
+                        switch (code) {
+                            case "SUBMIT":
+                                return "未执行";
+                            case "EXECUTING":
+                                return "正常执行";
+                            case "DONE":
+                                return "正常完成";
+                            case "DELAYED_EXECUTION":
+                                return "延期执行";
+                            case "DELAYED_COMPLETE":
+                                return "延期完成";
+                            case "UNSHIPPED":
+                                return "正常待发运";
+                            case "DELAYED_UNSHIPPED":
+                                return "延期待发运";
+                            case "PAUSE":
+                                return "项目暂停";
+                            case "CANCEL":
+                                return "项目取消";
+                            case "ORDERCANCEL":
+                                return "订单取消";
+                            case "CHANGE":
+                                return "已变更";
+                            default :
+                                return code;
                         }
                     }
                 },
-                {field:'processProgress',width:100,title:'流程进度',
-                    formatter:function (code, row, index) {
-                        switch(code) {
-                            case "1": return "未执行";
-                            case "2": return "正常执行";
-                            case "3": return "已采购";
-                            case "4": return "已报检";
-                            case "5": return "已入库质检";
-                            case "6": return "已入库";
-                            case "7": return "已出库质检";
-                            case "8": return "已出库";
-                            case "9": return "已发运";
-                            default : return code;
+                {
+                    field: 'processProgress', width: 100, title: '流程进度',
+                    formatter: function (code, row, index) {
+                        switch (code) {
+                            case "1":
+                                return "未执行";
+                            case "2":
+                                return "正常执行";
+                            case "3":
+                                return "已采购";
+                            case "4":
+                                return "已报检";
+                            case "5":
+                                return "已入库质检";
+                            case "6":
+                                return "已入库";
+                            case "7":
+                                return "已出库质检";
+                            case "8":
+                                return "已出库";
+                            case "9":
+                                return "已发运";
+                            default :
+                                return code;
                         }
                     }
                 },
-                {field:'auditingProcess',width:100,title:'审核进度',
-                    formatter:function(code,row,index) {
+                {
+                    field: 'auditingProcess', width: 100, title: '审核进度',
+                    formatter: function (code, row, index) {
                         if (code) {
                             var splitArr = code.split(",");
                             var resultV = [];
@@ -188,42 +219,49 @@
                         return "";
                     }
                 },
-                {field:'auditingStatus',width:50,title:'审核状态',
-                    formatter:function(code,row,index){
+                {
+                    field: 'auditingStatus', width: 50, title: '审核状态',
+                    formatter: function (code, row, index) {
                         var respStr;
                         switch (code) {
-                            case 1: return "未审核";
-                            case 2:return "审核中";
-                            case 3:return "驳回";
-                            case 4:return "已完成";
-                            default: return code;
+                            case 1:
+                                return "未审核";
+                            case 2:
+                                return "审核中";
+                            case 3:
+                                return "驳回";
+                            case 4:
+                                return "已完成";
+                            default:
+                                return code;
                         }
                     }
                 },
-                {field:'operation',width:50,title:'操作',
-                    formatter:function(code,row,index){
+                {
+                    field: 'operation', width: 50, title: '操作',
+                    formatter: function (code, row, index) {
                         return '查看';
                     }
                 }
             ]],
-            url:ORDER_URL + '/order/project/projectManage',
-            onBeforeLoad:function(param){
+            url: ORDER_URL + '/order/project/projectManage',
+            onBeforeLoad: function (param) {
                 param.sendDeptId = "9902,9899,9908,9980,9942,9969";
                 param.managerUid = "39427";
                 param.auditingUserId = "39427";
                 var data = $('#project_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
+            loadFilter: function (data) {
+                var finalData = {"total": 0, "rows": []};
                 if (data.code == 200) {
                     finalData.total = data.data.totalElements;
                     finalData.rows = data.data.content;
@@ -232,63 +270,63 @@
             }
         });
         $("#project_list_send_dept_id_dialog").dialog({
-            title:'执行事业部',
-            resizable:true,
-            modal:true,
-            closed:true,
-            buttons:[{
-                text:'确定',
-                iconCls:'icon-ok',
-                handler:function(){
+            title: '执行事业部',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
                     var selectedTableRow = $("#common_business_unit_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
-                        $("#project_list_table_toolbar_form_send_dept_id_field").textbox("setValue",selectedTableRow.name);
-                        $("#project_list_table_toolbar_form_send_dept_id_field").textbox("setText",selectedTableRow.name);
+                        $("#project_list_table_toolbar_form_send_dept_id_field").textbox("setValue", selectedTableRow.id);
+                        $("#project_list_table_toolbar_form_send_dept_id_field").textbox("setText", selectedTableRow.orgName);
                     } else {
                         $("#project_list_table_toolbar_form_send_dept_id_field").textbox("clear");
                     }
                     $("#project_list_send_dept_id_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                iconCls:'icon-cancel',
-                handler:function(){
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
                     $("#project_list_send_dept_id_dialog").dialog("close");
                 }
             }]
         });
         $("#project_list_business_uid_dialog").dialog({
-            title:'选择事业部项目负责人',
-            resizable:true,
-            modal:true,
-            closed:true,
-            buttons:[{
-                text:'确定',
-                iconCls:'icon-ok',
-                handler:function(){
+            title: '选择事业部项目负责人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
                     var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
-                        $("#project_list_table_toolbar_form_business_uid_field").textbox("setValue",selectedTableRow.id);
-                        $("#project_list_table_toolbar_form_business_uid_field").textbox("setText",selectedTableRow.name);
+                        $("#project_list_table_toolbar_form_business_uid_field").textbox("setValue", selectedTableRow.id);
+                        $("#project_list_table_toolbar_form_business_uid_field").textbox("setText", selectedTableRow.userName);
                     } else {
                         $("#project_list_table_toolbar_form_business_uid_field").textbox("clear");
                     }
                     $("#project_list_business_uid_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                iconCls:'icon-cancel',
-                handler:function(){
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
                     $("#project_list_business_uid_dialog").dialog("close");
                 }
             }]
         });
         // 搜索按钮
-        $("#project_list_table_toolbar_form_search_btn").click(function (){
+        $("#project_list_table_toolbar_form_search_btn").click(function () {
             $("#project_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#project_list_table_toolbar_form_clear_btn").click(function (){
+        $("#project_list_table_toolbar_form_clear_btn").click(function () {
             $('#project_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#project_list_table");
             $("#project_list_table").datagrid("reload");

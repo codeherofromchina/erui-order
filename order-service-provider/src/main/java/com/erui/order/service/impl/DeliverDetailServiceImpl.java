@@ -107,7 +107,7 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
     @Override
     public Pager<DeliverDetailListResponse> list(DeliverDetailQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         DeliverDetailExample example = new DeliverDetailExample();
         example.setOrderByClause("id desc");

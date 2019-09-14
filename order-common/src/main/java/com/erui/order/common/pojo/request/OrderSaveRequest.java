@@ -79,10 +79,13 @@ public class OrderSaveRequest {
     private String toPlace;
     // 客户合同金额
     private BigDecimal totalPrice;
+    // 易瑞合同金额
+    private BigDecimal eruiTotalPrice;
     // 客户合同币种
     private String currencyBn;
     // 客户合同金额兑美金汇率
     private BigDecimal exchangeRate;
+    private BigDecimal totalPriceUsd;
     // 是否含税
     private Short taxBearing;
     // 质保金
@@ -367,6 +370,14 @@ public class OrderSaveRequest {
         this.totalPrice = totalPrice;
     }
 
+    public BigDecimal getEruiTotalPrice() {
+        return eruiTotalPrice;
+    }
+
+    public void setEruiTotalPrice(BigDecimal eruiTotalPrice) {
+        this.eruiTotalPrice = eruiTotalPrice;
+    }
+
     public String getCurrencyBn() {
         return currencyBn;
     }
@@ -381,6 +392,14 @@ public class OrderSaveRequest {
 
     public void setExchangeRate(BigDecimal exchangeRate) {
         this.exchangeRate = exchangeRate;
+    }
+
+    public BigDecimal getTotalPriceUsd() {
+        return totalPriceUsd;
+    }
+
+    public void setTotalPriceUsd(BigDecimal totalPriceUsd) {
+        this.totalPriceUsd = totalPriceUsd;
     }
 
     public Short getTaxBearing() {

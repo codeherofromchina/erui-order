@@ -89,7 +89,7 @@
             onBeforeLoad:function(param){
                 var rows = param.rows;
                 delete param.rows;
-                param.pageSize =rows;
+                param.rows =rows;
                 var data = $('#instock_list_table_toolbar_form').serializeJson();
                 if (data) {
                     for(var attr in data){

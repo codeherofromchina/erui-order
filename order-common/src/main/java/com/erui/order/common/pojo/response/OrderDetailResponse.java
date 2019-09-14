@@ -3,6 +3,7 @@ package com.erui.order.common.pojo.response;
 import com.erui.order.common.pojo.AttachmentInfo;
 import com.erui.order.common.pojo.OrderGoodsInfo;
 import com.erui.order.common.pojo.OrderPaymentInfo;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -12,12 +13,15 @@ import java.util.List;
  * @Auther 王晓丹
  * @Date 2019/9/7 下午5:31
  */
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDetailResponse {
     private Long id;
     // 订单类别
     private Short orderCategory;
+    private String orderCategoryName;
     // 海外销类型
     private Short overseasSales;
+    private String overseasSalesName;
     // 框架协议号
     private String frameworkNo;
     // PO号
@@ -36,61 +40,82 @@ public class OrderDetailResponse {
     private String deliveryDate;
     // 市场经办人
     private Long agentId;
+    private String agentUserName;
     // 获取人
     private Long acquireId;
+    private String acquireUserName;
     // 客户签约主体公司
     private String signingCo;
+    private String signingCoName;
     // 执行事业部
     private Long businessUnitId;
+    private String businessUnitName;
     // 执行分公司
     private String execCoName;
     private String execCoCode;
     // 大区
     private String region;
+    private String regionName;
     // 国家
     private String country;
+    private String countryName;
     // CRM客户代码
     private String crmCode;
+    private Long buyerId;
     // 客户类型
     private Short customerType;
+    private String customerTypeName;
     // 回款负责人
     private Long perLiableRepayId;
+    private String perLiableRepayUserName;
     // 事业部项目负责人
     private Long technicalId;
+    private String technicalUserName;
     // 是否融资项目
     private Short financing;
+    private String financingName;
     // 授信情况
     private Short grantType;
+    private String grantTypeName;
     // 贸易术语
     private String tradeTerms;
     // 运输方式
     private String transportType;
+    private String transportTypeName;
     // 起运国
     private String fromCountry;
+    private String fromCountryName;
     // 起运港
     private String fromPort;
+    private String fromPortName;
     // 发运起始地
     private String fromPlace;
     // 目的国
     private String toCountry;
+    private String toCountryName;
     // 目的港
     private String toPort;
+    private String toPortName;
     // 目的地
     private String toPlace;
     // 合同金额美元
     private BigDecimal totalPriceUsd;
-    // 客户合同金额
+    // 客户合同总价
     private BigDecimal totalPrice;
+    // 易瑞合同总价
+    private BigDecimal eruiTotalPrice;
     // 客户合同币种
     private String currencyBn;
     // 客户合同金额兑美金汇率
     private BigDecimal exchangeRate;
     // 是否含税
     private Short taxBearing;
+    private String taxBearingName;
     // 质保金
     private BigDecimal qualityFunds;
     // 收款方式
     private Short paymentModeBn;
+    private String paymentModeBnName;
     // 交货要求描述
     private String deliveryRequires;
     // 客户及项目背景描述
@@ -121,12 +146,28 @@ public class OrderDetailResponse {
         this.orderCategory = orderCategory;
     }
 
+    public String getOrderCategoryName() {
+        return orderCategoryName;
+    }
+
+    public void setOrderCategoryName(String orderCategoryName) {
+        this.orderCategoryName = orderCategoryName;
+    }
+
     public Short getOverseasSales() {
         return overseasSales;
     }
 
     public void setOverseasSales(Short overseasSales) {
         this.overseasSales = overseasSales;
+    }
+
+    public String getOverseasSalesName() {
+        return overseasSalesName;
+    }
+
+    public void setOverseasSalesName(String overseasSalesName) {
+        this.overseasSalesName = overseasSalesName;
     }
 
     public String getFrameworkNo() {
@@ -217,12 +258,28 @@ public class OrderDetailResponse {
         this.signingCo = signingCo;
     }
 
+    public String getSigningCoName() {
+        return signingCoName;
+    }
+
+    public void setSigningCoName(String signingCoName) {
+        this.signingCoName = signingCoName;
+    }
+
     public Long getBusinessUnitId() {
         return businessUnitId;
     }
 
     public void setBusinessUnitId(Long businessUnitId) {
         this.businessUnitId = businessUnitId;
+    }
+
+    public String getBusinessUnitName() {
+        return businessUnitName;
+    }
+
+    public void setBusinessUnitName(String businessUnitName) {
+        this.businessUnitName = businessUnitName;
     }
 
     public String getExecCoName() {
@@ -249,12 +306,29 @@ public class OrderDetailResponse {
         this.region = region;
     }
 
+    public String getRegionName() {
+        return regionName;
+    }
+
+    public void setRegionName(String regionName) {
+        this.regionName = regionName;
+    }
+
     public String getCountry() {
         return country;
     }
 
     public void setCountry(String country) {
+
         this.country = country;
+    }
+
+    public String getCountryName() {
+        return countryName;
+    }
+
+    public void setCountryName(String countryName) {
+        this.countryName = countryName;
     }
 
     public String getCrmCode() {
@@ -271,6 +345,14 @@ public class OrderDetailResponse {
 
     public void setCustomerType(Short customerType) {
         this.customerType = customerType;
+    }
+
+    public String getCustomerTypeName() {
+        return customerTypeName;
+    }
+
+    public void setCustomerTypeName(String customerTypeName) {
+        this.customerTypeName = customerTypeName;
     }
 
     public Long getPerLiableRepayId() {
@@ -297,12 +379,28 @@ public class OrderDetailResponse {
         this.financing = financing;
     }
 
+    public void setFinancingName(String financingName) {
+        this.financingName = financingName;
+    }
+
+    public String getFinancingName() {
+        return financingName;
+    }
+
     public Short getGrantType() {
         return grantType;
     }
 
     public void setGrantType(Short grantType) {
         this.grantType = grantType;
+    }
+
+    public String getGrantTypeName() {
+        return grantTypeName;
+    }
+
+    public void setGrantTypeName(String grantTypeName) {
+        this.grantTypeName = grantTypeName;
     }
 
     public String getTradeTerms() {
@@ -319,6 +417,14 @@ public class OrderDetailResponse {
 
     public void setTransportType(String transportType) {
         this.transportType = transportType;
+    }
+
+    public String getTransportTypeName() {
+        return transportTypeName;
+    }
+
+    public void setTransportTypeName(String transportTypeName) {
+        this.transportTypeName = transportTypeName;
     }
 
     public String getFromCountry() {
@@ -373,6 +479,14 @@ public class OrderDetailResponse {
         return totalPriceUsd;
     }
 
+    public BigDecimal getEruiTotalPrice() {
+        return eruiTotalPrice;
+    }
+
+    public void setEruiTotalPrice(BigDecimal eruiTotalPrice) {
+        this.eruiTotalPrice = eruiTotalPrice;
+    }
+
     public void setTotalPriceUsd(BigDecimal totalPriceUsd) {
         this.totalPriceUsd = totalPriceUsd;
     }
@@ -409,6 +523,14 @@ public class OrderDetailResponse {
         this.taxBearing = taxBearing;
     }
 
+    public void setTaxBearingName(String taxBearingName) {
+        this.taxBearingName = taxBearingName;
+    }
+
+    public String getTaxBearingName() {
+        return taxBearingName;
+    }
+
     public BigDecimal getQualityFunds() {
         return qualityFunds;
     }
@@ -423,6 +545,14 @@ public class OrderDetailResponse {
 
     public void setPaymentModeBn(Short paymentModeBn) {
         this.paymentModeBn = paymentModeBn;
+    }
+
+    public String getPaymentModeBnName() {
+        return paymentModeBnName;
+    }
+
+    public void setPaymentModeBnName(String paymentModeBnName) {
+        this.paymentModeBnName = paymentModeBnName;
     }
 
     public String getDeliveryRequires() {
@@ -471,5 +601,78 @@ public class OrderDetailResponse {
 
     public void setAttachments(List<AttachmentInfo> attachments) {
         this.attachments = attachments;
+    }
+
+
+    public String getAgentUserName() {
+        return agentUserName;
+    }
+
+    public void setAgentUserName(String agentUserName) {
+        this.agentUserName = agentUserName;
+    }
+
+    public String getAcquireUserName() {
+        return acquireUserName;
+    }
+
+    public void setAcquireUserName(String acquireUserName) {
+        this.acquireUserName = acquireUserName;
+    }
+
+    public Long getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(Long buyerId) {
+        this.buyerId = buyerId;
+    }
+
+    public String getPerLiableRepayUserName() {
+        return perLiableRepayUserName;
+    }
+
+    public void setPerLiableRepayUserName(String perLiableRepayUserName) {
+        this.perLiableRepayUserName = perLiableRepayUserName;
+    }
+
+    public String getTechnicalUserName() {
+        return technicalUserName;
+    }
+
+    public void setTechnicalUserName(String technicalUserName) {
+        this.technicalUserName = technicalUserName;
+    }
+
+    public String getFromCountryName() {
+        return fromCountryName;
+    }
+
+    public void setFromCountryName(String fromCountryName) {
+        this.fromCountryName = fromCountryName;
+    }
+
+    public String getFromPortName() {
+        return fromPortName;
+    }
+
+    public void setFromPortName(String fromPortName) {
+        this.fromPortName = fromPortName;
+    }
+
+    public String getToCountryName() {
+        return toCountryName;
+    }
+
+    public void setToCountryName(String toCountryName) {
+        this.toCountryName = toCountryName;
+    }
+
+    public String getToPortName() {
+        return toPortName;
+    }
+
+    public void setToPortName(String toPortName) {
+        this.toPortName = toPortName;
     }
 }

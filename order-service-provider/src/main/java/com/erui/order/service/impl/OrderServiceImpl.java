@@ -18,19 +18,14 @@ import com.erui.order.service.*;
 import com.erui.order.service.util.OrderFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.erui.order.mapper.OrderMapper;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.text.DecimalFormat;
-import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -51,6 +46,14 @@ public class OrderServiceImpl implements OrderService {
     private ProjectService projectService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private AreaService areaService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private OrgService orgService;
+    @Autowired
+    private PortService portService;
 
     @Override
     public Long insert(OrderSaveRequest insertRequest) throws Exception {
@@ -172,7 +175,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public Pager<OrderListResponse> list(OrderQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         OrderExample example = new OrderExample();
         example.setOrderByClause("id desc");
@@ -229,8 +232,8 @@ public class OrderServiceImpl implements OrderService {
                 if (technicalUser != null) {
                     orderListResponse.setTechnicalName(technicalUser.getUserName());
                 }
-//            orderListResponse.setBusinessUnitName(order.getBusinessUnitId());
-//            orderListResponse.setAuditingProcessName();
+                orderListResponse.setBusinessUnitName(orgService.findOrgNameById(order.getBusinessUnitId()));
+
             } catch (Exception e) {
                 e.printStackTrace();
                 LOGGER.error("设置订单列表异常 - {} - {}", orderListResponse.getId(), e);
@@ -261,6 +264,18 @@ public class OrderServiceImpl implements OrderService {
 
         // 组织数据
         OrderDetailResponse detail = OrderFactory.orderDetailResponse(order);
+        detail.setAgentUserName(userService.findNameById(detail.getAgentId()));
+        detail.setAcquireUserName(userService.findNameById(detail.getAcquireId()));
+        detail.setBusinessUnitName(orgService.findOrgNameById(detail.getBusinessUnitId()));
+        detail.setPerLiableRepayUserName(userService.findNameById(detail.getPerLiableRepayId()));
+        detail.setTechnicalUserName(userService.findNameById(detail.getTechnicalId()));
+        detail.setFromCountryName(countryService.findCountryNameByBn(detail.getFromCountry()));
+        detail.setFromPortName(portService.findPortNameByBn(detail.getFromPort()));
+        detail.setToCountryName(countryService.findCountryNameByBn(detail.getToCountry()));
+        detail.setToPortName(portService.findPortNameByBn(detail.getToPort()));
+        detail.setRegionName(areaService.findAreaNameByBn(detail.getRegion()));
+        detail.setCountryName(countryService.findCountryNameByBn(detail.getCountry()));
+
         detail.setOrderGoods(orderGoodsInfos);
         detail.setOrderPayments(orderPaymentInfos);
         detail.setAttachments(attachmentInfos);

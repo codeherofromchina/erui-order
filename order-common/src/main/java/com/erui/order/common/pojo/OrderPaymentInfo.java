@@ -1,5 +1,7 @@
 package com.erui.order.common.pojo;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 import java.math.BigDecimal;
 import java.util.Date;
 
@@ -7,9 +9,11 @@ import java.util.Date;
  * @Auther 王晓丹
  * @Date 2019/9/7 下午12:01
  */
+//@JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderPaymentInfo {
     private Long id;
     private Short paymentType;
+    private String paymentTypeName;
     private BigDecimal money;
     private Date receiptDate;
     private Short receiptDays;
@@ -28,6 +32,15 @@ public class OrderPaymentInfo {
 
     public void setPaymentType(Short paymentType) {
         this.paymentType = paymentType;
+    }
+
+
+    public String getPaymentTypeName() {
+        return paymentTypeName;
+    }
+
+    public void setPaymentTypeName(String paymentTypeName) {
+        this.paymentTypeName = paymentTypeName;
     }
 
     public BigDecimal getMoney() {

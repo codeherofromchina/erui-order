@@ -2,7 +2,6 @@ package com.erui.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
-import com.erui.order.common.enums.OrderAccountStatusEnum;
 import com.erui.order.common.pojo.AttachmentInfo;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.UserInfo;
@@ -98,7 +97,7 @@ public class OrderAccountServiceImpl implements OrderAccountService {
     @Override
     public Pager<OrderAccountListResponse> list(OrderAccountQueryRequest queryRequest) {
         // 分页
-        PageHelper.startPage(queryRequest.getPageNum(), queryRequest.getPageSize());
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
 
         OrderAccountExample example = new OrderAccountExample();
         example.setOrderByClause("id desc");

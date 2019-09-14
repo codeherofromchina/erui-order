@@ -11,6 +11,7 @@ a {text-decoration:none;outline:none;}
 .tabs-panels {padding:10px;}
 .padding-zero {padding:0;}
 
+/** 弹出框编辑界面使用的样式 **/
 .easyui-dialog {padding:15px 15px 15px 0px;}
 .easyui-dialog .fitem {margin-bottom:10px;}
 .easyui-dialog .fitem label {margin-left:15px;}
@@ -19,7 +20,7 @@ a {text-decoration:none;outline:none;}
 .easyui-dialog .fitem .txt-long {width:455px;}
 
 
-
+/** 面板编辑界面使用的样式 **/
 .easyui-panel .fitem {margin-bottom:10px;}
 .easyui-panel .fitem label {margin-left:15px;width:120px; display:inline-block; text-align:right;}
 .easyui-panel .fitem span .blue{color:blue;display:inline-block;}

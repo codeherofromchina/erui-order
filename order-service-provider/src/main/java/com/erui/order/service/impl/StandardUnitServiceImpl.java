@@ -37,8 +37,16 @@ public class StandardUnitServiceImpl implements StandardUnitService {
         return null;
     }
 
+    @Override
+    public String findNameByCode(String unitCode) {
+        StandardUnitInfo standardUnitInfo = findByCode(unitCode);
+        if (standardUnitInfo != null) {
+            return standardUnitInfo.getNameZh();
+        }
+        return null;
+    }
 
-    public List<StandardUnitInfo> findByCode() {
+    public List<StandardUnitInfo> findAll() {
         List<StandardUnit> standardUnits = standardUnitMapper.selectByExample(null);
         List<StandardUnitInfo> standardUnitInfos = standardUnits.stream()
                 .map(vo -> standardUnitInfo(vo)).collect(Collectors.toList());
