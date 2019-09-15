@@ -1,0 +1,160 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var purchRequisitionInfoPageParams = getQueryStringFromGlobalParams();
+    var purch_requisition_info_form_attachment_table = [];
+    var purch_requisition_info_form_goods_table = [];
+    var purch_requisition_info_vue_data = {};
+    if (purchRequisitionInfoPageParams.purchRequisitionId) {
+        var purchRequisitionResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchRequisition/info"}, {"id": purchRequisitionInfoPageParams.purchRequisitionId});
+        if (purchRequisitionResp.code == 0) {
+            purch_requisition_info_vue_data = purchRequisitionResp.data;
+            // 附件内容
+            purch_requisition_info_form_attachment_table = purch_requisition_info_vue_data.attachments;
+            delete  purch_requisition_info_vue_data.attachments;
+            // 商品内容
+            purch_requisition_info_form_goods_table = purch_requisition_info_vue_data.goodsInfos;
+            delete purch_requisition_info_vue_data.goodsInfos;
+        }
+    }
+</script>
+<div id="purch_requisition_info_form">
+    <div class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>项目号：</label>
+            <div class="input-div">{{projectNo}}</div>
+            <label>项目经办人：</label>
+            <div class="input-div">{{pmUserName}}</div>
+            <label>下发部门：</label>
+            <div class="input-div">{{departmentName}}</div>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>下发日期：</label>
+            <div class="input-div">{{submitDate}}</div>
+            <label>项目类型：</label>
+            <div class="input-div">{{tradeMethodName}}</div>
+            <label>贸易术语：</label>
+            <div class="input-div">{{transModeBn}}</div>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>是否厂家直接发货：</label>
+            <div class="input-div" v-if="factorySend == 1">是</div>
+            <div class="input-div" v-if="factorySend == 0">否</div>
+            <label><span style="color:red;">*</span>交付地点：</label>
+            <div class="input-div">{{deliveryPlace}}</div>
+            <label><span style="color:red;">*</span>客户文件要求：</label>
+            <div class="input-div">{{requirements}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:2px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table id="purch_requisition_info_panel_goods_table"></table>
+    </div>
+
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">备注：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{remarks}}</div>
+        </div>
+    </div>
+    <div class="easyui-panel"
+         title="附件"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" data-options="idField:'url',data:purch_requisition_info_form_attachment_table"
+                       fit="true" style="width:150px;"
+                       singleSelect="true"
+                       fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '询价资料';
+                                    case 2: return '技术协议';
+                                    case 3: return '投标成本价格明细';
+                                    case 4: return '其它';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#purch_requisition_info_form',
+        data: purch_requisition_info_vue_data
+    });
+    $(function () {
+        $("#purch_requisition_info_panel_goods_table").datagrid({
+            border: false,
+            striped: true,
+            idField: 'orderGoodsId',
+            columns: [[
+                {field: 'sku', width: 120, title: '平台SKU'},
+                {field: 'nameEn', width: 100, title: '外文品名'},
+                {field: 'nameZh', width: 100, title: '中文品名'},
+                {field: 'contractGoodsNum', width: 80, title: '数量'},
+                {field: 'unitName', width: 80, title: '单位'},
+                {field: 'brand', width: 100, title: '品牌'},
+                {
+                    field: 'requirePurchaseDate', width: 100, title: '采购需用日期'
+                },
+                {
+                    field: 'techRequire', width: 120, title: '技术要求和使用条件'
+                },
+                {
+                    field: 'checkType', width: 80, title: '质检类型',
+                    formatter: function (value) {
+                        switch (value) {
+                            case "PROCESS":
+                                return '过程检验';
+                            case "FIANL":
+                                return '终检';
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'checkMethod', width: 80, title: '质检方法',
+                    formatter: function (value) {
+                        switch (value) {
+                            case "WAREHOUSE":
+                                return '易瑞仓库';
+                            case "OUTSIDE":
+                                return '外检';
+                            case "THIRD":
+                                return '第三方检验';
+                        }
+                        return value;
+                    }
+                },
+                {
+                    field: 'certificate', width: 120, title: '合格证'
+                },
+                {
+                    field: 'techAudit', width: 120, title: '技术审核'
+                }
+            ]],
+            data: purch_requisition_info_form_goods_table
+        });
+    });
+</script>

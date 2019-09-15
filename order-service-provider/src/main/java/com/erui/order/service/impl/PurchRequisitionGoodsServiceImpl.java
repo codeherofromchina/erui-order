@@ -11,6 +11,7 @@ import com.erui.order.model.entity.PurchRequisitionGoodsExample;
 import com.erui.order.service.PurchRequisitionGoodsService;
 import com.erui.order.service.util.OrderGoodsFactory;
 import com.erui.order.service.util.PurchRequisitionGoodsFactory;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -82,6 +83,7 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
             purchRequisitionGoods.setCreateUserId(userInfo.getId());
         }
         purchRequisitionGoods.setCreateTime(new Date());
+        purchRequisitionGoods.setDeleteFlag(Boolean.FALSE);
         return purchRequisitionGoodsMapper.insert(purchRequisitionGoods);
     }
 

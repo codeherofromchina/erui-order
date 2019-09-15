@@ -6,6 +6,7 @@ import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.ProjectProfitMapper;
 import com.erui.order.model.entity.ProjectProfit;
 import com.erui.order.model.entity.ProjectProfitExample;
+import com.erui.order.service.CountryService;
 import com.erui.order.service.ProjectProfitService;
 import com.erui.order.service.util.ProjectProfitFactory;
 import org.slf4j.Logger;
@@ -23,6 +24,8 @@ public class ProjectProfitServiceImpl implements ProjectProfitService {
     private static Logger LOGGER = LoggerFactory.getLogger(ProjectProfitServiceImpl.class);
     @Autowired
     private ProjectProfitMapper projectProfitMapper;
+    @Autowired
+    private CountryService countryService;
 
     @Override
     public int insertOnDuplicateProjectIdUpdate(Long projectId, ProjectProfitInfo projectProfitInfo) throws Exception {
@@ -84,8 +87,8 @@ public class ProjectProfitServiceImpl implements ProjectProfitService {
         ProjectProfit projectProfit = findByProjectId02(projectId);
         if (projectProfit != null) {
             ProjectProfitInfo projectProfitInfo = ProjectProfitFactory.projectProfitInfo(projectProfit);
-            // TODO
-//            projectProfitInfo.setCountryName();
+
+            projectProfitInfo.setCountryName(countryService.findCountryNameByBn(projectProfit.getCountryBn()));
             return projectProfitInfo;
         }
         return null;

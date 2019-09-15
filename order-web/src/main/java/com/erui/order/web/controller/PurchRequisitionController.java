@@ -79,8 +79,36 @@ public class PurchRequisitionController {
         return result;
     }
 
+
+
+
     /**
-     * 获取项目的详情
+     * 通过项目ID获取采购申请的详情
+     *
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "infoByProjectId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<PurchRequisitionDetailResponse> detailByProjectId(@RequestBody PrimaryKey key) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        Result<PurchRequisitionDetailResponse> result = new Result<>();
+        try {
+            PurchRequisitionDetailResponse detail = purchRequisitionService.detailByProjectId(key.getId());
+            result.setData(detail);
+            LOGGER.info("查询采购申请详情成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("查询采购申请详情异常 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), e);
+            result.setStatus(ResultStatus.FAIL);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+
+    /**
+     * 获取采购申请的详情
      *
      * @param key
      * @return

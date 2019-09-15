@@ -14,4 +14,11 @@ public interface PurchRequisitionService {
     Pager<PurchRequisitionListResponse> list(PurchRequisitionQueryRequest queryRequest);
 
     PurchRequisitionDetailResponse detail(Long id) throws Exception;
+
+    /**
+     * 通过项目ID查询采购申请详情
+     * @param projectId
+     * @return
+     */
+    PurchRequisitionDetailResponse detailByProjectId(Long projectId) throws Exception;
 }

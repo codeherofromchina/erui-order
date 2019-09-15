@@ -7,6 +7,8 @@ public class PurchRequisition {
 
     private Long projectId;
 
+    private String projectNo;
+
     private Long pmUid;
 
     private Long department;
@@ -59,6 +61,14 @@ public class PurchRequisition {
 
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public Long getPmUid() {

@@ -8,21 +8,30 @@ import java.util.Date;
  */
 public class ProjectListResponse {
     private Long id;
+    // 销售合同号
     private String contractNo;
+    // 项目号
     private String projectNo;
-
+    // 合同标的
     private String projectName;
-
-    // 流程进度
-    private String processProgress;
-    private String processProgressName;
-    // 创建时间
+    // 下发部门，订单的执行事业部
+    private Long sendDeptId;
+    private String sendDeptName;
+    // 事业部项目负责人/商务技术部经办人
+    private Long businessUid;
+    private String businessUserName;
+    // 项目创建日期
     private Date createTime;
-
-
+    // 项目开始日期
+    private Date startDate;
+    // 是否已经创建采购申请单 1：未创建  2：已创建保存状态 3:已创建并提交
+    private Short purchReqCreate;
     // 项目状态
     private String projectStatus;
     private String projectStatusName;
+    // 流程进度
+    private String processProgress;
+    private String processProgressName;
 
 
     public Long getId() {
@@ -57,20 +66,36 @@ public class ProjectListResponse {
         this.projectName = projectName;
     }
 
-    public String getProcessProgress() {
-        return processProgress;
+    public Long getSendDeptId() {
+        return sendDeptId;
     }
 
-    public void setProcessProgress(String processProgress) {
-        this.processProgress = processProgress;
+    public void setSendDeptId(Long sendDeptId) {
+        this.sendDeptId = sendDeptId;
     }
 
-    public String getProcessProgressName() {
-        return processProgressName;
+    public String getSendDeptName() {
+        return sendDeptName;
     }
 
-    public void setProcessProgressName(String processProgressName) {
-        this.processProgressName = processProgressName;
+    public void setSendDeptName(String sendDeptName) {
+        this.sendDeptName = sendDeptName;
+    }
+
+    public Long getBusinessUid() {
+        return businessUid;
+    }
+
+    public void setBusinessUid(Long businessUid) {
+        this.businessUid = businessUid;
+    }
+
+    public String getBusinessUserName() {
+        return businessUserName;
+    }
+
+    public void setBusinessUserName(String businessUserName) {
+        this.businessUserName = businessUserName;
     }
 
     public Date getCreateTime() {
@@ -79,6 +104,22 @@ public class ProjectListResponse {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Date getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(Date startDate) {
+        this.startDate = startDate;
+    }
+
+    public Short getPurchReqCreate() {
+        return purchReqCreate;
+    }
+
+    public void setPurchReqCreate(Short purchReqCreate) {
+        this.purchReqCreate = purchReqCreate;
     }
 
     public String getProjectStatus() {
@@ -96,4 +137,21 @@ public class ProjectListResponse {
     public void setProjectStatusName(String projectStatusName) {
         this.projectStatusName = projectStatusName;
     }
+
+    public String getProcessProgress() {
+        return processProgress;
+    }
+
+    public void setProcessProgress(String processProgress) {
+        this.processProgress = processProgress;
+    }
+
+    public String getProcessProgressName() {
+        return processProgressName;
+    }
+
+    public void setProcessProgressName(String processProgressName) {
+        this.processProgressName = processProgressName;
+    }
+
 }

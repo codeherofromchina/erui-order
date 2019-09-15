@@ -1,5 +1,7 @@
 package com.erui.order.service.util;
 
+import com.erui.order.common.enums.ProjectTypeEnum;
+import com.erui.order.common.enums.PurchStatusEnum;
 import com.erui.order.common.pojo.request.PurchRequisitionSaveRequest;
 import com.erui.order.common.pojo.response.PurchRequisitionDetailResponse;
 import com.erui.order.common.pojo.response.PurchRequisitionListResponse;
@@ -15,8 +17,14 @@ public class PurchRequisitionFactory {
             return null;
         }
         PurchRequisition purchRequisition = new PurchRequisition();
-
-        // TODO
+        purchRequisition.setId(purchRequisitionSaveRequest.getId());
+        purchRequisition.setProjectId(purchRequisitionSaveRequest.getProjectId());
+        purchRequisition.setSubmitDate(purchRequisitionSaveRequest.getSubmitDate());
+        purchRequisition.setFactorySend(purchRequisitionSaveRequest.getFactorySend());
+        purchRequisition.setDeliveryPlace(purchRequisitionSaveRequest.getDeliveryPlace());
+        purchRequisition.setRequirements(purchRequisitionSaveRequest.getRequirements());
+        purchRequisition.setRemarks(purchRequisitionSaveRequest.getRemarks());
+        purchRequisition.setPurchRequisitionStatus(purchRequisitionSaveRequest.getPurchRequisitionStatus());
         return purchRequisition;
     }
 
@@ -26,6 +34,14 @@ public class PurchRequisitionFactory {
         }
         PurchRequisitionListResponse response = new PurchRequisitionListResponse();
         response.setId(purchRequisition.getId());
+        response.setProjectId(purchRequisition.getProjectId());
+        response.setPmUid(purchRequisition.getPmUid());
+        response.setSubmitDate(purchRequisition.getSubmitDate());
+        response.setPurchStatus(purchRequisition.getPurchStatus());
+        PurchStatusEnum purchStatusEnum = PurchStatusEnum.valueOf(purchRequisition.getPurchStatus());
+        if (purchStatusEnum != null) {
+            response.setPurchStatusName(purchStatusEnum.getName());
+        }
 
 
         return response;
@@ -37,6 +53,22 @@ public class PurchRequisitionFactory {
         }
         PurchRequisitionDetailResponse response = new PurchRequisitionDetailResponse();
         response.setId(purchRequisition.getId());
+        response.setProjectId(purchRequisition.getProjectId());
+        response.setProjectNo(purchRequisition.getProjectNo());
+        response.setPmUid(purchRequisition.getPmUid());
+        response.setDepartment(purchRequisition.getDepartment());
+        response.setSubmitDate(purchRequisition.getSubmitDate());
+        response.setTradeMethod(purchRequisition.getTradeMethod());
+        ProjectTypeEnum projectTypeEnum = ProjectTypeEnum.valueOf(purchRequisition.getTradeMethod());
+        if (projectTypeEnum != null) {
+            response.setTradeMethodName(projectTypeEnum.getName());
+        }
+        response.setTransModeBn(purchRequisition.getTransModeBn());
+        response.setFactorySend(purchRequisition.getFactorySend());
+        response.setDeliveryPlace(purchRequisition.getDeliveryPlace());
+        response.setRequirements(purchRequisition.getRequirements());
+        response.setRemarks(purchRequisition.getRemarks());
+
         return response;
     }
 }

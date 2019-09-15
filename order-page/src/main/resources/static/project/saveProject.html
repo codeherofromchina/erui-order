@@ -1,0 +1,360 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var saveProjectPageParams = getQueryStringFromGlobalParams();
+    var save_project_form_attachment_table = [];
+    var save_project_vue_data = {};
+    var save_project_form_data = {};
+    if (saveProjectPageParams.projectId) {
+        var projectInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/project/info"}, {"id": saveProjectPageParams.projectId});
+        if (projectInfoResp.code == 0) {
+            save_project_form_data = projectInfoResp.data;
+            // 附件内容
+            save_project_form_attachment_table = save_project_form_data.attachments;
+            delete  save_project_form_data.attachments;
+
+            save_project_vue_data.totalPriceUsd = save_project_form_data.totalPriceUsd;
+            save_project_vue_data.profit = save_project_form_data.profit;
+            save_project_vue_data.sendDeptName = save_project_form_data.sendDeptName;
+            save_project_vue_data.projectProfit = save_project_form_data.projectProfit;
+            delete save_project_form_data.projectProfit;
+
+            if (save_project_vue_data.projectProfit) {
+                for (var attr in save_project_vue_data.projectProfit) {
+                    save_project_form_data["projectProfit." + attr] = save_project_vue_data.projectProfit[attr];
+                }
+            }
+        }
+    }
+</script>
+<form id="save_project_form">
+    <input type="hidden" name="id"/>
+    <div class="easyui-panel" title="项目信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>合同标的：</label>
+            <input class="easyui-textbox" data-options="validType:'length[0,32]'" style="width:150px;"
+                   name="projectName"/>
+            <label style="margin-left:5px;width: 130px;"><span style="color:red;">*</span>执行单约定交付日期：</label>
+            <input class="easyui-textbox" data-options="validType:'length[0,32]'" style="width:150px;"
+                   name="deliveryDate"/>
+            <label>客户合同金额：</label>
+            <div class="input-div">{{totalPriceUsd}} USD</div>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>初步利润(%)：</label>
+            <input class="easyui-numberbox" precision="2" style="width:150px;" name="profitPercent" disabled/>
+            <label>利润额：</label>
+            <div class="input-div" style="width: 150px;">{{profit}} USD</div>
+            <label>执行单变更后日期：</label>
+            <input class="easyui-datebox" ediable="false" name="exeChgDate" style="width: 150px;"/>
+        </div>
+        <div class="fitem">
+            <label>下发部门：</label>
+            <div class="input-div">{{sendDeptName}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="利润核算单" style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem" style="margin-top:20px;">
+            <label>国家：</label>
+            <div class="input-div" style="width:122px;">{{projectProfit.countryName}}</div>
+            <label>贸易术语：</label>
+            <div class="input-div" style="width:122px;">{{projectProfit.tradeTerm}}</div>
+            <label><span style="color:red;">*</span>项目类型：</label>
+            <select class="easyui-combobox" editable="false" panelHeight="100px" name="projectProfit.projectType">
+                <option value="1">一般贸易</option>
+                <option value="2">加工贸易</option>
+                <option value="3">转口贸易</option>
+            </select>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            项目主营收入
+        </div>
+
+        <div class="fitem">
+            <label style="margin-left:0;width:135px;">客户合同金额：</label>
+            <div class="input-div" style="width:122px;">{{projectProfit.contractAmountUsd}} USD</div>
+            <label>汇率：</label>
+            <input class="easyui-numberbox" precision="6" value="0" name="projectProfit.exchangeRate" disabled/>
+            <label>客户合同金额：</label>
+            <div class="input-div">{{projectProfit.contractAmount}} CNY</div>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            项目主营成本
+        </div>
+        <div class="fitem">
+            <label>采购成本-国内：</label>
+            <input class="easyui-numberbox" precision="2" name="projectProfit.purchasingCostsD" value="0"/>
+            <label>采购成本-国外：</label>
+            <input class="easyui-numberbox" precision="2" name="projectProfit.purchasingCostsF" value="0"/>
+        </div>
+
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            退税额
+        </div>
+        <div class="fitem">
+            <label>退税：</label>
+            <input class="easyui-numberbox" name="projectProfit.taxRefund" precision="2" value="0"/>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            物流成本
+        </div>
+        <div class="fitem">
+            <label>陆运费：</label>
+            <input class="easyui-numberbox" name="projectProfit.landFreight" precision="2" value="0"/>
+            <label>陆运险：</label>
+            <input class="easyui-numberbox" name="projectProfit.landInsurance" precision="2" value="0"/>
+            <label>港杂费：</label>
+            <input class="easyui-numberbox" name="projectProfit.portCharges" precision="2" value="0"/>
+        </div>
+        <div class="fitem">
+            <label>商检费：</label>
+            <input class="easyui-numberbox" name="projectProfit.inspectionFee" precision="2" value="0"/>
+            <label>国际运输：</label>
+            <input class="easyui-numberbox" name="projectProfit.internationalTransport" precision="2" value="0"/>
+            <label>关税：</label>
+            <input class="easyui-numberbox" name="projectProfit.tariff" precision="2" value="0"/>
+        </div>
+        <div class="fitem">
+            <label>增值税：</label>
+            <input class="easyui-numberbox" name="projectProfit.vat" precision="2" value="0"/>
+            <label>清关杂税：</label>
+            <input class="easyui-numberbox" name="projectProfit.customsClearFee" precision="2" value="0"/>
+            <label>清关代理费：</label>
+            <input class="easyui-numberbox" name="projectProfit.customsAgentFee" precision="2" value="0"/>
+        </div>
+        <div class="fitem">
+            <label>货物运输保险：</label>
+            <input class="easyui-numberbox" name="projectProfit.transportionInsurance" precision="2" value="0"/>
+            <label>物流成本总计：</label>
+            <input class="easyui-numberbox" precision="2" value="0" disabled/>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            项目保险
+        </div>
+        <div class="fitem">
+            <label>出口信用险：</label>
+            <input class="easyui-numberbox" name="projectProfit.exportCreditInsurance" precision="2" value="0"/>
+            <label>其他信用：</label>
+            <input class="easyui-numberbox" name="projectProfit.otherCredit" precision="2" value="0"/>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            项目管理费
+        </div>
+        <div class="fitem">
+            <label>差旅费、业务费等：</label>
+            <input class="easyui-numberbox" name="projectProfit.travelExpenses" precision="2" value="0"/>
+            <label>主营业务成本小计：</label>
+            <input class="easyui-numberbox" precision="2" value="0" disabled/>
+            <label>项目成本总计：</label>
+            <input class="easyui-numberbox" name="projectProfit.projectCost" precision="2" value="0" disabled/>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            市场费用
+        </div>
+        <div class="fitem">
+            <label>项目佣金：</label>
+            <input class="easyui-numberbox" name="projectProfit.agentFee" precision="2" value="0"/>
+            <label>提点费用：</label>
+            <input class="easyui-numberbox" name="projectProfit.raiseFee" precision="2" value="0" disabled/>
+            <label>平台代理费用：</label>
+            <input class="easyui-numberbox" name="projectProfit.platformAgentCost" precision="2" value="0"/>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            市场费用
+        </div>
+        <div class="fitem">
+            <label>信用证、保函费用：</label>
+            <input class="easyui-numberbox" name="projectProfit.guaranceFee" precision="2" value="0"/>
+            <label>融资利息：</label>
+            <input class="easyui-numberbox" name="projectProfit.financingInterest" precision="2" value="0"/>
+            <label>国内税费：</label>
+            <input class="easyui-numberbox" name="projectProfit.domesticTaxs" precision="2" value="0"/>
+        </div>
+        <div class="fitem">
+            <label>国外税费：</label>
+            <input class="easyui-numberbox" name="projectProfit.foreignTaxes" precision="2" value="0"/>
+        </div>
+        <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
+            其它
+        </div>
+        <div class="fitem">
+            <label>管理费用+销售费用：</label>
+            <input class="easyui-numberbox" name="projectProfit.manageFee" precision="2" value="0" disabled/>
+            <label>市场提点后报价利润：</label>
+            <input class="easyui-numberbox" name="projectProfit.afterProfit" precision="2" value="0" disabled/>
+            <label>市场提点前报价利润：</label>
+            <input class="easyui-numberbox" name="projectProfit.beforeProfit" precision="2" value="0" disabled/>
+        </div>
+        <div class="fitem">
+            <label>提点比例：</label>
+            <input class="easyui-numberbox" name="projectProfit.raiseRate" precision="2" value="0" disabled/>
+            <label>报价利润率：</label>
+            <input class="easyui-numberbox" name="projectProfit.quotationProfit" precision="2" value="0" disabled/>
+            <label>后方提点费用：</label>
+            <input class="easyui-numberbox" name="projectProfit.rearFee" precision="2" value="0" disabled/>
+        </div>
+    </div>
+
+
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">项目备注：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="remarks"/>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
+
+            <div data-options="region:'west',split:false,border:false" style="width:150px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:20px;margin-bottom:20px;"><span style="font-size: 14px;">商务技术</span></div>
+                    <div style="margin-bottom:10px;"><a href="javascript:void(0);"
+                                                        onclick="openFileDialog(1,'save_project_form_attachment_table');"
+                                                        class="easyui-linkbutton" plain="true">上传合同正本</a></div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" data-options="idField:'url',data:save_project_form_attachment_table"
+                       fit="true" style="width:150px;"
+                       singleSelect="true"
+                       id="save_project_form_attachment_table"
+                       fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '合同';
+                                    case 2: return '其它';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                        <th field="_operate" width="80" data-options="formatter:saveProjectAttachmentFormatOper">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_project_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_project_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;提交立项&nbsp;&nbsp;</a>
+</div>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#save_project_form',
+        data: save_project_vue_data
+    });
+    $(function () {
+        // 延迟加载数据，防止easyui组件未初始化完成导致异常
+        setTimeout(saveProjectLoadData, 500);
+
+        // 保存订单saveOrder
+        $("#save_project_form_save_btn").click(function (e) {
+            e.preventDefault();
+            var formData = assemblyProjectData();
+            formData.projectStatus = 'SUBMIT'; // 保存项目
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/project/updateProject"}, formData);
+
+            console.info("保存项目结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存项目成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+
+        // 提交订单
+        $("#save_project_form_submit_btn").click(function (e) {
+            e.preventDefault();
+            var formData = assemblyProjectData();
+            formData.projectStatus = 'EXECUTING'; // 执行项目
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/project/updateProject"}, formData);
+
+            console.info("提交项目结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交项目成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+    });
+
+    function saveProjectAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveProjectDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function saveProjectDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_project_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_project_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+
+    // 组装订单数据
+    function assemblyProjectData() {
+        var formData = $("#save_project_form").serializeJson();
+        // 利润信息
+        formData.project02Profit = {};
+        Object.keys(formData).forEach(function (key) {
+            if (key.startsWith("projectProfit") && formData[key]) {
+                var suffix = key.substr(14);
+                formData.project02Profit[suffix] = formData[key];
+                delete formData[key];
+            }
+        });
+        formData.projectProfit = formData.project02Profit;
+        delete formData.project02Profit;
+
+        // 附件内容
+        var attachmentRows = $("#save_project_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+        return formData;
+    }
+
+    function saveProjectLoadData() {
+        console.info("save_project_form_data -> " + JSON.stringify(save_project_form_data));
+        $("#save_project_form").form('load', save_project_form_data);
+    }
+</script>

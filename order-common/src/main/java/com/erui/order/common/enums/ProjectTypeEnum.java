@@ -6,7 +6,9 @@ package com.erui.order.common.enums;
  * 项目类型
  */
 public enum ProjectTypeEnum {
-    GENERAL_TRADE(1, "一般贸易");
+    GENERAL_TRADE(1, "一般贸易"),
+    IMPROVEMENT_TRADE(2, "加工贸易"),
+    ENTREPOT_TRADE(3, "转口贸易");
 
     public short code;
     public String name;

@@ -17,6 +17,8 @@ public class PurchRequisitionQueryRequest extends PagingRequest {
     private Date submitDate;
     // 要求采购到货日期
     private Date requirePurchaseDate;
+    // 采购状态
+    private Short purchStatus;
 
     public String getContractNo() {
         return contractNo;
@@ -56,5 +58,13 @@ public class PurchRequisitionQueryRequest extends PagingRequest {
 
     public void setRequirePurchaseDate(Date requirePurchaseDate) {
         this.requirePurchaseDate = requirePurchaseDate;
+    }
+
+    public Short getPurchStatus() {
+        return purchStatus;
+    }
+
+    public void setPurchStatus(Short purchStatus) {
+        this.purchStatus = purchStatus;
     }
 }

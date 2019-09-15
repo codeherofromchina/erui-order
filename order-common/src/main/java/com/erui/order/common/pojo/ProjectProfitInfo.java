@@ -9,87 +9,88 @@ import java.math.BigDecimal;
  */
 public class ProjectProfitInfo {
     private Long id;
-
+    // 国家
     private String countryBn;
     private String countryName;
-
+    // 贸易术语
     private String tradeTerm;
-
+    // 项目类型
     private Short projectType;
     private String projectTypeName;
-
+    //合同金额（美元）
     private BigDecimal contractAmountUsd;
-
+    // 合同金额（人民币）
     private BigDecimal contractAmount;
-
+    //汇率
     private BigDecimal exchangeRate;
-
+    // 退税
     private BigDecimal taxRefund;
-
+    // 陆运费
     private BigDecimal landFreight;
-
+    // 陆运险
     private BigDecimal landInsurance;
-
+    // 港杂费
     private BigDecimal portCharges;
-
+    // 商检险
     private BigDecimal inspectionFee;
-
+    // 国际运输
     private BigDecimal internationalTransport;
-
+    //关税
     private BigDecimal tariff;
-
+    //增值税
     private BigDecimal vat;
-
+    //清关杂税
     private BigDecimal customsClearFee;
-
+    //清关代理费
     private BigDecimal customsAgentFee;
-
+    //货物运输保险
     private BigDecimal transportionInsurance;
-
+    // 物流成本总计
+    //出口信用险
     private BigDecimal exportCreditInsurance;
-
+    //其他信用
     private BigDecimal otherCredit;
-
+    //差旅费、业务费等
     private BigDecimal travelExpenses;
-
+    //项目成本小计
     private BigDecimal projectCost;
-
+    //毛利润
     private BigDecimal grossProfit;
-
+    //毛利率
     private BigDecimal grossProfitMargin;
-
+    // 项目佣金
     private BigDecimal agentFee;
-
+    // 提点费用
     private BigDecimal raiseFee;
-
+    //信用证，保函费
     private BigDecimal guaranceFee;
-
+    //融资利息
     private BigDecimal financingInterest;
-
+    // 银行手续费
     private BigDecimal bankFees;
-
+    // 国内税费
     private BigDecimal domesticTaxs;
-
+    // 国外税费
     private BigDecimal foreignTaxes;
-
+    // 管理费用
     private BigDecimal manageFee;
-
+    //市场提点后报价利润
     private BigDecimal afterProfit;
-
+    //市场提点前报价利润
     private BigDecimal beforeProfit;
-
+    //报价利润率
     private BigDecimal quotationProfit;
-
+    //采购成本-国内
     private BigDecimal purchasingCostsD;
-
+    //采购成本-国外
     private BigDecimal purchasingCostsF;
-
+    //项目核算利润提点比例
     private BigDecimal raiseRate;
-
+    //项目成本总计
     private BigDecimal totalProjectCost;
-
+    //后方提点费用
     private BigDecimal rearFee;
-
+    //平台代理费用
     private BigDecimal platformAgentCost;
 
 

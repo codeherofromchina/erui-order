@@ -1,98 +1,152 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var savePurchRequisitionPageParams = getQueryStringFromGlobalParams();
+    var save_purch_requisition_form_attachment_table = [];
+    var save_purch_requisition_form_goods_table = [];
+    var save_purch_requisition_form_data = {};
+    if (savePurchRequisitionPageParams.projectId) {
+        var projectInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchRequisition/infoByProjectId"}, {"id": savePurchRequisitionPageParams.projectId});
+        if (projectInfoResp.code == 0) {
+            save_purch_requisition_form_data = projectInfoResp.data;
+            // 附件内容
+            save_purch_requisition_form_attachment_table = save_purch_requisition_form_data.attachments;
+            delete  save_purch_requisition_form_data.attachments;
+            // 商品内容
+            save_purch_requisition_form_goods_table = save_purch_requisition_form_data.goodsInfos;
+            delete save_purch_requisition_form_data.goodsInfos;
+        }
+    }
+</script>
 <form id="save_purch_requisition_form">
-    <div id="save_purch_requisition_panel_baseinfo" class="easyui-panel" title="基本信息"
+    <input type="hidden" name="id"/>
+    <input type="hidden" name="projectId"/>
+    <div class="easyui-panel" title="基本信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
             <label>项目号：</label>
-            <input class="easyui-textbox" name="projectNo" id="save_purchase_form_project_no_field" data-options="editable:false"/>
+            <input class="easyui-textbox" name="projectNo" disabled data-options="editable:false"/>
             <label>项目经办人：</label>
-            <input class="easyui-textbox" id="save_purchase_form_pm_uid_field" name="pmUid" data-options="editable:false"/>
+            <div class="input-div">{{pmUserName}}</div>
             <label>下发部门：</label>
-            <input class="easyui-textbox" id="save_purchase_form_department_field" name="department" data-options="editable:false"/>
+            <div class="input-div">{{departmentName}}</div>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>下发日期：</label>
-            <input type="text" class="easyui-datebox" data-options="required:true,editable:false" style="width:185px;" name="submitDate"/>
+            <input type="text" class="easyui-datebox" data-options="required:true,editable:false" style="width:185px;"
+                   name="submitDate"/>
             <label>项目类型：</label>
-            <input class="easyui-textbox" id="save_purchase_form_project_type_field" editable="false"  name="projectType"/>
+            <div class="input-div">{{tradeMethodName}}</div>
             <label>贸易术语：</label>
-            <input class="easyui-textbox" data-options="editable:false" id="save_purchase_form_teade_term_field" name="tradeTerm"/>
+            <div class="input-div">{{transModeBn}}</div>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>是否厂家直接发货：</label>
-            <select class="easyui-combobox" editable="false" id="save_purch_requisition_form_factory_send_field" name="factorySend"
-                    data-options="required:true" validType="selectValueRequired['#save_purch_requisition_form_factory_send_field']" panelHeight="75px">
-                <option code="">请选择</option>
-                <option code="1">是</option>
-                <option code="0">否</option>
+            <select class="easyui-combobox" editable="false"
+                    name="factorySend"
+                    data-options="required:true"
+                    validType="selectValueRequired['#save_purch_requisition_form_factory_send_field']"
+                    panelHeight="75px">
+                <option value="1">是</option>
+                <option value="0">否</option>
             </select>
             <label><span style="color:red;">*</span>交付地点：</label>
             <input class="easyui-textbox" data-options="required:true" name="deliveryPlace"/>
             <label><span style="color:red;">*</span>客户文件要求：</label>
-            <input class="easyui-textbox" name="requirements"/>
+            <input class="easyui-textbox" required="true" name="requirements"/>
         </div>
     </div>
 
-    <div id="save_purch_requistion_panel_goods_info" class="easyui-panel" title="商品信息"
+    <div class="easyui-panel" title="商品信息"
          style="padding:2px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
-        <table id="save_purch_requistion_panel_goods_table" toolbar="#save_purch_requistion_panel_goods_table_toolbar"></table>
+        <table id="save_purch_requistion_panel_goods_table"
+               toolbar="#save_purch_requistion_panel_goods_table_toolbar"></table>
         <div class="toolbar" id="save_purch_requistion_panel_goods_table_toolbar">
             <div class="search-div">
-                <form id="edit_goods_dialog_base_info_table_toolbar_form">
-                    <label>批量操作-></label>
-                    <label>采购需用日期：</label>
-                    <input type="text" class="easyui-datebox" data-options="editable:false" />
-                    <label>质检类型：</label>
-                    <select class="easyui-combobox" editable="false" panelHeight="75px;" style="width:75px;">
-                        <option code="">请选择</option>
-                        <option code="PROCESS">过程检验</option>
-                        <option code="FIANL">终检</option>
-                    </select>
-                    <label>质检方法：</label>
-                    <select class="easyui-combobox" editable="false" panelHeight="100px;" style="width:75px;">
-                        <option code="">请选择</option>
-                        <option code="WAREHOUSE">易瑞仓库</option>
-                        <option code="OUTSIDE">外检</option>
-                        <option code="THIRD">第三方检验</option>
-                    </select>
-                </form>
+                <label>批量操作-></label>
+                <label>采购需用日期：</label>
+                <input type="text" class="easyui-datebox"
+                       id="save_purch_requistion_panel_goods_table_toolbar_require_purchase_date"
+                       data-options="editable:false"/>
+                <label>质检类型：</label>
+                <select class="easyui-combobox" editable="false" panelHeight="75px;"
+                        id="save_purch_requistion_panel_goods_table_toolbar_chech_type" style="width:75px;">
+                    <option value="">请选择</option>
+                    <option value="PROCESS">过程检验</option>
+                    <option value="FIANL">终检</option>
+                </select>
+                <label>质检方法：</label>
+                <select class="easyui-combobox" editable="false" panelHeight="100px;"
+                        id="save_purch_requistion_panel_goods_table_toolbar_chech_method" style="width:75px;">
+                    <option value="">请选择</option>
+                    <option value="WAREHOUSE">易瑞仓库</option>
+                    <option value="OUTSIDE">外检</option>
+                    <option value="THIRD">第三方检验</option>
+                </select>
             </div>
         </div>
     </div>
 
-    <div id="save_purch_requistion_panel_other_info" class="easyui-panel" title="其他信息"
+    <div class="easyui-panel" title="其他信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
             <label style="width:120px;">备注：</label>
-            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" name="remarks" code=""  />
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="remarks"/>
         </div>
     </div>
 
-    <div id="save_purch_requisition_panel_attachment_info" class="easyui-panel" title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+    <div id="save_purch_requisition_panel_attachment_info" class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
          style="background:#fafafa;margin-bottom:30px;"
          data-options="collapsible:true">
         <div class="easyui-layout" style="width: 100%;height:200px;">
 
             <div data-options="region:'west',split:false,border:false" style="width:180px;">
                 <div style="text-align:center;">
-                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">事业部项目负责人</span></div>
-                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传询价资料</a> </div>
-                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传技术协议</a> </div>
-                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传即投标成本价格明细</a> </div>
-                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传其它</a> </div>
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">事业部项目负责人</span>
+                    </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(1,'save_purch_requisition_form_attachment_table');"
+                                                       plain="true">上传询价资料</a></div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(2,'save_purch_requisition_form_attachment_table');"
+                                                       plain="true">上传技术协议</a></div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(3,'save_purch_requisition_form_attachment_table');"
+                                                       plain="true">上传投标成本价格明细</a></div>
+                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true"
+                            onclick="openFileDialog(4,'save_purch_requisition_form_attachment_table');">上传其它</a></div>
                 </div>
             </div>
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
-                <table class="easyui-datagrid" fit="true" fitColumn="true">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:save_purch_requisition_form_attachment_table"
+                       fit="true"
+                       singleSelect="true"
+                       id="save_purch_requisition_form_attachment_table"
+                       fitColumn="true">
                     <thead>
-                    <tr>
-                        <th field="contractNo" width="200">附件名称</th>
-                        <th field="projectNo" width="120">创建人</th>
-                        <th field="contractNoHw" width="170">日期</th>
-                        <th field="inquiryNo" width="80">操作</th>
-                    </tr>
+                    <th field="title" width="200">附件名称</th>
+                    <th field="createUserName" width="120">创建人</th>
+                    <th field="attachType" width="100" data-options="
+                                formatter:function(value){
+                                    switch(value){
+                                        case 1: return '询价资料';
+                                        case 2: return '技术协议';
+                                        case 3: return '投标成本价格明细';
+                                        case 4: return '其它';
+                                    }
+                                    return value;
+                                }
+                                ">类型
+                    </th>
+                    <th field="createTime" width="170">日期</th>
+                    <th field="_operate" width="80" data-options="formatter:savePurchRequisitionAttachmentFormatOper">
+                        操作
+                    </th>
                     </thead>
                 </table>
             </div>
@@ -101,89 +155,253 @@
 </form>
 
 <div style="margin-top:20px;text-align: center;">
-    <a href="javascript:void(0);" id="save_purchase_form_save_btn" size="large" class="easyui-linkbutton" style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <a href="javascript:void(0);" id="save_purchase_form_submit_btn" size="large" class="easyui-linkbutton" style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purch_requisition_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purch_requisition_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 </div>
 
 <script type="text/javascript">
-    $(function(){
+    new Vue({
+        el: '#save_purch_requisition_form',
+        data: save_purch_requisition_form_data
+    });
+    $(function () {
+        // 延迟加载数据，防止easyui组件未初始化完成导致异常
+        setTimeout(function () {
+            $("#save_purch_requisition_form").form('load', save_purch_requisition_form_data);
+        }, 500);
         $("#save_purch_requistion_panel_goods_table").datagrid({
-            border:false,
-            striped:true,
-            frozenColumns:[[{field:'ck',width:'3%',checkbox:'true'}]],
-            columns:[[
-                {field:'sku',width:120,title:'平台SKU'},
-                {field:'nameEn',width:100,title:'外文品名'},
-                {field:'nameZh',width:100,title:'中文品名\t\n'},
-                {field:'contractGoodsNum',width:80,title:'数量\t\n'},
-                {field:'unit',width:80,title:'单位\t\n'},
-                {field:'brand',width:100,title:'品牌\t\n'},
-                {field:'requirePurchaseDate',width:100,title:'采购需用日期',
-                    editor:{
-                        type:"datebox"
+            border: false,
+            striped: true,
+            idField: 'orderGoodsId',
+            frozenColumns: [[{field: 'ck', width: '3%', checkbox: 'true'}]],
+            columns: [[
+                {field: 'sku', width: 120, title: '平台SKU'},
+                {field: 'nameEn', width: 100, title: '外文品名'},
+                {field: 'nameZh', width: 100, title: '中文品名'},
+                {field: 'contractGoodsNum', width: 80, title: '数量'},
+                {field: 'unit', width: 80, title: '单位'},
+                {field: 'brand', width: 100, title: '品牌'},
+                {
+                    field: 'requirePurchaseDate', width: 100, title: '采购需用日期',
+                    editor: {
+                        type: "datebox"
                     }
                 },
-                {field:'techRequire',width:120,title:'技术要求和使用条件',
-                    editor:{
-                        type:"textbox"
+                {
+                    field: 'techRequire', width: 120, title: '技术要求和使用条件',
+                    editor: {
+                        type: "textbox"
                     }
                 },
-                {field:'checkType',width:80,title:'质检类型',
-                    editor:{
-                        type:"combobox",
+                {
+                    field: 'checkType', width: 80, title: '质检类型',
+                    editor: {
+                        type: "combobox",
                         options: {
                             valueField: "code",
                             textField: "text",
                             editable: false,
-                            data:[
-                                {"text":"过程检验","code":"PROCESS"},
-                                {"text":"终检","code":"FIANL"}
+                            data: [
+                                {"text": "过程检验", "code": "PROCESS"},
+                                {"text": "终检", "code": "FIANL"}
                             ]
                         }
                     }
                 },
-                {field:'checkMethod',width:80,title:'质检方法',
-                    editor:{
-                        type:"combobox",
+                {
+                    field: 'checkMethod', width: 80, title: '质检方法',
+                    editor: {
+                        type: "combobox",
                         options: {
                             valueField: "code",
                             textField: "text",
                             editable: false,
-                            data:[
-                                {"text":"易瑞仓库","code":"WAREHOUSE"},
-                                {"text":"外检","code":"OUTSIDE"},
-                                {"text":"第三方检验","code":"THIRD"}
+                            data: [
+                                {"text": "易瑞仓库", "code": "WAREHOUSE"},
+                                {"text": "外检", "code": "OUTSIDE"},
+                                {"text": "第三方检验", "code": "THIRD"}
                             ]
                         }
                     }
                 },
-                {field:'certificate',width:120,title:'合格证',
-                    editor:{
-                        type:"textbox"
+                {
+                    field: 'certificate', width: 120, title: '合格证',
+                    editor: {
+                        type: "textbox"
                     }
                 },
-                {field:'techAudit',width:120,title:'技术审核',
-                    editor:{
-                        type:"textbox"
+                {
+                    field: 'techAudit', width: 120, title: '技术审核',
+                    editor: {
+                        type: "textbox"
                     }
                 },
             ]],
-            onLoadSuccess:function(data) {
+            onLoadSuccess: function (data) {
                 // 控制表格可以编辑
                 for (var num = 0; num < data.total; ++num) {
                     $(this).datagrid('beginEdit', num);
                 }
+            },
+            data: save_purch_requisition_form_goods_table
+        });
+
+        // 保存
+        $("#save_purch_requisition_form_save_btn").click(function (e) {
+            e.preventDefault();
+            var isValid = $("#save_purch_requisition_form").form('validate');
+            if (!isValid){
+                $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
+                return;
+            }
+            var formData = assemblyPurchRequisitionData();
+            formData.purchRequisitionStatus = '1'; // 保存采购申请
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchRequisition/savePurchRequisition"}, formData);
+
+            console.info("保存采购申请结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存采购申请成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
             }
         });
 
-        $("#save_purchase_form_save_btn").click(function (e) {
+        $("#save_purch_requisition_form_submit_btn").click(function (e) {
             e.preventDefault();
-            closeCurrentTab();
+            var isValid = $("#save_purch_requisition_form").form('validate');
+            if (!isValid){
+                $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
+                return;
+            }
+            var formData = assemblyPurchRequisitionData();
+            formData.purchRequisitionStatus = '2'; // 提交采购申请
 
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchRequisition/savePurchRequisition"}, formData);
+
+            console.info("提交采购申请结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交采购申请成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+
+            // 批量采购需用日期
+        $("#save_purch_requistion_panel_goods_table_toolbar_require_purchase_date").datebox({
+            onChange:function (newValue, oldValue) {
+                var checkedRows = $("#save_purch_requistion_panel_goods_table").datagrid("getChecked");
+                if (checkedRows) {
+                    $.each(checkedRows,function(index, checkedRow) {
+                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex",checkedRow.orderGoodsId);
+                        var edRequirePurchaseDate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index02, field: 'requirePurchaseDate'});
+                        $(edRequirePurchaseDate.target).datebox('setValue',newValue);
+                    });
+                }
+            }
+        });
+        // 批量质检类型
+        $("#save_purch_requistion_panel_goods_table_toolbar_chech_type").combobox({
+            onChange:function (newValue, oldValue) {
+                var checkedRows = $("#save_purch_requistion_panel_goods_table").datagrid("getChecked");
+                if (checkedRows) {
+                    $.each(checkedRows,function(index, checkedRow) {
+                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex",checkedRow.orderGoodsId);
+                        var edCheckType = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index02, field: 'checkType'});
+
+                        $(edCheckType.target).combobox('setValue',newValue);
+                    });
+                }
+
+            }
+        });
+        // 批量质检方法
+        $("#save_purch_requistion_panel_goods_table_toolbar_chech_method").combobox({
+            onChange:function (newValue, oldValue) {
+                var checkedRows = $("#save_purch_requistion_panel_goods_table").datagrid("getChecked");
+                if (checkedRows) {
+                    $.each(checkedRows,function(index, checkedRow) {
+                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex",checkedRow.orderGoodsId);
+                        var edCheckMethod = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index02, field: 'checkMethod'});
+                        $(edCheckMethod.target).combobox('setValue',newValue);
+                    });
+                }
+            }
         });
 
     });
 
 
+    function savePurchRequisitionAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="savePurchRequisitionDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function savePurchRequisitionDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_purch_requisition_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_purch_requisition_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+
+    // 组装订单数据
+    function assemblyPurchRequisitionData() {
+        var formData = $("#save_purch_requisition_form").serializeJson();
+        console.info(JSON.stringify(formData));
+
+        // 商品内容
+        formData.purchRequisitionGoods = [];
+
+        var datagridRows = $("#save_purch_requistion_panel_goods_table").datagrid("getRows");
+        $.each(datagridRows, function (index, value) {
+            var edRequirePurchaseDate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'requirePurchaseDate'});
+            var requirePurchaseDate = $(edRequirePurchaseDate.target).datebox('getValue');
+
+            var edTechRequire = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'techRequire'});
+            var techRequire = $(edTechRequire.target).textbox('getValue');
+            var edCheckType = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'checkType'});
+            var checkType = $(edCheckType.target).combobox('getValue');
+            var edCheckMethod = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'checkMethod'});
+            var checkMethod = $(edCheckMethod.target).combobox('getValue');
+            var edCertificate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'certificate'});
+            var certificate = $(edCertificate.target).textbox('getValue');
+            var edTechAudit = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'techAudit'});
+            var techAudit = $(edTechAudit.target).textbox('getValue');
+            formData.purchRequisitionGoods.push({
+                id: value.id,
+                orderGoodsId: value.orderGoodsId,
+                requirePurchaseDate:requirePurchaseDate,
+                techRequire:techRequire,
+                checkType:checkType,
+                checkMethod:checkMethod,
+                certificate:certificate,
+                techAudit:techAudit
+            });
+        });
+
+        // 附件内容
+        var attachmentRows = $("#save_purch_requisition_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+        return formData;
+    }
 
 </script>

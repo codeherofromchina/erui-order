@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.PurchRequisition" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="project_id" property="projectId" jdbcType="BIGINT" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
     <result column="pm_uid" property="pmUid" jdbcType="BIGINT" />
     <result column="department" property="department" jdbcType="BIGINT" />
     <result column="submit_date" property="submitDate" jdbcType="DATE" />
@@ -83,10 +84,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, project_id, pm_uid, department, submit_date, trade_method, trans_mode_bn, factory_send, 
-    delivery_place, requirements, remarks, purch_requisition_status, purch_status, purchase_uid, 
-    single_person_id, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    delete_time
+    id, project_id, project_no, pm_uid, department, submit_date, trade_method, trans_mode_bn, 
+    factory_send, delivery_place, requirements, remarks, purch_requisition_status, purch_status, 
+    purchase_uid, single_person_id, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchRequisitionExample" >
     select
@@ -118,23 +119,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.PurchRequisition" >
-    insert into purch_requisition (id, project_id, pm_uid, 
-      department, submit_date, trade_method, 
-      trans_mode_bn, factory_send, delivery_place, 
-      requirements, remarks, purch_requisition_status, 
-      purch_status, purchase_uid, single_person_id, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, delete_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{pmUid,jdbcType=BIGINT}, 
-      #{department,jdbcType=BIGINT}, #{submitDate,jdbcType=DATE}, #{tradeMethod,jdbcType=SMALLINT}, 
-      #{transModeBn,jdbcType=CHAR}, #{factorySend,jdbcType=SMALLINT}, #{deliveryPlace,jdbcType=VARCHAR}, 
-      #{requirements,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, #{purchRequisitionStatus,jdbcType=SMALLINT}, 
-      #{purchStatus,jdbcType=SMALLINT}, #{purchaseUid,jdbcType=BIGINT}, #{singlePersonId,jdbcType=BIGINT}, 
-      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.PurchRequisition" >
+    insert into purch_requisition (id, project_id, project_no, 
+      pm_uid, department, submit_date, 
+      trade_method, trans_mode_bn, factory_send, 
+      delivery_place, requirements, remarks, 
+      purch_requisition_status, purch_status, 
+      purchase_uid, single_person_id, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, delete_time)
+    values (#{id,jdbcType=BIGINT}, #{projectId,jdbcType=BIGINT}, #{projectNo,jdbcType=VARCHAR}, 
+      #{pmUid,jdbcType=BIGINT}, #{department,jdbcType=BIGINT}, #{submitDate,jdbcType=DATE}, 
+      #{tradeMethod,jdbcType=SMALLINT}, #{transModeBn,jdbcType=CHAR}, #{factorySend,jdbcType=SMALLINT}, 
+      #{deliveryPlace,jdbcType=VARCHAR}, #{requirements,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{purchRequisitionStatus,jdbcType=SMALLINT}, #{purchStatus,jdbcType=SMALLINT}, 
+      #{purchaseUid,jdbcType=BIGINT}, #{singlePersonId,jdbcType=BIGINT}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.PurchRequisition" >
     insert into purch_requisition
@@ -144,6 +145,9 @@
       </if>
       <if test="projectId != null" >
         project_id,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
       </if>
       <if test="pmUid != null" >
         pm_uid,
@@ -209,6 +213,9 @@
       </if>
       <if test="projectId != null" >
         #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
       </if>
       <if test="pmUid != null" >
         #{pmUid,jdbcType=BIGINT},
@@ -284,6 +291,9 @@
       <if test="record.projectId != null" >
         project_id = #{record.projectId,jdbcType=BIGINT},
       </if>
+      <if test="record.projectNo != null" >
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
       <if test="record.pmUid != null" >
         pm_uid = #{record.pmUid,jdbcType=BIGINT},
       </if>
@@ -350,6 +360,7 @@
     update purch_requisition
     set id = #{record.id,jdbcType=BIGINT},
       project_id = #{record.projectId,jdbcType=BIGINT},
+      project_no = #{record.projectNo,jdbcType=VARCHAR},
       pm_uid = #{record.pmUid,jdbcType=BIGINT},
       department = #{record.department,jdbcType=BIGINT},
       submit_date = #{record.submitDate,jdbcType=DATE},
@@ -378,6 +389,9 @@
     <set >
       <if test="projectId != null" >
         project_id = #{projectId,jdbcType=BIGINT},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
       </if>
       <if test="pmUid != null" >
         pm_uid = #{pmUid,jdbcType=BIGINT},
@@ -442,6 +456,7 @@
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.PurchRequisition" >
     update purch_requisition
     set project_id = #{projectId,jdbcType=BIGINT},
+      project_no = #{projectNo,jdbcType=VARCHAR},
       pm_uid = #{pmUid,jdbcType=BIGINT},
       department = #{department,jdbcType=BIGINT},
       submit_date = #{submitDate,jdbcType=DATE},

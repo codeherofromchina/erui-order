@@ -64,40 +64,36 @@
                     <label>流程进度：</label>
                     <select class="easyui-combobox" editable="false" name="processProgress">
                         <option code="">全部</option>
-                        <option code="1">未执行</option>
-                        <option code="2">正常执行</option>
-                        <option code="3">已采购</option>
-                        <option code="4">已报检</option>
-                        <option code="5">已入库质检</option>
-                        <option code="6">已入库</option>
-                        <option code="7">已出库质检</option>
-                        <option code="8">已出库</option>
-                        <option code="9">已发运</option>
+                        <option code="SUBMIT">未执行</option>
+                        <option code="EXECUTING">正常执行</option>
+                        <option code="BUYING">已采购</option>
+                        <option code="DONE">已报检</option>
+                        <option code="CHECKING">已入库质检</option>
+                        <option code="IN_STORAGE">已入库</option>
+                        <option code="QUALITY_INSPECTION">已出库质检</option>
+                        <option code="DELAYED_UNSHIPPED">已出库</option>
+                        <option code="SHIPED">已发运</option>
                     </select>
                 </li>
                 <li>
                     <label>执行事业部：</label>
                     <input type="text" id="project_list_table_toolbar_form_send_dept_id_field" class="easyui-textbox"
-                           editable="false" name="sendDeptId02" buttonText="请选择"
+                           editable="false" name="sendDeptId" buttonText="请选择"
                            data-options="onClickButton:function(){$('#project_list_send_dept_id_dialog').dialog('open');$('#project_list_send_dept_id_dialog').dialog('refresh', 'common/businessUnitDialog.html');}"/>
                 </li>
                 <li>
                     <label>事业部项目负责人：</label>
                     <input type="text" id="project_list_table_toolbar_form_business_uid_field" class="easyui-textbox"
-                           editable="false" name="businessUid02" buttonText="请选择"
+                           editable="false" name="businessUid" buttonText="请选择"
                            data-options="onClickButton:function(){$('#project_list_business_uid_dialog').dialog('open');$('#project_list_business_uid_dialog').dialog('refresh', 'common/userDialog.html');}"/>
                 </li>
                 <li>
                     <label>项目创建日期：</label>
-                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox" name="startTime">
+                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox"
+                           name="createTimeStart">
                     <span>-</span>
-                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox" name="endTime">
-                </li>
-                <li>
-                    <label>审核进度：</label>
-                    <select class="easyui-combobox" style="width:160px;"
-                            data-options="editable:false,valueField: 'actId',textField: 'actName',data:project_list_auditing_process_node_arr"
-                            name="auditingProcess"></select>
+                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox"
+                           name="createTimeEnd">
                 </li>
                 <li>
                     <span class="search-btn">
@@ -138,117 +134,16 @@
                 {field: 'contractNo', width: 120, title: '销售合同号'},
                 {field: 'projectNo', width: 110, title: '项目号'},
                 {field: 'projectName', width: 110, title: '合同标的'},
-                {field: 'businessUnitName', width: 120, title: '执行事业部'},
-                {field: 'businessName', width: 50, title: '执行项目负责人'},
-                {field: 'createTime', width: 80, title: '项目创建日期'},
+                {field: 'sendDeptName', width: 120, title: '执行事业部'},
+                {field: 'businessUserName', width: 120, title: '执行项目负责人'},
+                {field: 'createTime', width: 150, title: '项目创建日期'},
                 {field: 'startDate', width: 130, title: '项目开始日期'},
-                {
-                    field: 'projectStatus', width: 70, title: '项目状态',
-                    formatter: function (code, row, index) {
-                        switch (code) {
-                            case "SUBMIT":
-                                return "未执行";
-                            case "EXECUTING":
-                                return "正常执行";
-                            case "DONE":
-                                return "正常完成";
-                            case "DELAYED_EXECUTION":
-                                return "延期执行";
-                            case "DELAYED_COMPLETE":
-                                return "延期完成";
-                            case "UNSHIPPED":
-                                return "正常待发运";
-                            case "DELAYED_UNSHIPPED":
-                                return "延期待发运";
-                            case "PAUSE":
-                                return "项目暂停";
-                            case "CANCEL":
-                                return "项目取消";
-                            case "ORDERCANCEL":
-                                return "订单取消";
-                            case "CHANGE":
-                                return "已变更";
-                            default :
-                                return code;
-                        }
-                    }
-                },
-                {
-                    field: 'processProgress', width: 100, title: '流程进度',
-                    formatter: function (code, row, index) {
-                        switch (code) {
-                            case "1":
-                                return "未执行";
-                            case "2":
-                                return "正常执行";
-                            case "3":
-                                return "已采购";
-                            case "4":
-                                return "已报检";
-                            case "5":
-                                return "已入库质检";
-                            case "6":
-                                return "已入库";
-                            case "7":
-                                return "已出库质检";
-                            case "8":
-                                return "已出库";
-                            case "9":
-                                return "已发运";
-                            default :
-                                return code;
-                        }
-                    }
-                },
-                {
-                    field: 'auditingProcess', width: 100, title: '审核进度',
-                    formatter: function (code, row, index) {
-                        if (code) {
-                            var splitArr = code.split(",");
-                            var resultV = [];
-                            $.each(splitArr, function (index, a) {
-                                var d = project_list_auditing_process_nodes[a];
-                                if (d) {
-                                    resultV.push(d);
-                                } else {
-                                    resultV.push(a);
-                                }
-                            });
-                            return resultV.join(",");
-                        }
-                        return "";
-                    }
-                },
-                {
-                    field: 'auditingStatus', width: 50, title: '审核状态',
-                    formatter: function (code, row, index) {
-                        var respStr;
-                        switch (code) {
-                            case 1:
-                                return "未审核";
-                            case 2:
-                                return "审核中";
-                            case 3:
-                                return "驳回";
-                            case 4:
-                                return "已完成";
-                            default:
-                                return code;
-                        }
-                    }
-                },
-                {
-                    field: 'operation', width: 50, title: '操作',
-                    formatter: function (code, row, index) {
-                        return '查看';
-                    }
-                }
+                {field: 'projectStatusName', width: 70, title: '项目状态'},
+                {field: 'processProgressName', width: 100, title: '流程进度'},
+                {field: '_operate', width: 150, title: '操作', formatter: projectListFormatOper}
             ]],
-            url: ORDER_URL + '/order/project/projectManage',
+            url: LOCAL_URL + '/order/project/list',
             onBeforeLoad: function (param) {
-                param.sendDeptId = "9902,9899,9908,9980,9942,9969";
-                param.managerUid = "39427";
-                param.auditingUserId = "39427";
                 var data = $('#project_list_table_toolbar_form').serializeJson();
                 if (data) {
                     for (var attr in data) {
@@ -260,15 +155,9 @@
                 var opts = $(this).datagrid("options");
                 return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter: function (data) {
-                var finalData = {"total": 0, "rows": []};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
+
         $("#project_list_send_dept_id_dialog").dialog({
             title: '执行事业部',
             resizable: true,
@@ -332,4 +221,76 @@
             $("#project_list_table").datagrid("reload");
         });
     });
+
+    function orderInfoPage(orderId) {
+        var tabTitle = "查看订单-" + orderId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "orderId=" + orderId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'order/orderInfo.html',
+                closable: true
+            });
+        }
+    }
+
+
+    function handleProjectPage(projectId) {
+        var tabTitle = "办理项目";
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $.messager.alert("无法打开新页签", "已经存在待办理订单");
+        } else {
+            GLOBAL_PARAMS = "projectId=" + projectId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'project/saveProject.html',
+                closable: true
+            });
+        }
+    }
+
+    function projectInfoPage(projectId) {
+        var tabTitle = "查看项目-" + projectId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "projectId=" + projectId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'project/projectInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function savePurchRequisitionPage(projectId) {
+        var tabTitle = "生成采购申请";
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $.messager.alert("无法打开新页签", "已经存在生成采购申请页签");
+        } else {
+            GLOBAL_PARAMS = "projectId=" + projectId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchRequisition/savePurchRequisition.html',
+                closable: true
+            });
+        }
+
+
+    }
+
+    function projectListFormatOper(val, row, index) {
+        var str = '';
+        if (row.projectStatus == 'SUBMIT') {
+            // 可办理
+            str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handleProjectPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+        } else if (row.projectStatus == 'EXECUTING' && row.purchReqCreate != 3) {
+            // 状态执行中，且未提交采购申请单
+            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="savePurchRequisitionPage(' + row.id + ')">生成采购申请</a>&nbsp;&nbsp;&nbsp;';
+        }
+        str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="projectInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+        return str;
+    }
 </script>

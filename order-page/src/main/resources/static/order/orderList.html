@@ -47,7 +47,7 @@
         </th>
         <th field="auditingStatusName">审核状态
         </th>
-        <th field="_operate" data-options="formatter:formatOper">操作</th>
+        <th field="_operate" data-options="formatter:orderListFormatOper">操作</th>
     </tr>
     </thead>
 </table>
@@ -329,7 +329,7 @@
     }
 
 
-    function formatOper(val, row, index) {
+    function orderListFormatOper(val, row, index) {
         var str = '';
         if (row.orderStatus == 1) {
             // 可办理

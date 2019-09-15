@@ -17,11 +17,12 @@ public class ProjectQueryRequest extends PagingRequest {
     private String projectName;
     // 项目开始日期
     private Date startDate;
-
     // 项目状态
     private String projectStatus;
     // 流程进度
     private String processProgress;
+    // 要求采购到货日期
+    private Date requirePurchaseDate;
     // 执行事业部
     private Long sendDeptId;
     // 事业部项目负责人
@@ -29,8 +30,6 @@ public class ProjectQueryRequest extends PagingRequest {
     // 项目创建日期
     private Date createTimeStart;
     private Date createTimeEnd;
-    // 审核进度
-    private String auditingProcess;
 
     public String getContractNo() {
         return contractNo;
@@ -80,6 +79,14 @@ public class ProjectQueryRequest extends PagingRequest {
         this.processProgress = processProgress;
     }
 
+    public Date getRequirePurchaseDate() {
+        return requirePurchaseDate;
+    }
+
+    public void setRequirePurchaseDate(Date requirePurchaseDate) {
+        this.requirePurchaseDate = requirePurchaseDate;
+    }
+
     public Long getSendDeptId() {
         return sendDeptId;
     }
@@ -112,11 +119,4 @@ public class ProjectQueryRequest extends PagingRequest {
         this.createTimeEnd = createTimeEnd;
     }
 
-    public String getAuditingProcess() {
-        return auditingProcess;
-    }
-
-    public void setAuditingProcess(String auditingProcess) {
-        this.auditingProcess = auditingProcess;
-    }
 }
