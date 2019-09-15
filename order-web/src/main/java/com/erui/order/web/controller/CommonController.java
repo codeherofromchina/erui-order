@@ -42,6 +42,8 @@ public class CommonController {
     private CountryService countryService;
     @Autowired
     private AreaService areaService;
+    @Autowired
+    private SupplierService supplierService;
 
     /**
      * 查询用户列表
@@ -161,6 +163,29 @@ public class CommonController {
             result.setData(countryInfoList);
         } catch (Exception e) {
             e.printStackTrace();
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 供应商列表
+     *
+     * @return
+     */
+    @PostMapping("supplierList")
+    public Result<Pager<SupplierInfo>> supplierList(@RequestBody SupplierListQueryRequest queryRequest) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("supplierList - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
+        Result<Pager<SupplierInfo>> result = new Result<>();
+        try {
+            Pager<SupplierInfo> pageInfo = supplierService.list(queryRequest);
+            result.setData(pageInfo);
+            LOGGER.info("supplierList 成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("supplierList 异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;

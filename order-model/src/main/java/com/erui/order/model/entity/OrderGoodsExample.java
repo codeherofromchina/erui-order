@@ -1515,6 +1515,126 @@ public class OrderGoodsExample {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
             return (Criteria) this;
         }
+
+        public Criteria andPrePurchContractNumIsNull() {
+            addCriterion("pre_purch_contract_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumIsNotNull() {
+            addCriterion("pre_purch_contract_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num =", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumNotEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num <>", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumGreaterThan(Short value) {
+            addCriterion("pre_purch_contract_num >", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num >=", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumLessThan(Short value) {
+            addCriterion("pre_purch_contract_num <", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumLessThanOrEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num <=", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumIn(List<Short> values) {
+            addCriterion("pre_purch_contract_num in", values, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumNotIn(List<Short> values) {
+            addCriterion("pre_purch_contract_num not in", values, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumBetween(Short value1, Short value2) {
+            addCriterion("pre_purch_contract_num between", value1, value2, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumNotBetween(Short value1, Short value2) {
+            addCriterion("pre_purch_contract_num not between", value1, value2, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumIsNull() {
+            addCriterion("purch_contract_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumIsNotNull() {
+            addCriterion("purch_contract_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumEqualTo(Short value) {
+            addCriterion("purch_contract_num =", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumNotEqualTo(Short value) {
+            addCriterion("purch_contract_num <>", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumGreaterThan(Short value) {
+            addCriterion("purch_contract_num >", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("purch_contract_num >=", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumLessThan(Short value) {
+            addCriterion("purch_contract_num <", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumLessThanOrEqualTo(Short value) {
+            addCriterion("purch_contract_num <=", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumIn(List<Short> values) {
+            addCriterion("purch_contract_num in", values, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumNotIn(List<Short> values) {
+            addCriterion("purch_contract_num not in", values, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumBetween(Short value1, Short value2) {
+            addCriterion("purch_contract_num between", value1, value2, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumNotBetween(Short value1, Short value2) {
+            addCriterion("purch_contract_num not between", value1, value2, "purchContractNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

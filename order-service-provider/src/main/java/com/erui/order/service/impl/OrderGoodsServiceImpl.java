@@ -77,6 +77,9 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         }
         orderGoods.setCreateTime(new Date());
         orderGoods.setDeleteFlag(Boolean.FALSE);
+        orderGoods.setPrePurchContractNum((short) 0);
+        orderGoods.setPurchContractNum((short) 0);
+
         return orderGoodsMapper.insert(orderGoods);
     }
 

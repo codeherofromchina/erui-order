@@ -117,7 +117,7 @@
                     var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setValue", selectedTableRow.id);
-                        $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setText", selectedTableRow.name);
+                        $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setText", selectedTableRow.supplierName);
                     } else {
                         $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("clear");
                     }

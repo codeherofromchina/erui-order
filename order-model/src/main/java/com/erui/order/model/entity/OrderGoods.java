@@ -48,6 +48,10 @@ public class OrderGoods {
 
     private Date deleteTime;
 
+    private Short prePurchContractNum;
+
+    private Short purchContractNum;
+
     private String attrs;
 
     public Long getId() {
@@ -224,6 +228,22 @@ public class OrderGoods {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public Short getPrePurchContractNum() {
+        return prePurchContractNum;
+    }
+
+    public void setPrePurchContractNum(Short prePurchContractNum) {
+        this.prePurchContractNum = prePurchContractNum;
+    }
+
+    public Short getPurchContractNum() {
+        return purchContractNum;
+    }
+
+    public void setPurchContractNum(Short purchContractNum) {
+        this.purchContractNum = purchContractNum;
     }
 
     public String getAttrs() {

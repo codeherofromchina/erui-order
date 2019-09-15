@@ -203,8 +203,8 @@
                 handler:function(){
                     var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
-                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setValue",selectedTableRow.serial_no);
-                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setText",selectedTableRow.name);
+                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setValue",selectedTableRow.id);
+                        $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setText",selectedTableRow.supplierName);
                     } else {
                         $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("clear");
                     }

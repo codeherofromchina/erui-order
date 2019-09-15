@@ -24,6 +24,8 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="pre_purch_contract_num" property="prePurchContractNum" jdbcType="SMALLINT" />
+    <result column="purch_contract_num" property="purchContractNum" jdbcType="SMALLINT" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.erui.order.model.entity.OrderGoods" extends="BaseResultMap" >
     <result column="attrs" property="attrs" jdbcType="LONGVARCHAR" />
@@ -89,7 +91,8 @@
   <sql id="Base_Column_List" >
     id, order_id, sku, mete_type, mete_type_name, tpl_no, tpl_name, department_id, name_en, 
     name_zh, contract_goods_num, unit, price, erui_price, total_price, brand, create_user_id, 
-    create_time, update_user_id, update_time, delete_flag, delete_time
+    create_time, update_user_id, update_time, delete_flag, delete_time, pre_purch_contract_num, 
+    purch_contract_num
   </sql>
   <sql id="Blob_Column_List" >
     attrs
@@ -150,7 +153,8 @@
       price, erui_price, total_price, 
       brand, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      delete_time, attrs)
+      delete_time, pre_purch_contract_num, purch_contract_num, 
+      attrs)
     values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{sku,jdbcType=VARCHAR}, 
       #{meteType,jdbcType=VARCHAR}, #{meteTypeName,jdbcType=VARCHAR}, #{tplNo,jdbcType=VARCHAR}, 
       #{tplName,jdbcType=VARCHAR}, #{departmentId,jdbcType=BIGINT}, #{nameEn,jdbcType=VARCHAR}, 
@@ -158,7 +162,8 @@
       #{price,jdbcType=DECIMAL}, #{eruiPrice,jdbcType=DECIMAL}, #{totalPrice,jdbcType=DECIMAL}, 
       #{brand,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP}, #{attrs,jdbcType=LONGVARCHAR})
+      #{deleteTime,jdbcType=TIMESTAMP}, #{prePurchContractNum,jdbcType=SMALLINT}, #{purchContractNum,jdbcType=SMALLINT}, 
+      #{attrs,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.OrderGoods" >
     insert into order_goods
@@ -228,6 +233,12 @@
       </if>
       <if test="deleteTime != null" >
         delete_time,
+      </if>
+      <if test="prePurchContractNum != null" >
+        pre_purch_contract_num,
+      </if>
+      <if test="purchContractNum != null" >
+        purch_contract_num,
       </if>
       <if test="attrs != null" >
         attrs,
@@ -299,6 +310,12 @@
       </if>
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="prePurchContractNum != null" >
+        #{prePurchContractNum,jdbcType=SMALLINT},
+      </if>
+      <if test="purchContractNum != null" >
+        #{purchContractNum,jdbcType=SMALLINT},
       </if>
       <if test="attrs != null" >
         #{attrs,jdbcType=LONGVARCHAR},
@@ -380,6 +397,12 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.prePurchContractNum != null" >
+        pre_purch_contract_num = #{record.prePurchContractNum,jdbcType=SMALLINT},
+      </if>
+      <if test="record.purchContractNum != null" >
+        purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT},
+      </if>
       <if test="record.attrs != null" >
         attrs = #{record.attrs,jdbcType=LONGVARCHAR},
       </if>
@@ -412,6 +435,8 @@
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
       delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      pre_purch_contract_num = #{record.prePurchContractNum,jdbcType=SMALLINT},
+      purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT},
       attrs = #{record.attrs,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -440,7 +465,9 @@
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      pre_purch_contract_num = #{record.prePurchContractNum,jdbcType=SMALLINT},
+      purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -511,6 +538,12 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="prePurchContractNum != null" >
+        pre_purch_contract_num = #{prePurchContractNum,jdbcType=SMALLINT},
+      </if>
+      <if test="purchContractNum != null" >
+        purch_contract_num = #{purchContractNum,jdbcType=SMALLINT},
+      </if>
       <if test="attrs != null" >
         attrs = #{attrs,jdbcType=LONGVARCHAR},
       </if>
@@ -540,6 +573,8 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
       delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      pre_purch_contract_num = #{prePurchContractNum,jdbcType=SMALLINT},
+      purch_contract_num = #{purchContractNum,jdbcType=SMALLINT},
       attrs = #{attrs,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -565,7 +600,9 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      pre_purch_contract_num = #{prePurchContractNum,jdbcType=SMALLINT},
+      purch_contract_num = #{purchContractNum,jdbcType=SMALLINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

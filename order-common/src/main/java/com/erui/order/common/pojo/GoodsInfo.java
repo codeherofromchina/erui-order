@@ -9,6 +9,8 @@ import java.util.Date;
 public class GoodsInfo {
     private Long id;
     private Long orderGoodsId;
+    // 项目号
+    private String projectNo;
     // SKU
     private String sku;
     // 外文品名
@@ -17,6 +19,7 @@ public class GoodsInfo {
     private String nameZh;
     // 合同数量
     private Short contractGoodsNum;
+    private Short prePurchContractNum;
     // 单位
     private String unit;
     private String unitName;
@@ -54,6 +57,14 @@ public class GoodsInfo {
 
     public void setOrderGoodsId(Long orderGoodsId) {
         this.orderGoodsId = orderGoodsId;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public String getSku() {
@@ -157,6 +168,15 @@ public class GoodsInfo {
     }
 
     public void setTechAudit(String techAudit) {
+
         this.techAudit = techAudit;
+    }
+
+    public Short getPrePurchContractNum() {
+        return prePurchContractNum;
+    }
+
+    public void setPrePurchContractNum(Short prePurchContractNum) {
+        this.prePurchContractNum = prePurchContractNum;
     }
 }

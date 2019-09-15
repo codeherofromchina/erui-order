@@ -23,9 +23,9 @@ public interface PurchContractGoodsService {
      * @param purchContractGoodsList
      * @return
      */
-    int insert(Long purchContractId, List<PurchContractGoodsInfo> purchContractGoodsList);
+    int insert(Long purchContractId, List<PurchContractGoodsInfo> purchContractGoodsList) throws Exception;
 
-    int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo);
+    int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception;
 
     void delete(Long... ids);
 

@@ -56,6 +56,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         purchContract.setPurchContractNo("YRC-" + DateFormatUtils.ISO_8601_EXTENDED_DATE_FORMAT.format(new Date()) + UUID.randomUUID().toString().substring(0, 8)); // TODO
         purchContract.setCreateTime(new Date());
         purchContract.setCreateUserId(userInfo.getId());
+        purchContract.setDeleteFlag(Boolean.FALSE);
         int insertNum = purchContractMapper.insert(purchContract);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");

@@ -1,11 +1,15 @@
 package com.erui.order.service.impl;
 
+import com.erui.order.common.enums.PurchContractStatusEnum;
 import com.erui.order.common.pojo.PurchContractGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.PurchContractGoodsMapper;
+import com.erui.order.mapper.PurchContractMapper;
+import com.erui.order.model.entity.PurchContract;
 import com.erui.order.model.entity.PurchContractGoods;
 import com.erui.order.model.entity.PurchContractGoodsExample;
+import com.erui.order.service.GoodsService;
 import com.erui.order.service.PurchContractGoodsService;
 import com.erui.order.service.util.PurchContractGoodsFactory;
 import org.slf4j.Logger;
@@ -23,6 +27,10 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
     private static Logger LOGGER = LoggerFactory.getLogger(PurchContractGoodsServiceImpl.class);
     @Autowired
     private PurchContractGoodsMapper purchContractGoodsMapper;
+    @Autowired
+    private PurchContractMapper purchContractMapper;
+    @Autowired
+    private GoodsService goodsService;
 
 
     @Override
@@ -56,7 +64,7 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
     }
 
     @Override
-    public int insert(Long purchContractId, List<PurchContractGoodsInfo> purchContractGoodsList) {
+    public int insert(Long purchContractId, List<PurchContractGoodsInfo> purchContractGoodsList) throws Exception {
         int insertNum = 0;
         for (PurchContractGoodsInfo purchContractGoodsInfo : purchContractGoodsList) {
             insertNum += insert(purchContractId, purchContractGoodsInfo);
@@ -66,7 +74,7 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
 
 
     @Override
-    public int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo) {
+    public int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception {
         PurchContractGoods purchContractGoods = PurchContractGoodsFactory.purchContractGoods(purchContractGoodsInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         purchContractGoods.setPurchContractId(purchContractId);
@@ -74,7 +82,23 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
             purchContractGoods.setCreateUserId(userInfo.getId());
         }
         purchContractGoods.setCreateTime(new Date());
-        return purchContractGoodsMapper.insert(purchContractGoods);
+        purchContractGoods.setDeleteFlag(Boolean.FALSE);
+        int insertNum = purchContractGoodsMapper.insert(purchContractGoods);
+
+        // 设置订单商品的采购合同数量
+        // 设置项目是否采购合同完成
+        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purchContractId);
+        if (purchContract == null) {
+            throw new Exception("采购合同不存在");
+        }
+        PurchContractStatusEnum purchContractStatusEnum = PurchContractStatusEnum.valueOf(purchContract.getPurchContractStatus());
+        if (purchContractStatusEnum == null) {
+            throw new Exception("采购合同状态错误");
+        }
+        boolean preFlag = (purchContractStatusEnum == PurchContractStatusEnum.READY);
+        goodsService.updateOrderGoodsPurchContractNum(purchContractGoodsInfo.getOrderGoodsId(), preFlag, purchContractGoodsInfo.getPurchaseNum());
+
+        return insertNum;
     }
 
 
@@ -93,15 +117,19 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
         PurchContractGoodsExample example = new PurchContractGoodsExample();
         example.createCriteria().andIdIn(idList);
 
-        PurchContractGoods purchContractGoodsSelective = new PurchContractGoods();
+        // 删除采购合同商品的同时 更新商品的采购合同数量
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        if (userInfo != null) {
-            purchContractGoodsSelective.setUpdateUserId(userInfo.getId());
+        List<PurchContractGoods> purchContractGoods = purchContractGoodsMapper.selectByExample(example);
+        for (PurchContractGoods purchContractGood : purchContractGoods) {
+            Integer purchaseNum = purchContractGood.getPurchaseNum();
+            if (userInfo != null) {
+                purchContractGood.setUpdateUserId(userInfo.getId());
+            }
+            purchContractGood.setDeleteFlag(Boolean.TRUE);
+            purchContractGood.setDeleteTime(new Date());
+            purchContractGoodsMapper.updateByPrimaryKey(purchContractGood);
+            goodsService.updateOrderGoodsPurchContractNum(purchContractGood.getOrderGoodsId(), true, -purchaseNum);
         }
-        purchContractGoodsSelective.setDeleteFlag(Boolean.TRUE);
-        purchContractGoodsSelective.setDeleteTime(new Date());
-
-        purchContractGoodsMapper.updateByExampleSelective(purchContractGoodsSelective, example);
     }
 
     @Override
@@ -119,7 +147,21 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
             contractGoods.setUpdateUserId(userInfo.getId());
         }
 
-        return purchContractGoodsMapper.updateByPrimaryKeySelective(contractGoods);
+        int updateNum = purchContractGoodsMapper.updateByPrimaryKeySelective(contractGoods);
+
+        // 修正当前商品的采购合同数量 （删除原来数量，更新现在的数量）
+        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purchContractGoods.getPurchContractId());
+        if (purchContract == null) {
+            throw new Exception("采购合同不存在");
+        }
+        PurchContractStatusEnum purchContractStatusEnum = PurchContractStatusEnum.valueOf(purchContract.getPurchContractStatus());
+        if (purchContractStatusEnum == null) {
+            throw new Exception("采购合同状态错误");
+        }
+        goodsService.updateOrderGoodsPurchContractNum(purchContractGoods.getOrderGoodsId(), true, -purchContractGoods.getPurchaseNum());
+        boolean preFlag = (purchContractStatusEnum == PurchContractStatusEnum.READY);
+        goodsService.updateOrderGoodsPurchContractNum(purchContractGoodsInfo.getOrderGoodsId(), preFlag, contractGoods.getPurchaseNum());
+        return updateNum;
     }
 
     @Override

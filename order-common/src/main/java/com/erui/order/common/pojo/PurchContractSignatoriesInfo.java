@@ -8,6 +8,8 @@ package com.erui.order.common.pojo;
 public class PurchContractSignatoriesInfo {
     private Long id;
     private Long purchContractId;
+    // 单位名称
+    private String sellerBuyer;
     // 邮政编码
     private String postalCode;
     // '法定代表人或授权代表'
@@ -41,6 +43,14 @@ public class PurchContractSignatoriesInfo {
 
     public void setPurchContractId(Long purchContractId) {
         this.purchContractId = purchContractId;
+    }
+
+    public String getSellerBuyer() {
+        return sellerBuyer;
+    }
+
+    public void setSellerBuyer(String sellerBuyer) {
+        this.sellerBuyer = sellerBuyer;
     }
 
     public String getPostalCode() {

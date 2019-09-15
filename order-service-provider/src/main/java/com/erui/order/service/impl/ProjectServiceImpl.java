@@ -12,11 +12,13 @@ import com.erui.order.common.pojo.request.ProjectQueryRequest;
 import com.erui.order.common.pojo.request.ProjectUpdateRequest;
 import com.erui.order.common.pojo.response.OrderDetailResponse;
 import com.erui.order.common.pojo.response.ProjectDetailResponse;
+import com.erui.order.common.pojo.response.ProjectDialogListResponse;
 import com.erui.order.common.pojo.response.ProjectListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.OrderMapper;
 import com.erui.order.mapper.ProjectMapper;
 import com.erui.order.mapper.ProjectProfitMapper;
+import com.erui.order.mapper.PurchRequisitionMapper;
 import com.erui.order.model.entity.Order;
 import com.erui.order.model.entity.Project;
 import com.erui.order.model.entity.ProjectExample;
@@ -47,6 +49,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Autowired
     private OrderMapper orderMapper;
     @Autowired
+    private PurchRequisitionService purchRequisitionService;
+    @Autowired
     private ProjectProfitMapper projectProfitMapper;
     @Autowired
     private UserService userService;
@@ -76,6 +80,8 @@ public class ProjectServiceImpl implements ProjectService {
         project.setProcessProgress(ProcessProgressEnum.SUBMIT.getCode());
         // 是否已经创建采购申请单 1：未创建  2：已创建保存状态 3:已创建并提交
         project.setPurchReqCreate((short) 1);
+        // 采购合同未完成
+        project.setPurchDone(Boolean.FALSE);
         // 初步利润率固定 84.51
         project.setProfitPercent(new BigDecimal("84.51"));
         project.setProfit(totalPriceUsd.multiply(project.getProfitPercent())); // 利润额
@@ -298,4 +304,79 @@ public class ProjectServiceImpl implements ProjectService {
         return detail;
     }
 
+
+    @Override
+    public Pager<ProjectDialogListResponse> dialogList(ProjectQueryRequest queryRequest) {
+        List<Long> projectIds = purchRequisitionService.projectIdsByCurrentUser();
+        Pager<ProjectDialogListResponse> pager = null;
+        if (projectIds.size() == 0) {
+            pager = new Pager<>(queryRequest.getPage(), queryRequest.getRows()
+                    , 0, 0, new ArrayList<>());
+        } else {
+            // 分页
+            PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
+
+            ProjectExample example = new ProjectExample();
+            example.setOrderByClause("id desc");
+            ProjectExample.Criteria criteria = example.createCriteria();
+            // 未删除
+            criteria.andDeleteFlagEqualTo(Boolean.FALSE).andPurchDoneEqualTo(Boolean.FALSE);
+            // 销售合同号
+            // 项目号
+            if (StringUtils.isNotBlank(queryRequest.getProjectNo())) {
+                criteria.andProjectNoLike("%" + queryRequest.getProjectNo() + "%");
+            }
+            if (StringUtils.isNotBlank(queryRequest.getContractNo())) {
+                criteria.andProjectNoLike("%" + queryRequest.getContractNo() + "%");
+            }
+            if (StringUtils.isNotBlank(queryRequest.getProjectName())) {
+                criteria.andProjectNameLike("%" + queryRequest.getProjectName() + "%");
+            }
+            List<Project> projects = projectMapper.selectByExample(example);
+            List<ProjectDialogListResponse> projectListResponses = new ArrayList<>();
+            for (Project project : projects) {
+                ProjectDialogListResponse projectDialogListResponse = new ProjectDialogListResponse();
+                projectDialogListResponse.setContractNo(project.getProjectNo());
+                projectDialogListResponse.setProjectNo(project.getProjectNo());
+                projectDialogListResponse.setProjectName(project.getProjectName());
+                projectListResponses.add(projectDialogListResponse);
+            }
+
+            // 输出
+            Page<Order> page = (Page) projects;
+            pager = new Pager<>(page.getPageNum(), page.getPageSize()
+                    , page.getPages(), page.getTotal(), projectListResponses);
+        }
+        return pager;
+
+
+    }
+
+
+    @Override
+    public List<Long> orderIdsByProjectIds(List<Long> projectIds) {
+        if (projectIds == null || projectIds.size() == 0) {
+            return new ArrayList<>();
+        }
+
+        ProjectExample example = new ProjectExample();
+        ProjectExample.Criteria criteria = example.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE).andIdIn(projectIds);
+
+        List<Project> projects = projectMapper.selectByExample(example);
+        return projects.stream().map(Project::getOrderId).collect(Collectors.toList());
+    }
+
+
+    @Override
+    public void updatePurchContractDoneByOrderId(Long orderId) {
+        Project projectSelective = new Project();
+        projectSelective.setPurchDone(Boolean.TRUE);
+
+        ProjectExample example = new ProjectExample();
+        example.createCriteria().andOrderIdEqualTo(orderId);
+
+
+        projectMapper.updateByExampleSelective(projectSelective, example);
+    }
 }

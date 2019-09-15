@@ -4,6 +4,7 @@ import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.request.ProjectQueryRequest;
 import com.erui.order.common.pojo.request.ProjectUpdateRequest;
 import com.erui.order.common.pojo.response.ProjectDetailResponse;
+import com.erui.order.common.pojo.response.ProjectDialogListResponse;
 import com.erui.order.common.pojo.response.ProjectListResponse;
 
 import java.util.List;
@@ -45,5 +46,20 @@ public interface ProjectService {
      * @throws Exception
      */
     ProjectDetailResponse detail(Long id) throws Exception;
+
+    /**
+     * 查找弹框项目列表内容
+     * @param queryRequest
+     * @return
+     */
+    Pager<ProjectDialogListResponse> dialogList(ProjectQueryRequest queryRequest);
+
+    List<Long> orderIdsByProjectIds(List<Long> projectIds);
+
+    /**
+     * 更新项目的采购合同完成
+     * @param orderId
+     */
+    void updatePurchContractDoneByOrderId(Long orderId);
 }
 

@@ -56,6 +56,7 @@ public class purchContractSignatoriesServiceImpl implements PurchContractSignato
         if (userInfo != null) {
             purchContractSignatories.setCreateUserId(userInfo.getId());
         }
+        purchContractSignatories.setDeleteFlag(Boolean.FALSE);
         int insert = purchContractSignatoriesMapper.insert(purchContractSignatories);
         if (insert == 0) {
             throw new Exception("采购合同交易人员内容操作失败");

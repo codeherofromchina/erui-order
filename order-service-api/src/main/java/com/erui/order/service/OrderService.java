@@ -6,6 +6,8 @@ import com.erui.order.common.pojo.request.OrderSaveRequest;
 import com.erui.order.common.pojo.response.OrderDetailResponse;
 import com.erui.order.common.pojo.response.OrderListResponse;
 
+import java.util.List;
+
 /**
  * @Auther 王晓丹
  * 订单业务类
@@ -39,5 +41,6 @@ public interface OrderService {
      * @return
      */
     OrderDetailResponse detail(Long id) throws Exception;
+
 }
 

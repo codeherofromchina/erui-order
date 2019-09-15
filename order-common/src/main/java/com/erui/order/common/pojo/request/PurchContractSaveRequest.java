@@ -14,8 +14,8 @@ import java.util.List;
 public class PurchContractSaveRequest {
     private Long id;
     // 合同类型 1:简易合同 2:标准合同 3:非标合同
-    private Short contractType;
-    // 状态 1:待确认 2:未执行 3:已执行 4:已完成 5:已删除
+    private Short contractType = 1;
+    // 合同状态
     private Short contractStatus;
     // 合同签订日期
     private Date signingDate;

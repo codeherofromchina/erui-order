@@ -1,0 +1,1466 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.erui.order.mapper.SupplierMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.Supplier" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="lang" property="lang" jdbcType="VARCHAR" />
+    <result column="serial_no" property="serialNo" jdbcType="VARCHAR" />
+    <result column="supplier_no" property="supplierNo" jdbcType="VARCHAR" />
+    <result column="supplier_type" property="supplierType" jdbcType="VARCHAR" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="name_en" property="nameEn" jdbcType="VARCHAR" />
+    <result column="bn" property="bn" jdbcType="VARCHAR" />
+    <result column="name_en_bn" property="nameEnBn" jdbcType="VARCHAR" />
+    <result column="profile" property="profile" jdbcType="VARCHAR" />
+    <result column="country_code" property="countryCode" jdbcType="VARCHAR" />
+    <result column="country_bn" property="countryBn" jdbcType="VARCHAR" />
+    <result column="province" property="province" jdbcType="VARCHAR" />
+    <result column="city" property="city" jdbcType="VARCHAR" />
+    <result column="address" property="address" jdbcType="VARCHAR" />
+    <result column="official_email" property="officialEmail" jdbcType="VARCHAR" />
+    <result column="official_phone" property="officialPhone" jdbcType="VARCHAR" />
+    <result column="official_fax" property="officialFax" jdbcType="VARCHAR" />
+    <result column="first_name" property="firstName" jdbcType="VARCHAR" />
+    <result column="last_name" property="lastName" jdbcType="VARCHAR" />
+    <result column="reg_capital" property="regCapital" jdbcType="VARCHAR" />
+    <result column="reg_capital_cur_bn" property="regCapitalCurBn" jdbcType="VARCHAR" />
+    <result column="employee_count" property="employeeCount" jdbcType="BIGINT" />
+    <result column="social_credit_code" property="socialCreditCode" jdbcType="VARCHAR" />
+    <result column="social_credit_expire_time" property="socialCreditExpireTime" jdbcType="TIMESTAMP" />
+    <result column="social_credit_no_expire" property="socialCreditNoExpire" jdbcType="VARCHAR" />
+    <result column="legal_representative" property="legalRepresentative" jdbcType="VARCHAR" />
+    <result column="legal_representative_code" property="legalRepresentativeCode" jdbcType="VARCHAR" />
+    <result column="legal_representative_type" property="legalRepresentativeType" jdbcType="VARCHAR" />
+    <result column="legal_representative_expire_time" property="legalRepresentativeExpireTime" jdbcType="TIMESTAMP" />
+    <result column="legal_representative_no_expire" property="legalRepresentativeNoExpire" jdbcType="VARCHAR" />
+    <result column="industry_classification" property="industryClassification" jdbcType="VARCHAR" />
+    <result column="scope_of_operation" property="scopeOfOperation" jdbcType="VARCHAR" />
+    <result column="official_website" property="officialWebsite" jdbcType="VARCHAR" />
+    <result column="logo" property="logo" jdbcType="VARCHAR" />
+    <result column="sec_ex_listed_on" property="secExListedOn" jdbcType="VARCHAR" />
+    <result column="line_of_credit" property="lineOfCredit" jdbcType="DECIMAL" />
+    <result column="credit_available" property="creditAvailable" jdbcType="DECIMAL" />
+    <result column="credit_cur_bn" property="creditCurBn" jdbcType="VARCHAR" />
+    <result column="supplier_level" property="supplierLevel" jdbcType="VARCHAR" />
+    <result column="credit_level" property="creditLevel" jdbcType="VARCHAR" />
+    <result column="finance_level" property="financeLevel" jdbcType="VARCHAR" />
+    <result column="logi_level" property="logiLevel" jdbcType="VARCHAR" />
+    <result column="qa_level" property="qaLevel" jdbcType="VARCHAR" />
+    <result column="steward_level" property="stewardLevel" jdbcType="VARCHAR" />
+    <result column="process_id" property="processId" jdbcType="VARCHAR" />
+    <result column="task_id" property="taskId" jdbcType="INTEGER" />
+    <result column="recommend_flag" property="recommendFlag" jdbcType="CHAR" />
+    <result column="status" property="status" jdbcType="VARCHAR" />
+    <result column="qs_flag" property="qsFlag" jdbcType="CHAR" />
+    <result column="inquiry_id" property="inquiryId" jdbcType="BIGINT" />
+    <result column="erui_status" property="eruiStatus" jdbcType="VARCHAR" />
+    <result column="expire_status" property="expireStatus" jdbcType="VARCHAR" />
+    <result column="is_erui" property="isErui" jdbcType="CHAR" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+    <result column="apply_at" property="applyAt" jdbcType="TIMESTAMP" />
+    <result column="created_by" property="createdBy" jdbcType="BIGINT" />
+    <result column="created_at" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="checked_by" property="checkedBy" jdbcType="BIGINT" />
+    <result column="checked_at" property="checkedAt" jdbcType="TIMESTAMP" />
+    <result column="erui_checked_at" property="eruiCheckedAt" jdbcType="TIMESTAMP" />
+    <result column="erui_checked_by" property="eruiCheckedBy" jdbcType="BIGINT" />
+    <result column="deleted_flag" property="deletedFlag" jdbcType="CHAR" />
+    <result column="org_id" property="orgId" jdbcType="BIGINT" />
+    <result column="source" property="source" jdbcType="VARCHAR" />
+    <result column="updated_by" property="updatedBy" jdbcType="BIGINT" />
+    <result column="updated_at" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="is_relation" property="isRelation" jdbcType="VARCHAR" />
+    <result column="source_key" property="sourceKey" jdbcType="VARCHAR" />
+    <result column="customer_type" property="customerType" jdbcType="TINYINT" />
+    <result column="tenant" property="tenant" jdbcType="VARCHAR" />
+    <result column="process_time" property="processTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.erui.order.model.entity.Supplier" extends="BaseResultMap" >
+    <result column="brand" property="brand" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, lang, serial_no, supplier_no, supplier_type, name, name_en, bn, name_en_bn, profile, 
+    country_code, country_bn, province, city, address, official_email, official_phone, 
+    official_fax, first_name, last_name, reg_capital, reg_capital_cur_bn, employee_count, 
+    social_credit_code, social_credit_expire_time, social_credit_no_expire, legal_representative, 
+    legal_representative_code, legal_representative_type, legal_representative_expire_time, 
+    legal_representative_no_expire, industry_classification, scope_of_operation, official_website, 
+    logo, sec_ex_listed_on, line_of_credit, credit_available, credit_cur_bn, supplier_level, 
+    credit_level, finance_level, logi_level, qa_level, steward_level, process_id, task_id, 
+    recommend_flag, status, qs_flag, inquiry_id, erui_status, expire_status, is_erui, 
+    remarks, apply_at, created_by, created_at, checked_by, checked_at, erui_checked_at, 
+    erui_checked_by, deleted_flag, org_id, source, updated_by, updated_at, is_relation, 
+    source_key, customer_type, tenant, process_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    brand
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.erui.order.model.entity.SupplierExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.SupplierExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from supplier
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from supplier
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.SupplierExample" >
+    delete from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.erui.order.model.entity.Supplier" >
+    insert into supplier (id, lang, serial_no, 
+      supplier_no, supplier_type, name, 
+      name_en, bn, name_en_bn, 
+      profile, country_code, country_bn, 
+      province, city, address, 
+      official_email, official_phone, official_fax, 
+      first_name, last_name, reg_capital, 
+      reg_capital_cur_bn, employee_count, social_credit_code, 
+      social_credit_expire_time, social_credit_no_expire, 
+      legal_representative, legal_representative_code, 
+      legal_representative_type, legal_representative_expire_time, 
+      legal_representative_no_expire, industry_classification, 
+      scope_of_operation, official_website, logo, 
+      sec_ex_listed_on, line_of_credit, credit_available, 
+      credit_cur_bn, supplier_level, credit_level, 
+      finance_level, logi_level, qa_level, 
+      steward_level, process_id, task_id, 
+      recommend_flag, status, qs_flag, 
+      inquiry_id, erui_status, expire_status, 
+      is_erui, remarks, apply_at, 
+      created_by, created_at, checked_by, 
+      checked_at, erui_checked_at, erui_checked_by, 
+      deleted_flag, org_id, source, 
+      updated_by, updated_at, is_relation, 
+      source_key, customer_type, tenant, 
+      process_time, brand)
+    values (#{id,jdbcType=BIGINT}, #{lang,jdbcType=VARCHAR}, #{serialNo,jdbcType=VARCHAR}, 
+      #{supplierNo,jdbcType=VARCHAR}, #{supplierType,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
+      #{nameEn,jdbcType=VARCHAR}, #{bn,jdbcType=VARCHAR}, #{nameEnBn,jdbcType=VARCHAR}, 
+      #{profile,jdbcType=VARCHAR}, #{countryCode,jdbcType=VARCHAR}, #{countryBn,jdbcType=VARCHAR}, 
+      #{province,jdbcType=VARCHAR}, #{city,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
+      #{officialEmail,jdbcType=VARCHAR}, #{officialPhone,jdbcType=VARCHAR}, #{officialFax,jdbcType=VARCHAR}, 
+      #{firstName,jdbcType=VARCHAR}, #{lastName,jdbcType=VARCHAR}, #{regCapital,jdbcType=VARCHAR}, 
+      #{regCapitalCurBn,jdbcType=VARCHAR}, #{employeeCount,jdbcType=BIGINT}, #{socialCreditCode,jdbcType=VARCHAR}, 
+      #{socialCreditExpireTime,jdbcType=TIMESTAMP}, #{socialCreditNoExpire,jdbcType=VARCHAR}, 
+      #{legalRepresentative,jdbcType=VARCHAR}, #{legalRepresentativeCode,jdbcType=VARCHAR}, 
+      #{legalRepresentativeType,jdbcType=VARCHAR}, #{legalRepresentativeExpireTime,jdbcType=TIMESTAMP}, 
+      #{legalRepresentativeNoExpire,jdbcType=VARCHAR}, #{industryClassification,jdbcType=VARCHAR}, 
+      #{scopeOfOperation,jdbcType=VARCHAR}, #{officialWebsite,jdbcType=VARCHAR}, #{logo,jdbcType=VARCHAR}, 
+      #{secExListedOn,jdbcType=VARCHAR}, #{lineOfCredit,jdbcType=DECIMAL}, #{creditAvailable,jdbcType=DECIMAL}, 
+      #{creditCurBn,jdbcType=VARCHAR}, #{supplierLevel,jdbcType=VARCHAR}, #{creditLevel,jdbcType=VARCHAR}, 
+      #{financeLevel,jdbcType=VARCHAR}, #{logiLevel,jdbcType=VARCHAR}, #{qaLevel,jdbcType=VARCHAR}, 
+      #{stewardLevel,jdbcType=VARCHAR}, #{processId,jdbcType=VARCHAR}, #{taskId,jdbcType=INTEGER}, 
+      #{recommendFlag,jdbcType=CHAR}, #{status,jdbcType=VARCHAR}, #{qsFlag,jdbcType=CHAR}, 
+      #{inquiryId,jdbcType=BIGINT}, #{eruiStatus,jdbcType=VARCHAR}, #{expireStatus,jdbcType=VARCHAR}, 
+      #{isErui,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, #{applyAt,jdbcType=TIMESTAMP}, 
+      #{createdBy,jdbcType=BIGINT}, #{createdAt,jdbcType=TIMESTAMP}, #{checkedBy,jdbcType=BIGINT}, 
+      #{checkedAt,jdbcType=TIMESTAMP}, #{eruiCheckedAt,jdbcType=TIMESTAMP}, #{eruiCheckedBy,jdbcType=BIGINT}, 
+      #{deletedFlag,jdbcType=CHAR}, #{orgId,jdbcType=BIGINT}, #{source,jdbcType=VARCHAR}, 
+      #{updatedBy,jdbcType=BIGINT}, #{updatedAt,jdbcType=TIMESTAMP}, #{isRelation,jdbcType=VARCHAR}, 
+      #{sourceKey,jdbcType=VARCHAR}, #{customerType,jdbcType=TINYINT}, #{tenant,jdbcType=VARCHAR}, 
+      #{processTime,jdbcType=TIMESTAMP}, #{brand,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.Supplier" >
+    insert into supplier
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="lang != null" >
+        lang,
+      </if>
+      <if test="serialNo != null" >
+        serial_no,
+      </if>
+      <if test="supplierNo != null" >
+        supplier_no,
+      </if>
+      <if test="supplierType != null" >
+        supplier_type,
+      </if>
+      <if test="name != null" >
+        name,
+      </if>
+      <if test="nameEn != null" >
+        name_en,
+      </if>
+      <if test="bn != null" >
+        bn,
+      </if>
+      <if test="nameEnBn != null" >
+        name_en_bn,
+      </if>
+      <if test="profile != null" >
+        profile,
+      </if>
+      <if test="countryCode != null" >
+        country_code,
+      </if>
+      <if test="countryBn != null" >
+        country_bn,
+      </if>
+      <if test="province != null" >
+        province,
+      </if>
+      <if test="city != null" >
+        city,
+      </if>
+      <if test="address != null" >
+        address,
+      </if>
+      <if test="officialEmail != null" >
+        official_email,
+      </if>
+      <if test="officialPhone != null" >
+        official_phone,
+      </if>
+      <if test="officialFax != null" >
+        official_fax,
+      </if>
+      <if test="firstName != null" >
+        first_name,
+      </if>
+      <if test="lastName != null" >
+        last_name,
+      </if>
+      <if test="regCapital != null" >
+        reg_capital,
+      </if>
+      <if test="regCapitalCurBn != null" >
+        reg_capital_cur_bn,
+      </if>
+      <if test="employeeCount != null" >
+        employee_count,
+      </if>
+      <if test="socialCreditCode != null" >
+        social_credit_code,
+      </if>
+      <if test="socialCreditExpireTime != null" >
+        social_credit_expire_time,
+      </if>
+      <if test="socialCreditNoExpire != null" >
+        social_credit_no_expire,
+      </if>
+      <if test="legalRepresentative != null" >
+        legal_representative,
+      </if>
+      <if test="legalRepresentativeCode != null" >
+        legal_representative_code,
+      </if>
+      <if test="legalRepresentativeType != null" >
+        legal_representative_type,
+      </if>
+      <if test="legalRepresentativeExpireTime != null" >
+        legal_representative_expire_time,
+      </if>
+      <if test="legalRepresentativeNoExpire != null" >
+        legal_representative_no_expire,
+      </if>
+      <if test="industryClassification != null" >
+        industry_classification,
+      </if>
+      <if test="scopeOfOperation != null" >
+        scope_of_operation,
+      </if>
+      <if test="officialWebsite != null" >
+        official_website,
+      </if>
+      <if test="logo != null" >
+        logo,
+      </if>
+      <if test="secExListedOn != null" >
+        sec_ex_listed_on,
+      </if>
+      <if test="lineOfCredit != null" >
+        line_of_credit,
+      </if>
+      <if test="creditAvailable != null" >
+        credit_available,
+      </if>
+      <if test="creditCurBn != null" >
+        credit_cur_bn,
+      </if>
+      <if test="supplierLevel != null" >
+        supplier_level,
+      </if>
+      <if test="creditLevel != null" >
+        credit_level,
+      </if>
+      <if test="financeLevel != null" >
+        finance_level,
+      </if>
+      <if test="logiLevel != null" >
+        logi_level,
+      </if>
+      <if test="qaLevel != null" >
+        qa_level,
+      </if>
+      <if test="stewardLevel != null" >
+        steward_level,
+      </if>
+      <if test="processId != null" >
+        process_id,
+      </if>
+      <if test="taskId != null" >
+        task_id,
+      </if>
+      <if test="recommendFlag != null" >
+        recommend_flag,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="qsFlag != null" >
+        qs_flag,
+      </if>
+      <if test="inquiryId != null" >
+        inquiry_id,
+      </if>
+      <if test="eruiStatus != null" >
+        erui_status,
+      </if>
+      <if test="expireStatus != null" >
+        expire_status,
+      </if>
+      <if test="isErui != null" >
+        is_erui,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+      <if test="applyAt != null" >
+        apply_at,
+      </if>
+      <if test="createdBy != null" >
+        created_by,
+      </if>
+      <if test="createdAt != null" >
+        created_at,
+      </if>
+      <if test="checkedBy != null" >
+        checked_by,
+      </if>
+      <if test="checkedAt != null" >
+        checked_at,
+      </if>
+      <if test="eruiCheckedAt != null" >
+        erui_checked_at,
+      </if>
+      <if test="eruiCheckedBy != null" >
+        erui_checked_by,
+      </if>
+      <if test="deletedFlag != null" >
+        deleted_flag,
+      </if>
+      <if test="orgId != null" >
+        org_id,
+      </if>
+      <if test="source != null" >
+        source,
+      </if>
+      <if test="updatedBy != null" >
+        updated_by,
+      </if>
+      <if test="updatedAt != null" >
+        updated_at,
+      </if>
+      <if test="isRelation != null" >
+        is_relation,
+      </if>
+      <if test="sourceKey != null" >
+        source_key,
+      </if>
+      <if test="customerType != null" >
+        customer_type,
+      </if>
+      <if test="tenant != null" >
+        tenant,
+      </if>
+      <if test="processTime != null" >
+        process_time,
+      </if>
+      <if test="brand != null" >
+        brand,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="lang != null" >
+        #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNo != null" >
+        #{supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierType != null" >
+        #{supplierType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="bn != null" >
+        #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEnBn != null" >
+        #{nameEnBn,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null" >
+        #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryBn != null" >
+        #{countryBn,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="officialEmail != null" >
+        #{officialEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="officialPhone != null" >
+        #{officialPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="officialFax != null" >
+        #{officialFax,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null" >
+        #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="regCapital != null" >
+        #{regCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="regCapitalCurBn != null" >
+        #{regCapitalCurBn,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeCount != null" >
+        #{employeeCount,jdbcType=BIGINT},
+      </if>
+      <if test="socialCreditCode != null" >
+        #{socialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="socialCreditExpireTime != null" >
+        #{socialCreditExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="socialCreditNoExpire != null" >
+        #{socialCreditNoExpire,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null" >
+        #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentativeCode != null" >
+        #{legalRepresentativeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentativeType != null" >
+        #{legalRepresentativeType,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentativeExpireTime != null" >
+        #{legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="legalRepresentativeNoExpire != null" >
+        #{legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      </if>
+      <if test="industryClassification != null" >
+        #{industryClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="scopeOfOperation != null" >
+        #{scopeOfOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="officialWebsite != null" >
+        #{officialWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="secExListedOn != null" >
+        #{secExListedOn,jdbcType=VARCHAR},
+      </if>
+      <if test="lineOfCredit != null" >
+        #{lineOfCredit,jdbcType=DECIMAL},
+      </if>
+      <if test="creditAvailable != null" >
+        #{creditAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="creditCurBn != null" >
+        #{creditCurBn,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLevel != null" >
+        #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="creditLevel != null" >
+        #{creditLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="financeLevel != null" >
+        #{financeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="logiLevel != null" >
+        #{logiLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="qaLevel != null" >
+        #{qaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="stewardLevel != null" >
+        #{stewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="processId != null" >
+        #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="recommendFlag != null" >
+        #{recommendFlag,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="qsFlag != null" >
+        #{qsFlag,jdbcType=CHAR},
+      </if>
+      <if test="inquiryId != null" >
+        #{inquiryId,jdbcType=BIGINT},
+      </if>
+      <if test="eruiStatus != null" >
+        #{eruiStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="expireStatus != null" >
+        #{expireStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isErui != null" >
+        #{isErui,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAt != null" >
+        #{applyAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedBy != null" >
+        #{checkedBy,jdbcType=BIGINT},
+      </if>
+      <if test="checkedAt != null" >
+        #{checkedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eruiCheckedAt != null" >
+        #{eruiCheckedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eruiCheckedBy != null" >
+        #{eruiCheckedBy,jdbcType=BIGINT},
+      </if>
+      <if test="deletedFlag != null" >
+        #{deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="orgId != null" >
+        #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="source != null" >
+        #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        #{updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRelation != null" >
+        #{isRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceKey != null" >
+        #{sourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="customerType != null" >
+        #{customerType,jdbcType=TINYINT},
+      </if>
+      <if test="tenant != null" >
+        #{tenant,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        #{brand,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.erui.order.model.entity.SupplierExample" resultType="java.lang.Integer" >
+    select count(*) from supplier
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update supplier
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.lang != null" >
+        lang = #{record.lang,jdbcType=VARCHAR},
+      </if>
+      <if test="record.serialNo != null" >
+        serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierNo != null" >
+        supplier_no = #{record.supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierType != null" >
+        supplier_type = #{record.supplierType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameEn != null" >
+        name_en = #{record.nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bn != null" >
+        bn = #{record.bn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.nameEnBn != null" >
+        name_en_bn = #{record.nameEnBn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.profile != null" >
+        profile = #{record.profile,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryCode != null" >
+        country_code = #{record.countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.countryBn != null" >
+        country_bn = #{record.countryBn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.province != null" >
+        province = #{record.province,jdbcType=VARCHAR},
+      </if>
+      <if test="record.city != null" >
+        city = #{record.city,jdbcType=VARCHAR},
+      </if>
+      <if test="record.address != null" >
+        address = #{record.address,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officialEmail != null" >
+        official_email = #{record.officialEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officialPhone != null" >
+        official_phone = #{record.officialPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officialFax != null" >
+        official_fax = #{record.officialFax,jdbcType=VARCHAR},
+      </if>
+      <if test="record.firstName != null" >
+        first_name = #{record.firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lastName != null" >
+        last_name = #{record.lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regCapital != null" >
+        reg_capital = #{record.regCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="record.regCapitalCurBn != null" >
+        reg_capital_cur_bn = #{record.regCapitalCurBn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.employeeCount != null" >
+        employee_count = #{record.employeeCount,jdbcType=BIGINT},
+      </if>
+      <if test="record.socialCreditCode != null" >
+        social_credit_code = #{record.socialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.socialCreditExpireTime != null" >
+        social_credit_expire_time = #{record.socialCreditExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.socialCreditNoExpire != null" >
+        social_credit_no_expire = #{record.socialCreditNoExpire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalRepresentative != null" >
+        legal_representative = #{record.legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalRepresentativeCode != null" >
+        legal_representative_code = #{record.legalRepresentativeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalRepresentativeType != null" >
+        legal_representative_type = #{record.legalRepresentativeType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.legalRepresentativeExpireTime != null" >
+        legal_representative_expire_time = #{record.legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.legalRepresentativeNoExpire != null" >
+        legal_representative_no_expire = #{record.legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      </if>
+      <if test="record.industryClassification != null" >
+        industry_classification = #{record.industryClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="record.scopeOfOperation != null" >
+        scope_of_operation = #{record.scopeOfOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.officialWebsite != null" >
+        official_website = #{record.officialWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logo != null" >
+        logo = #{record.logo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.secExListedOn != null" >
+        sec_ex_listed_on = #{record.secExListedOn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.lineOfCredit != null" >
+        line_of_credit = #{record.lineOfCredit,jdbcType=DECIMAL},
+      </if>
+      <if test="record.creditAvailable != null" >
+        credit_available = #{record.creditAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="record.creditCurBn != null" >
+        credit_cur_bn = #{record.creditCurBn,jdbcType=VARCHAR},
+      </if>
+      <if test="record.supplierLevel != null" >
+        supplier_level = #{record.supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.creditLevel != null" >
+        credit_level = #{record.creditLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.financeLevel != null" >
+        finance_level = #{record.financeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.logiLevel != null" >
+        logi_level = #{record.logiLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qaLevel != null" >
+        qa_level = #{record.qaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.stewardLevel != null" >
+        steward_level = #{record.stewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processId != null" >
+        process_id = #{record.processId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.taskId != null" >
+        task_id = #{record.taskId,jdbcType=INTEGER},
+      </if>
+      <if test="record.recommendFlag != null" >
+        recommend_flag = #{record.recommendFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=VARCHAR},
+      </if>
+      <if test="record.qsFlag != null" >
+        qs_flag = #{record.qsFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.inquiryId != null" >
+        inquiry_id = #{record.inquiryId,jdbcType=BIGINT},
+      </if>
+      <if test="record.eruiStatus != null" >
+        erui_status = #{record.eruiStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.expireStatus != null" >
+        expire_status = #{record.expireStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isErui != null" >
+        is_erui = #{record.isErui,jdbcType=CHAR},
+      </if>
+      <if test="record.remarks != null" >
+        remarks = #{record.remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="record.applyAt != null" >
+        apply_at = #{record.applyAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.createdBy != null" >
+        created_by = #{record.createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.createdAt != null" >
+        created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.checkedBy != null" >
+        checked_by = #{record.checkedBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.checkedAt != null" >
+        checked_at = #{record.checkedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eruiCheckedAt != null" >
+        erui_checked_at = #{record.eruiCheckedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.eruiCheckedBy != null" >
+        erui_checked_by = #{record.eruiCheckedBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.deletedFlag != null" >
+        deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="record.orgId != null" >
+        org_id = #{record.orgId,jdbcType=BIGINT},
+      </if>
+      <if test="record.source != null" >
+        source = #{record.source,jdbcType=VARCHAR},
+      </if>
+      <if test="record.updatedBy != null" >
+        updated_by = #{record.updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="record.updatedAt != null" >
+        updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.isRelation != null" >
+        is_relation = #{record.isRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="record.sourceKey != null" >
+        source_key = #{record.sourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="record.customerType != null" >
+        customer_type = #{record.customerType,jdbcType=TINYINT},
+      </if>
+      <if test="record.tenant != null" >
+        tenant = #{record.tenant,jdbcType=VARCHAR},
+      </if>
+      <if test="record.processTime != null" >
+        process_time = #{record.processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.brand != null" >
+        brand = #{record.brand,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update supplier
+    set id = #{record.id,jdbcType=BIGINT},
+      lang = #{record.lang,jdbcType=VARCHAR},
+      serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      supplier_no = #{record.supplierNo,jdbcType=VARCHAR},
+      supplier_type = #{record.supplierType,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      bn = #{record.bn,jdbcType=VARCHAR},
+      name_en_bn = #{record.nameEnBn,jdbcType=VARCHAR},
+      profile = #{record.profile,jdbcType=VARCHAR},
+      country_code = #{record.countryCode,jdbcType=VARCHAR},
+      country_bn = #{record.countryBn,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      official_email = #{record.officialEmail,jdbcType=VARCHAR},
+      official_phone = #{record.officialPhone,jdbcType=VARCHAR},
+      official_fax = #{record.officialFax,jdbcType=VARCHAR},
+      first_name = #{record.firstName,jdbcType=VARCHAR},
+      last_name = #{record.lastName,jdbcType=VARCHAR},
+      reg_capital = #{record.regCapital,jdbcType=VARCHAR},
+      reg_capital_cur_bn = #{record.regCapitalCurBn,jdbcType=VARCHAR},
+      employee_count = #{record.employeeCount,jdbcType=BIGINT},
+      social_credit_code = #{record.socialCreditCode,jdbcType=VARCHAR},
+      social_credit_expire_time = #{record.socialCreditExpireTime,jdbcType=TIMESTAMP},
+      social_credit_no_expire = #{record.socialCreditNoExpire,jdbcType=VARCHAR},
+      legal_representative = #{record.legalRepresentative,jdbcType=VARCHAR},
+      legal_representative_code = #{record.legalRepresentativeCode,jdbcType=VARCHAR},
+      legal_representative_type = #{record.legalRepresentativeType,jdbcType=VARCHAR},
+      legal_representative_expire_time = #{record.legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      legal_representative_no_expire = #{record.legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      industry_classification = #{record.industryClassification,jdbcType=VARCHAR},
+      scope_of_operation = #{record.scopeOfOperation,jdbcType=VARCHAR},
+      official_website = #{record.officialWebsite,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      sec_ex_listed_on = #{record.secExListedOn,jdbcType=VARCHAR},
+      line_of_credit = #{record.lineOfCredit,jdbcType=DECIMAL},
+      credit_available = #{record.creditAvailable,jdbcType=DECIMAL},
+      credit_cur_bn = #{record.creditCurBn,jdbcType=VARCHAR},
+      supplier_level = #{record.supplierLevel,jdbcType=VARCHAR},
+      credit_level = #{record.creditLevel,jdbcType=VARCHAR},
+      finance_level = #{record.financeLevel,jdbcType=VARCHAR},
+      logi_level = #{record.logiLevel,jdbcType=VARCHAR},
+      qa_level = #{record.qaLevel,jdbcType=VARCHAR},
+      steward_level = #{record.stewardLevel,jdbcType=VARCHAR},
+      process_id = #{record.processId,jdbcType=VARCHAR},
+      task_id = #{record.taskId,jdbcType=INTEGER},
+      recommend_flag = #{record.recommendFlag,jdbcType=CHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      qs_flag = #{record.qsFlag,jdbcType=CHAR},
+      inquiry_id = #{record.inquiryId,jdbcType=BIGINT},
+      erui_status = #{record.eruiStatus,jdbcType=VARCHAR},
+      expire_status = #{record.expireStatus,jdbcType=VARCHAR},
+      is_erui = #{record.isErui,jdbcType=CHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      apply_at = #{record.applyAt,jdbcType=TIMESTAMP},
+      created_by = #{record.createdBy,jdbcType=BIGINT},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      checked_by = #{record.checkedBy,jdbcType=BIGINT},
+      checked_at = #{record.checkedAt,jdbcType=TIMESTAMP},
+      erui_checked_at = #{record.eruiCheckedAt,jdbcType=TIMESTAMP},
+      erui_checked_by = #{record.eruiCheckedBy,jdbcType=BIGINT},
+      deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      org_id = #{record.orgId,jdbcType=BIGINT},
+      source = #{record.source,jdbcType=VARCHAR},
+      updated_by = #{record.updatedBy,jdbcType=BIGINT},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      is_relation = #{record.isRelation,jdbcType=VARCHAR},
+      source_key = #{record.sourceKey,jdbcType=VARCHAR},
+      customer_type = #{record.customerType,jdbcType=TINYINT},
+      tenant = #{record.tenant,jdbcType=VARCHAR},
+      process_time = #{record.processTime,jdbcType=TIMESTAMP},
+      brand = #{record.brand,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update supplier
+    set id = #{record.id,jdbcType=BIGINT},
+      lang = #{record.lang,jdbcType=VARCHAR},
+      serial_no = #{record.serialNo,jdbcType=VARCHAR},
+      supplier_no = #{record.supplierNo,jdbcType=VARCHAR},
+      supplier_type = #{record.supplierType,jdbcType=VARCHAR},
+      name = #{record.name,jdbcType=VARCHAR},
+      name_en = #{record.nameEn,jdbcType=VARCHAR},
+      bn = #{record.bn,jdbcType=VARCHAR},
+      name_en_bn = #{record.nameEnBn,jdbcType=VARCHAR},
+      profile = #{record.profile,jdbcType=VARCHAR},
+      country_code = #{record.countryCode,jdbcType=VARCHAR},
+      country_bn = #{record.countryBn,jdbcType=VARCHAR},
+      province = #{record.province,jdbcType=VARCHAR},
+      city = #{record.city,jdbcType=VARCHAR},
+      address = #{record.address,jdbcType=VARCHAR},
+      official_email = #{record.officialEmail,jdbcType=VARCHAR},
+      official_phone = #{record.officialPhone,jdbcType=VARCHAR},
+      official_fax = #{record.officialFax,jdbcType=VARCHAR},
+      first_name = #{record.firstName,jdbcType=VARCHAR},
+      last_name = #{record.lastName,jdbcType=VARCHAR},
+      reg_capital = #{record.regCapital,jdbcType=VARCHAR},
+      reg_capital_cur_bn = #{record.regCapitalCurBn,jdbcType=VARCHAR},
+      employee_count = #{record.employeeCount,jdbcType=BIGINT},
+      social_credit_code = #{record.socialCreditCode,jdbcType=VARCHAR},
+      social_credit_expire_time = #{record.socialCreditExpireTime,jdbcType=TIMESTAMP},
+      social_credit_no_expire = #{record.socialCreditNoExpire,jdbcType=VARCHAR},
+      legal_representative = #{record.legalRepresentative,jdbcType=VARCHAR},
+      legal_representative_code = #{record.legalRepresentativeCode,jdbcType=VARCHAR},
+      legal_representative_type = #{record.legalRepresentativeType,jdbcType=VARCHAR},
+      legal_representative_expire_time = #{record.legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      legal_representative_no_expire = #{record.legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      industry_classification = #{record.industryClassification,jdbcType=VARCHAR},
+      scope_of_operation = #{record.scopeOfOperation,jdbcType=VARCHAR},
+      official_website = #{record.officialWebsite,jdbcType=VARCHAR},
+      logo = #{record.logo,jdbcType=VARCHAR},
+      sec_ex_listed_on = #{record.secExListedOn,jdbcType=VARCHAR},
+      line_of_credit = #{record.lineOfCredit,jdbcType=DECIMAL},
+      credit_available = #{record.creditAvailable,jdbcType=DECIMAL},
+      credit_cur_bn = #{record.creditCurBn,jdbcType=VARCHAR},
+      supplier_level = #{record.supplierLevel,jdbcType=VARCHAR},
+      credit_level = #{record.creditLevel,jdbcType=VARCHAR},
+      finance_level = #{record.financeLevel,jdbcType=VARCHAR},
+      logi_level = #{record.logiLevel,jdbcType=VARCHAR},
+      qa_level = #{record.qaLevel,jdbcType=VARCHAR},
+      steward_level = #{record.stewardLevel,jdbcType=VARCHAR},
+      process_id = #{record.processId,jdbcType=VARCHAR},
+      task_id = #{record.taskId,jdbcType=INTEGER},
+      recommend_flag = #{record.recommendFlag,jdbcType=CHAR},
+      status = #{record.status,jdbcType=VARCHAR},
+      qs_flag = #{record.qsFlag,jdbcType=CHAR},
+      inquiry_id = #{record.inquiryId,jdbcType=BIGINT},
+      erui_status = #{record.eruiStatus,jdbcType=VARCHAR},
+      expire_status = #{record.expireStatus,jdbcType=VARCHAR},
+      is_erui = #{record.isErui,jdbcType=CHAR},
+      remarks = #{record.remarks,jdbcType=VARCHAR},
+      apply_at = #{record.applyAt,jdbcType=TIMESTAMP},
+      created_by = #{record.createdBy,jdbcType=BIGINT},
+      created_at = #{record.createdAt,jdbcType=TIMESTAMP},
+      checked_by = #{record.checkedBy,jdbcType=BIGINT},
+      checked_at = #{record.checkedAt,jdbcType=TIMESTAMP},
+      erui_checked_at = #{record.eruiCheckedAt,jdbcType=TIMESTAMP},
+      erui_checked_by = #{record.eruiCheckedBy,jdbcType=BIGINT},
+      deleted_flag = #{record.deletedFlag,jdbcType=CHAR},
+      org_id = #{record.orgId,jdbcType=BIGINT},
+      source = #{record.source,jdbcType=VARCHAR},
+      updated_by = #{record.updatedBy,jdbcType=BIGINT},
+      updated_at = #{record.updatedAt,jdbcType=TIMESTAMP},
+      is_relation = #{record.isRelation,jdbcType=VARCHAR},
+      source_key = #{record.sourceKey,jdbcType=VARCHAR},
+      customer_type = #{record.customerType,jdbcType=TINYINT},
+      tenant = #{record.tenant,jdbcType=VARCHAR},
+      process_time = #{record.processTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.Supplier" >
+    update supplier
+    <set >
+      <if test="lang != null" >
+        lang = #{lang,jdbcType=VARCHAR},
+      </if>
+      <if test="serialNo != null" >
+        serial_no = #{serialNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierNo != null" >
+        supplier_no = #{supplierNo,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierType != null" >
+        supplier_type = #{supplierType,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEn != null" >
+        name_en = #{nameEn,jdbcType=VARCHAR},
+      </if>
+      <if test="bn != null" >
+        bn = #{bn,jdbcType=VARCHAR},
+      </if>
+      <if test="nameEnBn != null" >
+        name_en_bn = #{nameEnBn,jdbcType=VARCHAR},
+      </if>
+      <if test="profile != null" >
+        profile = #{profile,jdbcType=VARCHAR},
+      </if>
+      <if test="countryCode != null" >
+        country_code = #{countryCode,jdbcType=VARCHAR},
+      </if>
+      <if test="countryBn != null" >
+        country_bn = #{countryBn,jdbcType=VARCHAR},
+      </if>
+      <if test="province != null" >
+        province = #{province,jdbcType=VARCHAR},
+      </if>
+      <if test="city != null" >
+        city = #{city,jdbcType=VARCHAR},
+      </if>
+      <if test="address != null" >
+        address = #{address,jdbcType=VARCHAR},
+      </if>
+      <if test="officialEmail != null" >
+        official_email = #{officialEmail,jdbcType=VARCHAR},
+      </if>
+      <if test="officialPhone != null" >
+        official_phone = #{officialPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="officialFax != null" >
+        official_fax = #{officialFax,jdbcType=VARCHAR},
+      </if>
+      <if test="firstName != null" >
+        first_name = #{firstName,jdbcType=VARCHAR},
+      </if>
+      <if test="lastName != null" >
+        last_name = #{lastName,jdbcType=VARCHAR},
+      </if>
+      <if test="regCapital != null" >
+        reg_capital = #{regCapital,jdbcType=VARCHAR},
+      </if>
+      <if test="regCapitalCurBn != null" >
+        reg_capital_cur_bn = #{regCapitalCurBn,jdbcType=VARCHAR},
+      </if>
+      <if test="employeeCount != null" >
+        employee_count = #{employeeCount,jdbcType=BIGINT},
+      </if>
+      <if test="socialCreditCode != null" >
+        social_credit_code = #{socialCreditCode,jdbcType=VARCHAR},
+      </if>
+      <if test="socialCreditExpireTime != null" >
+        social_credit_expire_time = #{socialCreditExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="socialCreditNoExpire != null" >
+        social_credit_no_expire = #{socialCreditNoExpire,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentative != null" >
+        legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentativeCode != null" >
+        legal_representative_code = #{legalRepresentativeCode,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentativeType != null" >
+        legal_representative_type = #{legalRepresentativeType,jdbcType=VARCHAR},
+      </if>
+      <if test="legalRepresentativeExpireTime != null" >
+        legal_representative_expire_time = #{legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="legalRepresentativeNoExpire != null" >
+        legal_representative_no_expire = #{legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      </if>
+      <if test="industryClassification != null" >
+        industry_classification = #{industryClassification,jdbcType=VARCHAR},
+      </if>
+      <if test="scopeOfOperation != null" >
+        scope_of_operation = #{scopeOfOperation,jdbcType=VARCHAR},
+      </if>
+      <if test="officialWebsite != null" >
+        official_website = #{officialWebsite,jdbcType=VARCHAR},
+      </if>
+      <if test="logo != null" >
+        logo = #{logo,jdbcType=VARCHAR},
+      </if>
+      <if test="secExListedOn != null" >
+        sec_ex_listed_on = #{secExListedOn,jdbcType=VARCHAR},
+      </if>
+      <if test="lineOfCredit != null" >
+        line_of_credit = #{lineOfCredit,jdbcType=DECIMAL},
+      </if>
+      <if test="creditAvailable != null" >
+        credit_available = #{creditAvailable,jdbcType=DECIMAL},
+      </if>
+      <if test="creditCurBn != null" >
+        credit_cur_bn = #{creditCurBn,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierLevel != null" >
+        supplier_level = #{supplierLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="creditLevel != null" >
+        credit_level = #{creditLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="financeLevel != null" >
+        finance_level = #{financeLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="logiLevel != null" >
+        logi_level = #{logiLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="qaLevel != null" >
+        qa_level = #{qaLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="stewardLevel != null" >
+        steward_level = #{stewardLevel,jdbcType=VARCHAR},
+      </if>
+      <if test="processId != null" >
+        process_id = #{processId,jdbcType=VARCHAR},
+      </if>
+      <if test="taskId != null" >
+        task_id = #{taskId,jdbcType=INTEGER},
+      </if>
+      <if test="recommendFlag != null" >
+        recommend_flag = #{recommendFlag,jdbcType=CHAR},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=VARCHAR},
+      </if>
+      <if test="qsFlag != null" >
+        qs_flag = #{qsFlag,jdbcType=CHAR},
+      </if>
+      <if test="inquiryId != null" >
+        inquiry_id = #{inquiryId,jdbcType=BIGINT},
+      </if>
+      <if test="eruiStatus != null" >
+        erui_status = #{eruiStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="expireStatus != null" >
+        expire_status = #{expireStatus,jdbcType=VARCHAR},
+      </if>
+      <if test="isErui != null" >
+        is_erui = #{isErui,jdbcType=CHAR},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+      <if test="applyAt != null" >
+        apply_at = #{applyAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createdBy != null" >
+        created_by = #{createdBy,jdbcType=BIGINT},
+      </if>
+      <if test="createdAt != null" >
+        created_at = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="checkedBy != null" >
+        checked_by = #{checkedBy,jdbcType=BIGINT},
+      </if>
+      <if test="checkedAt != null" >
+        checked_at = #{checkedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eruiCheckedAt != null" >
+        erui_checked_at = #{eruiCheckedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="eruiCheckedBy != null" >
+        erui_checked_by = #{eruiCheckedBy,jdbcType=BIGINT},
+      </if>
+      <if test="deletedFlag != null" >
+        deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      </if>
+      <if test="orgId != null" >
+        org_id = #{orgId,jdbcType=BIGINT},
+      </if>
+      <if test="source != null" >
+        source = #{source,jdbcType=VARCHAR},
+      </if>
+      <if test="updatedBy != null" >
+        updated_by = #{updatedBy,jdbcType=BIGINT},
+      </if>
+      <if test="updatedAt != null" >
+        updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRelation != null" >
+        is_relation = #{isRelation,jdbcType=VARCHAR},
+      </if>
+      <if test="sourceKey != null" >
+        source_key = #{sourceKey,jdbcType=VARCHAR},
+      </if>
+      <if test="customerType != null" >
+        customer_type = #{customerType,jdbcType=TINYINT},
+      </if>
+      <if test="tenant != null" >
+        tenant = #{tenant,jdbcType=VARCHAR},
+      </if>
+      <if test="processTime != null" >
+        process_time = #{processTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="brand != null" >
+        brand = #{brand,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.erui.order.model.entity.Supplier" >
+    update supplier
+    set lang = #{lang,jdbcType=VARCHAR},
+      serial_no = #{serialNo,jdbcType=VARCHAR},
+      supplier_no = #{supplierNo,jdbcType=VARCHAR},
+      supplier_type = #{supplierType,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      bn = #{bn,jdbcType=VARCHAR},
+      name_en_bn = #{nameEnBn,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      country_bn = #{countryBn,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      official_email = #{officialEmail,jdbcType=VARCHAR},
+      official_phone = #{officialPhone,jdbcType=VARCHAR},
+      official_fax = #{officialFax,jdbcType=VARCHAR},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      reg_capital = #{regCapital,jdbcType=VARCHAR},
+      reg_capital_cur_bn = #{regCapitalCurBn,jdbcType=VARCHAR},
+      employee_count = #{employeeCount,jdbcType=BIGINT},
+      social_credit_code = #{socialCreditCode,jdbcType=VARCHAR},
+      social_credit_expire_time = #{socialCreditExpireTime,jdbcType=TIMESTAMP},
+      social_credit_no_expire = #{socialCreditNoExpire,jdbcType=VARCHAR},
+      legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      legal_representative_code = #{legalRepresentativeCode,jdbcType=VARCHAR},
+      legal_representative_type = #{legalRepresentativeType,jdbcType=VARCHAR},
+      legal_representative_expire_time = #{legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      legal_representative_no_expire = #{legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      industry_classification = #{industryClassification,jdbcType=VARCHAR},
+      scope_of_operation = #{scopeOfOperation,jdbcType=VARCHAR},
+      official_website = #{officialWebsite,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      sec_ex_listed_on = #{secExListedOn,jdbcType=VARCHAR},
+      line_of_credit = #{lineOfCredit,jdbcType=DECIMAL},
+      credit_available = #{creditAvailable,jdbcType=DECIMAL},
+      credit_cur_bn = #{creditCurBn,jdbcType=VARCHAR},
+      supplier_level = #{supplierLevel,jdbcType=VARCHAR},
+      credit_level = #{creditLevel,jdbcType=VARCHAR},
+      finance_level = #{financeLevel,jdbcType=VARCHAR},
+      logi_level = #{logiLevel,jdbcType=VARCHAR},
+      qa_level = #{qaLevel,jdbcType=VARCHAR},
+      steward_level = #{stewardLevel,jdbcType=VARCHAR},
+      process_id = #{processId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=INTEGER},
+      recommend_flag = #{recommendFlag,jdbcType=CHAR},
+      status = #{status,jdbcType=VARCHAR},
+      qs_flag = #{qsFlag,jdbcType=CHAR},
+      inquiry_id = #{inquiryId,jdbcType=BIGINT},
+      erui_status = #{eruiStatus,jdbcType=VARCHAR},
+      expire_status = #{expireStatus,jdbcType=VARCHAR},
+      is_erui = #{isErui,jdbcType=CHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      apply_at = #{applyAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=BIGINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      checked_by = #{checkedBy,jdbcType=BIGINT},
+      checked_at = #{checkedAt,jdbcType=TIMESTAMP},
+      erui_checked_at = #{eruiCheckedAt,jdbcType=TIMESTAMP},
+      erui_checked_by = #{eruiCheckedBy,jdbcType=BIGINT},
+      deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      org_id = #{orgId,jdbcType=BIGINT},
+      source = #{source,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=BIGINT},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      is_relation = #{isRelation,jdbcType=VARCHAR},
+      source_key = #{sourceKey,jdbcType=VARCHAR},
+      customer_type = #{customerType,jdbcType=TINYINT},
+      tenant = #{tenant,jdbcType=VARCHAR},
+      process_time = #{processTime,jdbcType=TIMESTAMP},
+      brand = #{brand,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.Supplier" >
+    update supplier
+    set lang = #{lang,jdbcType=VARCHAR},
+      serial_no = #{serialNo,jdbcType=VARCHAR},
+      supplier_no = #{supplierNo,jdbcType=VARCHAR},
+      supplier_type = #{supplierType,jdbcType=VARCHAR},
+      name = #{name,jdbcType=VARCHAR},
+      name_en = #{nameEn,jdbcType=VARCHAR},
+      bn = #{bn,jdbcType=VARCHAR},
+      name_en_bn = #{nameEnBn,jdbcType=VARCHAR},
+      profile = #{profile,jdbcType=VARCHAR},
+      country_code = #{countryCode,jdbcType=VARCHAR},
+      country_bn = #{countryBn,jdbcType=VARCHAR},
+      province = #{province,jdbcType=VARCHAR},
+      city = #{city,jdbcType=VARCHAR},
+      address = #{address,jdbcType=VARCHAR},
+      official_email = #{officialEmail,jdbcType=VARCHAR},
+      official_phone = #{officialPhone,jdbcType=VARCHAR},
+      official_fax = #{officialFax,jdbcType=VARCHAR},
+      first_name = #{firstName,jdbcType=VARCHAR},
+      last_name = #{lastName,jdbcType=VARCHAR},
+      reg_capital = #{regCapital,jdbcType=VARCHAR},
+      reg_capital_cur_bn = #{regCapitalCurBn,jdbcType=VARCHAR},
+      employee_count = #{employeeCount,jdbcType=BIGINT},
+      social_credit_code = #{socialCreditCode,jdbcType=VARCHAR},
+      social_credit_expire_time = #{socialCreditExpireTime,jdbcType=TIMESTAMP},
+      social_credit_no_expire = #{socialCreditNoExpire,jdbcType=VARCHAR},
+      legal_representative = #{legalRepresentative,jdbcType=VARCHAR},
+      legal_representative_code = #{legalRepresentativeCode,jdbcType=VARCHAR},
+      legal_representative_type = #{legalRepresentativeType,jdbcType=VARCHAR},
+      legal_representative_expire_time = #{legalRepresentativeExpireTime,jdbcType=TIMESTAMP},
+      legal_representative_no_expire = #{legalRepresentativeNoExpire,jdbcType=VARCHAR},
+      industry_classification = #{industryClassification,jdbcType=VARCHAR},
+      scope_of_operation = #{scopeOfOperation,jdbcType=VARCHAR},
+      official_website = #{officialWebsite,jdbcType=VARCHAR},
+      logo = #{logo,jdbcType=VARCHAR},
+      sec_ex_listed_on = #{secExListedOn,jdbcType=VARCHAR},
+      line_of_credit = #{lineOfCredit,jdbcType=DECIMAL},
+      credit_available = #{creditAvailable,jdbcType=DECIMAL},
+      credit_cur_bn = #{creditCurBn,jdbcType=VARCHAR},
+      supplier_level = #{supplierLevel,jdbcType=VARCHAR},
+      credit_level = #{creditLevel,jdbcType=VARCHAR},
+      finance_level = #{financeLevel,jdbcType=VARCHAR},
+      logi_level = #{logiLevel,jdbcType=VARCHAR},
+      qa_level = #{qaLevel,jdbcType=VARCHAR},
+      steward_level = #{stewardLevel,jdbcType=VARCHAR},
+      process_id = #{processId,jdbcType=VARCHAR},
+      task_id = #{taskId,jdbcType=INTEGER},
+      recommend_flag = #{recommendFlag,jdbcType=CHAR},
+      status = #{status,jdbcType=VARCHAR},
+      qs_flag = #{qsFlag,jdbcType=CHAR},
+      inquiry_id = #{inquiryId,jdbcType=BIGINT},
+      erui_status = #{eruiStatus,jdbcType=VARCHAR},
+      expire_status = #{expireStatus,jdbcType=VARCHAR},
+      is_erui = #{isErui,jdbcType=CHAR},
+      remarks = #{remarks,jdbcType=VARCHAR},
+      apply_at = #{applyAt,jdbcType=TIMESTAMP},
+      created_by = #{createdBy,jdbcType=BIGINT},
+      created_at = #{createdAt,jdbcType=TIMESTAMP},
+      checked_by = #{checkedBy,jdbcType=BIGINT},
+      checked_at = #{checkedAt,jdbcType=TIMESTAMP},
+      erui_checked_at = #{eruiCheckedAt,jdbcType=TIMESTAMP},
+      erui_checked_by = #{eruiCheckedBy,jdbcType=BIGINT},
+      deleted_flag = #{deletedFlag,jdbcType=CHAR},
+      org_id = #{orgId,jdbcType=BIGINT},
+      source = #{source,jdbcType=VARCHAR},
+      updated_by = #{updatedBy,jdbcType=BIGINT},
+      updated_at = #{updatedAt,jdbcType=TIMESTAMP},
+      is_relation = #{isRelation,jdbcType=VARCHAR},
+      source_key = #{sourceKey,jdbcType=VARCHAR},
+      customer_type = #{customerType,jdbcType=TINYINT},
+      tenant = #{tenant,jdbcType=VARCHAR},
+      process_time = #{processTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>

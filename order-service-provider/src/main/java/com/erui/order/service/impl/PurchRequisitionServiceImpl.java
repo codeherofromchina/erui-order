@@ -29,6 +29,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -304,4 +305,14 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
     }
 
 
+    @Override
+    public List<Long> projectIdsByCurrentUser() {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        PurchRequisitionExample example = new PurchRequisitionExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                .andPurchaseUidEqualTo(userInfo.getId());
+
+        List<PurchRequisition> purchRequisitions = purchRequisitionMapper.selectByExample(example);
+        return purchRequisitions.stream().map(PurchRequisition::getProjectId).collect(Collectors.toList());
+    }
 }

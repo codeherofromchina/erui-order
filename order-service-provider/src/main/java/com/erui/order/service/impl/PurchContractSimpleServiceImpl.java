@@ -52,6 +52,7 @@ public class PurchContractSimpleServiceImpl implements PurchContractSimpleServic
         PurchContractSimple purchContractSimple = PurchContractSimpleFactory.purchContractSimple(purchContractAdditionSimpleInfo);
         purchContractSimple.setPurchContractId(purchContractId);
         purchContractSimple.setCreateTime(new Date());
+        purchContractSimple.setDeleteFlag(Boolean.FALSE);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo == null) {
             purchContractSimple.setCreateUserId(userInfo.getId());

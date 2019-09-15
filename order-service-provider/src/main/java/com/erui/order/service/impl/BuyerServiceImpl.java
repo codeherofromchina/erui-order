@@ -63,7 +63,7 @@ public class BuyerServiceImpl implements BuyerService {
         }
 
         // 输出
-        Page<Order> page = (Page) buyers;
+        Page<Buyer> page = (Page) buyers;
         Pager<BuyerInfo> pager = new Pager<>(page.getPageNum(), page.getPageSize()
                 , page.getPages(), page.getTotal(), buyerInfoList);
         return pager;

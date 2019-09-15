@@ -9,6 +9,7 @@ import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.pojo.request.ProjectQueryRequest;
 import com.erui.order.common.pojo.request.ProjectUpdateRequest;
 import com.erui.order.common.pojo.response.ProjectDetailResponse;
+import com.erui.order.common.pojo.response.ProjectDialogListResponse;
 import com.erui.order.common.pojo.response.ProjectListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.service.ProjectService;
@@ -73,6 +74,27 @@ public class ProjectController {
         }
         return result;
     }
+
+
+    @RequestMapping(value = "dialogList", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Pager<ProjectDialogListResponse>> dialogList(@RequestBody ProjectQueryRequest queryRequest) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("查询项目弹框列表 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
+        Result<Pager<ProjectDialogListResponse>> result = new Result<>();
+        try {
+            // 查询列表
+            Pager<ProjectDialogListResponse> pageInfo = projectService.dialogList(queryRequest);
+            result.setData(pageInfo);
+            LOGGER.info("查询项目弹框列表成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("查询项目弹框列表异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
+            result.setStatus(ResultStatus.FAIL);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
 
     /**
      * 获取项目的详情

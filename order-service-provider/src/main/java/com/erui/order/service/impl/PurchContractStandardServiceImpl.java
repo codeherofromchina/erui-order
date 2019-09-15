@@ -50,6 +50,7 @@ public class PurchContractStandardServiceImpl implements PurchContractStandardSe
         if (userInfo != null) {
             purchContractStandard.setCreateUserId(userInfo.getId());
         }
+        purchContractStandard.setDeleteFlag(Boolean.FALSE);
         int insert = purchContractStandardMapper.insert(purchContractStandard);
         if (insert == 0) {
             throw new Exception("采购合同标准信息操作失败");

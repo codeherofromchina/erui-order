@@ -15,7 +15,7 @@
                     <label>供应商名称：</label>
                     <input type="text" id="purch_contract_simple_list_table_toolbar_form_supplier_id_field"
                            class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
-                           data-options="onClickButton:function(){GLOBAL_PARAMS='hello=wangxiaodan&world=wwwwwww';$('#purch_contract_simple_list_supplier_id_dialog').dialog('open');$('#purch_contract_simple_list_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#purch_contract_simple_list_supplier_id_dialog').dialog('open');$('#purch_contract_simple_list_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}"/>
 
                 </li>
                 <li>
@@ -119,7 +119,7 @@
                     var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#purch_contract_simple_list_table_toolbar_form_supplier_id_field").textbox("setValue", selectedTableRow.id);
-                        $("#purch_contract_simple_list_table_toolbar_form_supplier_id_field").textbox("setText", selectedTableRow.name);
+                        $("#purch_contract_simple_list_table_toolbar_form_supplier_id_field").textbox("setText", selectedTableRow.supplierName);
                     } else {
                         $("#purch_contract_simple_list_table_toolbar_form_supplier_id_field").textbox("clear");
                     }
