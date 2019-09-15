@@ -24,6 +24,7 @@ public class PurchContractListResponse {
     private String currencyBn;
     // 合同状态
     private Short contractStatus;
+    private String contractStatusName;
     // 合同类型
     private Short contractType;
 
@@ -105,6 +106,14 @@ public class PurchContractListResponse {
 
     public void setContractStatus(Short contractStatus) {
         this.contractStatus = contractStatus;
+    }
+
+    public String getContractStatusName() {
+        return contractStatusName;
+    }
+
+    public void setContractStatusName(String contractStatusName) {
+        this.contractStatusName = contractStatusName;
     }
 
     public Short getContractType() {

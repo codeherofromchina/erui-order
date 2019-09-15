@@ -1,5 +1,6 @@
 package com.erui.order.service.util;
 
+import com.erui.order.common.enums.PurchContractStatusEnum;
 import com.erui.order.common.pojo.request.PurchContractSaveRequest;
 import com.erui.order.common.pojo.response.PurchContractDetailResponse;
 import com.erui.order.common.pojo.response.PurchContractListResponse;
@@ -27,6 +28,10 @@ public class PurchContractFactory {
         response.setLowercasePrice(purchContract.getLowercasePrice());
         response.setCurrencyBn(purchContract.getCurrencyBn());
         response.setContractStatus(purchContract.getPurchContractStatus());
+        PurchContractStatusEnum purchContractStatusEnum = PurchContractStatusEnum.valueOf(purchContract.getPurchContractStatus());
+        if (purchContractStatusEnum != null) {
+            response.setContractStatusName(purchContractStatusEnum.getName());
+        }
         response.setContractType(purchContract.getContractType());
 
         return response;

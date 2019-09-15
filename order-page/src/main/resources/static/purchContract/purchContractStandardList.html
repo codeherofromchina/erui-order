@@ -13,30 +13,34 @@
                 </li>
                 <li>
                     <label>供应商名称：</label>
-                    <input type="text" id="purch_contract_standard_list_table_toolbar_form_supplier_id_field" class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#purch_contract_standard_list_supplier_id_dialog').dialog('open');$('#purch_contract_standard_list_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}" />
+                    <input type="text" id="purch_contract_standard_list_table_toolbar_form_supplier_id_field"
+                           class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#purch_contract_standard_list_supplier_id_dialog').dialog('open');$('#purch_contract_standard_list_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}"/>
 
                 </li>
                 <li>
-                    <label>采购状态：</label>
-                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="orderStatus">
-                        <option code="">全部</option>
-                        <option code="2">未执行</option>
-                        <option code="3">执行中</option>
-                        <option code="4">已完成</option>
+                    <label>合同状态：</label>
+                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="contractStatus">
+                        <option value="">全部</option>
+                        <option value="2">未执行</option>
+                        <option value="3">执行中</option>
+                        <option value="4">已完成</option>
                     </select>
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="purch_contract_standard_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="purch_contract_standard_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="purch_contract_standard_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="purch_contract_standard_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
         </form>
     </div>
     <div class="ctrl-div">
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="purch_contract_standard_list_table_toolbar_add_btn">新建合同</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+           id="purch_contract_standard_list_table_toolbar_add_btn">新建合同</a>
     </div>
 </div>
 <!-- /数据表工具栏 -->
@@ -48,23 +52,24 @@
 <!-- /供应商名称弹出框 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#purch_contract_standard_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'purchContractNo',title:'采购合同号'},
-                {field:'signingDate',title:'采购合同签订日期'},
-                {field:'agentUserName',title:'采购经办人'},
-                {field:'supplierName',title:'供应商名称'},
-                {field:'lowercasePrice',title:'采购总金额',
-                    formatter:function(code,row,index) {
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'purchContractNo', title: '采购合同号'},
+                {field: 'signingDate', title: '采购合同签订日期'},
+                {field: 'agentUserName', title: '采购经办人'},
+                {field: 'supplierName', title: '供应商名称'},
+                {
+                    field: 'lowercasePrice', title: '采购总金额',
+                    formatter: function (code, row, index) {
                         if (!code) {
                             code = 0;
                         }
@@ -75,87 +80,80 @@
                         return code;
                     }
                 },
-                {field:'orderStatus',title:'合同状态',
-                    formatter:function(code,row,index){
-                        if (code == 1) {
-                            return "待确认";
-                        } else if(code == 2){
-                            return "未执行";
-                        } else if (code == 3) {
-                            return "执行中";
-                        } else if (code == 4) {
-                            return "已完成";
-                        } else {
-                            return code;
-                        }
-                    }
-                },
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
+                {field: 'contractStatusName', title: '合同状态'},
+                {
+                    field: 'operation', title: '操作',
+                    formatter: function (code, row, index) {
                         return '查看';
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/purchContract/list',
-            onBeforeLoad:function(param){
+            url: LOCAL_URL + '/order/purchContract/list',
+            onBeforeLoad: function (param) {
                 param.type = 2;
                 var data = $('#purch_contract_standard_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
 
         $("#purch_contract_standard_list_supplier_id_dialog").dialog({
-            title:'选择供应商',
-            resizable:true,
-            modal:true,
-            closed:true,
-            buttons:[{
-                text:'确定',
-                iconCls:'icon-ok',
-                handler:function(){
+            title: '选择供应商',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
                     var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
-                        $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setValue",selectedTableRow.id);
-                        $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setText",selectedTableRow.name);
+                        $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setValue", selectedTableRow.id);
+                        $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("setText", selectedTableRow.name);
                     } else {
                         $("#purch_contract_standard_list_table_toolbar_form_supplier_id_field").textbox("clear");
                     }
                     $("#purch_contract_standard_list_supplier_id_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                iconCls:'icon-cancel',
-                handler:function(){
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
                     $("#purch_contract_standard_list_supplier_id_dialog").dialog("close");
                 }
             }]
         });
 
         // 搜索按钮
-        $("#purch_contract_standard_list_table_toolbar_form_search_btn").click(function (){
+        $("#purch_contract_standard_list_table_toolbar_form_search_btn").click(function () {
             $("#purch_contract_standard_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#purch_contract_standard_list_table_toolbar_form_clear_btn").click(function (){
+        $("#purch_contract_standard_list_table_toolbar_form_clear_btn").click(function () {
             $('#purch_contract_standard_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#purch_contract_standard_list_table");
             $("#purch_contract_standard_list_table").datagrid("reload");
+        });
+
+        $("#purch_contract_standard_list_table_toolbar_add_btn").click(function(){
+            var newOrderTitle = '新建标准合同';
+            if ($("#tt").tabs("exists", newOrderTitle)) { // 判断该Tab页是否已经存在
+                $("#tt").tabs("select", newOrderTitle);
+            } else {
+                $("#tt").tabs("add", {
+                    title: newOrderTitle,
+                    href: 'purchContract/savePurchContractStandard.html',
+                    closable: true
+                });
+            }
         });
     });
 </script>
