@@ -44,6 +44,7 @@ public class PurchContractGoodsFactory {
             return null;
         }
         PurchContractGoodsInfo purchContractGoodsInfo = new PurchContractGoodsInfo();
+        purchContractGoodsInfo.setId(purchContractGoods.getId());
         purchContractGoodsInfo.setOrderGoodsId(purchContractGoods.getOrderGoodsId());
         purchContractGoodsInfo.setPurchaseNum(purchContractGoods.getPurchaseNum());
         purchContractGoodsInfo.setNonTaxPrice(purchContractGoods.getNonTaxPrice());

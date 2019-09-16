@@ -10,4 +10,6 @@ import com.erui.order.common.pojo.request.SupplierListQueryRequest;
  */
 public interface SupplierService {
     Pager<SupplierInfo> list(SupplierListQueryRequest queryRequest);
+
+    String findNameById(Long supplierId);
 }

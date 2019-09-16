@@ -1,6 +1,7 @@
 package com.erui.order.service;
 
 import com.erui.order.common.pojo.GoodsInfo;
+import com.erui.order.common.pojo.PurchContractGoodsInfo;
 
 import java.util.List;
 
@@ -16,5 +17,12 @@ public interface GoodsService {
      */
     List<GoodsInfo> purchContractGoodsList(List<Long> projectIds);
 
-    void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum);
+    void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum) throws Exception;
+
+    /**
+     * 通过采购合同商品来获取商品的全部信息
+     * @param purchContractGoodsInfos
+     * @return
+     */
+    List<GoodsInfo> goodsInfos(List<PurchContractGoodsInfo> purchContractGoodsInfos);
 }

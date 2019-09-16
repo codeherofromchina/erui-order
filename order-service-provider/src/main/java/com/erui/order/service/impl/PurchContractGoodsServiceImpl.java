@@ -109,7 +109,7 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
      * @param ids
      */
     @Override
-    public void delete(Long... ids) {
+    public void delete(Long... ids) throws Exception {
         if (ids == null || ids.length == 0) {
             return;
         }

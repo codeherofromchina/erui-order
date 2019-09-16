@@ -45,6 +45,10 @@ public class PurchContractServiceImpl implements PurchContractService {
     private PurchContractGoodsService purchContractGoodsService;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private SupplierService supplierService;
+    @Autowired
+    private GoodsService goodsService;
 
 
     @Override
@@ -130,7 +134,7 @@ public class PurchContractServiceImpl implements PurchContractService {
             // 采购合同简易合同附加信息
             PurchContractAdditionSimpleInfo purchContractAdditionSimpleInfo = updateRequest.getPurchContractAdditionSimpleInfo();
             purchContractSimpleService.insertOnDuplicatePurchContractIdUpdate(purchContractId, purchContractAdditionSimpleInfo);
-        } else if (purchContractTypeEnum == PurchContractTypeEnum.SIMPLE) {
+        } else if (purchContractTypeEnum == PurchContractTypeEnum.STANDARD) {
             PurchContractAdditionStandardInfo purchContractAdditionStandardInfo = updateRequest.getPurchContractAdditionStandardInfo();
             purchContractStandardService.insertOnDuplicatePurchContractIdUpdate(purchContractId, purchContractAdditionStandardInfo);
         }
@@ -196,6 +200,8 @@ public class PurchContractServiceImpl implements PurchContractService {
             } catch (Exception e) {
                 LOGGER.error("用户不存在 - {} - {}", purchContract.getId(), purchContract.getAgentId());
             }
+            purchContractListResponse.setSupplierName(supplierService.findNameById(purchContract.getSupplierId()));
+
             purchContractListResponses.add(purchContractListResponse);
         }
 
@@ -221,6 +227,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         PurchContractSignatoriesInfo sellerSignatoriesInfo = purchContractSignatoriesService.findByPurchContractId(id, PurchContractSignatoriesTypeEnum.SELLER);
         // 采购合同商品信息
         List<PurchContractGoodsInfo> purchContractGoodsInfos = purchContractGoodsService.listByPurchContractId(id);
+        List<GoodsInfo> goodsInfos = goodsService.goodsInfos(purchContractGoodsInfos);
 
         // 采购合同附加信息
         PurchContractAdditionSimpleInfo purchContractAdditionSimpleInfo = null;
@@ -229,7 +236,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         if (purchContractTypeEnum == PurchContractTypeEnum.SIMPLE) {
             // 采购合同简易合同附加信息
             purchContractAdditionSimpleInfo = purchContractSimpleService.findByPurchContractId(id);
-        } else if (purchContractTypeEnum == PurchContractTypeEnum.SIMPLE) {
+        } else if (purchContractTypeEnum == PurchContractTypeEnum.STANDARD) {
             purchContractAdditionStandardInfo = purchContractStandardService.findByPurchContractId(id);
         }
         // 附件内容
@@ -237,9 +244,11 @@ public class PurchContractServiceImpl implements PurchContractService {
 
         // 组织数据
         PurchContractDetailResponse detail = PurchContractFactory.purchContractDetailResponse(purchContract);
+        detail.setAgentName(userService.findNameById(purchContract.getAgentId()));
+        detail.setSupplierName(supplierService.findNameById(purchContract.getSupplierId()));
         detail.setBuyerSignatories(buyerSignatoriesInfo);
         detail.setSellerSignatories(sellerSignatoriesInfo);
-//        detail.setPurchContractGoodsList(purchContractGoodsInfos); // TODO
+        detail.setGoodsInfos(goodsInfos);
         detail.setPurchContractAdditionSimpleInfo(purchContractAdditionSimpleInfo);
         detail.setPurchContractAdditionStandardInfo(purchContractAdditionStandardInfo);
         detail.setAttachments(attachmentInfos);

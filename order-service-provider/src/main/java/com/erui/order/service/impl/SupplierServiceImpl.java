@@ -69,4 +69,17 @@ public class SupplierServiceImpl implements SupplierService {
                 , page.getPages(), page.getTotal(), supplierInfos);
         return pager;
     }
+
+
+    @Override
+    public String findNameById(Long supplierId) {
+        if (supplierId == null) {
+            return null;
+        }
+        Supplier supplier = supplierMapper.selectByPrimaryKey(supplierId);
+        if (supplier != null) {
+            return supplier.getName();
+        }
+        return null;
+    }
 }

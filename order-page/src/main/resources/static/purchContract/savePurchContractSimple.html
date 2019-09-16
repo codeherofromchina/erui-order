@@ -1,3 +1,42 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var savePurchContractSimplePageParams = getQueryStringFromGlobalParams();
+    var save_purch_contract_simple_form_data = {};
+    var save_purch_contract_simple_goods_data = [];
+    if (savePurchContractSimplePageParams.purchContractId) {
+        var savePurchContractSimpleResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": savePurchContractSimplePageParams.purchContractId});
+        if (savePurchContractSimpleResp.code == 0) {
+            save_purch_contract_simple_form_data = savePurchContractSimpleResp.data;
+            // 商品内容
+            save_purch_contract_simple_goods_data = save_purch_contract_simple_form_data.goodsInfos;
+            delete save_purch_contract_simple_form_data.goodsInfos;
+
+            // 简易合同信息
+            if (save_purch_contract_simple_form_data.purchContractAdditionSimpleInfo) {
+                for (var attr in save_purch_contract_simple_form_data.purchContractAdditionSimpleInfo) {
+                    save_purch_contract_simple_form_data["simple." + attr] = save_purch_contract_simple_form_data.purchContractAdditionSimpleInfo[attr];
+                }
+                delete save_purch_contract_simple_form_data.purchContractAdditionSimpleInfo;
+            }
+            // 出卖人
+            if (save_purch_contract_simple_form_data.sellerSignatories) {
+                for (var attr in save_purch_contract_simple_form_data.sellerSignatories) {
+                    save_purch_contract_simple_form_data["seller." + attr] = save_purch_contract_simple_form_data.sellerSignatories[attr];
+                }
+                delete save_purch_contract_simple_form_data.sellerSignatories;
+            }
+
+            // 买受人
+            if (save_purch_contract_simple_form_data.buyerSignatories) {
+                for (var attr in save_purch_contract_simple_form_data.buyerSignatories) {
+                    save_purch_contract_simple_form_data["buyer." + attr] = save_purch_contract_simple_form_data.buyerSignatories[attr];
+                }
+                delete save_purch_contract_simple_form_data.buyerSignatories;
+            }
+        }
+    }
+</script>
+
 <form id="save_purch_contract_simple_form">
     <input type="hidden" name="id"/>
     <input type="hidden" name="contractType" value="1"/>
@@ -27,11 +66,12 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label><span style="color:red;">*</span>项目号：</label>
-            <input type="text" id="save_purch_contract_simple_form_project_id_field" class="easyui-textbox"
+            <input type="text" id="save_purch_contract_simple_form_project_id_field" name="projectNo"
+                   class="easyui-textbox"
                    editable="false" name="agentId" buttonText="请选择"
                    data-options="onClickButton:function(){$('#save_purch_contract_simple_project_id_dialog').dialog('open');$('#save_purch_contract_simple_project_id_dialog').dialog('refresh', 'common/projectDialog.html');}"/>
             <label><span style="color:red;">*</span>税点%：</label>
-            <input class="easyui-textbox" name="taxPoint"/>
+            <input class="easyui-numberbox" precision="0" name="taxPoint"/>
             <label style="width:130px;"><span style="color:red;">*</span>采购总金额（大写）：</label>
             <input class="easyui-textbox" name="capitalizedPrice"/>
         </div>
@@ -88,7 +128,8 @@
                     <td class="num">3</td>
                     <td>
                         <div>
-                            交货时间、方式、地点：出卖人负责将货物于 <input type="text" name="simple.shippingDate" width="110px"/>
+                            交货时间、方式、地点：出卖人负责将货物于 <input type="text" class="easyui-datebox" name="simple.shippingDate"
+                                                        width="110px"/>
                             前运送至买受人指定的地点：
                             <input type="text" name="simple.designatedLocation" width="600px"/> 。
                         </div>
@@ -276,6 +317,16 @@
 
 <script type="text/javascript">
     $(function () {
+        setTimeout(function () {
+            $("#save_purch_contract_simple_form").form('load', save_purch_contract_simple_form_data);
+            // 供应商
+            $("#save_purch_contract_simple_form_supplier_id_field").textbox('setValue', save_purch_contract_simple_form_data.supplierId);
+            $("#save_purch_contract_simple_form_supplier_id_field").textbox('setText', save_purch_contract_simple_form_data.supplierName);
+            // 采购经办人
+            $("#save_purch_contract_simple_form_agent_id_field").textbox("setValue", save_purch_contract_simple_form_data.agentId);
+            $("#save_purch_contract_simple_form_agent_id_field").textbox("setText", save_purch_contract_simple_form_data.agentName);
+        }, 500);
+
         $("#save_purch_contract_simple_form_goods_table").datagrid({
             border: false,
             singleSelect: true,
@@ -285,7 +336,7 @@
                 {field: 'projectNo', width: 110, title: '项目号'},
                 {field: 'sku', width: 125, title: '平台SKU'},
                 {field: 'nameZh', width: 80, title: '中文品名'},
-                {field: 'unit', width: 40, title: '单位'},
+                {field: 'unitName', width: 40, title: '单位'},
                 {field: 'brand', width: 80, title: '品牌'},
                 {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
                 {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
@@ -310,7 +361,14 @@
                         }
                     }
                 }
-            ]]
+            ]],
+            onLoadSuccess: function (data) {
+                // 控制表格可以编辑
+                for (var num = 0; num < data.total; ++num) {
+                    $(this).datagrid('beginEdit', num);
+                }
+            },
+            data: save_purch_contract_simple_goods_data
         });
 
 
@@ -417,7 +475,7 @@
         // 保存采购合同
         $("#save_purch_contract_simple_form_save_btn").click(function (e) {
             e.preventDefault();
-            var formData = assemblyPurchContractData();
+            var formData = assemblyPurchContractSimpleData();
             formData.contractStatus = '1'; // 保存状态
 
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchContract/savePurchContract"}, formData);
@@ -434,7 +492,7 @@
         // 提交采购合同
         $("#save_purch_contract_simple_form_submit_btn").click(function (e) {
             e.preventDefault();
-            var formData = assemblyProjectData();
+            var formData = assemblyPurchContractSimpleData();
             formData.contractStatus = '2'; // 提交状态
 
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchContract/savePurchContract"}, formData);
@@ -450,7 +508,7 @@
     });
 
     // 组装采购合同数据
-    function assemblyPurchContractData() {
+    function assemblyPurchContractSimpleData() {
         var formData = $("#save_purch_contract_simple_form").serializeJson();
 
         // 商品信息

@@ -68,6 +68,7 @@ public class PurchContractFactory {
         }
         PurchContractDetailResponse purchContractDetailResponse = new PurchContractDetailResponse();
         purchContractDetailResponse.setId(purchContract.getId());
+        purchContractDetailResponse.setProjectNo(purchContract.getProjectNo());
         purchContractDetailResponse.setSigningDate(purchContract.getSigningDate());
         purchContractDetailResponse.setSigningPlace(purchContract.getSigningPlace());
         purchContractDetailResponse.setAgentId(purchContract.getAgentId());

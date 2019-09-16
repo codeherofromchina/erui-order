@@ -1,0 +1,301 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var purchContractSimpleInfoPageParams = getQueryStringFromGlobalParams();
+    var save_purch_contract_simple_info_form_data = {};
+    var save_purch_contract_simple_info_goods_data = [];
+    if (purchContractSimpleInfoPageParams.purchContractId) {
+        var purchContractSimpleInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": purchContractSimpleInfoPageParams.purchContractId});
+        if (purchContractSimpleInfoResp.code == 0) {
+            save_purch_contract_simple_info_form_data = purchContractSimpleInfoResp.data;
+            // 商品内容
+            save_purch_contract_simple_info_goods_data = save_purch_contract_simple_info_form_data.goodsInfos;
+            delete save_purch_contract_simple_info_form_data.goodsInfos;
+
+            // 简易合同信息
+            if (save_purch_contract_simple_info_form_data.purchContractAdditionSimpleInfo) {
+                for (var attr in save_purch_contract_simple_info_form_data.purchContractAdditionSimpleInfo) {
+                    save_purch_contract_simple_info_form_data["simple." + attr] = save_purch_contract_simple_info_form_data.purchContractAdditionSimpleInfo[attr];
+                }
+                delete save_purch_contract_simple_info_form_data.purchContractAdditionSimpleInfo;
+            }
+        }
+    }
+</script>
+
+<div id="save_purch_contract_simple_info_form">
+    <div class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>合同签订日期：</label>
+            <div class="input-div">{{signingDate}}</div>
+            <label>供应商名称：</label>
+            <div class="input-div">{{supplierName}}</div>
+            <label><span style="color:red;">*</span>合同签订地点：</label>
+            <div class="input-div">{{signingPlace}}</div>
+        </div>
+        <div class="fitem">
+            <label>采购经办人：</label>
+            <div class="input-div">{{agentName}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>项目号：</label>
+            <div class="input-div">{{projectNo}}</div>
+            <label><span style="color:red;">*</span>税点%：</label>
+            <div class="input-div">{{taxPoint}}</div>
+            <label style="width:130px;"><span style="color:red;">*</span>采购总金额（大写）：</label>
+            <div class="input-div">{{capitalizedPrice}}</div>
+        </div>
+        <div class="fitem">
+            <label style="width:130px;margin-left:5px;"><span style="color:red;">*</span>采购总金额（小写）：</label>
+            <div class="input-div">{{lowercasePrice}}</div>
+            <label><span style="color:red;">*</span>币种：</label>
+            <div class="input-div">{{currencyBn}}</div>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">商品备注：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">
+                {{goodsRemarks}}
+            </div>
+        </div>
+
+        <table id="save_purch_contract_simple_info_form_goods_table"></table>
+    </div>
+
+
+    <div class="easyui-panel" title="合同信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="purch-contract">
+            <table>
+                <tr>
+                    <td class="num">1</td>
+                    <td>
+                        <div>
+                            质量标准: 出卖人保证提供的货物皆为符合
+                            <input disabled type="text" name="simple.productRequirement" width="200px"/>
+                            的合格产品，质保期自 <input disabled type="text" name="simple.warrantyPeriod" style="width: 200px;"
+                                              width="200px"/> 。
+                        </div>
+                        <div>
+                            在质保期内，如发现出卖人提供的货物有缺陷和/或不符合合同规定，如属出卖人责任，出卖人应及时对出现质量问题的货物进行免费维修和更换，
+                            或者买受人对有质量问题的货物视情况可要求退货，返还货款和其他费用。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">2</td>
+                    <td>
+                        <div>
+                            包装标准、包装物的供应与回收：包装适合长途运输，包装物不回收。运输该货物中对于易丢失物件应作必要包装，以达到妥善保存。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">3</td>
+                    <td>
+                        <div>
+                            交货时间、方式、地点：出卖人负责将货物于 <input disabled type="text" class="easyui-datebox" name="simple.shippingDate"
+                                                        width="110px"/>
+                            前运送至买受人指定的地点：
+                            <input disabled type="text" name="simple.designatedLocation" width="600px"/> 。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">4</td>
+                    <td>
+                        <div>
+                            运输方式及到达站（港）和费用负担：
+                            <input disabled type="text" name="simple.costBurden" width="300px"/>
+                            运，由出卖人承担运输费用。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">5</td>
+                    <td>
+                        <div>
+                            产品检验以及所有权转移： 按本合同第1条在
+                            <input disabled type="text" name="simple.inspectionAt" width="125px"/>
+                            处检验，并在
+                            <input disabled type="text" name="simple.withinDays" width="125px"/>
+                            日内提出异议；标的物所有权自验收合格时转移。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">6</td>
+                    <td>
+                        <div>
+                            结算方式及时间：
+                            <input disabled type="text" name="simple.methodAndTime" width="600px"/> 。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">7</td>
+                    <td>
+                        <div>
+                            违约责任：
+                        </div>
+                        <div>
+                            1、出卖人逾期交货的，每逾期一天支付合同总额的2%作为违约金；逾期交货超过两周以上的，
+                            买受人可以解除合同。买受人验收时如发现货物的质量、规格、数量或重量与合同不符的，
+                            买受人有权要求出卖人更换、补齐、重作、修理、减价、拒付货款或退货并要求出卖人退还买受人已支付的货款，
+                            由此所发生的一切费用应由出卖人负责。如由于上述原因导致出卖人逾期交货的，出卖人还应按照上一款规定向买受人支付违约金。
+                            货物不符合约定的质量标准或技术规范，买受人有权要求退货、返还货款。
+                        </div>
+                        <div>
+                            2、合同签订后，如果出卖人单方面解除合同或不履行交货义务的，应向买受人支付合同总金额的20%作为违约金。
+                        </div>
+                        <div>
+                            3、买受人逾期付款的，应按照中国人民银行有关延期付款的规定，向出卖人偿付逾期付款的违约金。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">8</td>
+                    <td>
+                        <div>
+
+                            对本合同履行发生争议的，双方协商解决；协商不成的，由买受人所在地人民法院管辖。
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="num">9</td>
+                    <td>
+                        <div>
+                            其他：
+                        </div>
+                        <div>
+                            1、本合同一式 肆 份，具有同等法律效力，买受人执&nbsp;&nbsp;贰&nbsp;&nbsp;份，出卖人执&nbsp;&nbsp;贰&nbsp;&nbsp;份。
+                        </div>
+                        <div>
+                            2、本合同自双方签字盖章之日起生效到双方完全履行完各自的义务为止。
+                        </div>
+                        <div>
+                            3、附《
+                            <input disabled type="text" name="simple.agreementName" width="125px"/>
+                            技术协议》是本合同不可分割的一部分，与本合同具有同等法律效力。
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <table style="border-top-width:0;width:100%;">
+                <tr>
+                    <td style="width: 150px;">出卖人：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.sellerBuyer}}</div>
+                    </td>
+                    <td style="width: 150px;">买受人：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.sellerBuyer}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">法定代表人或授权代表：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.legalRepresentative}}</div>
+                    </td>
+                    <td style="width: 150px;">法定代表人或授权代表：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.legalRepresentative}}</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 150px;">地址：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.address}}</div>
+                    </td>
+                    <td style="width: 150px;">地址：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.address}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">开户行：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.openingBank}}</div>
+                    </td>
+                    <td style="width: 150px;">开户行：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.openingBank}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">账号：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.accountNumber}}</div>
+                    </td>
+                    <td style="width: 150px;">账号：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.accountNumber}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">统一社会信用代码证：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.creditCode}}</div>
+                    </td>
+                    <td style="width: 150px;">统一社会信用代码证：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.creditCode}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">电话/传真：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.telephoneFax}}</div>
+                    </td>
+                    <td style="width: 150px;">电话/传真：：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.telephoneFax}}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<script type="text/javascript">
+    new Vue({
+        el: '#save_purch_contract_simple_info_form',
+        data: save_purch_contract_simple_info_form_data
+    });
+    $(function () {
+        setTimeout(function () {
+            $("#save_purch_contract_simple_info_form").form('load', save_purch_contract_simple_info_form_data);
+        }, 500);
+
+        $("#save_purch_contract_simple_info_form_goods_table").datagrid({
+            border: false,
+            singleSelect: true,
+            striped: true,
+            rownumbers: true,
+            columns: [[
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'sku', width: 125, title: '平台SKU'},
+                {field: 'nameZh', width: 80, title: '中文品名'},
+                {field: 'unitName', width: 40, title: '单位'},
+                {field: 'brand', width: 80, title: '品牌'},
+                {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
+                {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
+                {
+                    field: 'purchaseNum', width: 100, title: '本次采购数量'
+                },
+                {
+                    field: 'purchasePrice', width: 100, title: '单价'
+                }
+            ]],
+            data: save_purch_contract_simple_info_goods_data
+        });
+    });
+</script>

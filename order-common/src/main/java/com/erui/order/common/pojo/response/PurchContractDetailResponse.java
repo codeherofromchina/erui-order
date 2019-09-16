@@ -12,6 +12,8 @@ import java.util.List;
  */
 public class PurchContractDetailResponse {
     private Long id;
+    // 项目号
+    private String projectNo;
     // 合同类型 1:简易合同 2:标准合同 3:非标合同
     private Short contractType;
     // 状态 1:待确认 2:未执行 3:已执行 4:已完成 5:已删除
@@ -26,6 +28,7 @@ public class PurchContractDetailResponse {
     private String signingPlace;
     // 采购经办人
     private Long agentId;
+    private String agentName;
     // 税点%,0到100数字
     private Short taxPoint;
     // 采购总金额（大写）
@@ -200,5 +203,21 @@ public class PurchContractDetailResponse {
 
     public void setAttachments(List<AttachmentInfo> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
+
+    public String getAgentName() {
+        return agentName;
+    }
+
+    public void setAgentName(String agentName) {
+        this.agentName = agentName;
     }
 }

@@ -1,5 +1,6 @@
 package com.erui.order.common.pojo;
 
+import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -19,6 +20,7 @@ public class GoodsInfo {
     private String nameZh;
     // 合同数量
     private Short contractGoodsNum;
+    // 采购合同中预锁定的商品数量
     private Short prePurchContractNum;
     // 单位
     private String unit;
@@ -41,6 +43,10 @@ public class GoodsInfo {
 
     // 技术审核
     private String techAudit;
+    // '采购合同本次采购数量'
+    private Integer purchaseNum;
+    // '采购合同采购单价'
+    private BigDecimal purchasePrice;
 
 
     public Long getId() {
@@ -178,5 +184,21 @@ public class GoodsInfo {
 
     public void setPrePurchContractNum(Short prePurchContractNum) {
         this.prePurchContractNum = prePurchContractNum;
+    }
+
+    public Integer getPurchaseNum() {
+        return purchaseNum;
+    }
+
+    public void setPurchaseNum(Integer purchaseNum) {
+        this.purchaseNum = purchaseNum;
+    }
+
+    public BigDecimal getPurchasePrice() {
+        return purchasePrice;
+    }
+
+    public void setPurchasePrice(BigDecimal purchasePrice) {
+        this.purchasePrice = purchasePrice;
     }
 }

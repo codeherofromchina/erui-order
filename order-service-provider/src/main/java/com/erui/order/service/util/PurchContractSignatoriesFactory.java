@@ -17,6 +17,8 @@ public class PurchContractSignatoriesFactory {
         PurchContractSignatoriesInfo signatoriesInfo = new PurchContractSignatoriesInfo();
         signatoriesInfo.setId(purchContractSignatories.getId());
         signatoriesInfo.setPurchContractId(purchContractSignatories.getPurchContractId());
+        // 公司名称
+        signatoriesInfo.setSellerBuyer(purchContractSignatories.getSellerBuyer());
         // 邮政编码
         signatoriesInfo.setPostalCode(purchContractSignatories.getPostalCode());
         // '法定代表人或授权代表'

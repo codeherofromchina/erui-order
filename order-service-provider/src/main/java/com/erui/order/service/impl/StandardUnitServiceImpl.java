@@ -12,6 +12,7 @@ import com.erui.order.service.util.UserFactory;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +23,7 @@ import java.util.stream.Collectors;
  * @Date 2019/9/7 上午10:57
  */
 @Service
+@Transactional
 public class StandardUnitServiceImpl implements StandardUnitService {
     @Autowired
     private StandardUnitMapper standardUnitMapper;

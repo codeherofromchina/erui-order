@@ -15,6 +15,8 @@ public class PurchContractSaveRequest {
     private Long id;
     // 合同类型 1:简易合同 2:标准合同 3:非标合同
     private Short contractType = 1;
+    // 项目号
+    private String projectNo;
     // 合同状态
     private Short contractStatus;
     // 合同签订日期
@@ -56,6 +58,14 @@ public class PurchContractSaveRequest {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public Short getContractType() {

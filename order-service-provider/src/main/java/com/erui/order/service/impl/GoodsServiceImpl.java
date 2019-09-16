@@ -1,6 +1,7 @@
 package com.erui.order.service.impl;
 
 import com.erui.order.common.pojo.GoodsInfo;
+import com.erui.order.common.pojo.PurchContractGoodsInfo;
 import com.erui.order.mapper.OrderGoodsMapper;
 import com.erui.order.mapper.OrderMapper;
 import com.erui.order.model.entity.Order;
@@ -36,7 +37,6 @@ public class GoodsServiceImpl implements GoodsService {
     private StandardUnitService standardUnitService;
 
 
-
     @Override
     public List<GoodsInfo> purchContractGoodsList(List<Long> projectIds) {
         List<Long> orderIds = projectService.orderIdsByProjectIds(projectIds);
@@ -57,12 +57,17 @@ public class GoodsServiceImpl implements GoodsService {
     }
 
     @Override
-    public void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum) {
+    public void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum) throws Exception {
         OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
 
         OrderGoods orderGoodsSelective = new OrderGoods();
         orderGoodsSelective.setId(orderGoodsId);
         int prePurchContractNum = orderGoods.getPrePurchContractNum() + purchaseNum.shortValue();
+
+        if (prePurchContractNum > orderGoods.getContractGoodsNum()) {
+            throw new Exception("采购合同商品大于订单合同数量");
+        }
+
         orderGoodsSelective.setPrePurchContractNum((short) prePurchContractNum);
         if (!pre) {
             int purchContractNum = orderGoods.getPurchContractNum() + purchaseNum.shortValue();
@@ -74,6 +79,28 @@ public class GoodsServiceImpl implements GoodsService {
             }
         }
         orderGoodsMapper.updateByPrimaryKeySelective(orderGoodsSelective);
+    }
+
+
+    @Override
+    public List<GoodsInfo> goodsInfos(List<PurchContractGoodsInfo> purchContractGoodsInfos) {
+        List<GoodsInfo> goodsInfoList = new ArrayList<>();
+        if (purchContractGoodsInfos != null && purchContractGoodsInfos.size() > 0) {
+            for (PurchContractGoodsInfo purchContractGoodsInfo : purchContractGoodsInfos) {
+                OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(purchContractGoodsInfo.getOrderGoodsId());
+                GoodsInfo goodsInfo = goodsInfo(orderGoods);
+                goodsInfo.setId(purchContractGoodsInfo.getId());
+                goodsInfo.setOrderGoodsId(purchContractGoodsInfo.getOrderGoodsId());
+                goodsInfo.setPurchaseNum(purchContractGoodsInfo.getPurchaseNum());
+                goodsInfo.setPurchasePrice(purchContractGoodsInfo.getPurchasePrice());
+                goodsInfo.setBrand(purchContractGoodsInfo.getBrand());
+
+                goodsInfoList.add(goodsInfo);
+            }
+        }
+
+
+        return goodsInfoList;
     }
 
     private GoodsInfo goodsInfo(OrderGoods orderGoods) {

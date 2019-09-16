@@ -48,6 +48,8 @@ public class PurchContract {
 
     private Date deleteTime;
 
+    private String projectNo;
+
     public Long getId() {
         return id;
     }
@@ -222,5 +224,13 @@ public class PurchContract {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 }

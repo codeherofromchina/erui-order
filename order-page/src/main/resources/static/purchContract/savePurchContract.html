@@ -1,18 +1,60 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var savePurchContractPageParams = getQueryStringFromGlobalParams();
+    var save_purch_contract_form_data = {};
+    var save_purch_contract_goods_data = [];
+    var save_purch_contract_attachment_data = [];
+    if (savePurchContractPageParams.purchContractId) {
+        var savePurchContractResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": savePurchContractPageParams.purchContractId});
+        if (savePurchContractResp.code == 0) {
+            save_purch_contract_form_data = savePurchContractResp.data;
+            // 商品内容
+            save_purch_contract_goods_data = save_purch_contract_form_data.goodsInfos;
+            delete save_purch_contract_form_data.goodsInfos;
+
+            // 附件信息
+            save_purch_contract_attachment_data = save_purch_contract_form_data.attachments;
+            delete save_purch_contract_form_data.attachments;
+
+            // 出卖人
+            if (save_purch_contract_form_data.sellerSignatories) {
+                for (var attr in save_purch_contract_form_data.sellerSignatories) {
+                    save_purch_contract_form_data["seller." + attr] = save_purch_contract_form_data.sellerSignatories[attr];
+                }
+                delete save_purch_contract_form_data.sellerSignatories;
+            }
+
+            // 买受人
+            if (save_purch_contract_form_data.buyerSignatories) {
+                for (var attr in save_purch_contract_form_data.buyerSignatories) {
+                    save_purch_contract_form_data["buyer." + attr] = save_purch_contract_form_data.buyerSignatories[attr];
+                }
+                delete save_purch_contract_form_data.buyerSignatories;
+            }
+        }
+    }
+</script>
 <form id="save_purch_contract_form">
+    <input type="hidden" name="id"/>
+    <input type="hidden" name="contractType" value="3"/>
     <div class="easyui-panel" title="基本信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
             <label><span style="color:red;">*</span>合同签订日期：</label>
-            <input class="easyui-datebox" data-options="editable:false" style="width:180px;"/>
+            <input class="easyui-datebox" name="signingDate" data-options="editable:false" style="width:180px;"/>
             <label>供应商名称：</label>
-            <input class="easyui-textbox" data-options="editable:false"/>
+            <input type="text" id="save_purch_contract_form_supplier_id_field"
+                   class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_purch_contract_supplier_id_dialog').dialog('open');$('#save_purch_contract_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}"/>
             <label><span style="color:red;">*</span>合同签订地点：</label>
-            <input class="easyui-textbox" required="true"/>
+            <input class="easyui-textbox" required="true" name="signingPlace"/>
         </div>
         <div class="fitem">
             <label>采购经办人：</label>
-            <input class="easyui-textbox" />
+            <input type="text" id="save_purch_contract_form_agent_id_field" class="easyui-textbox"
+                   editable="false" name="agentId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_purch_contract_agent_id_dialog').dialog('open');$('#save_purch_contract_agent_id_dialog').dialog('refresh', 'common/userDialog.html');}"/>
         </div>
     </div>
 
@@ -21,22 +63,30 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label><span style="color:red;">*</span>项目号：</label>
-            <input class="easyui-textbox" />
+            <input type="text" id="save_purch_contract_form_project_id_field" name="projectNo"
+                   class="easyui-textbox"
+                   editable="false" name="agentId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_purch_contract_project_id_dialog').dialog('open');$('#save_purch_contract_project_id_dialog').dialog('refresh', 'common/projectDialog.html');}"/>
             <label><span style="color:red;">*</span>税点%：</label>
-            <input class="easyui-textbox" />
+            <input class="easyui-numberbox" precision="0" name="taxPoint"/>
             <label style="width:130px;"><span style="color:red;">*</span>采购总金额（大写）：</label>
-            <input class="easyui-textbox" />
+            <input class="easyui-textbox" name="capitalizedPrice"/>
         </div>
         <div class="fitem">
             <label style="width:130px;margin-left:5px;"><span style="color:red;">*</span>采购总金额（小写）：</label>
-            <input class="easyui-textbox" />
+            <input class="easyui-textbox" name="lowercasePrice"/>
             <label><span style="color:red;">*</span>币种：</label>
-            <select class="easyui-combobox" editable="false" panelHeight="100px">
-                <option code="CAD">CAD</option>
-                <option code="CNY">CNY</option>
-                <option code="EUR">EUR</option>
-                <option code="USD">USD</option>
+            <select class="easyui-combobox" editable="false" name="currencyBn" panelHeight="100px">
+                <option value="CNY">CNY</option>
+                <option value="CAD">CAD</option>
+                <option value="EUR">EUR</option>
+                <option value="USD">USD</option>
             </select>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">商品备注：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="goodsRemarks"/>
         </div>
 
         <table id="save_purch_contract_form_goods_table"></table>
@@ -44,85 +94,86 @@
 
 
     <div class="easyui-panel" style="padding:0;background:#fafafa;margin-bottom:10px;"
-         data-options="collapsible:true,border:false" >
+         data-options="collapsible:true,border:false">
         <div class="purch-contract">
             <table style="border-top-width:0;width:100%;">
                 <tr>
                     <td style="width: 150px;">出卖人：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.sellerBuyer"/>
                     </td>
                     <td style="width: 150px;">买受人：</td>
                     <td>
-                        <input type="text" code="易瑞国际电子商务有限公司" style="width:250px" />
+                        <input type="text" value="易瑞国际电子商务有限公司" style="width:250px" name="seller.sellerBuyer"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 150px;">法定代表人或授权代表：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.legalRepresentative"/>
                     </td>
                     <td style="width: 150px;">法定代表人或授权代表：</td>
                     <td>
-                        <input type="text" code="冷成志" style="width:250px" />
+                        <input type="text" value="冷成志" style="width:250px" name="seller.legalRepresentative"/>
                     </td>
                 </tr>
 
                 <tr>
                     <td style="width: 150px;">地址：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.address"/>
                     </td>
                     <td style="width: 150px;">地址：</td>
                     <td>
-                        <input type="text" code="山东省东营市东营区南二路224号" style="width:250px" />
+                        <input type="text" value="山东省东营市东营区南二路224号" style="width:250px" name="seller.address"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 150px;">开户行：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.openingBank"/>
                     </td>
                     <td style="width: 150px;">开户行：</td>
                     <td>
-                        <input type="text" code="工行东营西城支行" style="width:250px" />
+                        <input type="text" value="工行东营西城支行" style="width:250px" name="seller.openingBank"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 150px;">账号：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.accountNumber"/>
                     </td>
                     <td style="width: 150px;">账号：</td>
                     <td>
-                        <input type="text" code="1615005009200150152" style="width:250px" />
+                        <input type="text" value="1615005009200150152" style="width:250px" name="seller.accountNumber"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 150px;">统一社会信用代码证：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.creditCode"/>
                     </td>
                     <td style="width: 150px;">统一社会信用代码证：</td>
                     <td>
-                        <input type="text" code="91370502MA3CD4NA32" style="width:250px" />
+                        <input type="text" value="91370502MA3CD4NA32" style="width:250px" name="seller.creditCode"/>
                     </td>
                 </tr>
                 <tr>
                     <td style="width: 150px;">电话/传真：</td>
                     <td>
-                        <input type="text" style="width:250px" />
+                        <input type="text" style="width:250px" name="buyer.telephoneFax"/>
                     </td>
                     <td style="width: 150px;">电话/传真：：</td>
                     <td>
-                        <input type="text" code="0546-8167000" style="width:250px" />
+                        <input type="text" value="0546-8167000" style="width:250px" name="seller.telephoneFax"/>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 
-    <div id="save_purch_contract_attachment_info" class="easyui-panel" title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+    <div id="save_purch_contract_attachment_info" class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
          style="background:#fafafa;margin-bottom:30px;"
          data-options="collapsible:true">
         <div class="easyui-layout" style="width: 100%;height:150px;">
@@ -130,18 +181,36 @@
             <div data-options="region:'west',split:false,border:false" style="width:150px;">
                 <div style="text-align:center;">
                     <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">采购执行部</span></div>
-                    <div style="margin-bottom:10px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传合同</a> </div>
-                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true">上传其它</a> </div>
+                    <div style="margin-bottom:10px;">
+                        <a href="javascript:void(0);" class="easyui-linkbutton"
+                           onclick="openFileDialog(1,'save_purch_contract_form_attachment_table');"
+                           plain="true">上传合同</a></div>
+                    <div><a href="javascript:void(0);" class="easyui-linkbutton" plain="true"
+                            onclick="openFileDialog(2,'save_purch_contract_form_attachment_table');">上传其它</a></div>
                 </div>
             </div>
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
-                <table class="easyui-datagrid" fit="true" fitColumn="true">
+                <table class="easyui-datagrid" fit="true" fitColumn="true"
+                       data-options="idField:'url',data:save_purch_contract_attachment_data"
+                       id="save_purch_contract_form_attachment_table">
                     <thead>
                     <tr>
-                        <th field="contractNo" width="200">附件名称</th>
-                        <th field="projectNo" width="120">创建人</th>
-                        <th field="contractNoHw" width="170">日期</th>
-                        <th field="inquiryNo" width="80">操作</th>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '合同';
+                                    case 2: return '其它';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                        <th field="_operate" width="80" data-options="formatter:savePurchContractAttachmentFormatOper">
+                            操作
+                        </th>
                     </tr>
                     </thead>
                 </table>
@@ -151,55 +220,302 @@
 </form>
 
 
-
 <div style="margin-top:20px;text-align: center;">
-    <a href="javascript:void(0);" id="save_purch_contract_form_save_btn" size="large" class="easyui-linkbutton" style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <a href="javascript:void(0);" id="save_purch_contract_form_submit_btn" size="large" class="easyui-linkbutton" style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purch_contract_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purch_contract_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 </div>
 
 
+<!-- 供应商名称弹出框 -->
+<div id="save_purch_contract_supplier_id_dialog" style="width:800px;height:350px;">
+</div>
+<!-- /供应商名称弹出框 -->
+<!-- 采购经办人弹出框 -->
+<div id="save_purch_contract_agent_id_dialog" style="width:800px;height:350px;">
+</div>
+<!-- /采购经办人弹出框 -->
+<!-- 项目弹出框 -->
+<div id="save_purch_contract_project_id_dialog" style="width:800px;height:350px;">
+</div>
+<!-- /项目弹出框 -->
+
 <script type="text/javascript">
-    $(function(){
+    $(function () {
+        setTimeout(function () {
+            $("#save_purch_contract_form").form('load', save_purch_contract_form_data);
+            // 供应商
+            $("#save_purch_contract_form_supplier_id_field").textbox('setValue', save_purch_contract_form_data.supplierId);
+            $("#save_purch_contract_form_supplier_id_field").textbox('setText', save_purch_contract_form_data.supplierName);
+            // 采购经办人
+            $("#save_purch_contract_form_agent_id_field").textbox("setValue", save_purch_contract_form_data.agentId);
+            $("#save_purch_contract_form_agent_id_field").textbox("setText", save_purch_contract_form_data.agentName);
+        }, 500);
         $("#save_purch_contract_form_goods_table").datagrid({
-            border:false,
-            singleSelect:true,
-            striped:true,
-            rownumbers:true,
-            columns:[[
-                {field:'projectNo',width:110,title:'项目号'},
-                {field:'sku',width:125,title:'平台SKU'},
-                {field:'nameZh',width:80,title:'中文品名'},
-                {field:'unit',width:40,title:'单位'},
-                {field:'brand',width:80,title:'品牌'},
-                {field:'contractNum',width:80,title:'销售合同数量'},
-                {field:'purchasedNum',width:90,title:'已采购数量'},
-                {field:'purchaseNum',width:100,title:'本次采购数量',
-                    editor:{
-                        type:"numberbox",
+            border: false,
+            singleSelect: true,
+            striped: true,
+            rownumbers: true,
+            columns: [[
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'sku', width: 125, title: '平台SKU'},
+                {field: 'nameZh', width: 80, title: '中文品名'},
+                {field: 'unitName', width: 40, title: '单位'},
+                {field: 'brand', width: 80, title: '品牌'},
+                {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
+                {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
+                {
+                    field: 'purchaseNum', width: 100, title: '本次采购数量',
+                    editor: {
+                        type: "numberbox",
                         options: {
-                            min:1,
-                            precision:0
+                            min: 1,
+                            precision: 0
                         }
                     }
                 },
-                {field:'purchasePrice',width:100,title:'单价',
-                    editor:{
-                        type:"numberbox",
+                {
+                    field: 'purchasePrice', width: 100, title: '单价',
+                    editor: {
+                        type: "numberbox",
                         options: {
                             required: true,
-                            min:0.01,
-                            precision:2
+                            min: 0.01,
+                            precision: 2
                         }
                     }
-                },
-                {field:'purchaseTotalPrice',width:100,title:'金额'},
-                {field:'purchaseRemark',width:120,title:'备注',
-                    editor:{
-                        type:"textbox"
+                }
+            ]],
+            onLoadSuccess: function (data) {
+                // 控制表格可以编辑
+                for (var num = 0; num < data.total; ++num) {
+                    $(this).datagrid('beginEdit', num);
+                }
+            },
+            data: save_purch_contract_goods_data
+        });
+        $("#save_purch_contract_supplier_id_dialog").dialog({
+            title: '选择供应商',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
+                    if (selectedTableRow) {
+                        $("#save_purch_contract_form_supplier_id_field").textbox("setValue", selectedTableRow.id);
+                        $("#save_purch_contract_form_supplier_id_field").textbox("setText", selectedTableRow.supplierName);
+                    } else {
+                        $("#save_purch_contract_form_supplier_id_field").textbox("clear");
+                    }
+                    $("#save_purch_contract_supplier_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_purch_contract_supplier_id_dialog").dialog("close");
+                }
+            }]
+        });
+
+        $("#save_purch_contract_agent_id_dialog").dialog({
+            title: '选择采购经办人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    if (selectedTableRow) {
+                        $("#save_purch_contract_form_agent_id_field").textbox("setValue", selectedTableRow.id);
+                        $("#save_purch_contract_form_agent_id_field").textbox("setText", selectedTableRow.userName);
+                    } else {
+                        $("#save_purch_contract_form_agent_id_field").textbox("clear");
+                    }
+                    $("#save_purch_contract_agent_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_purch_contract_agent_id_dialog").dialog("close");
+                }
+            }]
+        });
+
+
+        $("#save_purch_contract_project_id_dialog").dialog({
+            title: '选择项目',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var selectedTableRow = $("#common_project_dialog_table").datagrid("getSelections");
+                    var goodsData = [];
+                    // 重新加载商品内容
+                    if (selectedTableRow) {
+                        var projectIds = [];
+                        var projectNos = [];
+                        $.each(selectedTableRow, function (index, value) {
+                            projectIds.push(value.id);
+                            projectNos.push(value.projectNo);
+                        });
+                        var resp = syncAjaxJson({"url": LOCAL_URL + "/order/goods/purchContractGoods"}, projectIds);
+                        if (resp.code == 0) {
+                            goodsData = resp.data;
+                        }
+                        $("#save_purch_contract_form_project_id_field").textbox("setValue", projectIds.join(","));
+                        $("#save_purch_contract_form_project_id_field").textbox("setText", projectNos.join(","));
+                    } else {
+                        $("#save_purch_contract_form_project_id_field").textbox("clear");
+                    }
+                    $("#save_purch_contract_form_goods_table").datagrid('loadData', goodsData);
+                    $("#save_purch_contract_project_id_dialog").dialog("close");
+                    for (var x = 0; x < goodsData.length; ++x) {
+                        // 设置商品可编辑状态
+                        $("#save_purch_contract_form_goods_table").datagrid('beginEdit', x);
                     }
                 }
-            ]]
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_purch_contract_project_id_dialog").dialog("close");
+                }
+            }]
+        });
+
+
+        // 保存采购合同
+        $("#save_purch_contract_form_save_btn").click(function (e) {
+            e.preventDefault();
+            var formData = assemblyPurchContractData();
+            formData.contractStatus = '1'; // 保存状态
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchContract/savePurchContract"}, formData);
+
+            console.info("保存采购合同结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存采购合同成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+
+        // 提交采购合同
+        $("#save_purch_contract_form_submit_btn").click(function (e) {
+            e.preventDefault();
+            var formData = assemblyPurchContractData();
+            formData.contractStatus = '2'; // 提交状态
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchContract/savePurchContract"}, formData);
+
+            console.info("提交采购合同结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交采购合同成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
         });
     });
+
+    // 组装采购合同数据
+    function assemblyPurchContractData() {
+        var formData = $("#save_purch_contract_form").serializeJson();
+
+        // 商品信息
+        formData.purchContractGoodsList = [];
+        var datagridRows = $("#save_purch_contract_form_goods_table").datagrid("getRows");
+        $.each(datagridRows, function (index, value) {
+            var edPurchaseNum = $('#save_purch_contract_form_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'purchaseNum'
+            });
+            var purchaseNum = $(edPurchaseNum.target).numberbox('getValue');
+
+            var edPurchasePrice = $('#save_purch_contract_form_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'purchasePrice'
+            });
+            var purchasePrice = $(edPurchasePrice.target).numberbox('getValue');
+
+
+            formData.purchContractGoodsList.push({
+                id: value.id,
+                orderGoodsId: value.orderGoodsId,
+                purchaseNum: purchaseNum,
+                purchasePrice: purchasePrice,
+                brand: value.brand
+            });
+        });
+
+        // 附件内容
+        var attachmentRows = $("#save_purch_contract_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+
+        // 买家
+        formData.signatories01 = {};
+        Object.keys(formData).forEach(function (key) {
+            if (key.startsWith("buyer") && formData[key]) {
+                var suffix = key.substr(6);
+                formData.signatories01[suffix] = formData[key];
+                delete formData[key];
+            }
+        });
+        formData.buyerSignatories = formData.signatories01;
+        delete formData.signatories01;
+
+        // 卖家
+        formData.signatories02 = {};
+        Object.keys(formData).forEach(function (key) {
+            if (key.startsWith("seller") && formData[key]) {
+                var suffix = key.substr(7);
+                formData.signatories02[suffix] = formData[key];
+                delete formData[key];
+            }
+        });
+        formData.sellerSignatories = formData.signatories02;
+        delete formData.signatories02;
+
+        return formData;
+    }
+
+    function savePurchContractAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="savePurchContractDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function savePurchContractDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_purch_contract_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_purch_contract_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
 
 </script>

@@ -3,7 +3,7 @@
 <mapper namespace="com.erui.order.mapper.PurchContractMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.PurchContract" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="purch_contract_no" property="purchContractNo" jdbcType="CHAR" />
+    <result column="purch_contract_no" property="purchContractNo" jdbcType="VARCHAR" />
     <result column="contract_type" property="contractType" jdbcType="SMALLINT" />
     <result column="purch_contract_status" property="purchContractStatus" jdbcType="SMALLINT" />
     <result column="signing_date" property="signingDate" jdbcType="DATE" />
@@ -24,6 +24,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -87,7 +88,7 @@
     id, purch_contract_no, contract_type, purch_contract_status, signing_date, supplier_id, 
     supplier_name, signing_place, agent_id, tax_point, capitalized_price, lowercase_price, 
     goods_remarks, currency_bn, country_bn, region_bn, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, delete_time
+    update_time, delete_flag, delete_time, project_no
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchContractExample" >
     select
@@ -119,7 +120,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyProperty="id" keyColumn="id" useGeneratedKeys="true" parameterType="com.erui.order.model.entity.PurchContract" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.PurchContract" >
     insert into purch_contract (id, purch_contract_no, contract_type, 
       purch_contract_status, signing_date, supplier_id, 
       supplier_name, signing_place, agent_id, 
@@ -127,15 +128,15 @@
       goods_remarks, currency_bn, country_bn, 
       region_bn, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
-      delete_time)
-    values (#{id,jdbcType=BIGINT}, #{purchContractNo,jdbcType=CHAR}, #{contractType,jdbcType=SMALLINT}, 
+      delete_time, project_no)
+    values (#{id,jdbcType=BIGINT}, #{purchContractNo,jdbcType=VARCHAR}, #{contractType,jdbcType=SMALLINT}, 
       #{purchContractStatus,jdbcType=SMALLINT}, #{signingDate,jdbcType=DATE}, #{supplierId,jdbcType=BIGINT}, 
       #{supplierName,jdbcType=VARCHAR}, #{signingPlace,jdbcType=VARCHAR}, #{agentId,jdbcType=BIGINT}, 
       #{taxPoint,jdbcType=DECIMAL}, #{capitalizedPrice,jdbcType=VARCHAR}, #{lowercasePrice,jdbcType=DECIMAL}, 
       #{goodsRemarks,jdbcType=VARCHAR}, #{currencyBn,jdbcType=CHAR}, #{countryBn,jdbcType=VARCHAR}, 
       #{regionBn,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+      #{deleteTime,jdbcType=TIMESTAMP}, #{projectNo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.PurchContract" >
     insert into purch_contract
@@ -206,13 +207,16 @@
       <if test="deleteTime != null" >
         delete_time,
       </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
       <if test="purchContractNo != null" >
-        #{purchContractNo,jdbcType=CHAR},
+        #{purchContractNo,jdbcType=VARCHAR},
       </if>
       <if test="contractType != null" >
         #{contractType,jdbcType=SMALLINT},
@@ -274,6 +278,9 @@
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.erui.order.model.entity.PurchContractExample" resultType="java.lang.Integer" >
@@ -289,7 +296,7 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.purchContractNo != null" >
-        purch_contract_no = #{record.purchContractNo,jdbcType=CHAR},
+        purch_contract_no = #{record.purchContractNo,jdbcType=VARCHAR},
       </if>
       <if test="record.contractType != null" >
         contract_type = #{record.contractType,jdbcType=SMALLINT},
@@ -351,6 +358,9 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.projectNo != null" >
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -359,7 +369,7 @@
   <update id="updateByExample" parameterType="map" >
     update purch_contract
     set id = #{record.id,jdbcType=BIGINT},
-      purch_contract_no = #{record.purchContractNo,jdbcType=CHAR},
+      purch_contract_no = #{record.purchContractNo,jdbcType=VARCHAR},
       contract_type = #{record.contractType,jdbcType=SMALLINT},
       purch_contract_status = #{record.purchContractStatus,jdbcType=SMALLINT},
       signing_date = #{record.signingDate,jdbcType=DATE},
@@ -379,7 +389,8 @@
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      project_no = #{record.projectNo,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -388,7 +399,7 @@
     update purch_contract
     <set >
       <if test="purchContractNo != null" >
-        purch_contract_no = #{purchContractNo,jdbcType=CHAR},
+        purch_contract_no = #{purchContractNo,jdbcType=VARCHAR},
       </if>
       <if test="contractType != null" >
         contract_type = #{contractType,jdbcType=SMALLINT},
@@ -450,12 +461,15 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.PurchContract" >
     update purch_contract
-    set purch_contract_no = #{purchContractNo,jdbcType=CHAR},
+    set purch_contract_no = #{purchContractNo,jdbcType=VARCHAR},
       contract_type = #{contractType,jdbcType=SMALLINT},
       purch_contract_status = #{purchContractStatus,jdbcType=SMALLINT},
       signing_date = #{signingDate,jdbcType=DATE},
@@ -475,7 +489,8 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      project_no = #{projectNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

@@ -27,7 +27,7 @@ public interface PurchContractGoodsService {
 
     int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception;
 
-    void delete(Long... ids);
+    void delete(Long... ids) throws Exception;
 
     int updateById(Long id, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception ;
 

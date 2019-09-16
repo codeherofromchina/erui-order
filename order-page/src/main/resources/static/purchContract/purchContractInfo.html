@@ -1,0 +1,209 @@
+<script type="text/javascript">
+    // 获取订单基本数据
+    var purchContractInfoPageParams = getQueryStringFromGlobalParams();
+    var purch_contract_info_form_data = {};
+    var purch_contract_info_goods_data = [];
+    var purch_contract_info_attachment_data = [];
+    if (purchContractInfoPageParams.purchContractId) {
+        var purchContractInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": purchContractInfoPageParams.purchContractId});
+        if (purchContractInfoResp.code == 0) {
+            purch_contract_info_form_data = purchContractInfoResp.data;
+            // 商品内容
+            purch_contract_info_goods_data = purch_contract_info_form_data.goodsInfos;
+            delete purch_contract_info_form_data.goodsInfos;
+
+            // 附件信息
+            purch_contract_info_attachment_data = purch_contract_info_form_data.attachments;
+            delete purch_contract_info_form_data.attachments;
+        }
+    }
+</script>
+<div id="purch_contract_info_form">
+    <div class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>合同签订日期：</label>
+            <div class="input-div">{{signingDate}}</div>
+            <label>供应商名称：</label>
+            <div class="input-div">{{supplierName}}</div>
+            <label><span style="color:red;">*</span>合同签订地点：</label>
+            <div class="input-div">{{signingPlace}}</div>
+        </div>
+        <div class="fitem">
+            <label>采购经办人：</label>
+            <div class="input-div">{{agentName}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>项目号：</label>
+            <div class="input-div">{{projectNo}}</div>
+            <label><span style="color:red;">*</span>税点%：</label>
+            <div class="input-div">{{taxPoint}}</div>
+            <label style="width:130px;"><span style="color:red;">*</span>采购总金额（大写）：</label>
+            <div class="input-div">{{capitalizedPrice}}</div>
+        </div>
+        <div class="fitem">
+            <label style="width:130px;margin-left:5px;"><span style="color:red;">*</span>采购总金额（小写）：</label>
+            <div class="input-div">{{lowercasePrice}}</div>
+            <label><span style="color:red;">*</span>币种：</label>
+            <div class="input-div">{{currencyBn}}</div>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">商品备注：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">
+                {{goodsRemarks}}
+            </div>
+        </div>
+
+        <table id="purch_contract_info_form_goods_table"></table>
+    </div>
+
+
+    <div class="easyui-panel" style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true,border:false">
+        <div class="purch-contract">
+            <table style="border-top-width:0;width:100%;">
+                <tr>
+                    <td style="width: 150px;">出卖人：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.sellerBuyer}}</div>
+                    </td>
+                    <td style="width: 150px;">买受人：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.sellerBuyer}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">法定代表人或授权代表：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.legalRepresentative}}</div>
+                    </td>
+                    <td style="width: 150px;">法定代表人或授权代表：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.legalRepresentative}}</div>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td style="width: 150px;">地址：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.address}}</div>
+                    </td>
+                    <td style="width: 150px;">地址：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.address}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">开户行：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.openingBank}}</div>
+                    </td>
+                    <td style="width: 150px;">开户行：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.openingBank}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">账号：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.accountNumber}}</div>
+                    </td>
+                    <td style="width: 150px;">账号：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.accountNumber}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">统一社会信用代码证：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.creditCode}}</div>
+                    </td>
+                    <td style="width: 150px;">统一社会信用代码证：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.creditCode}}</div>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="width: 150px;">电话/传真：</td>
+                    <td>
+                        <div class="input-div">{{buyerSignatories.telephoneFax}}</div>
+                    </td>
+                    <td style="width: 150px;">电话/传真：：</td>
+                    <td>
+                        <div class="input-div">{{sellerSignatories.telephoneFax}}</div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" fit="true" fitColumn="true"
+                       data-options="idField:'url',data:purch_contract_info_attachment_data"
+                       id="purch_contract_info_form_attachment_table">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '合同';
+                                    case 2: return '其它';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#purch_contract_info_form',
+        data: purch_contract_info_form_data
+    });
+    $(function () {
+        $("#purch_contract_info_form_goods_table").datagrid({
+            border: false,
+            singleSelect: true,
+            striped: true,
+            rownumbers: true,
+            columns: [[
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'sku', width: 125, title: '平台SKU'},
+                {field: 'nameZh', width: 80, title: '中文品名'},
+                {field: 'unitName', width: 40, title: '单位'},
+                {field: 'brand', width: 80, title: '品牌'},
+                {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
+                {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
+                {
+                    field: 'purchaseNum', width: 100, title: '本次采购数量'
+                },
+                {
+                    field: 'purchasePrice', width: 100, title: '单价'
+                }
+            ]],
+            data: purch_contract_info_goods_data
+        });
+    });
+
+</script>

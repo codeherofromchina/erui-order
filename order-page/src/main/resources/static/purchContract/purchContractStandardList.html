@@ -65,7 +65,7 @@
             columns: [[
                 {field: 'purchContractNo', title: '采购合同号'},
                 {field: 'signingDate', title: '采购合同签订日期'},
-                {field: 'agentUserName', title: '采购经办人'},
+                {field: 'agentName', title: '采购经办人'},
                 {field: 'supplierName', title: '供应商名称'},
                 {
                     field: 'lowercasePrice', title: '采购总金额',
@@ -81,16 +81,11 @@
                     }
                 },
                 {field: 'contractStatusName', title: '合同状态'},
-                {
-                    field: 'operation', title: '操作',
-                    formatter: function (code, row, index) {
-                        return '查看';
-                    }
-                },
+                {field: '_operate', title: '操作',formatter: purchContractStandardListFormatOper},
             ]],
             url: LOCAL_URL + '/order/purchContract/list',
             onBeforeLoad: function (param) {
-                param.type = 2;
+                param.contractType = 2;
                 var data = $('#purch_contract_standard_list_table_toolbar_form').serializeJson();
                 if (data) {
                     for (var attr in data) {
@@ -156,4 +151,43 @@
             }
         });
     });
+
+    function purchContractStandardListFormatOper(val, row, index) {
+        var str = '';
+        if (row.contractStatus == 1) {
+            // 可办理
+            str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handlePurchContractStandardPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+        }
+        str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchContractStandardInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+        return str;
+    }
+
+    function handlePurchContractStandardPage(purchContractId) {
+        var tabTitle = "办理标准采购合同";
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $.messager.alert("无法打开新页签", "已经存在待办理订单");
+        } else {
+            GLOBAL_PARAMS = "purchContractId=" + purchContractId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchContract/savePurchContractStandard.html',
+                closable: true
+            });
+        }
+    }
+
+
+    function purchContractStandardInfoPage(purchContractId) {
+        var tabTitle = "查看标准采购合同-" + purchContractId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "purchContractId=" + purchContractId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchContract/purchContractStandardInfo.html',
+                closable: true
+            });
+        }
+    }
 </script>

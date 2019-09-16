@@ -19,7 +19,7 @@
 
                 </li>
                 <li>
-                    <label>采购状态：</label>
+                    <label>合同状态：</label>
                     <select class="easyui-combobox" panelHeight="100px" editable="false" name="contractStatus">
                         <option value="">全部</option>
                         <option value="2">未执行</option>
@@ -65,7 +65,7 @@
             columns: [[
                 {field: 'purchContractNo', title: '采购合同号'},
                 {field: 'signingDate', title: '采购合同签订日期'},
-                {field: 'agentUserName', title: '采购经办人'},
+                {field: 'agentName', title: '采购经办人'},
                 {field: 'supplierName', title: '供应商名称'},
                 {
                     field: 'lowercasePrice', title: '采购总金额',
@@ -80,17 +80,15 @@
                         return code;
                     }
                 },
-                {field: 'orderStatus', title: '合同状态'},
+                {field: 'contractStatusName', title: '合同状态'},
                 {
-                    field: 'operation', title: '操作',
-                    formatter: function (code, row, index) {
-                        return '查看';
-                    }
+                    field: '_operate', title: '操作',
+                    formatter: purchContractListFormatOper
                 },
             ]],
             url: LOCAL_URL + '/order/purchContract/list',
             onBeforeLoad: function (param) {
-                param.type = 3;
+                param.contractType = 3;
                 var data = $('#purch_contract_list_table_toolbar_form').serializeJson();
                 if (data) {
                     for (var attr in data) {
@@ -156,4 +154,44 @@
             }
         });
     });
+
+
+    function purchContractListFormatOper(val, row, index) {
+        var str = '';
+        if (row.contractStatus == 1) {
+            // 可办理
+            str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handlePurchContractPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+        }
+        str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchContractInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+        return str;
+    }
+
+    function handlePurchContractPage(purchContractId) {
+        var tabTitle = "办理非标准采购合同";
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $.messager.alert("无法打开新页签", "已经存在待办理订单");
+        } else {
+            GLOBAL_PARAMS = "purchContractId=" + purchContractId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchContract/savePurchContract.html',
+                closable: true
+            });
+        }
+    }
+
+
+    function purchContractInfoPage(purchContractId) {
+        var tabTitle = "查看非标准采购合同-" + purchContractId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "purchContractId=" + purchContractId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchContract/purchContractInfo.html',
+                closable: true
+            });
+        }
+    }
 </script>
