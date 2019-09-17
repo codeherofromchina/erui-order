@@ -3,6 +3,7 @@ package com.erui.order.model.entity;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 public class OrderGoodsExample {
@@ -104,6 +105,32 @@ public class OrderGoodsExample {
                 throw new RuntimeException("Between values for " + property + " cannot be null");
             }
             criteria.add(new Criterion(condition, value1, value2));
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
+            if (value == null) {
+                throw new RuntimeException("Value for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value.getTime()), property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
+            if (values == null || values.size() == 0) {
+                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
+            }
+            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
+            Iterator<Date> iter = values.iterator();
+            while (iter.hasNext()) {
+                dateList.add(new java.sql.Date(iter.next().getTime()));
+            }
+            addCriterion(condition, dateList, property);
+        }
+
+        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
+            if (value1 == null || value2 == null) {
+                throw new RuntimeException("Between values for " + property + " cannot be null");
+            }
+            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
         }
 
         public Criteria andIdIsNull() {
@@ -1633,6 +1660,206 @@ public class OrderGoodsExample {
 
         public Criteria andPurchContractNumNotBetween(Short value1, Short value2) {
             addCriterion("purch_contract_num not between", value1, value2, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIsNull() {
+            addCriterion("contract_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIsNotNull() {
+            addCriterion("contract_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoEqualTo(String value) {
+            addCriterion("contract_no =", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotEqualTo(String value) {
+            addCriterion("contract_no <>", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThan(String value) {
+            addCriterion("contract_no >", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
+            addCriterion("contract_no >=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThan(String value) {
+            addCriterion("contract_no <", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThanOrEqualTo(String value) {
+            addCriterion("contract_no <=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLike(String value) {
+            addCriterion("contract_no like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotLike(String value) {
+            addCriterion("contract_no not like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIn(List<String> values) {
+            addCriterion("contract_no in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotIn(List<String> values) {
+            addCriterion("contract_no not in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoBetween(String value1, String value2) {
+            addCriterion("contract_no between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotBetween(String value1, String value2) {
+            addCriterion("contract_no not between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoIsNull() {
+            addCriterion("project_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoIsNotNull() {
+            addCriterion("project_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoEqualTo(String value) {
+            addCriterion("project_no =", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotEqualTo(String value) {
+            addCriterion("project_no <>", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoGreaterThan(String value) {
+            addCriterion("project_no >", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoGreaterThanOrEqualTo(String value) {
+            addCriterion("project_no >=", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoLessThan(String value) {
+            addCriterion("project_no <", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoLessThanOrEqualTo(String value) {
+            addCriterion("project_no <=", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoLike(String value) {
+            addCriterion("project_no like", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotLike(String value) {
+            addCriterion("project_no not like", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoIn(List<String> values) {
+            addCriterion("project_no in", values, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotIn(List<String> values) {
+            addCriterion("project_no not in", values, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoBetween(String value1, String value2) {
+            addCriterion("project_no between", value1, value2, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotBetween(String value1, String value2) {
+            addCriterion("project_no not between", value1, value2, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateIsNull() {
+            addCriterion("exe_chg_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateIsNotNull() {
+            addCriterion("exe_chg_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date =", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date <>", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("exe_chg_date >", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date >=", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateLessThan(Date value) {
+            addCriterionForJDBCDate("exe_chg_date <", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date <=", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateIn(List<Date> values) {
+            addCriterionForJDBCDate("exe_chg_date in", values, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("exe_chg_date not in", values, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("exe_chg_date between", value1, value2, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("exe_chg_date not between", value1, value2, "exeChgDate");
             return (Criteria) this;
         }
     }

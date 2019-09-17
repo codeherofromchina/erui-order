@@ -3,6 +3,7 @@ package com.erui.order.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.*;
 import com.erui.order.common.pojo.*;
+import com.erui.order.common.pojo.request.PurchContractDialogQueryRequest;
 import com.erui.order.common.pojo.request.PurchContractQueryRequest;
 import com.erui.order.common.pojo.request.PurchContractSaveRequest;
 import com.erui.order.common.pojo.response.PurchContractDetailResponse;
@@ -26,6 +27,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -214,6 +216,61 @@ public class PurchContractServiceImpl implements PurchContractService {
 
 
     @Override
+    public Pager<PurchContractListResponse> purchAblelist(PurchContractDialogQueryRequest queryRequest) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        // 分页
+        PageHelper.startPage(queryRequest.getPage(), queryRequest.getRows());
+
+        PurchContractExample example = new PurchContractExample();
+        example.setOrderByClause("id desc");
+        PurchContractExample.Criteria criteria = example.createCriteria();
+        // 未删除
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE);
+        // 采购合同号
+        if (StringUtils.isNotBlank(queryRequest.getPurchContractNo())) {
+            criteria.andPurchContractNoLike("%" + queryRequest.getPurchContractNo() + "%");
+        }
+        // 供应商
+        if (StringUtils.isNotBlank(queryRequest.getSupplierName())) {
+            criteria.andSupplierNameLike("%" + queryRequest.getSupplierName() + "%");
+        }
+        criteria.andAgentIdEqualTo(userInfo.getId());
+        criteria.andPurchContractStatusEqualTo(PurchContractStatusEnum.BEING.getCode());
+
+        PurchContractExample.Criteria criteria02 = example.createCriteria();
+        // 未删除
+        criteria02.andDeleteFlagEqualTo(Boolean.FALSE);
+        // 采购合同号
+        if (StringUtils.isNotBlank(queryRequest.getPurchContractNo())) {
+            criteria02.andPurchContractNoLike("%" + queryRequest.getPurchContractNo() + "%");
+        }
+        // 供应商
+        if (StringUtils.isNotBlank(queryRequest.getSupplierName())) {
+            criteria.andSupplierNameLike("%" + queryRequest.getSupplierName() + "%");
+        }
+        criteria02.andPurchContractStatusEqualTo(PurchContractStatusEnum.EXECUTED.getCode());
+        criteria02.andAgentIdEqualTo(userInfo.getId());
+
+        example.or(criteria02);
+
+        List<PurchContract> purchContracts = purchContractMapper.selectByExample(example);
+
+        List<PurchContractListResponse> purchContractListResponses = new ArrayList<>();
+        for (PurchContract purchContract : purchContracts) {
+            PurchContractListResponse purchContractListResponse = PurchContractFactory.purchContractListResponse(purchContract);
+            purchContractListResponse.setSupplierName(supplierService.findNameById(purchContract.getSupplierId()));
+            purchContractListResponse.setAgentName(userService.findNameById(purchContract.getAgentId()));
+            purchContractListResponses.add(purchContractListResponse);
+        }
+
+        // 输出
+        Page<PurchContract> page = (Page) purchContracts;
+        Pager<PurchContractListResponse> pager = new Pager<>(page.getPageNum(), page.getPageSize(),
+                page.getPages(), page.getTotal(), purchContractListResponses);
+        return pager;
+    }
+
+    @Override
     public PurchContractDetailResponse detail(Long id) throws Exception {
         // 准备数据
         PurchContract purchContract = purchContractMapper.selectByPrimaryKey(id);
@@ -254,5 +311,24 @@ public class PurchContractServiceImpl implements PurchContractService {
         detail.setAttachments(attachmentInfos);
 
         return detail;
+    }
+
+    @Override
+    public List<Long> purchContractIdsByProjectNo(String projectNo) {
+        List<Long> purchContractIds = null;
+        if (StringUtils.isNotBlank(projectNo)) {
+            PurchContractExample example = new PurchContractExample();
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE)
+                    .andProjectNoLike("%" + projectNo + "%");
+
+            List<PurchContract> purchContracts = purchContractMapper.selectByExample(example);
+            purchContractIds = purchContracts.stream().map(PurchContract::getId).collect(Collectors.toList());
+
+        } else {
+            purchContractIds = new ArrayList<>();
+        }
+
+
+        return purchContractIds;
     }
 }

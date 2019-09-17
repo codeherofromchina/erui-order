@@ -6,11 +6,13 @@ import com.erui.order.common.ResultStatus;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.request.PurchContractDialogQueryRequest;
 import com.erui.order.common.pojo.request.PurchContractQueryRequest;
 import com.erui.order.common.pojo.request.PurchContractSaveRequest;
 import com.erui.order.common.pojo.response.OrderDetailResponse;
 import com.erui.order.common.pojo.response.PurchContractDetailResponse;
 import com.erui.order.common.pojo.response.PurchContractListResponse;
+import com.erui.order.common.pojo.response.PurchListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.service.PurchContractService;
 import org.slf4j.Logger;
@@ -75,6 +77,31 @@ public class PurchContractController {
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.info("查询采购合同列表异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
+            result.setStatus(ResultStatus.FAIL);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 可采购的采购合同列表
+     *
+     * @return
+     */
+    @RequestMapping(value = "purchAbleList", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Pager<PurchContractListResponse>> purchAbleList(@RequestBody PurchContractDialogQueryRequest queryRequest) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("查询采购合同可采购列表 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
+        Result<Pager<PurchContractListResponse>> result = new Result<>();
+        try {
+            // 查询可采购列表
+            Pager<PurchContractListResponse> pageInfo = purchContractService.purchAblelist(queryRequest);
+            result.setData(pageInfo);
+            LOGGER.info("查询采购合同列表可采购成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("查询采购合同列表可采购异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
             result.setStatus(ResultStatus.FAIL);
             result.setMessage(e.getMessage());
         }

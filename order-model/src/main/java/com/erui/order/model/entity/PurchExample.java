@@ -1573,133 +1573,63 @@ public class PurchExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusIsNull() {
-            addCriterion("auditing_status is null");
+        public Criteria andPayStatusIsNull() {
+            addCriterion("pay_status is null");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusIsNotNull() {
-            addCriterion("auditing_status is not null");
+        public Criteria andPayStatusIsNotNull() {
+            addCriterion("pay_status is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusEqualTo(Short value) {
-            addCriterion("auditing_status =", value, "auditingStatus");
+        public Criteria andPayStatusEqualTo(Short value) {
+            addCriterion("pay_status =", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusNotEqualTo(Short value) {
-            addCriterion("auditing_status <>", value, "auditingStatus");
+        public Criteria andPayStatusNotEqualTo(Short value) {
+            addCriterion("pay_status <>", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusGreaterThan(Short value) {
-            addCriterion("auditing_status >", value, "auditingStatus");
+        public Criteria andPayStatusGreaterThan(Short value) {
+            addCriterion("pay_status >", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusGreaterThanOrEqualTo(Short value) {
-            addCriterion("auditing_status >=", value, "auditingStatus");
+        public Criteria andPayStatusGreaterThanOrEqualTo(Short value) {
+            addCriterion("pay_status >=", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusLessThan(Short value) {
-            addCriterion("auditing_status <", value, "auditingStatus");
+        public Criteria andPayStatusLessThan(Short value) {
+            addCriterion("pay_status <", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusLessThanOrEqualTo(Short value) {
-            addCriterion("auditing_status <=", value, "auditingStatus");
+        public Criteria andPayStatusLessThanOrEqualTo(Short value) {
+            addCriterion("pay_status <=", value, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusIn(List<Short> values) {
-            addCriterion("auditing_status in", values, "auditingStatus");
+        public Criteria andPayStatusIn(List<Short> values) {
+            addCriterion("pay_status in", values, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusNotIn(List<Short> values) {
-            addCriterion("auditing_status not in", values, "auditingStatus");
+        public Criteria andPayStatusNotIn(List<Short> values) {
+            addCriterion("pay_status not in", values, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusBetween(Short value1, Short value2) {
-            addCriterion("auditing_status between", value1, value2, "auditingStatus");
+        public Criteria andPayStatusBetween(Short value1, Short value2) {
+            addCriterion("pay_status between", value1, value2, "payStatus");
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusNotBetween(Short value1, Short value2) {
-            addCriterion("auditing_status not between", value1, value2, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdIsNull() {
-            addCriterion("process_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdIsNotNull() {
-            addCriterion("process_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdEqualTo(String value) {
-            addCriterion("process_id =", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotEqualTo(String value) {
-            addCriterion("process_id <>", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdGreaterThan(String value) {
-            addCriterion("process_id >", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdGreaterThanOrEqualTo(String value) {
-            addCriterion("process_id >=", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdLessThan(String value) {
-            addCriterion("process_id <", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdLessThanOrEqualTo(String value) {
-            addCriterion("process_id <=", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdLike(String value) {
-            addCriterion("process_id like", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotLike(String value) {
-            addCriterion("process_id not like", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdIn(List<String> values) {
-            addCriterion("process_id in", values, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotIn(List<String> values) {
-            addCriterion("process_id not in", values, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdBetween(String value1, String value2) {
-            addCriterion("process_id between", value1, value2, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotBetween(String value1, String value2) {
-            addCriterion("process_id not between", value1, value2, "processId");
+        public Criteria andPayStatusNotBetween(Short value1, Short value2) {
+            addCriterion("pay_status not between", value1, value2, "payStatus");
             return (Criteria) this;
         }
 

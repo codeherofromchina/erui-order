@@ -50,9 +50,7 @@ public class Purch {
 
     private BigDecimal exchangeRate;
 
-    private Short auditingStatus;
-
-    private String processId;
+    private Short payStatus;
 
     private Long createUserId;
 
@@ -250,20 +248,12 @@ public class Purch {
         this.exchangeRate = exchangeRate;
     }
 
-    public Short getAuditingStatus() {
-        return auditingStatus;
+    public Short getPayStatus() {
+        return payStatus;
     }
 
-    public void setAuditingStatus(Short auditingStatus) {
-        this.auditingStatus = auditingStatus;
-    }
-
-    public String getProcessId() {
-        return processId;
-    }
-
-    public void setProcessId(String processId) {
-        this.processId = processId;
+    public void setPayStatus(Short payStatus) {
+        this.payStatus = payStatus;
     }
 
     public Long getCreateUserId() {

@@ -166,12 +166,12 @@
         return str;
     }
 
-    function handlePurchContractPage(purchContractId) {
+    function handlePurchContractPage(purchContractGoodsId) {
         var tabTitle = "办理非标准采购合同";
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $.messager.alert("无法打开新页签", "已经存在待办理订单");
         } else {
-            GLOBAL_PARAMS = "purchContractId=" + purchContractId;
+            GLOBAL_PARAMS = "purchContractGoodsId=" + purchContractGoodsId;
             $("#tt").tabs("add", {
                 title: tabTitle,
                 href: 'purchContract/savePurchContract.html',
@@ -181,12 +181,12 @@
     }
 
 
-    function purchContractInfoPage(purchContractId) {
-        var tabTitle = "查看非标准采购合同-" + purchContractId;
+    function purchContractInfoPage(purchContractGoodsId) {
+        var tabTitle = "查看非标准采购合同-" + purchContractGoodsId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "purchContractId=" + purchContractId;
+            GLOBAL_PARAMS = "purchContractGoodsId=" + purchContractGoodsId;
             $("#tt").tabs("add", {
                 title: tabTitle,
                 href: 'purchContract/purchContractInfo.html',

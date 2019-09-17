@@ -6,7 +6,7 @@ package com.erui.order.common.enums;
  * 采购合同状态
  */
 public enum PurchContractStatusEnum {
-    READY(1, "未执行/保存"), BEING(2, "执行中/提交"), EXECUTED(3, "已执行"), DONE(4, "已完成"), DELETE(5, "已删除");
+    READY(1, "未进行/保存"), BEING(2, "进行中/提交"), EXECUTED(3, "已执行"), DONE(4, "已完成"), DELETE(5, "已删除");
 
     private short code;
     private String name;
@@ -16,7 +16,7 @@ public enum PurchContractStatusEnum {
         this.name = name;
     }
 
-    public int getCode() {
+    public short getCode() {
         return code;
     }
 

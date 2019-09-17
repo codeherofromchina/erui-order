@@ -2,8 +2,8 @@ package com.erui.order.web.controller;
 
 import com.erui.order.common.Result;
 import com.erui.order.common.ResultStatus;
-import com.erui.order.common.pojo.CountryInfo;
 import com.erui.order.common.pojo.GoodsInfo;
+import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.service.GoodsService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -31,15 +31,15 @@ public class GoodsController {
      * @param projectIds
      * @return
      */
-    @RequestMapping(value = "purchContractGoods", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<List<GoodsInfo>> saveDeliverNotice(@RequestBody List<Long> projectIds) {
+    @RequestMapping(value = "purchContractAbleGoods", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<List<GoodsInfo>> purchContractAbleGoods(@RequestBody List<Long> projectIds) {
         Result<List<GoodsInfo>> result = new Result<>();
         try {
             List<GoodsInfo> data;
             if (projectIds == null || projectIds.size() == 0) {
                 data = new ArrayList<>();
             } else {
-                data = goodsService.purchContractGoodsList(projectIds);
+                data = goodsService.purchContractAbleGoodsList(projectIds);
             }
             result.setData(data);
         } catch (Exception e) {
@@ -47,6 +47,26 @@ public class GoodsController {
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;
+    }
 
+
+    /**
+     * 查找可新建采购单的商品列表
+     *
+     * @param purchContractId 采购合同ID
+     * @return
+     */
+    @RequestMapping(value = "purchAbleGoods", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<List<GoodsInfo>> purchAbleGoods(@RequestBody PrimaryKey purchContractId) {
+        Result<List<GoodsInfo>> result = new Result<>();
+        try {
+            Long id = purchContractId.getId();
+            List<GoodsInfo> data = goodsService.purchAbleGoodsList(id);
+            result.setData(data);
+        } catch (Exception e) {
+            e.printStackTrace();
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
     }
 }

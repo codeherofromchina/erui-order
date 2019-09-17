@@ -4,14 +4,11 @@ import com.erui.order.common.pojo.GoodsInfo;
 import com.erui.order.common.pojo.PurchContractGoodsInfo;
 import com.erui.order.mapper.OrderGoodsMapper;
 import com.erui.order.mapper.OrderMapper;
-import com.erui.order.model.entity.Order;
-import com.erui.order.model.entity.OrderGoods;
-import com.erui.order.model.entity.OrderGoodsExample;
+import com.erui.order.mapper.PurchContractGoodsMapper;
+import com.erui.order.model.entity.*;
 import com.erui.order.service.GoodsService;
-import com.erui.order.service.OrderService;
 import com.erui.order.service.ProjectService;
 import com.erui.order.service.StandardUnitService;
-import com.erui.order.service.util.GoodsInfoFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,10 +32,12 @@ public class GoodsServiceImpl implements GoodsService {
     private OrderMapper orderMapper;
     @Autowired
     private StandardUnitService standardUnitService;
+    @Autowired
+    private PurchContractGoodsMapper purchContractGoodsMapper;
 
 
     @Override
-    public List<GoodsInfo> purchContractGoodsList(List<Long> projectIds) {
+    public List<GoodsInfo> purchContractAbleGoodsList(List<Long> projectIds) {
         List<Long> orderIds = projectService.orderIdsByProjectIds(projectIds);
         if (orderIds.size() == 0) {
             return new ArrayList<>();
@@ -98,16 +97,37 @@ public class GoodsServiceImpl implements GoodsService {
                 goodsInfoList.add(goodsInfo);
             }
         }
+        return goodsInfoList;
+    }
 
 
+    @Override
+    public List<GoodsInfo> purchAbleGoodsList(Long purchContractId) {
+        PurchContractGoodsExample example = new PurchContractGoodsExample();
+        example.createCriteria().andPurchContractIdEqualTo(purchContractId)
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+        List<PurchContractGoods> purchContractGoodsList = purchContractGoodsMapper.selectByExample(example);
+        List<GoodsInfo> goodsInfoList = new ArrayList<>();
+        for (PurchContractGoods purchContractGoods : purchContractGoodsList) {
+            OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(purchContractGoods.getOrderGoodsId());
+            GoodsInfo goodsInfo = goodsInfo(orderGoods);
+            goodsInfo.setPurchContractGoodsId(purchContractGoods.getId());
+            goodsInfo.setPurchaseNum(purchContractGoods.getPurchaseNum());
+            goodsInfo.setPrePurchasedNum(purchContractGoods.getPrePurchasedNum());
+            goodsInfo.setPurchasedNum(0);
+            goodsInfo.setPurchasePrice(purchContractGoods.getPurchasePrice());
+            goodsInfo.setPurchasedPrice(purchContractGoods.getPurchasePrice());
+            goodsInfoList.add(goodsInfo);
+        }
         return goodsInfoList;
     }
 
     private GoodsInfo goodsInfo(OrderGoods orderGoods) {
         GoodsInfo goodsInfo = new GoodsInfo();
         goodsInfo.setOrderGoodsId(orderGoods.getId());
-        Order order = orderMapper.selectByPrimaryKey(orderGoods.getOrderId());
-        goodsInfo.setProjectNo(order.getContractNo());
+        goodsInfo.setContractNo(orderGoods.getContractNo());
+        goodsInfo.setProjectNo(orderGoods.getProjectNo());
+        goodsInfo.setExeChgDate(orderGoods.getExeChgDate());
         goodsInfo.setSku(orderGoods.getSku());
         goodsInfo.setNameEn(orderGoods.getNameEn());
         goodsInfo.setNameZh(orderGoods.getNameZh());

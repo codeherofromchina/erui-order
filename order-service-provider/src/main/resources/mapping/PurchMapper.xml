@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.Purch" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="purch_no" property="purchNo" jdbcType="CHAR" />
-    <result column="purch_contract_id" property="purchContractId" jdbcType="BIGINT" />
+    <result column="purch_contract_id" property="purchContractGoodsId" jdbcType="BIGINT" />
     <result column="agent_id" property="agentId" jdbcType="BIGINT" />
     <result column="department" property="department" jdbcType="VARCHAR" />
     <result column="signing_date" property="signingDate" jdbcType="DATE" />
@@ -25,8 +25,7 @@
     <result column="contract_tag" property="contractTag" jdbcType="VARCHAR" />
     <result column="tax_bearing" property="taxBearing" jdbcType="BIT" />
     <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL" />
-    <result column="auditing_status" property="auditingStatus" jdbcType="SMALLINT" />
-    <result column="process_id" property="processId" jdbcType="CHAR" />
+    <result column="pay_status" property="payStatus" jdbcType="SMALLINT" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
@@ -96,8 +95,8 @@
     id, purch_no, purch_contract_id, agent_id, department, signing_date, arrival_date, 
     pur_chg_date, supplier_id, total_price, currency_bn, remarks, purch_status, inspected, 
     supply_area, goal_cost, save_amount, save_mode, price_mode, profit_percent, contract_tag, 
-    tax_bearing, exchange_rate, auditing_status, process_id, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, delete_time
+    tax_bearing, exchange_rate, pay_status, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchExample" >
     select
@@ -129,7 +128,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Purch" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.Purch" >
     insert into purch (id, purch_no, purch_contract_id, 
       agent_id, department, signing_date, 
       arrival_date, pur_chg_date, supplier_id, 
@@ -137,21 +136,21 @@
       purch_status, inspected, supply_area, 
       goal_cost, save_amount, save_mode, 
       price_mode, profit_percent, contract_tag, 
-      tax_bearing, exchange_rate, auditing_status, 
-      process_id, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      delete_time)
-    values (#{id,jdbcType=BIGINT}, #{purchNo,jdbcType=CHAR}, #{purchContractId,jdbcType=BIGINT}, 
+      tax_bearing, exchange_rate, pay_status, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{purchNo,jdbcType=CHAR}, #{purchContractGoodsId,jdbcType=BIGINT},
       #{agentId,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR}, #{signingDate,jdbcType=DATE}, 
       #{arrivalDate,jdbcType=DATE}, #{purChgDate,jdbcType=DATE}, #{supplierId,jdbcType=BIGINT}, 
       #{totalPrice,jdbcType=DECIMAL}, #{currencyBn,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, 
       #{purchStatus,jdbcType=SMALLINT}, #{inspected,jdbcType=BIT}, #{supplyArea,jdbcType=VARCHAR}, 
       #{goalCost,jdbcType=DECIMAL}, #{saveAmount,jdbcType=DECIMAL}, #{saveMode,jdbcType=SMALLINT}, 
       #{priceMode,jdbcType=SMALLINT}, #{profitPercent,jdbcType=DECIMAL}, #{contractTag,jdbcType=VARCHAR}, 
-      #{taxBearing,jdbcType=BIT}, #{exchangeRate,jdbcType=DECIMAL}, #{auditingStatus,jdbcType=SMALLINT}, 
-      #{processId,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+      #{taxBearing,jdbcType=BIT}, #{exchangeRate,jdbcType=DECIMAL}, #{payStatus,jdbcType=SMALLINT}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.Purch" >
     insert into purch
@@ -162,7 +161,7 @@
       <if test="purchNo != null" >
         purch_no,
       </if>
-      <if test="purchContractId != null" >
+      <if test="purchContractGoodsId != null" >
         purch_contract_id,
       </if>
       <if test="agentId != null" >
@@ -225,11 +224,8 @@
       <if test="exchangeRate != null" >
         exchange_rate,
       </if>
-      <if test="auditingStatus != null" >
-        auditing_status,
-      </if>
-      <if test="processId != null" >
-        process_id,
+      <if test="payStatus != null" >
+        pay_status,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -257,8 +253,8 @@
       <if test="purchNo != null" >
         #{purchNo,jdbcType=CHAR},
       </if>
-      <if test="purchContractId != null" >
-        #{purchContractId,jdbcType=BIGINT},
+      <if test="purchContractGoodsId != null" >
+        #{purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="agentId != null" >
         #{agentId,jdbcType=BIGINT},
@@ -320,11 +316,8 @@
       <if test="exchangeRate != null" >
         #{exchangeRate,jdbcType=DECIMAL},
       </if>
-      <if test="auditingStatus != null" >
-        #{auditingStatus,jdbcType=SMALLINT},
-      </if>
-      <if test="processId != null" >
-        #{processId,jdbcType=CHAR},
+      <if test="payStatus != null" >
+        #{payStatus,jdbcType=SMALLINT},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=BIGINT},
@@ -361,8 +354,8 @@
       <if test="record.purchNo != null" >
         purch_no = #{record.purchNo,jdbcType=CHAR},
       </if>
-      <if test="record.purchContractId != null" >
-        purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
+      <if test="record.purchContractGoodsId != null" >
+        purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="record.agentId != null" >
         agent_id = #{record.agentId,jdbcType=BIGINT},
@@ -424,11 +417,8 @@
       <if test="record.exchangeRate != null" >
         exchange_rate = #{record.exchangeRate,jdbcType=DECIMAL},
       </if>
-      <if test="record.auditingStatus != null" >
-        auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
-      </if>
-      <if test="record.processId != null" >
-        process_id = #{record.processId,jdbcType=CHAR},
+      <if test="record.payStatus != null" >
+        pay_status = #{record.payStatus,jdbcType=SMALLINT},
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -457,7 +447,7 @@
     update purch
     set id = #{record.id,jdbcType=BIGINT},
       purch_no = #{record.purchNo,jdbcType=CHAR},
-      purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
+      purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
       agent_id = #{record.agentId,jdbcType=BIGINT},
       department = #{record.department,jdbcType=VARCHAR},
       signing_date = #{record.signingDate,jdbcType=DATE},
@@ -478,8 +468,7 @@
       contract_tag = #{record.contractTag,jdbcType=VARCHAR},
       tax_bearing = #{record.taxBearing,jdbcType=BIT},
       exchange_rate = #{record.exchangeRate,jdbcType=DECIMAL},
-      auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
-      process_id = #{record.processId,jdbcType=CHAR},
+      pay_status = #{record.payStatus,jdbcType=SMALLINT},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
@@ -496,8 +485,8 @@
       <if test="purchNo != null" >
         purch_no = #{purchNo,jdbcType=CHAR},
       </if>
-      <if test="purchContractId != null" >
-        purch_contract_id = #{purchContractId,jdbcType=BIGINT},
+      <if test="purchContractGoodsId != null" >
+        purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="agentId != null" >
         agent_id = #{agentId,jdbcType=BIGINT},
@@ -559,11 +548,8 @@
       <if test="exchangeRate != null" >
         exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
       </if>
-      <if test="auditingStatus != null" >
-        auditing_status = #{auditingStatus,jdbcType=SMALLINT},
-      </if>
-      <if test="processId != null" >
-        process_id = #{processId,jdbcType=CHAR},
+      <if test="payStatus != null" >
+        pay_status = #{payStatus,jdbcType=SMALLINT},
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -589,7 +575,7 @@
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.Purch" >
     update purch
     set purch_no = #{purchNo,jdbcType=CHAR},
-      purch_contract_id = #{purchContractId,jdbcType=BIGINT},
+      purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
       agent_id = #{agentId,jdbcType=BIGINT},
       department = #{department,jdbcType=VARCHAR},
       signing_date = #{signingDate,jdbcType=DATE},
@@ -610,8 +596,7 @@
       contract_tag = #{contractTag,jdbcType=VARCHAR},
       tax_bearing = #{taxBearing,jdbcType=BIT},
       exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
-      auditing_status = #{auditingStatus,jdbcType=SMALLINT},
-      process_id = #{processId,jdbcType=CHAR},
+      pay_status = #{payStatus,jdbcType=SMALLINT},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},

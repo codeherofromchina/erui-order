@@ -3,7 +3,7 @@
 <mapper namespace="com.erui.order.mapper.PurchContractSignatoriesMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.PurchContractSignatories" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="purch_contract_id" property="purchContractId" jdbcType="BIGINT" />
+    <result column="purch_contract_id" property="purchContractGoodsId" jdbcType="BIGINT" />
     <result column="signatories_type" property="signatoriesType" jdbcType="SMALLINT" />
     <result column="seller_buyer" property="sellerBuyer" jdbcType="VARCHAR" />
     <result column="postal_code" property="postalCode" jdbcType="CHAR" />
@@ -123,7 +123,7 @@
       duty_paragraph, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       delete_time)
-    values (#{id,jdbcType=BIGINT}, #{purchContractId,jdbcType=BIGINT}, #{signatoriesType,jdbcType=SMALLINT}, 
+    values (#{id,jdbcType=BIGINT}, #{purchContractGoodsId,jdbcType=BIGINT}, #{signatoriesType,jdbcType=SMALLINT},
       #{sellerBuyer,jdbcType=VARCHAR}, #{postalCode,jdbcType=CHAR}, #{legalRepresentative,jdbcType=VARCHAR}, 
       #{agent,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{openingBank,jdbcType=VARCHAR}, 
       #{accountNumber,jdbcType=VARCHAR}, #{creditCode,jdbcType=VARCHAR}, #{telephoneFax,jdbcType=VARCHAR}, 
@@ -137,7 +137,7 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="purchContractId != null" >
+      <if test="purchContractGoodsId != null" >
         purch_contract_id,
       </if>
       <if test="signatoriesType != null" >
@@ -196,8 +196,8 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="purchContractId != null" >
-        #{purchContractId,jdbcType=BIGINT},
+      <if test="purchContractGoodsId != null" >
+        #{purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="signatoriesType != null" >
         #{signatoriesType,jdbcType=SMALLINT},
@@ -264,8 +264,8 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.purchContractId != null" >
-        purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
+      <if test="record.purchContractGoodsId != null" >
+        purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="record.signatoriesType != null" >
         signatories_type = #{record.signatoriesType,jdbcType=SMALLINT},
@@ -326,7 +326,7 @@
   <update id="updateByExample" parameterType="map" >
     update purch_contract_signatories
     set id = #{record.id,jdbcType=BIGINT},
-      purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
+      purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
       signatories_type = #{record.signatoriesType,jdbcType=SMALLINT},
       seller_buyer = #{record.sellerBuyer,jdbcType=VARCHAR},
       postal_code = #{record.postalCode,jdbcType=CHAR},
@@ -351,8 +351,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.PurchContractSignatories" >
     update purch_contract_signatories
     <set >
-      <if test="purchContractId != null" >
-        purch_contract_id = #{purchContractId,jdbcType=BIGINT},
+      <if test="purchContractGoodsId != null" >
+        purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="signatoriesType != null" >
         signatories_type = #{signatoriesType,jdbcType=SMALLINT},
@@ -410,7 +410,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.PurchContractSignatories" >
     update purch_contract_signatories
-    set purch_contract_id = #{purchContractId,jdbcType=BIGINT},
+    set purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
       signatories_type = #{signatoriesType,jdbcType=SMALLINT},
       seller_buyer = #{sellerBuyer,jdbcType=VARCHAR},
       postal_code = #{postalCode,jdbcType=CHAR},

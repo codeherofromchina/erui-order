@@ -3,8 +3,8 @@
     var purchContractSimpleInfoPageParams = getQueryStringFromGlobalParams();
     var save_purch_contract_simple_info_form_data = {};
     var save_purch_contract_simple_info_goods_data = [];
-    if (purchContractSimpleInfoPageParams.purchContractId) {
-        var purchContractSimpleInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": purchContractSimpleInfoPageParams.purchContractId});
+    if (purchContractSimpleInfoPageParams.purchContractGoodsId) {
+        var purchContractSimpleInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": purchContractSimpleInfoPageParams.purchContractGoodsId});
         if (purchContractSimpleInfoResp.code == 0) {
             save_purch_contract_simple_info_form_data = purchContractSimpleInfoResp.data;
             // 商品内容

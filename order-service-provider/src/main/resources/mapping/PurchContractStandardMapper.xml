@@ -3,7 +3,7 @@
 <mapper namespace="com.erui.order.mapper.PurchContractStandardMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.PurchContractStandard" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="purch_contract_id" property="purchContractId" jdbcType="BIGINT" />
+    <result column="purch_contract_id" property="purchContractGoodsId" jdbcType="BIGINT" />
     <result column="used_for_buyer" property="usedForBuyer" jdbcType="VARCHAR" />
     <result column="standard_and_require" property="standardAndRequire" jdbcType="VARCHAR" />
     <result column="meet_require" property="meetRequire" jdbcType="VARCHAR" />
@@ -143,7 +143,7 @@
       appendices_name1, appendices_name2, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, delete_time)
-    values (#{id,jdbcType=BIGINT}, #{purchContractId,jdbcType=BIGINT}, #{usedForBuyer,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=BIGINT}, #{purchContractGoodsId,jdbcType=BIGINT}, #{usedForBuyer,jdbcType=VARCHAR},
       #{standardAndRequire,jdbcType=VARCHAR}, #{meetRequire,jdbcType=VARCHAR}, #{warrantyPeriod,jdbcType=VARCHAR}, 
       #{deliveryDate,jdbcType=DATE}, #{deliveryPlace,jdbcType=VARCHAR}, #{inspectionPeriod,jdbcType=VARCHAR}, 
       #{dataVersion,jdbcType=VARCHAR}, #{methodAndTime,jdbcType=VARCHAR}, #{insideAddressS,jdbcType=VARCHAR}, 
@@ -161,7 +161,7 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="purchContractId != null" >
+      <if test="purchContractGoodsId != null" >
         purch_contract_id,
       </if>
       <if test="usedForBuyer != null" >
@@ -259,8 +259,8 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="purchContractId != null" >
-        #{purchContractId,jdbcType=BIGINT},
+      <if test="purchContractGoodsId != null" >
+        #{purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="usedForBuyer != null" >
         #{usedForBuyer,jdbcType=VARCHAR},
@@ -366,8 +366,8 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.purchContractId != null" >
-        purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
+      <if test="record.purchContractGoodsId != null" >
+        purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="record.usedForBuyer != null" >
         used_for_buyer = #{record.usedForBuyer,jdbcType=VARCHAR},
@@ -467,7 +467,7 @@
   <update id="updateByExample" parameterType="map" >
     update purch_contract_standard
     set id = #{record.id,jdbcType=BIGINT},
-      purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
+      purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
       used_for_buyer = #{record.usedForBuyer,jdbcType=VARCHAR},
       standard_and_require = #{record.standardAndRequire,jdbcType=VARCHAR},
       meet_require = #{record.meetRequire,jdbcType=VARCHAR},
@@ -505,8 +505,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.PurchContractStandard" >
     update purch_contract_standard
     <set >
-      <if test="purchContractId != null" >
-        purch_contract_id = #{purchContractId,jdbcType=BIGINT},
+      <if test="purchContractGoodsId != null" >
+        purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
       </if>
       <if test="usedForBuyer != null" >
         used_for_buyer = #{usedForBuyer,jdbcType=VARCHAR},
@@ -603,7 +603,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.PurchContractStandard" >
     update purch_contract_standard
-    set purch_contract_id = #{purchContractId,jdbcType=BIGINT},
+    set purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
       used_for_buyer = #{usedForBuyer,jdbcType=VARCHAR},
       standard_and_require = #{standardAndRequire,jdbcType=VARCHAR},
       meet_require = #{meetRequire,jdbcType=VARCHAR},

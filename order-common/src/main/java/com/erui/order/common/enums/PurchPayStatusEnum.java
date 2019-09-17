@@ -5,13 +5,13 @@ package com.erui.order.common.enums;
  * @Date 2019/9/7 下午8:14
  * 收款状态 1:未付款 2:部分付款 3:收款完成
  */
-public enum OrderPayStatusEnum {
-    UNPAID(1, "未收款"), PARTIAL_COLLECTION(2, "部分收款"), PAYMENT_COMPLETION(3, "收款完成");
+public enum PurchPayStatusEnum {
+    UNPAID(1, "未付款"), PARTIAL_COLLECTION(2, "部分付款"), PAYMENT_COMPLETION(3, "付款完成");
 
     public short code;
     public String name;
 
-    OrderPayStatusEnum(int code, String name) {
+    PurchPayStatusEnum(int code, String name) {
         this.code = (short) code;
         this.name = name;
     }
@@ -24,9 +24,9 @@ public enum OrderPayStatusEnum {
         return name;
     }
 
-    public static OrderPayStatusEnum valueOf(Short code) {
+    public static PurchPayStatusEnum valueOf(Short code) {
         if (code != null) {
-            for (OrderPayStatusEnum statusEnum : OrderPayStatusEnum.values()) {
+            for (PurchPayStatusEnum statusEnum : PurchPayStatusEnum.values()) {
                 if (statusEnum.getCode() == code) {
                     return statusEnum;
                 }

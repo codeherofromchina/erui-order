@@ -65,7 +65,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         if (purchRequisition == null) {
             throw new Exception("采购申请唯一标识错误");
         }
-        if (PurchRequisitionStatusEnum.valueOf(purchRequisition.getPurchRequisitionStatus()) != PurchRequisitionStatusEnum.SAVE) {
+        if (PurchRequisitionStatusEnum.valueOf(purchRequisition.getPurchRequisitionStatus()) != PurchRequisitionStatusEnum.INIT) {
             throw new Exception("采购申请当前状态错误");
         }
 
@@ -75,7 +75,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         PurchRequisition purchRequisitionSelective = PurchRequisitionFactory.purchRequisition(updateRequest);
         purchRequisitionSelective.setId(purchRequisitionId);
         purchRequisitionSelective.setProjectId(null);
-        purchRequisitionSelective.setPurchStatus(PurchStatusEnum.INIT.getCode());
+        purchRequisitionSelective.setPurchStatus(PurchStatusEnum.SAVE.getCode());
         purchRequisitionSelective.setUpdateTime(new Date());
         purchRequisitionSelective.setUpdateUserId(userInfo.getId());
 
@@ -86,7 +86,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         if (purchRequisitionStatusEnum != null) {
             Project projectSelective = new Project();
             projectSelective.setId(purchRequisition.getId());
-            projectSelective.setPurchReqCreate((short) (purchRequisitionStatusEnum == PurchRequisitionStatusEnum.SAVE ? 2 : 3));
+            projectSelective.setPurchReqCreate((short) (purchRequisitionStatusEnum == PurchRequisitionStatusEnum.INIT ? 2 : 3));
             projectMapper.updateByPrimaryKeySelective(projectSelective);
         }
 
@@ -127,7 +127,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         PurchRequisition.setDepartment(project.getSendDeptId());
         PurchRequisition.setTradeMethod(projectProfitInfo.getProjectType());
         PurchRequisition.setTransModeBn(order.getTradeTerms());
-        PurchRequisition.setPurchStatus(PurchStatusEnum.INIT.getCode());
+        PurchRequisition.setPurchStatus(PurchStatusEnum.SAVE.getCode());
         PurchRequisition.setCreateTime(new Date());
         PurchRequisition.setCreateUserId(userInfo.getId());
         PurchRequisition.setDeleteFlag(Boolean.FALSE);
@@ -142,7 +142,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         if (purchRequisitionStatusEnum != null) {
             Project projectSelective = new Project();
             projectSelective.setId(projectId);
-            projectSelective.setPurchReqCreate((short) (purchRequisitionStatusEnum == PurchRequisitionStatusEnum.SAVE ? 2 : 3));
+            projectSelective.setPurchReqCreate((short) (purchRequisitionStatusEnum == PurchRequisitionStatusEnum.INIT ? 2 : 3));
             projectMapper.updateByPrimaryKeySelective(projectSelective);
         }
 

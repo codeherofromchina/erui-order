@@ -4,6 +4,8 @@ import com.erui.order.common.pojo.OrderGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.OrderGoodsMapper;
+import com.erui.order.mapper.OrderMapper;
+import com.erui.order.model.entity.Order;
 import com.erui.order.model.entity.OrderGoods;
 import com.erui.order.model.entity.OrderGoodsExample;
 import com.erui.order.service.OrderGoodsService;
@@ -29,6 +31,8 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     private StandardUnitService standardUnitService;
     @Autowired
     private OrgService orgService;
+    @Autowired
+    private OrderMapper orderMapper;
 
 
     @Override
@@ -70,11 +74,14 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 
     @Override
     public int insert(Long orderId, OrderGoodsInfo orderGoodsInfo) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+
         OrderGoods orderGoods = OrderGoodsFactory.orderGoods(orderId, orderGoodsInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
             orderGoods.setCreateUserId(userInfo.getId());
         }
+        orderGoods.setContractNo(order.getContractNo());
         orderGoods.setCreateTime(new Date());
         orderGoods.setDeleteFlag(Boolean.FALSE);
         orderGoods.setPrePurchContractNum((short) 0);

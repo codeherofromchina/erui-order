@@ -26,6 +26,9 @@
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
     <result column="pre_purch_contract_num" property="prePurchContractNum" jdbcType="SMALLINT" />
     <result column="purch_contract_num" property="purchContractNum" jdbcType="SMALLINT" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="exe_chg_date" property="exeChgDate" jdbcType="DATE" />
   </resultMap>
   <resultMap id="ResultMapWithBLOBs" type="com.erui.order.model.entity.OrderGoods" extends="BaseResultMap" >
     <result column="attrs" property="attrs" jdbcType="LONGVARCHAR" />
@@ -92,7 +95,7 @@
     id, order_id, sku, mete_type, mete_type_name, tpl_no, tpl_name, department_id, name_en, 
     name_zh, contract_goods_num, unit, price, erui_price, total_price, brand, create_user_id, 
     create_time, update_user_id, update_time, delete_flag, delete_time, pre_purch_contract_num, 
-    purch_contract_num
+    purch_contract_num, contract_no, project_no, exe_chg_date
   </sql>
   <sql id="Blob_Column_List" >
     attrs
@@ -154,6 +157,7 @@
       brand, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       delete_time, pre_purch_contract_num, purch_contract_num, 
+      contract_no, project_no, exe_chg_date, 
       attrs)
     values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{sku,jdbcType=VARCHAR}, 
       #{meteType,jdbcType=VARCHAR}, #{meteTypeName,jdbcType=VARCHAR}, #{tplNo,jdbcType=VARCHAR}, 
@@ -163,6 +167,7 @@
       #{brand,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
       #{deleteTime,jdbcType=TIMESTAMP}, #{prePurchContractNum,jdbcType=SMALLINT}, #{purchContractNum,jdbcType=SMALLINT}, 
+      #{contractNo,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, #{exeChgDate,jdbcType=DATE}, 
       #{attrs,jdbcType=LONGVARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.OrderGoods" >
@@ -240,6 +245,15 @@
       <if test="purchContractNum != null" >
         purch_contract_num,
       </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="exeChgDate != null" >
+        exe_chg_date,
+      </if>
       <if test="attrs != null" >
         attrs,
       </if>
@@ -316,6 +330,15 @@
       </if>
       <if test="purchContractNum != null" >
         #{purchContractNum,jdbcType=SMALLINT},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exeChgDate != null" >
+        #{exeChgDate,jdbcType=DATE},
       </if>
       <if test="attrs != null" >
         #{attrs,jdbcType=LONGVARCHAR},
@@ -403,6 +426,15 @@
       <if test="record.purchContractNum != null" >
         purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT},
       </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNo != null" >
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.exeChgDate != null" >
+        exe_chg_date = #{record.exeChgDate,jdbcType=DATE},
+      </if>
       <if test="record.attrs != null" >
         attrs = #{record.attrs,jdbcType=LONGVARCHAR},
       </if>
@@ -437,6 +469,9 @@
       delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       pre_purch_contract_num = #{record.prePurchContractNum,jdbcType=SMALLINT},
       purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT},
+      contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      project_no = #{record.projectNo,jdbcType=VARCHAR},
+      exe_chg_date = #{record.exeChgDate,jdbcType=DATE},
       attrs = #{record.attrs,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -467,7 +502,10 @@
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
       delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       pre_purch_contract_num = #{record.prePurchContractNum,jdbcType=SMALLINT},
-      purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT}
+      purch_contract_num = #{record.purchContractNum,jdbcType=SMALLINT},
+      contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      project_no = #{record.projectNo,jdbcType=VARCHAR},
+      exe_chg_date = #{record.exeChgDate,jdbcType=DATE}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -544,6 +582,15 @@
       <if test="purchContractNum != null" >
         purch_contract_num = #{purchContractNum,jdbcType=SMALLINT},
       </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="exeChgDate != null" >
+        exe_chg_date = #{exeChgDate,jdbcType=DATE},
+      </if>
       <if test="attrs != null" >
         attrs = #{attrs,jdbcType=LONGVARCHAR},
       </if>
@@ -575,6 +622,9 @@
       delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       pre_purch_contract_num = #{prePurchContractNum,jdbcType=SMALLINT},
       purch_contract_num = #{purchContractNum,jdbcType=SMALLINT},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      exe_chg_date = #{exeChgDate,jdbcType=DATE},
       attrs = #{attrs,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -602,7 +652,10 @@
       delete_flag = #{deleteFlag,jdbcType=BIT},
       delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       pre_purch_contract_num = #{prePurchContractNum,jdbcType=SMALLINT},
-      purch_contract_num = #{purchContractNum,jdbcType=SMALLINT}
+      purch_contract_num = #{purchContractNum,jdbcType=SMALLINT},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      exe_chg_date = #{exeChgDate,jdbcType=DATE}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

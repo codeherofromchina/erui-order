@@ -15,7 +15,7 @@ public interface GoodsService {
      * @param projectIds
      * @return
      */
-    List<GoodsInfo> purchContractGoodsList(List<Long> projectIds);
+    List<GoodsInfo> purchContractAbleGoodsList(List<Long> projectIds);
 
     void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum) throws Exception;
 
@@ -25,4 +25,11 @@ public interface GoodsService {
      * @return
      */
     List<GoodsInfo> goodsInfos(List<PurchContractGoodsInfo> purchContractGoodsInfos);
+
+    /**
+     * 查询可新建采购的商品列表
+     * @param purchContractId
+     * @return
+     */
+    List<GoodsInfo> purchAbleGoodsList(Long purchContractId);
 }

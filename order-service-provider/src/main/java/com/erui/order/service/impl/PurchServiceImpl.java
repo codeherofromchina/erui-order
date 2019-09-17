@@ -3,22 +3,22 @@ package com.erui.order.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
 import com.erui.order.common.enums.PurchStatusEnum;
-import com.erui.order.common.pojo.AttachmentInfo;
-import com.erui.order.common.pojo.Pager;
-import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.PurchQueryRequest;
 import com.erui.order.common.pojo.request.PurchSaveRequest;
 import com.erui.order.common.pojo.response.PurchDetailResponse;
 import com.erui.order.common.pojo.response.PurchListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
+import com.erui.order.mapper.PurchContractMapper;
 import com.erui.order.mapper.PurchMapper;
 import com.erui.order.model.entity.Purch;
+import com.erui.order.model.entity.PurchContract;
 import com.erui.order.model.entity.PurchExample;
-import com.erui.order.service.AttachmentService;
-import com.erui.order.service.PurchService;
+import com.erui.order.service.*;
 import com.erui.order.service.util.PurchFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,32 +37,66 @@ public class PurchServiceImpl implements PurchService {
     private PurchMapper purchMapper;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private PurchContractService purchContractService;
+    @Autowired
+    private SupplierService supplierService;
+    @Autowired
+    private PurchContractMapper purchContractMapper;
+    @Autowired
+    private PurchPaymentService purchPaymentService;
+    @Autowired
+    private PurchGoodsService purchGoodsService;
+
 
     @Override
     public Long insert(PurchSaveRequest insertRequest) throws Exception {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
-        Purch Purch = PurchFactory.Purch(insertRequest);
-        Purch.setCreateTime(new Date());
-        Purch.setCreateUserId(userInfo.getId());
-        int insertNum = purchMapper.insert(Purch);
+        Purch purch = PurchFactory.Purch(insertRequest);
+        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purch.getPurchContractId());
+        if (purchContract == null) {
+            throw new Exception("采购合同不存在");
+        }
+        purch.setPurchNo(purchContract.getPurchContractNo());
+
+        purch.setCreateTime(new Date());
+        purch.setCreateUserId(userInfo.getId());
+        purch.setDeleteFlag(Boolean.FALSE);
+        int insertNum = purchMapper.insert(purch);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
         }
-        Long PurchId = Purch.getId();
+        Long purchId = purch.getId();
+
+        // 商品信息
+        List<PurchGoodsInfo> purchGoodsList = insertRequest.getPurchGoodsList();
+        purchGoodsService.insert(purchId, purchGoodsList);
+
+
+        // 付款信息
+        List<PurchPaymentInfo> purchPayments = insertRequest.getPurchPayments();
+        if (purchPayments != null && purchPayments.size() > 0) {
+            int purchPaymentInsertNum = purchPaymentService.insert(purchId, purchPayments);
+            if (purchPayments.size() != purchPaymentInsertNum) {
+                LOGGER.info("purchPaymentInsertNum : {} - {}", purchPaymentInsertNum, JSON.toJSONString(insertRequest));
+                throw new Exception("采购单付款信息数据操作失败");
+            }
+        }
+
 
         // 对象附件操作
         List<AttachmentInfo> attachments = insertRequest.getAttachments();
         if (attachments != null && attachments.size() > 0) {
-            int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.PURCH, PurchId, attachments);
+            int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.PURCH, purchId, attachments);
             if (attachments.size() != attachmentInsertNum) {
                 LOGGER.info("attachmentInsertNum : {} - {}", attachmentInsertNum, JSON.toJSONString(insertRequest));
                 throw new Exception("订单附件数据操作失败");
             }
         }
 
-        return PurchId;
+        return purchId;
     }
 
     @Override
@@ -74,12 +108,12 @@ public class PurchServiceImpl implements PurchService {
             throw new Exception("对象唯一标识错误");
         }
         PurchStatusEnum requestStatusEnum = PurchStatusEnum.valueOf(updateRequest.getPurchStatus());
-        if (requestStatusEnum == PurchStatusEnum.INIT) {
+        if (requestStatusEnum == PurchStatusEnum.SAVE) {
             throw new Exception("请求对象的状态错误");
         }
 
         PurchStatusEnum statusEnum = PurchStatusEnum.valueOf(Purch.getPurchStatus());
-        if (statusEnum != PurchStatusEnum.INIT && statusEnum != PurchStatusEnum.SAVED) {
+        if (statusEnum != PurchStatusEnum.SAVE && statusEnum != PurchStatusEnum.SUBMIT) {
             throw new Exception("对象当前状态错误");
         }
 
@@ -115,21 +149,50 @@ public class PurchServiceImpl implements PurchService {
         // 未删除
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-        // 订单状态 1:待确认 2:未执行 3:执行中 4：完成
-        if (queryRequest.getStatus() != null) {
-            criteria.andPurchStatusEqualTo(queryRequest.getStatus());
+        List<Long> purchContractIds = null;
+        if (StringUtils.isNotBlank(queryRequest.getProjectNo())) {
+            purchContractIds = purchContractService.purchContractIdsByProjectNo(queryRequest.getProjectNo());
         }
-        List<Purch> Purchs = purchMapper.selectByExample(example);
 
-        List<PurchListResponse> PurchListResponses = new ArrayList<>();
-        for (Purch Purch : Purchs) {
-            PurchListResponse PurchListResponse = PurchFactory.PurchListResponse(Purch);
-            PurchListResponses.add(PurchListResponse);
+        if (purchContractIds != null) {
+            if (purchContractIds.size() == 0) {
+                criteria.andIdEqualTo(-1L);
+            } else {
+                criteria.andPurchContractIdIn(purchContractIds);
+            }
+        }
+        if (StringUtils.isNotBlank(queryRequest.getPurchNo())) {
+            criteria.andPurchNoLike("%" + queryRequest.getPurchNo() + "%");
+        }
+        if (queryRequest.getSigningDate() != null) {
+            criteria.andSigningDateEqualTo(queryRequest.getSigningDate());
+        }
+
+        if (queryRequest.getSupplierId() != null) {
+            criteria.andSupplierIdEqualTo(queryRequest.getSupplierId());
+        }
+        PurchStatusEnum purchStatusEnum = PurchStatusEnum.valueOf(queryRequest.getPurchStatus());
+        if (purchStatusEnum != null) {
+            criteria.andPurchStatusEqualTo(purchStatusEnum.getCode());
+        }
+        List<Purch> purches = purchMapper.selectByExample(example);
+
+        List<PurchListResponse> purchListResponses = new ArrayList<>();
+        for (Purch purch : purches) {
+            PurchListResponse purchListResponse = PurchFactory.PurchListResponse(purch);
+            PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purch.getPurchContractId());
+            if (purchContract != null) {
+                purchListResponse.setContractNo(purchContract.getProjectNo());
+                purchListResponse.setProjectNo(purchContract.getProjectNo());
+            }
+            purchListResponse.setSupplierName(supplierService.findNameById(purch.getSupplierId()));
+
+            purchListResponses.add(purchListResponse);
         }
         // 输出
-        Page<Purch> page = (Page) Purchs;
+        Page<Purch> page = (Page) purches;
         Pager<PurchListResponse> pager = new Pager<>(page.getPageNum(), page.getPageSize()
-                , page.getPages(), page.getTotal(), PurchListResponses);
+                , page.getPages(), page.getTotal(), purchListResponses);
         return pager;
     }
 

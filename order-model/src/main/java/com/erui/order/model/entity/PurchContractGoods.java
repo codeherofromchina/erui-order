@@ -32,6 +32,10 @@ public class PurchContractGoods {
 
     private Date deleteTime;
 
+    private Integer prePurchasedNum;
+
+    private Integer purchasedNum;
+
     public Long getId() {
         return id;
     }
@@ -142,5 +146,21 @@ public class PurchContractGoods {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public Integer getPrePurchasedNum() {
+        return prePurchasedNum;
+    }
+
+    public void setPrePurchasedNum(Integer prePurchasedNum) {
+        this.prePurchasedNum = prePurchasedNum;
+    }
+
+    public Integer getPurchasedNum() {
+        return purchasedNum;
+    }
+
+    public void setPurchasedNum(Integer purchasedNum) {
+        this.purchasedNum = purchasedNum;
     }
 }

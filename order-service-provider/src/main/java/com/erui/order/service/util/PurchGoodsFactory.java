@@ -11,14 +11,19 @@ import java.util.List;
  * @Date 2019/9/9 上午12:27
  */
 public class PurchGoodsFactory {
-    public static PurchGoods PurchGoods(PurchGoodsInfo PurchGoodsInfo) {
-        if (PurchGoodsInfo == null) {
+    public static PurchGoods purchGoods(PurchGoodsInfo purchGoodsInfo) {
+        if (purchGoodsInfo == null) {
             return null;
         }
-        PurchGoods PurchGoods = new PurchGoods();
-        PurchGoods.setOrderGoodsId(PurchGoodsInfo.getOrderGoodsId());
+        PurchGoods purchGoods = new PurchGoods();
+        purchGoods.setId(purchGoodsInfo.getId());
+        purchGoods.setPurchContractGoodsId(purchGoodsInfo.getPurchContractGoodsId());
+        purchGoods.setOrderGoodsId(purchGoodsInfo.getOrderGoodsId());
+        purchGoods.setPurchaseNum(purchGoodsInfo.getPurchaseNum());
+        purchGoods.setPurchasePrice(purchGoodsInfo.getPurchasePrice());
+        purchGoods.setPurchaseRemark(purchGoodsInfo.getPurchaseRemark());
 
-        return PurchGoods;
+        return purchGoods;
     }
 
     public static List<PurchGoodsInfo> PurchGoodsInfo(List<PurchGoods> PurchGoodsList) {

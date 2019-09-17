@@ -955,6 +955,126 @@ public class PurchContractGoodsExample {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
             return (Criteria) this;
         }
+
+        public Criteria andPrePurchasedNumIsNull() {
+            addCriterion("pre_purchased_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumIsNotNull() {
+            addCriterion("pre_purchased_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumEqualTo(Integer value) {
+            addCriterion("pre_purchased_num =", value, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumNotEqualTo(Integer value) {
+            addCriterion("pre_purchased_num <>", value, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumGreaterThan(Integer value) {
+            addCriterion("pre_purchased_num >", value, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pre_purchased_num >=", value, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumLessThan(Integer value) {
+            addCriterion("pre_purchased_num <", value, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumLessThanOrEqualTo(Integer value) {
+            addCriterion("pre_purchased_num <=", value, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumIn(List<Integer> values) {
+            addCriterion("pre_purchased_num in", values, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumNotIn(List<Integer> values) {
+            addCriterion("pre_purchased_num not in", values, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumBetween(Integer value1, Integer value2) {
+            addCriterion("pre_purchased_num between", value1, value2, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchasedNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("pre_purchased_num not between", value1, value2, "prePurchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumIsNull() {
+            addCriterion("purchased_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumIsNotNull() {
+            addCriterion("purchased_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumEqualTo(Integer value) {
+            addCriterion("purchased_num =", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumNotEqualTo(Integer value) {
+            addCriterion("purchased_num <>", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumGreaterThan(Integer value) {
+            addCriterion("purchased_num >", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("purchased_num >=", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumLessThan(Integer value) {
+            addCriterion("purchased_num <", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumLessThanOrEqualTo(Integer value) {
+            addCriterion("purchased_num <=", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumIn(List<Integer> values) {
+            addCriterion("purchased_num in", values, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumNotIn(List<Integer> values) {
+            addCriterion("purchased_num not in", values, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumBetween(Integer value1, Integer value2) {
+            addCriterion("purchased_num between", value1, value2, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("purchased_num not between", value1, value2, "purchasedNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

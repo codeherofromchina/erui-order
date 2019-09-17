@@ -52,6 +52,12 @@ public class OrderGoods {
 
     private Short purchContractNum;
 
+    private String contractNo;
+
+    private String projectNo;
+
+    private Date exeChgDate;
+
     private String attrs;
 
     public Long getId() {
@@ -244,6 +250,30 @@ public class OrderGoods {
 
     public void setPurchContractNum(Short purchContractNum) {
         this.purchContractNum = purchContractNum;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
+
+    public Date getExeChgDate() {
+        return exeChgDate;
+    }
+
+    public void setExeChgDate(Date exeChgDate) {
+        this.exeChgDate = exeChgDate;
     }
 
     public String getAttrs() {

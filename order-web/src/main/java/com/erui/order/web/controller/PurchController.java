@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class PurchController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PurchController.class);
     @Autowired
-    private PurchService PurchService;
+    private PurchService purchService;
 
     /**
      * 保存Purch
@@ -52,9 +52,9 @@ public class PurchController {
         try {
             Long id = saveRequest.getId();
             if (id != null) {
-                PurchService.update(id, saveRequest);
+                purchService.update(id, saveRequest);
             } else {
-                id = PurchService.insert(saveRequest);
+                id = purchService.insert(saveRequest);
             }
             LOGGER.info("savePurch成功 - {} - {}", JSON.toJSONString(userInfo), id);
         } catch (Exception e) {
@@ -78,7 +78,7 @@ public class PurchController {
         LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
         Result<Pager<PurchListResponse>> result = new Result<>();
         try {
-            Pager<PurchListResponse> pageInfo = PurchService.list(queryRequest);
+            Pager<PurchListResponse> pageInfo = purchService.list(queryRequest);
             result.setData(pageInfo);
             LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
         } catch (Exception e) {
@@ -88,6 +88,8 @@ public class PurchController {
         }
         return result;
     }
+
+
 
     /**
      * 获取Purch详情
@@ -101,7 +103,7 @@ public class PurchController {
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
         Result<PurchDetailResponse> result = new Result<>();
         try {
-            PurchDetailResponse detail = PurchService.detail(key.getId());
+            PurchDetailResponse detail = purchService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {

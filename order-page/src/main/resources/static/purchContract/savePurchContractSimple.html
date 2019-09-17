@@ -3,8 +3,8 @@
     var savePurchContractSimplePageParams = getQueryStringFromGlobalParams();
     var save_purch_contract_simple_form_data = {};
     var save_purch_contract_simple_goods_data = [];
-    if (savePurchContractSimplePageParams.purchContractId) {
-        var savePurchContractSimpleResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": savePurchContractSimplePageParams.purchContractId});
+    if (savePurchContractSimplePageParams.purchContractGoodsId) {
+        var savePurchContractSimpleResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": savePurchContractSimplePageParams.purchContractGoodsId});
         if (savePurchContractSimpleResp.code == 0) {
             save_purch_contract_simple_form_data = savePurchContractSimpleResp.data;
             // 商品内容
@@ -446,7 +446,7 @@
                             projectIds.push(value.id);
                             projectNos.push(value.projectNo);
                         });
-                        var resp = syncAjaxJson({"url": LOCAL_URL + "/order/goods/purchContractGoods"}, projectIds);
+                        var resp = syncAjaxJson({"url": LOCAL_URL + "/order/goods/purchContractAbleGoods"}, projectIds);
                         if (resp.code == 0) {
                             goodsData = resp.data;
                         }

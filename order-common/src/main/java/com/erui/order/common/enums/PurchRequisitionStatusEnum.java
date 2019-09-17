@@ -5,7 +5,7 @@ package com.erui.order.common.enums;
  * @Date 2019/9/8 下午5:11
  */
 public enum PurchRequisitionStatusEnum {
-    SAVE(1, "已保存"), SUBMIT(2, "已提交"), transfer(3, "已转交经办人");
+    INIT(1, "已保存"), SUBMIT(2, "已提交"), transfer(3, "已转交经办人");
 
     public short code;
     public String name;

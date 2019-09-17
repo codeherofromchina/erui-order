@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 public class PurchGoodsServiceImpl implements PurchGoodsService {
     private static Logger LOGGER = LoggerFactory.getLogger(PurchGoodsServiceImpl.class);
     @Autowired
-    private PurchGoodsMapper PurchGoodsMapper;
+    private PurchGoodsMapper purchGoodsMapper;
 
 
     @Override
@@ -34,13 +34,13 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         Set<Long> PurchGoodsIds = PurchGoodses.stream().map(PurchGoods::getId).collect(Collectors.toSet());
 
         int updateNum = 0;
-        for (PurchGoodsInfo PurchGoodsInfo : PurchGoodsInfos) {
-            Long id = PurchGoodsInfo.getId();
+        for (PurchGoodsInfo purchGoodsInfo : PurchGoodsInfos) {
+            Long id = purchGoodsInfo.getId();
             if (id == null) {
-                updateNum += insert(parentId, PurchGoodsInfo);
+                updateNum += insert(parentId, purchGoodsInfo);
             } else if (PurchGoodsIds.remove(id)) {
                 // 更新操作
-                updateNum += updateById(id, PurchGoodsInfo);
+                updateNum += updateById(id, purchGoodsInfo);
             } else {
                 // 抛出异常，不是给定业务数据
                 throw new Exception("采购合同商品错误");
@@ -67,14 +67,15 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
 
     @Override
     public int insert(Long purchId, PurchGoodsInfo PurchGoodsInfo) {
-        PurchGoods PurchGoods = PurchGoodsFactory.PurchGoods(PurchGoodsInfo);
+        PurchGoods purchGoods = PurchGoodsFactory.purchGoods(PurchGoodsInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        PurchGoods.setPurchId(purchId);
+        purchGoods.setPurchId(purchId);
         if (userInfo != null) {
-            PurchGoods.setCreateUserId(userInfo.getId());
+            purchGoods.setCreateUserId(userInfo.getId());
         }
-        PurchGoods.setCreateTime(new Date());
-        return PurchGoodsMapper.insert(PurchGoods);
+        purchGoods.setCreateTime(new Date());
+        purchGoods.setDeleteFlag(Boolean.FALSE);
+        return purchGoodsMapper.insert(purchGoods);
     }
 
 
@@ -101,17 +102,17 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         PurchGoodsSelective.setDeleteFlag(Boolean.TRUE);
         PurchGoodsSelective.setDeleteTime(new Date());
 
-        PurchGoodsMapper.updateByExampleSelective(PurchGoodsSelective, example);
+        purchGoodsMapper.updateByExampleSelective(PurchGoodsSelective, example);
     }
 
     @Override
     public int updateById(Long id, PurchGoodsInfo PurchGoodsInfo) throws Exception {
-        PurchGoods PurchGoods = PurchGoodsMapper.selectByPrimaryKey(id);
+        PurchGoods PurchGoods = purchGoodsMapper.selectByPrimaryKey(id);
         if (PurchGoods == null) {
             throw new Exception("采购合同商品不存在");
         }
 
-        PurchGoods contractGoods = PurchGoodsFactory.PurchGoods(PurchGoodsInfo);
+        PurchGoods contractGoods = PurchGoodsFactory.purchGoods(PurchGoodsInfo);
         contractGoods.setId(id);
         contractGoods.setUpdateTime(new Date());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
@@ -119,7 +120,7 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
             contractGoods.setUpdateUserId(userInfo.getId());
         }
 
-        return PurchGoodsMapper.updateByPrimaryKeySelective(contractGoods);
+        return purchGoodsMapper.updateByPrimaryKeySelective(contractGoods);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         PurchGoodsExample example = new PurchGoodsExample();
         example.createCriteria().andPurchIdEqualTo(purchId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<PurchGoods> PurchGoodsList = PurchGoodsMapper.selectByExample(example);
+        List<PurchGoods> PurchGoodsList = purchGoodsMapper.selectByExample(example);
         if (PurchGoodsList == null) {
             PurchGoodsList = new ArrayList<>();
         }

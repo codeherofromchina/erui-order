@@ -4,8 +4,8 @@
     var save_purch_contract_form_data = {};
     var save_purch_contract_goods_data = [];
     var save_purch_contract_attachment_data = [];
-    if (savePurchContractPageParams.purchContractId) {
-        var savePurchContractResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": savePurchContractPageParams.purchContractId});
+    if (savePurchContractPageParams.purchContractGoodsId) {
+        var savePurchContractResp = syncAjaxJson({"url": LOCAL_URL + "/order/purchContract/info"}, {"id": savePurchContractPageParams.purchContractGoodsId});
         if (savePurchContractResp.code == 0) {
             save_purch_contract_form_data = savePurchContractResp.data;
             // 商品内容
