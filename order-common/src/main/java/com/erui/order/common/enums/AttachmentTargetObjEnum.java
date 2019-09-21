@@ -13,7 +13,8 @@ public enum AttachmentTargetObjEnum {
     LOGISTICS_DATA("LOGISTICS_DATA","xxxx"),
     DELIVER_NOTICE("DELIVER_NOTICE","xxxx"),
     ORDER_ACCOUNT_DELIVER("ORDER_ACCOUNT_DELIVER","xxxx"),
-    INSTOCK("INSTOCK","xxxx");
+    INSTOCK("INSTOCK","xxxx"),
+    PURCH_PAY_APPLICATION("PURCH_PAY_APPLICATION","xxxx");
 
     private String code;
     private String msg;
