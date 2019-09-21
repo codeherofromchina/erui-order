@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class InstockController {
     private static final Logger LOGGER = LoggerFactory.getLogger(InstockController.class);
     @Autowired
-    private InstockService InstockService;
+    private InstockService instockService;
 
     /**
      * 保存Instock
@@ -50,13 +50,8 @@ public class InstockController {
         LOGGER.info("saveInstock - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
         Result<Void> result = new Result<>();
         try {
-            Long id = saveRequest.getId();
-            if (id != null) {
-                InstockService.update(id, saveRequest);
-            } else {
-                id = InstockService.insert(saveRequest);
-            }
-            LOGGER.info("saveInstock成功 - {} - {}", JSON.toJSONString(userInfo), id);
+            instockService.update(saveRequest.getId(), saveRequest);
+            LOGGER.info("saveInstock成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("saveInstock异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest), e);
@@ -78,7 +73,7 @@ public class InstockController {
         LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
         Result<Pager<InstockListResponse>> result = new Result<>();
         try {
-            Pager<InstockListResponse> pageInfo = InstockService.list(queryRequest);
+            Pager<InstockListResponse> pageInfo = instockService.list(queryRequest);
             result.setData(pageInfo);
             LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
         } catch (Exception e) {
@@ -101,7 +96,7 @@ public class InstockController {
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
         Result<InstockDetailResponse> result = new Result<>();
         try {
-            InstockDetailResponse detail = InstockService.detail(key.getId());
+            InstockDetailResponse detail = instockService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {

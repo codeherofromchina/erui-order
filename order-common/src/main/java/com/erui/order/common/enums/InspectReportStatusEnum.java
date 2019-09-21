@@ -15,7 +15,7 @@ public enum InspectReportStatusEnum {
         this.name = name;
     }
 
-    public int getCode() {
+    public short getCode() {
         return code;
     }
 

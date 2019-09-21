@@ -9,6 +9,14 @@ public class InspectReport {
 
     private String inspectApplyNo;
 
+    private String purchNo;
+
+    private String contractNo;
+
+    private String projectNo;
+
+    private String ncrNo;
+
     private Short checkTimes;
 
     private Date checkDate;
@@ -71,6 +79,38 @@ public class InspectReport {
 
     public void setInspectApplyNo(String inspectApplyNo) {
         this.inspectApplyNo = inspectApplyNo;
+    }
+
+    public String getPurchNo() {
+        return purchNo;
+    }
+
+    public void setPurchNo(String purchNo) {
+        this.purchNo = purchNo;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
+
+    public String getNcrNo() {
+        return ncrNo;
+    }
+
+    public void setNcrNo(String ncrNo) {
+        this.ncrNo = ncrNo;
     }
 
     public Short getCheckTimes() {

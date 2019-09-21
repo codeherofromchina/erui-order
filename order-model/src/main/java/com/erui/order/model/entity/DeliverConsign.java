@@ -28,6 +28,8 @@ public class DeliverConsign {
 
     private BigDecimal thisShipmentsMoney;
 
+    private String currencyBn;
+
     private String invoiceRise;
 
     private Short businessNature;
@@ -62,7 +64,7 @@ public class DeliverConsign {
 
     private Short auditingStatus;
 
-    private String crmCodeOrName;
+    private String crmCode;
 
     private String deptName;
 
@@ -71,8 +73,6 @@ public class DeliverConsign {
     private Long bookingOfficerId;
 
     private Long operationSpecialistId;
-
-    private String processId;
 
     private Short deliverNoticeStatus;
 
@@ -184,6 +184,14 @@ public class DeliverConsign {
 
     public void setThisShipmentsMoney(BigDecimal thisShipmentsMoney) {
         this.thisShipmentsMoney = thisShipmentsMoney;
+    }
+
+    public String getCurrencyBn() {
+        return currencyBn;
+    }
+
+    public void setCurrencyBn(String currencyBn) {
+        this.currencyBn = currencyBn;
     }
 
     public String getInvoiceRise() {
@@ -322,12 +330,12 @@ public class DeliverConsign {
         this.auditingStatus = auditingStatus;
     }
 
-    public String getCrmCodeOrName() {
-        return crmCodeOrName;
+    public String getCrmCode() {
+        return crmCode;
     }
 
-    public void setCrmCodeOrName(String crmCodeOrName) {
-        this.crmCodeOrName = crmCodeOrName;
+    public void setCrmCode(String crmCode) {
+        this.crmCode = crmCode;
     }
 
     public String getDeptName() {
@@ -360,14 +368,6 @@ public class DeliverConsign {
 
     public void setOperationSpecialistId(Long operationSpecialistId) {
         this.operationSpecialistId = operationSpecialistId;
-    }
-
-    public String getProcessId() {
-        return processId;
-    }
-
-    public void setProcessId(String processId) {
-        this.processId = processId;
     }
 
     public Short getDeliverNoticeStatus() {

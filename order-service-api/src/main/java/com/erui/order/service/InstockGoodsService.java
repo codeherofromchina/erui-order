@@ -1,5 +1,6 @@
 package com.erui.order.service;
 
+import com.erui.order.common.pojo.InspectApplyGoodsInfo;
 import com.erui.order.common.pojo.InstockGoodsInfo;
 
 import java.util.List;
@@ -8,25 +9,23 @@ public interface InstockGoodsService {
 
 
     /**
-     * 不存在就插入，存在则更新操作
+     * 更新操作
      *
      * @param InstockId
      * @param InstockGoodsList
      * @return
      * @throws Exception
      */
-    int insertOnDuplicateIdUpdate(Long InstockId, List<InstockGoodsInfo> InstockGoodsList) throws Exception;
+    int update(Long InstockId, List<InstockGoodsInfo> InstockGoodsList) throws Exception;
 
     /**
      * 插入信息
      *
-     * @param InstockId
-     * @param InstockGoodsList
+     * @param instockId
+     * @param inspectApplyGoodsInfos
      * @return
      */
-    int insert(Long InstockId, List<InstockGoodsInfo> InstockGoodsList);
-
-    int insert(Long InstockId, InstockGoodsInfo InstockGoodsInfo);
+    int insert(Long instockId, List<InspectApplyGoodsInfo> inspectApplyGoodsInfos);
 
     void delete(Long... ids);
 

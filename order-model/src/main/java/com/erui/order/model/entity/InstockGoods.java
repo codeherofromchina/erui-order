@@ -9,13 +9,11 @@ public class InstockGoods {
 
     private Long instockId;
 
-    private String contractNo;
-
-    private Integer qualifiedNum;
-
     private Long inspectApplyGoodsId;
 
     private Integer instockNum;
+
+    private String instockStock;
 
     private Long createUserId;
 
@@ -53,22 +51,6 @@ public class InstockGoods {
         this.instockId = instockId;
     }
 
-    public String getContractNo() {
-        return contractNo;
-    }
-
-    public void setContractNo(String contractNo) {
-        this.contractNo = contractNo;
-    }
-
-    public Integer getQualifiedNum() {
-        return qualifiedNum;
-    }
-
-    public void setQualifiedNum(Integer qualifiedNum) {
-        this.qualifiedNum = qualifiedNum;
-    }
-
     public Long getInspectApplyGoodsId() {
         return inspectApplyGoodsId;
     }
@@ -83,6 +65,14 @@ public class InstockGoods {
 
     public void setInstockNum(Integer instockNum) {
         this.instockNum = instockNum;
+    }
+
+    public String getInstockStock() {
+        return instockStock;
+    }
+
+    public void setInstockStock(String instockStock) {
+        this.instockStock = instockStock;
     }
 
     public Long getCreateUserId() {

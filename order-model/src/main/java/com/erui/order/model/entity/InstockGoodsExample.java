@@ -285,136 +285,6 @@ public class InstockGoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andContractNoIsNull() {
-            addCriterion("contract_no is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoIsNotNull() {
-            addCriterion("contract_no is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoEqualTo(String value) {
-            addCriterion("contract_no =", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotEqualTo(String value) {
-            addCriterion("contract_no <>", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoGreaterThan(String value) {
-            addCriterion("contract_no >", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
-            addCriterion("contract_no >=", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoLessThan(String value) {
-            addCriterion("contract_no <", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoLessThanOrEqualTo(String value) {
-            addCriterion("contract_no <=", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoLike(String value) {
-            addCriterion("contract_no like", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotLike(String value) {
-            addCriterion("contract_no not like", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoIn(List<String> values) {
-            addCriterion("contract_no in", values, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotIn(List<String> values) {
-            addCriterion("contract_no not in", values, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoBetween(String value1, String value2) {
-            addCriterion("contract_no between", value1, value2, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotBetween(String value1, String value2) {
-            addCriterion("contract_no not between", value1, value2, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumIsNull() {
-            addCriterion("qualified_num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumIsNotNull() {
-            addCriterion("qualified_num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumEqualTo(Integer value) {
-            addCriterion("qualified_num =", value, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumNotEqualTo(Integer value) {
-            addCriterion("qualified_num <>", value, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumGreaterThan(Integer value) {
-            addCriterion("qualified_num >", value, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("qualified_num >=", value, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumLessThan(Integer value) {
-            addCriterion("qualified_num <", value, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumLessThanOrEqualTo(Integer value) {
-            addCriterion("qualified_num <=", value, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumIn(List<Integer> values) {
-            addCriterion("qualified_num in", values, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumNotIn(List<Integer> values) {
-            addCriterion("qualified_num not in", values, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumBetween(Integer value1, Integer value2) {
-            addCriterion("qualified_num between", value1, value2, "qualifiedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andQualifiedNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("qualified_num not between", value1, value2, "qualifiedNum");
-            return (Criteria) this;
-        }
-
         public Criteria andInspectApplyGoodsIdIsNull() {
             addCriterion("inspect_apply_goods_id is null");
             return (Criteria) this;
@@ -532,6 +402,76 @@ public class InstockGoodsExample {
 
         public Criteria andInstockNumNotBetween(Integer value1, Integer value2) {
             addCriterion("instock_num not between", value1, value2, "instockNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockIsNull() {
+            addCriterion("instock_stock is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockIsNotNull() {
+            addCriterion("instock_stock is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockEqualTo(String value) {
+            addCriterion("instock_stock =", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockNotEqualTo(String value) {
+            addCriterion("instock_stock <>", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockGreaterThan(String value) {
+            addCriterion("instock_stock >", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockGreaterThanOrEqualTo(String value) {
+            addCriterion("instock_stock >=", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockLessThan(String value) {
+            addCriterion("instock_stock <", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockLessThanOrEqualTo(String value) {
+            addCriterion("instock_stock <=", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockLike(String value) {
+            addCriterion("instock_stock like", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockNotLike(String value) {
+            addCriterion("instock_stock not like", value, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockIn(List<String> values) {
+            addCriterion("instock_stock in", values, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockNotIn(List<String> values) {
+            addCriterion("instock_stock not in", values, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockBetween(String value1, String value2) {
+            addCriterion("instock_stock between", value1, value2, "instockStock");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockStockNotBetween(String value1, String value2) {
+            addCriterion("instock_stock not between", value1, value2, "instockStock");
             return (Criteria) this;
         }
 

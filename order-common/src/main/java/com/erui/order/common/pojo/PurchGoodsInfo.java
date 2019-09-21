@@ -9,15 +9,20 @@ import java.math.BigDecimal;
 public class PurchGoodsInfo {
     // 主键
     private Long id;
+    // 采购合同商品ID
     private Long purchContractGoodsId;
-
+    // 订单商品ID
     private Long orderGoodsId;
-
+    // 采购数量
     private Integer purchaseNum;
-
+    // 采购单价
     private BigDecimal purchasePrice;
-
+    // 不含税采购单价
+    private BigDecimal nonTaxPrice;
+    // 采购备注
     private String purchaseRemark;
+    // 预报检数量
+    private Integer preInspectNum;
 
     public Long getId() {
         return id;
@@ -65,6 +70,22 @@ public class PurchGoodsInfo {
 
     public void setPurchaseRemark(String purchaseRemark) {
         this.purchaseRemark = purchaseRemark;
+    }
+
+    public BigDecimal getNonTaxPrice() {
+        return nonTaxPrice;
+    }
+
+    public void setNonTaxPrice(BigDecimal nonTaxPrice) {
+        this.nonTaxPrice = nonTaxPrice;
+    }
+
+    public Integer getPreInspectNum() {
+        return preInspectNum;
+    }
+
+    public void setPreInspectNum(Integer preInspectNum) {
+        this.preInspectNum = preInspectNum;
     }
 }
 

@@ -23,6 +23,8 @@ public class InspectApply {
 
     private Date inspectDate;
 
+    private Boolean enterEruiWarehouse;
+
     private String remark;
 
     private Boolean history;
@@ -127,6 +129,14 @@ public class InspectApply {
 
     public void setInspectDate(Date inspectDate) {
         this.inspectDate = inspectDate;
+    }
+
+    public Boolean getEnterEruiWarehouse() {
+        return enterEruiWarehouse;
+    }
+
+    public void setEnterEruiWarehouse(Boolean enterEruiWarehouse) {
+        this.enterEruiWarehouse = enterEruiWarehouse;
     }
 
     public String getRemark() {

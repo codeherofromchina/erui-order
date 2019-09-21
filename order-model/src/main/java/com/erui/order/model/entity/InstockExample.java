@@ -572,6 +572,216 @@ public class InstockExample {
             return (Criteria) this;
         }
 
+        public Criteria andContractNoIsNull() {
+            addCriterion("contract_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIsNotNull() {
+            addCriterion("contract_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoEqualTo(String value) {
+            addCriterion("contract_no =", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotEqualTo(String value) {
+            addCriterion("contract_no <>", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThan(String value) {
+            addCriterion("contract_no >", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
+            addCriterion("contract_no >=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThan(String value) {
+            addCriterion("contract_no <", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThanOrEqualTo(String value) {
+            addCriterion("contract_no <=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLike(String value) {
+            addCriterion("contract_no like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotLike(String value) {
+            addCriterion("contract_no not like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIn(List<String> values) {
+            addCriterion("contract_no in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotIn(List<String> values) {
+            addCriterion("contract_no not in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoBetween(String value1, String value2) {
+            addCriterion("contract_no between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotBetween(String value1, String value2) {
+            addCriterion("contract_no not between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoIsNull() {
+            addCriterion("project_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoIsNotNull() {
+            addCriterion("project_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoEqualTo(String value) {
+            addCriterion("project_no =", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotEqualTo(String value) {
+            addCriterion("project_no <>", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoGreaterThan(String value) {
+            addCriterion("project_no >", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoGreaterThanOrEqualTo(String value) {
+            addCriterion("project_no >=", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoLessThan(String value) {
+            addCriterion("project_no <", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoLessThanOrEqualTo(String value) {
+            addCriterion("project_no <=", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoLike(String value) {
+            addCriterion("project_no like", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotLike(String value) {
+            addCriterion("project_no not like", value, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoIn(List<String> values) {
+            addCriterion("project_no in", values, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotIn(List<String> values) {
+            addCriterion("project_no not in", values, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoBetween(String value1, String value2) {
+            addCriterion("project_no between", value1, value2, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNoNotBetween(String value1, String value2) {
+            addCriterion("project_no not between", value1, value2, "projectNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoIsNull() {
+            addCriterion("purch_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoIsNotNull() {
+            addCriterion("purch_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoEqualTo(String value) {
+            addCriterion("purch_no =", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoNotEqualTo(String value) {
+            addCriterion("purch_no <>", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoGreaterThan(String value) {
+            addCriterion("purch_no >", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoGreaterThanOrEqualTo(String value) {
+            addCriterion("purch_no >=", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoLessThan(String value) {
+            addCriterion("purch_no <", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoLessThanOrEqualTo(String value) {
+            addCriterion("purch_no <=", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoLike(String value) {
+            addCriterion("purch_no like", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoNotLike(String value) {
+            addCriterion("purch_no not like", value, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoIn(List<String> values) {
+            addCriterion("purch_no in", values, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoNotIn(List<String> values) {
+            addCriterion("purch_no not in", values, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoBetween(String value1, String value2) {
+            addCriterion("purch_no between", value1, value2, "purchNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchNoNotBetween(String value1, String value2) {
+            addCriterion("purch_no not between", value1, value2, "purchNo");
+            return (Criteria) this;
+        }
+
         public Criteria andSupplierNameIsNull() {
             addCriterion("supplier_name is null");
             return (Criteria) this;
@@ -642,63 +852,63 @@ public class InstockExample {
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckIsNull() {
-            addCriterion("out_check is null");
+        public Criteria andEnterEruiWarehouseIsNull() {
+            addCriterion("enter_erui_warehouse is null");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckIsNotNull() {
-            addCriterion("out_check is not null");
+        public Criteria andEnterEruiWarehouseIsNotNull() {
+            addCriterion("enter_erui_warehouse is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckEqualTo(Boolean value) {
-            addCriterion("out_check =", value, "outCheck");
+        public Criteria andEnterEruiWarehouseEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse =", value, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckNotEqualTo(Boolean value) {
-            addCriterion("out_check <>", value, "outCheck");
+        public Criteria andEnterEruiWarehouseNotEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse <>", value, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckGreaterThan(Boolean value) {
-            addCriterion("out_check >", value, "outCheck");
+        public Criteria andEnterEruiWarehouseGreaterThan(Boolean value) {
+            addCriterion("enter_erui_warehouse >", value, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckGreaterThanOrEqualTo(Boolean value) {
-            addCriterion("out_check >=", value, "outCheck");
+        public Criteria andEnterEruiWarehouseGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse >=", value, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckLessThan(Boolean value) {
-            addCriterion("out_check <", value, "outCheck");
+        public Criteria andEnterEruiWarehouseLessThan(Boolean value) {
+            addCriterion("enter_erui_warehouse <", value, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckLessThanOrEqualTo(Boolean value) {
-            addCriterion("out_check <=", value, "outCheck");
+        public Criteria andEnterEruiWarehouseLessThanOrEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse <=", value, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckIn(List<Boolean> values) {
-            addCriterion("out_check in", values, "outCheck");
+        public Criteria andEnterEruiWarehouseIn(List<Boolean> values) {
+            addCriterion("enter_erui_warehouse in", values, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckNotIn(List<Boolean> values) {
-            addCriterion("out_check not in", values, "outCheck");
+        public Criteria andEnterEruiWarehouseNotIn(List<Boolean> values) {
+            addCriterion("enter_erui_warehouse not in", values, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckBetween(Boolean value1, Boolean value2) {
-            addCriterion("out_check between", value1, value2, "outCheck");
+        public Criteria andEnterEruiWarehouseBetween(Boolean value1, Boolean value2) {
+            addCriterion("enter_erui_warehouse between", value1, value2, "enterEruiWarehouse");
             return (Criteria) this;
         }
 
-        public Criteria andOutCheckNotBetween(Boolean value1, Boolean value2) {
-            addCriterion("out_check not between", value1, value2, "outCheck");
+        public Criteria andEnterEruiWarehouseNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("enter_erui_warehouse not between", value1, value2, "enterEruiWarehouse");
             return (Criteria) this;
         }
 

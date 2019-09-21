@@ -16,37 +16,44 @@ public class DeliverNoticeFactory {
         if (saveRequest == null) {
             return null;
         }
-        DeliverNotice DeliverNotice = new DeliverNotice();
-        DeliverNotice.setId(saveRequest.getId());
+        DeliverNotice deliverNotice = new DeliverNotice();
+        deliverNotice.setId(saveRequest.getId());
 
-        return DeliverNotice;
+        return deliverNotice;
     }
 
-    public static DeliverNoticeDetailResponse DeliverNoticeDetailResponse(DeliverNotice DeliverNotice) {
-        if (DeliverNotice == null) {
+    public static DeliverNoticeDetailResponse deliverNoticeDetailResponse(DeliverNotice deliverNotice) {
+        if (deliverNotice == null) {
             return null;
         }
 
         DeliverNoticeDetailResponse DeliverNoticeDetailResponse = new DeliverNoticeDetailResponse();
-        DeliverNoticeDetailResponse.setId(DeliverNotice.getId());
+        DeliverNoticeDetailResponse.setId(deliverNotice.getId());
+        DeliverNoticeDetailResponse.setDeliverConsignId(deliverNotice.getDeliverConsignId());
 
         return DeliverNoticeDetailResponse;
     }
 
-    public static DeliverNoticeListResponse DeliverNoticeListResponse(DeliverNotice DeliverNotice) {
-        if (DeliverNotice == null) {
+    public static DeliverNoticeListResponse deliverNoticeListResponse(DeliverNotice deliverNotice) {
+        if (deliverNotice == null) {
             return null;
         }
-        DeliverNoticeListResponse DeliverNoticeListResponse = new DeliverNoticeListResponse();
-        DeliverNoticeListResponse.setId(DeliverNotice.getId());
+        DeliverNoticeListResponse deliverNoticeListResponse = new DeliverNoticeListResponse();
+        deliverNoticeListResponse.setId(deliverNotice.getId());
+        deliverNoticeListResponse.setDeliverConsignId(deliverNotice.getDeliverConsignId());
+        deliverNoticeListResponse.setContractNo(deliverNotice.getContractNo());
+        deliverNoticeListResponse.setCrmCode(deliverNotice.getCrmCode());
+//        deliverNoticeListResponse.setDeliveryDate(deliverNotice.getSecon);
+//        deliverNoticeListResponse.setExecCoName(deliverNotice.);
+        deliverNoticeListResponse.setOperationSpecialistId(deliverNotice.getOperationSpecialistId());
 
-//        DeliverNoticeListResponse.setDeliverNoticeStatus(DELIVER_NOTICE.getDeliverNoticeStatus());
-//        DeliverNoticeStatusEnum statusEnum = DeliverNoticeStatusEnum.valueOf(DELIVER_NOTICE.getDeliverNoticeStatus());
-//        if (statusEnum != null) {
-//            DeliverNoticeListResponse.setDeliverNoticeStatusName(statusEnum.getName());
-//        }
+        deliverNoticeListResponse.setDeliverNoticeStatus(deliverNotice.getDeliverNoticeStatus());
+        DeliverNoticeStatusEnum statusEnum = DeliverNoticeStatusEnum.valueOf(deliverNotice.getDeliverNoticeStatus());
+        if (statusEnum != null) {
+            deliverNoticeListResponse.setDeliverNoticeStatusName(statusEnum.getName());
+        }
 
-        return DeliverNoticeListResponse;
+        return deliverNoticeListResponse;
     }
 }
 

@@ -22,33 +22,33 @@ import java.util.stream.Collectors;
 public class DeliverConsignGoodsServiceImpl implements DeliverConsignGoodsService {
     private static Logger LOGGER = LoggerFactory.getLogger(DeliverConsignGoodsServiceImpl.class);
     @Autowired
-    private DeliverConsignGoodsMapper DeliverConsignGoodsMapper;
+    private DeliverConsignGoodsMapper deliverConsignGoods;
 
 
     @Override
-    public int insertOnDuplicateIdUpdate(Long parentId, List<DeliverConsignGoodsInfo> DeliverConsignGoodsInfos) throws Exception {
-        if (parentId == null) {
-            throw new Exception("采购合同ID错误");
+    public int insertOnDuplicateIdUpdate(Long deliverConsignId, List<DeliverConsignGoodsInfo> deliverConsignGoodsInfoList) throws Exception {
+        if (deliverConsignId == null) {
+            throw new Exception("订舱ID错误");
         }
-        List<DeliverConsignGoods> DeliverConsignGoodses = listByDeliverConsignId02(parentId);
-        Set<Long> DeliverConsignGoodsIds = DeliverConsignGoodses.stream().map(DeliverConsignGoods::getId).collect(Collectors.toSet());
+        List<DeliverConsignGoods> deliverConsignGoods = listByDeliverConsignId02(deliverConsignId);
+        Set<Long> deliverConsignGoodsIdSet = deliverConsignGoods.stream().map(DeliverConsignGoods::getId).collect(Collectors.toSet());
 
         int updateNum = 0;
-        for (DeliverConsignGoodsInfo DeliverConsignGoodsInfo : DeliverConsignGoodsInfos) {
-            Long id = DeliverConsignGoodsInfo.getId();
+        for (DeliverConsignGoodsInfo deliverConsignGoodsInfo : deliverConsignGoodsInfoList) {
+            Long id = deliverConsignGoodsInfo.getId();
             if (id == null) {
-                updateNum += insert(parentId, DeliverConsignGoodsInfo);
-            } else if (DeliverConsignGoodsIds.remove(id)) {
+                updateNum += insert(deliverConsignId, deliverConsignGoodsInfo);
+            } else if (deliverConsignGoodsIdSet.remove(id)) {
                 // 更新操作
-                updateNum += updateById(id, DeliverConsignGoodsInfo);
+                updateNum += updateById(id, deliverConsignGoodsInfo);
             } else {
                 // 抛出异常，不是给定业务数据
                 throw new Exception("采购合同商品错误");
             }
         }
 
-        if (DeliverConsignGoodsIds.size() > 0) {
-            delete(DeliverConsignGoodsIds.toArray(new Long[DeliverConsignGoodsIds.size()]));
+        if (deliverConsignGoodsIdSet.size() > 0) {
+            delete(deliverConsignGoodsIdSet.toArray(new Long[deliverConsignGoodsIdSet.size()]));
         }
         return updateNum;
 
@@ -56,25 +56,26 @@ public class DeliverConsignGoodsServiceImpl implements DeliverConsignGoodsServic
     }
 
     @Override
-    public int insert(Long purchId, List<DeliverConsignGoodsInfo> DeliverConsignGoodsList) {
+    public int insert(Long deliverConsignId, List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos) {
         int insertNum = 0;
-        for (DeliverConsignGoodsInfo DeliverConsignGoodsInfo : DeliverConsignGoodsList) {
-            insertNum += insert(purchId, DeliverConsignGoodsInfo);
+        for (DeliverConsignGoodsInfo deliverConsignGoodsInfo : deliverConsignGoodsInfos) {
+            insertNum += insert(deliverConsignId, deliverConsignGoodsInfo);
         }
         return insertNum;
     }
 
 
     @Override
-    public int insert(Long purchId, DeliverConsignGoodsInfo DeliverConsignGoodsInfo) {
-        DeliverConsignGoods DeliverConsignGoods = DeliverConsignGoodsFactory.DeliverConsignGoods(DeliverConsignGoodsInfo);
+    public int insert(Long purchId, DeliverConsignGoodsInfo deliverConsignGoodsInfo) {
+        DeliverConsignGoods deliverConsignGoods = DeliverConsignGoodsFactory.deliverConsignGoods(deliverConsignGoodsInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        DeliverConsignGoods.setDeliverConsignId(purchId);
+        deliverConsignGoods.setDeliverConsignId(purchId);
         if (userInfo != null) {
-            DeliverConsignGoods.setCreateUserId(userInfo.getId());
+            deliverConsignGoods.setCreateUserId(userInfo.getId());
         }
-        DeliverConsignGoods.setCreateTime(new Date());
-        return DeliverConsignGoodsMapper.insert(DeliverConsignGoods);
+        deliverConsignGoods.setCreateTime(new Date());
+        deliverConsignGoods.setDeleteFlag(Boolean.FALSE);
+        return this.deliverConsignGoods.insert(deliverConsignGoods);
     }
 
 
@@ -101,25 +102,25 @@ public class DeliverConsignGoodsServiceImpl implements DeliverConsignGoodsServic
         DeliverConsignGoodsSelective.setDeleteFlag(Boolean.TRUE);
         DeliverConsignGoodsSelective.setDeleteTime(new Date());
 
-        DeliverConsignGoodsMapper.updateByExampleSelective(DeliverConsignGoodsSelective, example);
+        deliverConsignGoods.updateByExampleSelective(DeliverConsignGoodsSelective, example);
     }
 
     @Override
-    public int updateById(Long id, DeliverConsignGoodsInfo DeliverConsignGoodsInfo) throws Exception {
-        DeliverConsignGoods DeliverConsignGoods = DeliverConsignGoodsMapper.selectByPrimaryKey(id);
-        if (DeliverConsignGoods == null) {
-            throw new Exception("采购合同商品不存在");
+    public int updateById(Long id, DeliverConsignGoodsInfo deliverConsignGoodsInfo) throws Exception {
+        DeliverConsignGoods deliverConsignGoods = this.deliverConsignGoods.selectByPrimaryKey(id);
+        if (deliverConsignGoods == null) {
+            throw new Exception("订舱商品不存在");
         }
 
-        DeliverConsignGoods contractGoods = DeliverConsignGoodsFactory.DeliverConsignGoods(DeliverConsignGoodsInfo);
-        contractGoods.setId(id);
-        contractGoods.setUpdateTime(new Date());
+        DeliverConsignGoods deliverConsignGoodsSelective = DeliverConsignGoodsFactory.deliverConsignGoods(deliverConsignGoodsInfo);
+        deliverConsignGoodsSelective.setId(id);
+        deliverConsignGoodsSelective.setUpdateTime(new Date());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
-            contractGoods.setUpdateUserId(userInfo.getId());
+            deliverConsignGoodsSelective.setUpdateUserId(userInfo.getId());
         }
 
-        return DeliverConsignGoodsMapper.updateByPrimaryKeySelective(contractGoods);
+        return this.deliverConsignGoods.updateByPrimaryKeySelective(deliverConsignGoodsSelective);
     }
 
     @Override
@@ -132,7 +133,7 @@ public class DeliverConsignGoodsServiceImpl implements DeliverConsignGoodsServic
         DeliverConsignGoodsExample example = new DeliverConsignGoodsExample();
         example.createCriteria().andDeliverConsignIdEqualTo(purchId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<DeliverConsignGoods> DeliverConsignGoodsList = DeliverConsignGoodsMapper.selectByExample(example);
+        List<DeliverConsignGoods> DeliverConsignGoodsList = deliverConsignGoods.selectByExample(example);
         if (DeliverConsignGoodsList == null) {
             DeliverConsignGoodsList = new ArrayList<>();
         }

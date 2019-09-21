@@ -2,36 +2,20 @@ package com.erui.order.common.pojo;
 
 /**
  * @Auther 王晓丹
- * @Date 2019/9/8 下午10:28
+ * @Date 2019/9/20 下午3:55
  */
-public class InspectApplyGoodsInfo {
-    // 主键
+public class InspectReportGoodsInfo {
     private Long id;
-    // '商品ID'
+    // 订单商品数量
     private Long orderGoodsId;
-    // 采购单商品ID
-    private Long purchGoodsId;
-    // 报检数量
-    private Integer inspectNum;
-    // 重量
-    private String height;
-    // 长宽高
-    private String lwh;
+    // 抽样数量
+    private Integer samples;
     // 不合格数量
     private Integer unqualified;
     // 不合格描述
     private String unqualifiedDesc;
     // 不合格类型
     private Short unqualifiedType;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
 
     public Long getOrderGoodsId() {
         return orderGoodsId;
@@ -41,36 +25,20 @@ public class InspectApplyGoodsInfo {
         this.orderGoodsId = orderGoodsId;
     }
 
-    public Long getPurchGoodsId() {
-        return purchGoodsId;
+    public Long getId() {
+        return id;
     }
 
-    public void setPurchGoodsId(Long purchGoodsId) {
-        this.purchGoodsId = purchGoodsId;
+    public void setId(Long id) {
+        this.id = id;
     }
 
-    public Integer getInspectNum() {
-        return inspectNum;
+    public Integer getSamples() {
+        return samples;
     }
 
-    public void setInspectNum(Integer inspectNum) {
-        this.inspectNum = inspectNum;
-    }
-
-    public String getHeight() {
-        return height;
-    }
-
-    public void setHeight(String height) {
-        this.height = height;
-    }
-
-    public String getLwh() {
-        return lwh;
-    }
-
-    public void setLwh(String lwh) {
-        this.lwh = lwh;
+    public void setSamples(Integer samples) {
+        this.samples = samples;
     }
 
     public Integer getUnqualified() {
@@ -97,4 +65,3 @@ public class InspectApplyGoodsInfo {
         this.unqualifiedType = unqualifiedType;
     }
 }
-

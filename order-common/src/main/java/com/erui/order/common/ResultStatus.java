@@ -9,7 +9,8 @@ import java.util.Map;
 public enum ResultStatus {
     SUCCESS(0, "成功"),
     FAIL(1, "失败"),
-    PARAM_ERROR(2, "参数错误");
+    PARAM_ERROR(2, "参数错误"),
+    CONTENT_NULL(4, "内容为空");
 
     private int code;
     private String msg;

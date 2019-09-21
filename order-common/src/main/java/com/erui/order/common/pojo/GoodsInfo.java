@@ -14,6 +14,14 @@ public class GoodsInfo {
     private Long orderGoodsId;
     // 采购合同表
     private Long purchContractGoodsId;
+    // 采购表
+    private Long purchGoodsId;
+    // 报检表
+    private Long inspectApplyGoodsId;
+    // 入库商品ID
+    private Long instockGoodsId;
+    // 订舱商品ID
+    private Long deliverConsignGoodsId;
     // 采购ID
     private Long purchId;
     // 销售合同号
@@ -45,18 +53,14 @@ public class GoodsInfo {
     private String brand;
     // 采购需用日期
     private Date requirePurchaseDate;
-
     // 技术要求和使用条件
     private String techRequire;
-
-    // 质检类型 和 质检方法
+    // 质检类型
     private String checkType;
-
+    // 质检方法
     private String checkMethod;
-
     // 合格证
     private String certificate;
-
     // 技术审核
     private String techAudit;
     // '采购合同采购单价'
@@ -65,6 +69,24 @@ public class GoodsInfo {
     private BigDecimal purchasedPrice;
     // 采购的商品备注
     private String purchasedRemark;
+    // 报检数量
+    private Integer inspectNum;
+    // 重量
+    private String height;
+    // 长宽高
+    private String lwh;
+    // 不合格数量
+    private Integer unqualified;
+    // 不合格描述
+    private String unqualifiedDesc;
+    // 不合格类型
+    private Short unqualifiedType;
+    // 入库数量
+    private Integer instockNum;
+    // 货物存放地
+    private String instockStock;
+    // 订舱本次发货数量
+    private Short sendNum;
 
 
     public Long getId() {
@@ -282,6 +304,112 @@ public class GoodsInfo {
     }
 
     public void setPurchasedRemark(String purchasedRemark) {
+
+
         this.purchasedRemark = purchasedRemark;
+    }
+
+    public Long getPurchGoodsId() {
+        return purchGoodsId;
+    }
+
+    public void setPurchGoodsId(Long purchGoodsId) {
+        this.purchGoodsId = purchGoodsId;
+    }
+
+    public Long getInspectApplyGoodsId() {
+        return inspectApplyGoodsId;
+    }
+
+    public void setInspectApplyGoodsId(Long inspectApplyGoodsId) {
+        this.inspectApplyGoodsId = inspectApplyGoodsId;
+    }
+
+    public Long getInstockGoodsId() {
+        return instockGoodsId;
+    }
+
+    public void setInstockGoodsId(Long instockGoodsId) {
+        this.instockGoodsId = instockGoodsId;
+    }
+
+    public Long getDeliverConsignGoodsId() {
+        return deliverConsignGoodsId;
+    }
+
+    public void setDeliverConsignGoodsId(Long deliverConsignGoodsId) {
+        this.deliverConsignGoodsId = deliverConsignGoodsId;
+    }
+
+    public Integer getInspectNum() {
+        return inspectNum;
+    }
+
+    public void setInspectNum(Integer inspectNum) {
+        this.inspectNum = inspectNum;
+    }
+
+    public String getHeight() {
+        return height;
+    }
+
+    public void setHeight(String height) {
+        this.height = height;
+    }
+
+    public String getLwh() {
+        return lwh;
+    }
+
+    public void setLwh(String lwh) {
+        this.lwh = lwh;
+    }
+
+    public Integer getUnqualified() {
+        return unqualified;
+    }
+
+    public void setUnqualified(Integer unqualified) {
+        this.unqualified = unqualified;
+    }
+
+    public String getUnqualifiedDesc() {
+        return unqualifiedDesc;
+    }
+
+    public void setUnqualifiedDesc(String unqualifiedDesc) {
+        this.unqualifiedDesc = unqualifiedDesc;
+    }
+
+    public Short getUnqualifiedType() {
+        return unqualifiedType;
+    }
+
+    public void setUnqualifiedType(Short unqualifiedType) {
+        this.unqualifiedType = unqualifiedType;
+    }
+
+    public Integer getInstockNum() {
+        return instockNum;
+    }
+
+    public String getInstockStock() {
+        return instockStock;
+    }
+
+    public void setInstockNum(Integer instockNum) {
+        this.instockNum = instockNum;
+    }
+
+    public void setInstockStock(String instockStock) {
+        this.instockStock = instockStock;
+    }
+
+    public Short getSendNum() {
+        return sendNum;
+    }
+
+    public void setSendNum(Short sendNum) {
+        this.sendNum = sendNum;
     }
 }

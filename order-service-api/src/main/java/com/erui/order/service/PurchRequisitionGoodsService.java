@@ -12,4 +12,6 @@ public interface PurchRequisitionGoodsService {
     int insert(Long purchRequisitionId, PurchRequisitionGoodsInfo purchRequisitionGoodsInfo);
 
     List<PurchRequisitionGoodsInfo> list(Long purchRequisitionId);
+
+    PurchRequisitionGoodsInfo findById(Long id);
 }

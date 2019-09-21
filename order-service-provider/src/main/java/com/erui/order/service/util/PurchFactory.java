@@ -14,7 +14,7 @@ import com.erui.order.model.entity.Purch;
  */
 public class PurchFactory {
 
-    public static Purch Purch(PurchSaveRequest saveRequest) {
+    public static Purch purch(PurchSaveRequest saveRequest) {
         if (saveRequest == null) {
             return null;
         }
@@ -41,14 +41,33 @@ public class PurchFactory {
         return Purch;
     }
 
-    public static PurchDetailResponse PurchDetailResponse(Purch Purch) {
-        if (Purch == null) {
+    public static PurchDetailResponse purchDetailResponse(Purch purch) {
+        if (purch == null) {
             return null;
         }
 
         PurchDetailResponse purchDetailResponse = new PurchDetailResponse();
-        purchDetailResponse.setId(Purch.getId());
-        purchDetailResponse.setPurchStatus(Purch.getPurchStatus());
+        purchDetailResponse.setId(purch.getId());
+        purchDetailResponse.setPurchContractId(purch.getPurchContractId());
+        purchDetailResponse.setPurchNo(purch.getPurchNo());
+        purchDetailResponse.setArrivalDate(purch.getArrivalDate());
+        purchDetailResponse.setSigningDate(purch.getSigningDate());
+        purchDetailResponse.setSupplierId(purch.getSupplierId());
+        purchDetailResponse.setContractTag(purch.getContractTag());
+        purchDetailResponse.setPurChgDate(purch.getPurChgDate());
+        purchDetailResponse.setGoalCost(purch.getGoalCost());
+        purchDetailResponse.setSaveAmount(purch.getSaveAmount());
+        purchDetailResponse.setSaveNode(purch.getSaveMode());
+        purchDetailResponse.setPriceMode(purch.getPriceMode());
+        purchDetailResponse.setAgentId(purch.getAgentId());
+        purchDetailResponse.setDepartment(purch.getDepartment());
+        purchDetailResponse.setTotalPrice(purch.getTotalPrice());
+//        purchDetailResponse.setTotalPriceUsd(Purch.totdddddd);
+        purchDetailResponse.setTaxBearing(purch.getTaxBearing());
+        purchDetailResponse.setExchangeRate(purch.getExchangeRate());
+        purchDetailResponse.setProfitPercent(purch.getProfitPercent());
+        purchDetailResponse.setRemarks(purch.getRemarks());
+        purchDetailResponse.setCurrencyBn(purch.getCurrencyBn());
 
         return purchDetailResponse;
     }
@@ -64,6 +83,7 @@ public class PurchFactory {
         purchListResponse.setArrivalDate(purch.getArrivalDate());
         purchListResponse.setSupplierId(purch.getSupplierId());
         purchListResponse.setTotalPrice(purch.getTotalPrice());
+        purchListResponse.setInspected(purch.getInspected());
         purchListResponse.setCurrencyBn(purch.getCurrencyBn());
 
         purchListResponse.setPayStatus(purch.getPurchStatus());

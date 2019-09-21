@@ -7,10 +7,10 @@ package com.erui.order.common.pojo;
 public class DeliverConsignGoodsInfo {
     // 主键
     private Long id;
-    // 对象ID
-    private Long parentId;
-    // '商品ID'
+    // '订单商品ID'
     private Long orderGoodsId;
+    // 本次发货数量
+    private Short sendNum;
 
     public Long getId() {
         return id;
@@ -20,13 +20,6 @@ public class DeliverConsignGoodsInfo {
         this.id = id;
     }
 
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
-    }
 
     public Long getOrderGoodsId() {
         return orderGoodsId;
@@ -36,5 +29,12 @@ public class DeliverConsignGoodsInfo {
         this.orderGoodsId = orderGoodsId;
     }
 
+    public Short getSendNum() {
+        return sendNum;
+    }
+
+    public void setSendNum(Short sendNum) {
+        this.sendNum = sendNum;
+    }
 }
 

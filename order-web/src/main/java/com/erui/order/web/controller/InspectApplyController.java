@@ -3,10 +3,9 @@ package com.erui.order.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.Result;
 import com.erui.order.common.ResultStatus;
-import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
-import com.erui.order.common.pojo.request.InspectApplyQueryRequest;
+import com.erui.order.common.pojo.request.AgainInspectApplyRequest;
 import com.erui.order.common.pojo.request.InspectApplySaveRequest;
 import com.erui.order.common.pojo.response.InspectApplyDetailResponse;
 import com.erui.order.common.pojo.response.InspectApplyListResponse;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @Auther 王晓丹
@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class InspectApplyController {
     private static final Logger LOGGER = LoggerFactory.getLogger(InspectApplyController.class);
     @Autowired
-    private InspectApplyService InspectApplyService;
+    private InspectApplyService inspectApplyService;
 
     /**
      * 保存InspectApply
@@ -52,9 +52,9 @@ public class InspectApplyController {
         try {
             Long id = saveRequest.getId();
             if (id != null) {
-                InspectApplyService.update(id, saveRequest);
+                inspectApplyService.update(id, saveRequest);
             } else {
-                id = InspectApplyService.insert(saveRequest);
+                id = inspectApplyService.insert(saveRequest);
             }
             LOGGER.info("saveInspectApply成功 - {} - {}", JSON.toJSONString(userInfo), id);
         } catch (Exception e) {
@@ -67,23 +67,22 @@ public class InspectApplyController {
 
 
     /**
-     * 分页查询InspectApply列表内容
+     * 根据采购单ID查询InspectApply列表内容
      *
-     * @param queryRequest
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<Pager<InspectApplyListResponse>> list(@RequestBody InspectApplyQueryRequest queryRequest) {
+    public Result<List<InspectApplyListResponse>> list(@RequestBody PrimaryKey purchIdKey) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
-        Result<Pager<InspectApplyListResponse>> result = new Result<>();
+        LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), purchIdKey.getId());
+        Result<List<InspectApplyListResponse>> result = new Result<>();
         try {
-            Pager<InspectApplyListResponse> pageInfo = InspectApplyService.list(queryRequest);
-            result.setData(pageInfo);
-            LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+            List<InspectApplyListResponse> list = inspectApplyService.list(purchIdKey.getId());
+            result.setData(list);
+            LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(list));
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.info("list异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
+            LOGGER.info("list异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(purchIdKey), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;
@@ -101,7 +100,7 @@ public class InspectApplyController {
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
         Result<InspectApplyDetailResponse> result = new Result<>();
         try {
-            InspectApplyDetailResponse detail = InspectApplyService.detail(key.getId());
+            InspectApplyDetailResponse detail = inspectApplyService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {
@@ -112,5 +111,55 @@ public class InspectApplyController {
         return result;
     }
 
+
+    /**
+     * 重新报检
+     *
+     * @param request
+     * @return
+     */
+    @RequestMapping(value = "againInspectApply", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<InspectApplyDetailResponse> againInspectApply(@RequestBody AgainInspectApplyRequest request) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("againInspectApply - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(request));
+        Result<InspectApplyDetailResponse> result = new Result<>();
+        try {
+            inspectApplyService.againInspectApplyInfo(request.getId(), request.getMsg());
+            LOGGER.info("againInspectApply成功 {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(request));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("againInspectApply异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(request), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 获取InspectApply详情
+     *
+     * @param purchId 采购ID
+     * @return
+     */
+    @RequestMapping(value = "detailByPurchId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<InspectApplyDetailResponse> detailByPurchId(@RequestBody PrimaryKey purchId) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(purchId));
+        Result<InspectApplyDetailResponse> result = new Result<>();
+        try {
+            InspectApplyDetailResponse detail = inspectApplyService.detailByPurchId(purchId.getId());
+            if (detail != null) {
+                result.setData(detail);
+            } else {
+                result.setStatus(ResultStatus.CONTENT_NULL);
+            }
+            LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), purchId.getId(), JSON.toJSONString(detail));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("detail异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(purchId), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
 }
 

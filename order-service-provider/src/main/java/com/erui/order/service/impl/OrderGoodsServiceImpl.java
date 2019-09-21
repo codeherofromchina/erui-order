@@ -40,7 +40,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         if (orderId == null) {
             throw new Exception("订单ID错误");
         }
-        List<OrderGoods> orderGoodss = listByOrderId(orderId);
+        List<OrderGoods> orderGoodss = listByOrderId02(orderId);
         Set<Long> orderGoodsIds = orderGoodss.stream().map(OrderGoods::getId).collect(Collectors.toSet());
 
         int updateNum = 0;
@@ -137,7 +137,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 
     @Override
     public List<OrderGoodsInfo> list(Long orderId) {
-        List<OrderGoods> orderGoodsList = listByOrderId(orderId);
+        List<OrderGoods> orderGoodsList = listByOrderId02(orderId);
 
         List<OrderGoodsInfo> orderGoodsInfos = OrderGoodsFactory.orderGoodsInfos(orderGoodsList);
         if (orderGoodsInfos == null) {
@@ -161,7 +161,13 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         return orderGoodsInfo;
     }
 
-    private List<OrderGoods> listByOrderId(Long orderId) {
+    @Override
+    public List<OrderGoodsInfo> listByOrderId(Long orderId) {
+        List<OrderGoods> orderGoodsList = listByOrderId02(orderId);
+        return OrderGoodsFactory.orderGoodsInfos(orderGoodsList);
+    }
+
+    private List<OrderGoods> listByOrderId02(Long orderId) {
         OrderGoodsExample example = new OrderGoodsExample();
         example.createCriteria().andOrderIdEqualTo(orderId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);

@@ -11,37 +11,49 @@ import java.util.List;
  * @Date 2019/9/9 上午12:27
  */
 public class InspectApplyGoodsFactory {
-    public static InspectApplyGoods InspectApplyGoods(InspectApplyGoodsInfo InspectApplyGoodsInfo) {
-        if (InspectApplyGoodsInfo == null) {
+    public static InspectApplyGoods inspectApplyGoods(InspectApplyGoodsInfo inspectApplyGoodsInfo) {
+        if (inspectApplyGoodsInfo == null) {
             return null;
         }
-        InspectApplyGoods InspectApplyGoods = new InspectApplyGoods();
-        InspectApplyGoods.setOrderGoodsId(InspectApplyGoodsInfo.getOrderGoodsId());
+        InspectApplyGoods inspectApplyGoods = new InspectApplyGoods();
+        inspectApplyGoods.setId(inspectApplyGoodsInfo.getId());
+        inspectApplyGoods.setOrderGoodsId(inspectApplyGoodsInfo.getOrderGoodsId());
+        inspectApplyGoods.setPurchGoodsId(inspectApplyGoodsInfo.getPurchGoodsId());
+        inspectApplyGoods.setInspectNum(inspectApplyGoodsInfo.getInspectNum());
+        inspectApplyGoods.setHeight(inspectApplyGoodsInfo.getHeight());
+        inspectApplyGoods.setLwh(inspectApplyGoodsInfo.getLwh());
 
-        return InspectApplyGoods;
+        return inspectApplyGoods;
     }
 
-    public static List<InspectApplyGoodsInfo> InspectApplyGoodsInfo(List<InspectApplyGoods> InspectApplyGoodsList) {
-        if (InspectApplyGoodsList == null) {
+    public static List<InspectApplyGoodsInfo> inspectApplyGoodsInfo(List<InspectApplyGoods> inspectApplyGoodsList) {
+        if (inspectApplyGoodsList == null) {
             return null;
         }
-        List<InspectApplyGoodsInfo> InspectApplyGoodsInfos = new ArrayList<>();
-        for (InspectApplyGoods InspectApplyGoods : InspectApplyGoodsList) {
-
-            InspectApplyGoodsInfos.add(InspectApplyGoodsInfo(InspectApplyGoods));
+        List<InspectApplyGoodsInfo> inspectApplyGoodsInfos = new ArrayList<>();
+        for (InspectApplyGoods inspectApplyGoods : inspectApplyGoodsList) {
+            inspectApplyGoodsInfos.add(inspectApplyGoodsInfo(inspectApplyGoods));
         }
-        return InspectApplyGoodsInfos;
+        return inspectApplyGoodsInfos;
     }
 
 
-    public static InspectApplyGoodsInfo InspectApplyGoodsInfo(InspectApplyGoods InspectApplyGoods) {
-        if (InspectApplyGoods == null) {
+    public static InspectApplyGoodsInfo inspectApplyGoodsInfo(InspectApplyGoods inspectApplyGoods) {
+        if (inspectApplyGoods == null) {
             return null;
         }
-        InspectApplyGoodsInfo InspectApplyGoodsInfo = new InspectApplyGoodsInfo();
-        InspectApplyGoodsInfo.setOrderGoodsId(InspectApplyGoods.getOrderGoodsId());
+        InspectApplyGoodsInfo inspectApplyGoodsInfo = new InspectApplyGoodsInfo();
+        inspectApplyGoodsInfo.setId(inspectApplyGoods.getId());
+        inspectApplyGoodsInfo.setOrderGoodsId(inspectApplyGoods.getOrderGoodsId());
+        inspectApplyGoodsInfo.setPurchGoodsId(inspectApplyGoods.getPurchGoodsId());
+        inspectApplyGoodsInfo.setInspectNum(inspectApplyGoods.getInspectNum());
+        inspectApplyGoodsInfo.setHeight(inspectApplyGoods.getHeight());
+        inspectApplyGoodsInfo.setLwh(inspectApplyGoods.getLwh());
+        inspectApplyGoodsInfo.setUnqualified(inspectApplyGoods.getUnqualified());
+        inspectApplyGoodsInfo.setUnqualifiedDesc(inspectApplyGoods.getUnqualifiedDesc());
+        inspectApplyGoodsInfo.setUnqualifiedType(inspectApplyGoods.getUnqualifiedType());
 
-        return InspectApplyGoodsInfo;
+        return inspectApplyGoodsInfo;
     }
 }
 

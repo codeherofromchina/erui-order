@@ -3,22 +3,24 @@ package com.erui.order.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
 import com.erui.order.common.enums.DeliverConsignStatusEnum;
-import com.erui.order.common.pojo.AttachmentInfo;
-import com.erui.order.common.pojo.Pager;
-import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.DeliverConsignQueryRequest;
 import com.erui.order.common.pojo.request.DeliverConsignSaveRequest;
 import com.erui.order.common.pojo.response.DeliverConsignDetailResponse;
 import com.erui.order.common.pojo.response.DeliverConsignListResponse;
+import com.erui.order.common.pojo.response.InspectApplyDetailResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.DeliverConsignMapper;
+import com.erui.order.mapper.OrderMapper;
 import com.erui.order.model.entity.DeliverConsign;
 import com.erui.order.model.entity.DeliverConsignExample;
-import com.erui.order.service.AttachmentService;
-import com.erui.order.service.DeliverConsignService;
+import com.erui.order.model.entity.Order;
+import com.erui.order.model.entity.Purch;
+import com.erui.order.service.*;
 import com.erui.order.service.util.DeliverConsignFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,25 +30,40 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class DeliverConsignServiceImpl implements DeliverConsignService {
     private static Logger LOGGER = LoggerFactory.getLogger(DeliverConsignServiceImpl.class);
     @Autowired
-    private DeliverConsignMapper DeliverConsignMapper;
+    private DeliverConsignMapper deliverConsignMapper;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private DeliverConsignGoodsService deliverConsignGoodsService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private DeliverConsignBookingSpaceService deliverConsignBookingSpaceService;
+    @Autowired
+    private DeliverConsignPaymentService deliverConsignPaymentService;
+    @Autowired
+    private OrderGoodsService orderGoodsService;
 
     @Override
     public Long insert(DeliverConsignSaveRequest insertRequest) throws Exception {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
-        DeliverConsign DeliverConsign = DeliverConsignFactory.DeliverConsign(insertRequest);
+        DeliverConsign DeliverConsign = DeliverConsignFactory.deliverConsign(insertRequest);
         DeliverConsign.setCreateTime(new Date());
         DeliverConsign.setCreateUserId(userInfo.getId());
-        int insertNum = DeliverConsignMapper.insert(DeliverConsign);
+        int insertNum = deliverConsignMapper.insert(DeliverConsign);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
         }
@@ -69,35 +86,48 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
     public void update(Long id, DeliverConsignSaveRequest updateRequest) throws Exception {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        DeliverConsign DeliverConsign = DeliverConsignMapper.selectByPrimaryKey(id);
-        if (DeliverConsign == null) {
+        DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(id);
+        if (deliverConsign == null) {
             throw new Exception("对象唯一标识错误");
         }
-        DeliverConsignStatusEnum requestStatusEnum = DeliverConsignStatusEnum.valueOf(updateRequest.getDeliverConsignStatus());
-        if (requestStatusEnum == DeliverConsignStatusEnum.INIT) {
+        DeliverConsignStatusEnum deliverConsignStatusEnum = DeliverConsignStatusEnum.valueOf(updateRequest.getDeliverConsignStatus());
+        if (deliverConsignStatusEnum != DeliverConsignStatusEnum.SUBMITED && deliverConsignStatusEnum != DeliverConsignStatusEnum.SAVED) {
             throw new Exception("请求对象的状态错误");
         }
 
-//        DeliverConsignStatusEnum statusEnum = DeliverConsignStatusEnum.valueOf(DeliverConsign.getDeliverConsignStatus());
-//        if (statusEnum != DeliverConsignStatusEnum.INIT && statusEnum != DeliverConsignStatusEnum.SAVED) {
-//            throw new Exception("对象当前状态错误");
-//        }
+        DeliverConsignStatusEnum statusEnum = DeliverConsignStatusEnum.valueOf(deliverConsign.getDeliverConsignStatus());
+        if (statusEnum != DeliverConsignStatusEnum.SAVED) {
+            throw new Exception("订舱当前状态错误");
+        }
 
-        Long DeliverConsignId = DeliverConsign.getId();
+        Long deliverConsignId = deliverConsign.getId();
         // 修改基本信息
-        DeliverConsign DeliverConsignSelective = DeliverConsignFactory.DeliverConsign(updateRequest);
-        DeliverConsignSelective.setId(DeliverConsignId);
-        DeliverConsignSelective.setUpdateTime(new Date());
-        DeliverConsignSelective.setUpdateUserId(userInfo.getId());
+        DeliverConsign deliverConsignSelective = DeliverConsignFactory.deliverConsign(updateRequest);
+        deliverConsignSelective.setId(deliverConsignId);
+        deliverConsignSelective.setUpdateTime(new Date());
+        deliverConsignSelective.setUpdateUserId(userInfo.getId());
 
-        DeliverConsignMapper.updateByPrimaryKeySelective(DeliverConsignSelective);
+        deliverConsignMapper.updateByPrimaryKeySelective(deliverConsignSelective);
+
+        // 商品信息
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfoList = updateRequest.getDeliverConsignGoodsInfoList();
+        deliverConsignGoodsService.insertOnDuplicateIdUpdate(deliverConsignId, deliverConsignGoodsInfoList);
+
+        // 订舱信息
+        DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo = updateRequest.getDeliverConsignBookingSpaceInfo();
+        deliverConsignBookingSpaceService.insertOnDuplicateIdUpdate(deliverConsignId, deliverConsignBookingSpaceInfo);
+
+        // 收款信息
+        List<DeliverConsignPaymentInfo> deliverConsignPaymentInfoList = updateRequest.getDeliverConsignPaymentInfoList();
+        deliverConsignPaymentService.insertOnDuplicateIdUpdate(deliverConsignId, deliverConsignPaymentInfoList);
+
 
         // 对象附件
         List<AttachmentInfo> attachments = updateRequest.getAttachments();
         if (attachments == null) {
             attachments = new ArrayList<>();
         }
-        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.DELIVER_CONSIGN, DeliverConsignId, attachments);
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.DELIVER_CONSIGN, deliverConsignId, attachments);
         if (attachments.size() != attachmentUpdateNum) {
             LOGGER.info("attachmentUpdateNum : {} - {}", attachmentUpdateNum, JSON.toJSONString(updateRequest));
             throw new Exception("对象附件数据操作失败");
@@ -115,39 +145,101 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
         // 未删除
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-//        // 订单状态 1:待确认 2:未执行 3:执行中 4：完成
-//        if (queryRequest.getStatus() != null) {
-//            criteria.andDeliverConsignStatusEqualTo(queryRequest.getStatus());
-//        }
-        List<DeliverConsign> DeliverConsigns = DeliverConsignMapper.selectByExample(example);
+        if (StringUtils.isNotBlank(queryRequest.getDeliverConsignNo())) {
+            criteria.andDeliverConsignNoLike("%" + queryRequest.getDeliverConsignNo() + "%");
+        }
+        if (StringUtils.isNotBlank(queryRequest.getContractNo())) {
+            criteria.andContractNoLike("%" + queryRequest.getContractNo() + "%");
+        }
+        if (StringUtils.isNotBlank(queryRequest.getCrmCode())) {
+            criteria.andCrmCodeLike("%" + queryRequest.getCrmCode() + "%");
+        }
+        if (StringUtils.isNotBlank(queryRequest.getExecCoName())) {
+            criteria.andExecCoNameLike("%" + queryRequest.getExecCoName() + "%");
+        }
+        if (queryRequest.getSubmitTimeStart() != null) {
+            criteria.andSubmitTimeGreaterThanOrEqualTo(queryRequest.getSubmitTimeStart());
+        }
+        if (queryRequest.getSubmitTimeEnd() != null) {
+            criteria.andSubmitTimeLessThanOrEqualTo(queryRequest.getSubmitTimeEnd());
+        }
 
-        List<DeliverConsignListResponse> DeliverConsignListResponses = new ArrayList<>();
-        for (DeliverConsign DeliverConsign : DeliverConsigns) {
-            DeliverConsignListResponse DeliverConsignListResponse = DeliverConsignFactory.DeliverConsignListResponse(DeliverConsign);
-            DeliverConsignListResponses.add(DeliverConsignListResponse);
+        List<DeliverConsign> deliverConsigns = deliverConsignMapper.selectByExample(example);
+
+        List<DeliverConsignListResponse> deliverConsignListResponses = new ArrayList<>();
+        for (DeliverConsign deliverConsign : deliverConsigns) {
+            DeliverConsignListResponse deliverConsignListResponse = DeliverConsignFactory.deliverConsignListResponse(deliverConsign);
+            deliverConsignListResponses.add(deliverConsignListResponse);
         }
         // 输出
-        Page<DeliverConsign> page = (Page) DeliverConsigns;
+        Page<DeliverConsign> page = (Page) deliverConsigns;
         Pager<DeliverConsignListResponse> pager = new Pager<>(page.getPageNum(), page.getPageSize()
-                , page.getPages(), page.getTotal(), DeliverConsignListResponses);
+                , page.getPages(), page.getTotal(), deliverConsignListResponses);
         return pager;
     }
 
     @Override
     public DeliverConsignDetailResponse detail(Long id) throws Exception {
         // 准备数据
-        DeliverConsign DeliverConsign = DeliverConsignMapper.selectByPrimaryKey(id);
-        if (DeliverConsign == null) {
+        DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(id);
+        if (deliverConsign == null) {
             throw new Exception("对象信息不存在");
         }
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.DELIVER_CONSIGN, id);
+        // 查询商品
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(id);
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);
+        // 查询订舱信息
+        DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo = deliverConsignBookingSpaceService.selectByDeliverConsignId(id);
+
 
         // 组织数据
-        DeliverConsignDetailResponse detail = DeliverConsignFactory.DeliverConsignDetailResponse(DeliverConsign);
+        DeliverConsignDetailResponse detail = DeliverConsignFactory.deliverConsignDetailResponse(deliverConsign);
         detail.setAttachments(attachmentInfos);
+        detail.setGoodsInfoList(goodsInfoList);
+        detail.setDeliverConsignBookingSpaceInfo(deliverConsignBookingSpaceInfo);
 
         return detail;
+    }
+
+
+    @Override
+    public List<DeliverConsignListResponse> listByOrderid(Long orderId) {
+        DeliverConsignExample example = new DeliverConsignExample();
+        example.setOrderByClause("id asc");
+        DeliverConsignExample.Criteria criteria = example.createCriteria();
+        criteria.andDeleteFlagEqualTo(Boolean.FALSE).andOrderIdEqualTo(orderId);
+
+        List<DeliverConsign> deliverConsigns = deliverConsignMapper.selectByExample(example);
+
+        return deliverConsigns.stream().map(deliverConsign -> DeliverConsignFactory.deliverConsignListResponse(deliverConsign)).collect(Collectors.toList());
+    }
+
+    @Override
+    public DeliverConsignDetailResponse detailByOrderId(Long orderId) throws Exception {
+        // 准备数据
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+        if (order == null) {
+            throw new Exception("销售订单不存在");
+        }
+        // 查询商品的采购数量是否都已经和预报检数量数量相同，如果相同，返回null，否则返回预显示内容
+        List<OrderGoodsInfo> orderGoodsInfos = orderGoodsService.listByOrderId(orderId);
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByOrderGoods(orderGoodsInfos);
+        // 组装数据
+        DeliverConsignDetailResponse detailResponse = new DeliverConsignDetailResponse();
+        detailResponse.setOrderId(orderId);
+        detailResponse.setFromCountry(order.getFromCountry());
+        detailResponse.setToCountry(order.getToCountry());
+        detailResponse.setFromPort(order.getFromPort());
+        detailResponse.setToPort(order.getToPort());
+        detailResponse.setTotalPriceUsd(order.getTotalPriceUsd());
+        // 商品
+        detailResponse.setGoodsInfoList(goodsInfoList);
+
+        return detailResponse;
+
+
     }
 }
 

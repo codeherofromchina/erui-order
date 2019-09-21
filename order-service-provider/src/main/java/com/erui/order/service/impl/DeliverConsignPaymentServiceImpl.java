@@ -26,29 +26,29 @@ public class DeliverConsignPaymentServiceImpl implements DeliverConsignPaymentSe
 
 
     @Override
-    public int insertOnDuplicateIdUpdate(Long parentId, List<DeliverConsignPaymentInfo> DeliverConsignPaymentInfos) throws Exception {
-        if (parentId == null) {
-            throw new Exception("采购合同ID错误");
+    public int insertOnDuplicateIdUpdate(Long deliverConsignId, List<DeliverConsignPaymentInfo> deliverConsignPaymentInfos) throws Exception {
+        if (deliverConsignId == null) {
+            throw new Exception("订舱ID错误");
         }
-        List<DeliverConsignPayment> DeliverConsignPaymentes = listByDeliverConsignId02(parentId);
-        Set<Long> DeliverConsignPaymentIds = DeliverConsignPaymentes.stream().map(DeliverConsignPayment::getId).collect(Collectors.toSet());
+        List<DeliverConsignPayment> deliverConsignPaymentList = listByDeliverConsignId02(deliverConsignId);
+        Set<Long> deliverConsignPaymentIds = deliverConsignPaymentList.stream().map(DeliverConsignPayment::getId).collect(Collectors.toSet());
 
         int updateNum = 0;
-        for (DeliverConsignPaymentInfo DeliverConsignPaymentInfo : DeliverConsignPaymentInfos) {
-            Long id = DeliverConsignPaymentInfo.getId();
+        for (DeliverConsignPaymentInfo deliverConsignPaymentInfo : deliverConsignPaymentInfos) {
+            Long id = deliverConsignPaymentInfo.getId();
             if (id == null) {
-                updateNum += insert(parentId, DeliverConsignPaymentInfo);
-            } else if (DeliverConsignPaymentIds.remove(id)) {
+                updateNum += insert(deliverConsignId, deliverConsignPaymentInfo);
+            } else if (deliverConsignPaymentIds.remove(id)) {
                 // 更新操作
-                updateNum += updateById(id, DeliverConsignPaymentInfo);
+                updateNum += updateById(id, deliverConsignPaymentInfo);
             } else {
                 // 抛出异常，不是给定业务数据
                 throw new Exception("采购合同商品错误");
             }
         }
 
-        if (DeliverConsignPaymentIds.size() > 0) {
-            delete(DeliverConsignPaymentIds.toArray(new Long[DeliverConsignPaymentIds.size()]));
+        if (deliverConsignPaymentIds.size() > 0) {
+            delete(deliverConsignPaymentIds.toArray(new Long[deliverConsignPaymentIds.size()]));
         }
         return updateNum;
 
@@ -56,25 +56,26 @@ public class DeliverConsignPaymentServiceImpl implements DeliverConsignPaymentSe
     }
 
     @Override
-    public int insert(Long purchId, List<DeliverConsignPaymentInfo> DeliverConsignPaymentList) {
+    public int insert(Long deliverConsignId, List<DeliverConsignPaymentInfo> DeliverConsignPaymentList) {
         int insertNum = 0;
-        for (DeliverConsignPaymentInfo DeliverConsignPaymentInfo : DeliverConsignPaymentList) {
-            insertNum += insert(purchId, DeliverConsignPaymentInfo);
+        for (DeliverConsignPaymentInfo deliverConsignPaymentInfo : DeliverConsignPaymentList) {
+            insertNum += insert(deliverConsignId, deliverConsignPaymentInfo);
         }
         return insertNum;
     }
 
 
     @Override
-    public int insert(Long purchId, DeliverConsignPaymentInfo DeliverConsignPaymentInfo) {
-        DeliverConsignPayment DeliverConsignPayment = DeliverConsignPaymentFactory.DeliverConsignPayment(DeliverConsignPaymentInfo);
+    public int insert(Long deliverConsignId, DeliverConsignPaymentInfo deliverConsignPaymentInfo) {
+        DeliverConsignPayment deliverConsignPayment = DeliverConsignPaymentFactory.deliverConsignPayment(deliverConsignPaymentInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        DeliverConsignPayment.setDeliverConsignId(purchId);
+        deliverConsignPayment.setDeliverConsignId(deliverConsignId);
         if (userInfo != null) {
-            DeliverConsignPayment.setCreateUserId(userInfo.getId());
+            deliverConsignPayment.setCreateUserId(userInfo.getId());
         }
-        DeliverConsignPayment.setCreateTime(new Date());
-        return deliverConsignPaymentMapper.insert(DeliverConsignPayment);
+        deliverConsignPayment.setCreateTime(new Date());
+        deliverConsignPayment.setDeleteFlag(Boolean.FALSE);
+        return deliverConsignPaymentMapper.insert(deliverConsignPayment);
     }
 
 
@@ -105,27 +106,27 @@ public class DeliverConsignPaymentServiceImpl implements DeliverConsignPaymentSe
     }
 
     @Override
-    public int updateById(Long id, DeliverConsignPaymentInfo DeliverConsignPaymentInfo) throws Exception {
-        DeliverConsignPayment DeliverConsignPayment = deliverConsignPaymentMapper.selectByPrimaryKey(id);
-        if (DeliverConsignPayment == null) {
-            throw new Exception("采购合同商品不存在");
+    public int updateById(Long id, DeliverConsignPaymentInfo deliverConsignPaymentInfo) throws Exception {
+        DeliverConsignPayment deliverConsignPayment = deliverConsignPaymentMapper.selectByPrimaryKey(id);
+        if (deliverConsignPayment == null) {
+            throw new Exception("订舱付款不存在");
         }
 
-        DeliverConsignPayment contractGoods = DeliverConsignPaymentFactory.DeliverConsignPayment(DeliverConsignPaymentInfo);
-        contractGoods.setId(id);
-        contractGoods.setUpdateTime(new Date());
+        DeliverConsignPayment deliverConsignPaymentSelective = DeliverConsignPaymentFactory.deliverConsignPayment(deliverConsignPaymentInfo);
+        deliverConsignPaymentSelective.setId(id);
+        deliverConsignPaymentSelective.setUpdateTime(new Date());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
-            contractGoods.setUpdateUserId(userInfo.getId());
+            deliverConsignPaymentSelective.setUpdateUserId(userInfo.getId());
         }
 
-        return deliverConsignPaymentMapper.updateByPrimaryKeySelective(contractGoods);
+        return deliverConsignPaymentMapper.updateByPrimaryKeySelective(deliverConsignPaymentSelective);
     }
 
     @Override
     public List<DeliverConsignPaymentInfo> listByDeliverConsignId(Long deliverConsignId) {
         List<DeliverConsignPayment> DeliverConsignPaymentList = listByDeliverConsignId02(deliverConsignId);
-        return DeliverConsignPaymentFactory.DeliverConsignPaymentInfo(DeliverConsignPaymentList);
+        return DeliverConsignPaymentFactory.deliverConsignPaymentInfo(DeliverConsignPaymentList);
     }
 
     private List<DeliverConsignPayment> listByDeliverConsignId02(Long deliverConsignId) {

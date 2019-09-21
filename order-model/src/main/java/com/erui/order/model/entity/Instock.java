@@ -17,9 +17,15 @@ public class Instock {
 
     private String inspectApplyNo;
 
+    private String contractNo;
+
+    private String projectNo;
+
+    private String purchNo;
+
     private String supplierName;
 
-    private Boolean outCheck;
+    private Boolean enterEruiWarehouse;
 
     private Long submenuId;
 
@@ -91,6 +97,30 @@ public class Instock {
         this.inspectApplyNo = inspectApplyNo;
     }
 
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
+
+    public String getPurchNo() {
+        return purchNo;
+    }
+
+    public void setPurchNo(String purchNo) {
+        this.purchNo = purchNo;
+    }
+
     public String getSupplierName() {
         return supplierName;
     }
@@ -99,12 +129,12 @@ public class Instock {
         this.supplierName = supplierName;
     }
 
-    public Boolean getOutCheck() {
-        return outCheck;
+    public Boolean getEnterEruiWarehouse() {
+        return enterEruiWarehouse;
     }
 
-    public void setOutCheck(Boolean outCheck) {
-        this.outCheck = outCheck;
+    public void setEnterEruiWarehouse(Boolean enterEruiWarehouse) {
+        this.enterEruiWarehouse = enterEruiWarehouse;
     }
 
     public Long getSubmenuId() {

@@ -11,37 +11,42 @@ import java.util.List;
  * @Date 2019/9/9 上午12:27
  */
 public class InstockGoodsFactory {
-    public static InstockGoods InstockGoods(InstockGoodsInfo InstockGoodsInfo) {
-        if (InstockGoodsInfo == null) {
+    public static InstockGoods instockGoods(InstockGoodsInfo instockGoodsInfo) {
+        if (instockGoodsInfo == null) {
             return null;
         }
-        InstockGoods InstockGoods = new InstockGoods();
-        InstockGoods.setOrderGoodsId(InstockGoodsInfo.getOrderGoodsId());
+        InstockGoods instockGoods = new InstockGoods();
+        instockGoods.setOrderGoodsId(instockGoodsInfo.getOrderGoodsId());
+        instockGoods.setInspectApplyGoodsId(instockGoodsInfo.getInspectApplyGoodsId());
+        instockGoods.setInstockNum(instockGoodsInfo.getInstockNum());
+        instockGoods.setInstockStock(instockGoodsInfo.getInstockStock());
 
-        return InstockGoods;
+        return instockGoods;
     }
 
-    public static List<InstockGoodsInfo> InstockGoodsInfo(List<InstockGoods> InstockGoodsList) {
-        if (InstockGoodsList == null) {
+    public static List<InstockGoodsInfo> instockGoodsInfo(List<InstockGoods> instockGoodsList) {
+        if (instockGoodsList == null) {
             return null;
         }
-        List<InstockGoodsInfo> InstockGoodsInfos = new ArrayList<>();
-        for (InstockGoods InstockGoods : InstockGoodsList) {
-
-            InstockGoodsInfos.add(InstockGoodsInfo(InstockGoods));
+        List<InstockGoodsInfo> instockGoodsInfos = new ArrayList<>();
+        for (InstockGoods InstockGoods : instockGoodsList) {
+            instockGoodsInfos.add(instockGoodsInfo(InstockGoods));
         }
-        return InstockGoodsInfos;
+        return instockGoodsInfos;
     }
 
 
-    public static InstockGoodsInfo InstockGoodsInfo(InstockGoods InstockGoods) {
-        if (InstockGoods == null) {
+    public static InstockGoodsInfo instockGoodsInfo(InstockGoods instockGoods) {
+        if (instockGoods == null) {
             return null;
         }
-        InstockGoodsInfo InstockGoodsInfo = new InstockGoodsInfo();
-        InstockGoodsInfo.setOrderGoodsId(InstockGoods.getOrderGoodsId());
-
-        return InstockGoodsInfo;
+        InstockGoodsInfo instockGoodsInfo = new InstockGoodsInfo();
+        instockGoodsInfo.setId(instockGoods.getId());
+        instockGoodsInfo.setOrderGoodsId(instockGoods.getOrderGoodsId());
+        instockGoodsInfo.setInspectApplyGoodsId(instockGoods.getInspectApplyGoodsId());
+        instockGoodsInfo.setInstockNum(instockGoods.getInstockNum());
+        instockGoodsInfo.setInstockStock(instockGoods.getInstockStock());
+        return instockGoodsInfo;
     }
 }
 

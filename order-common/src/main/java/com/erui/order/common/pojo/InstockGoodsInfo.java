@@ -7,10 +7,14 @@ package com.erui.order.common.pojo;
 public class InstockGoodsInfo {
     // 主键
     private Long id;
-    // 对象ID
-    private Long parentId;
-    // '商品ID'
+    // 订单商品ID
     private Long orderGoodsId;
+    // 报检单商品ID
+    private Long inspectApplyGoodsId;
+    // 入库数量
+    private Integer instockNum;
+    // 货物存放地
+    private String instockStock;
 
     public Long getId() {
         return id;
@@ -18,14 +22,6 @@ public class InstockGoodsInfo {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getParentId() {
-        return parentId;
-    }
-
-    public void setParentId(Long parentId) {
-        this.parentId = parentId;
     }
 
     public Long getOrderGoodsId() {
@@ -36,5 +32,28 @@ public class InstockGoodsInfo {
         this.orderGoodsId = orderGoodsId;
     }
 
+    public Long getInspectApplyGoodsId() {
+        return inspectApplyGoodsId;
+    }
+
+    public void setInspectApplyGoodsId(Long inspectApplyGoodsId) {
+        this.inspectApplyGoodsId = inspectApplyGoodsId;
+    }
+
+    public Integer getInstockNum() {
+        return instockNum;
+    }
+
+    public void setInstockNum(Integer instockNum) {
+        this.instockNum = instockNum;
+    }
+
+    public String getInstockStock() {
+        return instockStock;
+    }
+
+    public void setInstockStock(String instockStock) {
+        this.instockStock = instockStock;
+    }
 }
 

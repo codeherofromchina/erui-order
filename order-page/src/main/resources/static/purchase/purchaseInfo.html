@@ -1,0 +1,174 @@
+<script type="text/javascript">
+    // 获取采购合同基本数据
+    var purchaseInfoPageParams = getQueryStringFromGlobalParams();
+    var purchase_info_vue_data = {};
+    var purchase_info_goods_data = [];
+    var purchase_info_attachment_data = [];
+    if (purchaseInfoPageParams.purchaseId) {
+        var purchaseInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/purch/info"}, {"id": purchaseInfoPageParams.purchaseId});
+        if (purchaseInfoResp.code == 0) {
+            purchase_info_vue_data = purchaseInfoResp.data;
+            // 商品内容
+            purchase_info_goods_data = purchase_info_vue_data.purchGoodsList;
+            delete purchase_info_vue_data.purchGoodsList;
+
+            // 附件信息
+            purchase_info_attachment_data = purchase_info_vue_data.attachments;
+            delete purchase_info_vue_data.attachments;
+        }
+        console.info(purchase_info_vue_data);
+    }
+</script>
+
+<div id="purchase_info_form">
+    <div class="easyui-panel" title="基本信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>采购合同号：</label>
+            <div class="input-div">{{purchNo}}</div>
+            <label>合同签订日期：</label>
+            <div class="input-div">{{signingDate}}</div>
+            <label>供应商名称：</label>
+            <div class="input-div">{{supplierName}}</div>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>合同约定到货日期：</label>
+            <div class="input-div">{{arrivalDate}}</div>
+            <label><span style="color:red;">*</span>合同标的物：</label>
+            <div class="input-div">{{contractTag}}</div>
+            <label>合同变更后到货日期：</label>
+            <div class="input-div">{{purChgDate}}</div>
+        </div>
+        <div class="fitem">
+            <label>目标成本（人民币）：</label>
+            <div class="input-div">{{goalCost}} 元</div>
+            <label>节约资金（人民币）：</label>
+            <div class="input-div">{{saveAmount}} 元</div>
+            <label><span style="color:red;">*</span>节约方式：</label>
+            <div class="input-div">{{saveNodeName}}</div>
+        </div>
+        <div class="fitem">
+            <label><span style="color:red;">*</span>定价方式：</label>
+            <div class="input-div">{{priceModeName}}</div>
+            <label>采购经办人：</label>
+            <div class="input-div">{{agentName}}</div>
+            <label>下发部门：</label>
+            <div class="input-div">{{department}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label><span style="color:red;">*</span>采购总金额：</label>
+            <div class="input-div">{{totalPrice}} {{currencyBn}}</div>
+            <label><span style="color:red;">*</span>是否含税：</label>
+            <div class="input-div" v-if="taxBearing">
+                含税
+            </div>
+            <div class="input-div" v-else>
+                不含税
+            </div>
+            <label style="width:160px;">采购总金额（USD）：</label>
+            <div class="input-div">{{totalPriceUsd}}</div>
+        </div>
+
+        <div class="fitem">
+            <label><span style="color:red;">*</span>汇率：</label>
+            <div class="input-div">{{exchangeRate}}</div>
+            <label><span style="color:red;">*</span>利润率%：</label>
+            <div class="input-div">{{profitPercent}}</div>
+        </div>
+
+        <table id="purchase_info_form_goods_table"></table>
+    </div>
+
+    <div class="easyui-panel" title="结算信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem" v-for="(item,i) in purchase_info_vue_data.purchPayments">
+            <label><span style="color:red;">*</span>付款记录：</label>
+            <div class="input-div">{{item.paymentTypeName}}</div>
+            <div class="input-div">{{item.days}} 天</div>
+            <div class="input-div">{{item.money}} {{currencyBn}}</div>
+        </div>
+
+    </div>
+
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">备注：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{remarks}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
+
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:purchase_info_attachment_data"
+                       fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '合同及技术协议';
+                                    case 2: return '定价资料';
+                                    case 3: return '其它';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#purchase_info_form',
+        data: purchase_info_vue_data
+    });
+    $(function () {
+        $("#purchase_info_form_goods_table").datagrid({
+            border: false,
+            singleSelect: true,
+            striped: true,
+            idFiled: 'purchContractGoodsId',
+            rownumbers: true,
+            columns: [[
+                {field: 'contractNo', width: 110, title: '销售合同号'},
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'exeChgDate', width: 100, title: '执行单变更后日期'},
+                {field: 'sku', width: 125, title: '平台SKU'},
+                {field: 'nameEn', width: 80, title: '外文品名'},
+                {field: 'nameZh', width: 80, title: '中文品名'},
+                {field: 'unitName', width: 40, title: '单位'},
+                {field: 'brand', width: 80, title: '品牌'},
+                {field: 'purchaseNum', width: 80, title: '采购合同数量'},
+                {field: 'prePurchasedNum', width: 90, title: '已采购数量'},
+                {field: 'purchasedNum', width: 100, title: '本次采购数量'},
+                {field: 'purchasedPrice', width: 100, title: '单价'},
+                {field: 'purchasedRemark', width: 120, title: '备注'}
+            ]],
+            data: purchase_info_goods_data
+        });
+    });
+</script>

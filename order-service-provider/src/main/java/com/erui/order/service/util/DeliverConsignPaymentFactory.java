@@ -11,35 +11,43 @@ import java.util.List;
  * @Date 2019/9/9 上午12:27
  */
 public class DeliverConsignPaymentFactory {
-    public static DeliverConsignPayment DeliverConsignPayment(DeliverConsignPaymentInfo DeliverConsignPaymentInfo) {
-        if (DeliverConsignPaymentInfo == null) {
+
+    public static DeliverConsignPayment deliverConsignPayment(DeliverConsignPaymentInfo deliverConsignPaymentInfo) {
+        if (deliverConsignPaymentInfo == null) {
             return null;
         }
-        DeliverConsignPayment DeliverConsignPayment = new DeliverConsignPayment();
+        DeliverConsignPayment deliverConsignPayment = new DeliverConsignPayment();
+        deliverConsignPayment.setId(deliverConsignPaymentInfo.getId());
+        deliverConsignPayment.setMoney(deliverConsignPaymentInfo.getMoney());
+        deliverConsignPayment.setPaymentType(deliverConsignPaymentInfo.getPaymentType());
+        deliverConsignPayment.setReceiptTime(deliverConsignPaymentInfo.getReceiptTime());
 
-        return DeliverConsignPayment;
+        return deliverConsignPayment;
     }
 
-    public static List<DeliverConsignPaymentInfo> DeliverConsignPaymentInfo(List<DeliverConsignPayment> DeliverConsignPaymentList) {
-        if (DeliverConsignPaymentList == null) {
+    public static List<DeliverConsignPaymentInfo> deliverConsignPaymentInfo(List<DeliverConsignPayment> deliverConsignPaymentList) {
+        if (deliverConsignPaymentList == null) {
             return null;
         }
-        List<DeliverConsignPaymentInfo> DeliverConsignPaymentInfos = new ArrayList<>();
-        for (DeliverConsignPayment DeliverConsignPayment : DeliverConsignPaymentList) {
-
-            DeliverConsignPaymentInfos.add(DeliverConsignPaymentInfo(DeliverConsignPayment));
+        List<DeliverConsignPaymentInfo> deliverConsignPaymentInfos = new ArrayList<>();
+        for (DeliverConsignPayment deliverConsignPayment : deliverConsignPaymentList) {
+            deliverConsignPaymentInfos.add(deliverConsignPaymentInfo(deliverConsignPayment));
         }
-        return DeliverConsignPaymentInfos;
+        return deliverConsignPaymentInfos;
     }
 
 
-    public static DeliverConsignPaymentInfo DeliverConsignPaymentInfo(DeliverConsignPayment DeliverConsignPayment) {
-        if (DeliverConsignPayment == null) {
+    public static DeliverConsignPaymentInfo deliverConsignPaymentInfo(DeliverConsignPayment deliverConsignPayment) {
+        if (deliverConsignPayment == null) {
             return null;
         }
-        DeliverConsignPaymentInfo DeliverConsignPaymentInfo = new DeliverConsignPaymentInfo();
+        DeliverConsignPaymentInfo deliverConsignPaymentInfo = new DeliverConsignPaymentInfo();
+        deliverConsignPaymentInfo.setId(deliverConsignPayment.getId());
+        deliverConsignPaymentInfo.setMoney(deliverConsignPayment.getMoney());
+        deliverConsignPaymentInfo.setPaymentType(deliverConsignPayment.getPaymentType());
+        deliverConsignPaymentInfo.setReceiptTime(deliverConsignPayment.getReceiptTime());
 
-        return DeliverConsignPaymentInfo;
+        return deliverConsignPaymentInfo;
     }
 }
 

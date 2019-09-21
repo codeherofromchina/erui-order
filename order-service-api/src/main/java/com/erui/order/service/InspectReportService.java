@@ -8,13 +8,14 @@ import com.erui.order.common.pojo.response.InspectReportDetailResponse;
 import com.erui.order.common.pojo.response.InspectReportListResponse;
 
 public interface InspectReportService {
+    
     /**
      * 新建
      *
      * @return
      * @throws Exception
      */
-    Long insert(InspectReportSaveRequest insertRequest) throws Exception;
+    Long insert(Long inspectApplyId) throws Exception;
 
     /**
      * 更新

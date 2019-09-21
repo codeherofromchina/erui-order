@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
  * @Auther 王晓丹
@@ -35,7 +36,7 @@ import javax.validation.Valid;
 public class DeliverConsignController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeliverConsignController.class);
     @Autowired
-    private DeliverConsignService DeliverConsignService;
+    private DeliverConsignService deliverConsignService;
 
     /**
      * 保存DeliverConsign
@@ -52,9 +53,9 @@ public class DeliverConsignController {
         try {
             Long id = saveRequest.getId();
             if (id != null) {
-                DeliverConsignService.update(id, saveRequest);
+                deliverConsignService.update(id, saveRequest);
             } else {
-                id = DeliverConsignService.insert(saveRequest);
+                id = deliverConsignService.insert(saveRequest);
             }
             LOGGER.info("saveDeliverConsign成功 - {} - {}", JSON.toJSONString(userInfo), id);
         } catch (Exception e) {
@@ -78,12 +79,36 @@ public class DeliverConsignController {
         LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
         Result<Pager<DeliverConsignListResponse>> result = new Result<>();
         try {
-            Pager<DeliverConsignListResponse> pageInfo = DeliverConsignService.list(queryRequest);
+            Pager<DeliverConsignListResponse> pageInfo = deliverConsignService.list(queryRequest);
             result.setData(pageInfo);
             LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.info("list异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 分页查询DeliverConsign列表内容
+     *
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "listByOrderId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<List<DeliverConsignListResponse>> listByOrderId(@RequestBody PrimaryKey orderId) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("listByOrderId - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId));
+        Result<List<DeliverConsignListResponse>> result = new Result<>();
+        try {
+            List<DeliverConsignListResponse> pageInfo = deliverConsignService.listByOrderid(orderId.getId());
+            result.setData(pageInfo);
+            LOGGER.info("listByOrderId成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("listByOrderId异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;
@@ -101,12 +126,40 @@ public class DeliverConsignController {
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
         Result<DeliverConsignDetailResponse> result = new Result<>();
         try {
-            DeliverConsignDetailResponse detail = DeliverConsignService.detail(key.getId());
+            DeliverConsignDetailResponse detail = deliverConsignService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.info("detail异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 获取订舱详情
+     *
+     * @param orderId 订单ID
+     * @return
+     */
+    @RequestMapping(value = "detailByOrderId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<DeliverConsignDetailResponse> detailByOrderId(@RequestBody PrimaryKey orderId) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId));
+        Result<DeliverConsignDetailResponse> result = new Result<>();
+        try {
+            DeliverConsignDetailResponse detail = deliverConsignService.detailByOrderId(orderId.getId());
+            if (detail != null) {
+                result.setData(detail);
+            } else {
+                result.setStatus(ResultStatus.CONTENT_NULL);
+            }
+            LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), orderId.getId(), JSON.toJSONString(detail));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("detail异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;

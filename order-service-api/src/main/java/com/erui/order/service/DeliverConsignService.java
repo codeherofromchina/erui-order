@@ -6,6 +6,9 @@ import com.erui.order.common.pojo.request.DeliverConsignQueryRequest;
 import com.erui.order.common.pojo.request.DeliverConsignSaveRequest;
 import com.erui.order.common.pojo.response.DeliverConsignDetailResponse;
 import com.erui.order.common.pojo.response.DeliverConsignListResponse;
+import com.erui.order.common.pojo.response.InspectApplyDetailResponse;
+
+import java.util.List;
 
 public interface DeliverConsignService {
     /**
@@ -38,5 +41,14 @@ public interface DeliverConsignService {
      * @return
      */
     DeliverConsignDetailResponse detail(Long id) throws Exception;
+
+    List<DeliverConsignListResponse> listByOrderid(Long orderId);
+
+    /**
+     * 通过商品ID预加载订舱基本信息
+     * @param orderId
+     * @return
+     */
+    DeliverConsignDetailResponse detailByOrderId(Long orderId) throws Exception;
 }
 

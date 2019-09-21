@@ -61,7 +61,7 @@ public class GoodsController {
         Result<List<GoodsInfo>> result = new Result<>();
         try {
             Long id = purchContractId.getId();
-            List<GoodsInfo> data = goodsService.purchAbleGoodsList(id);
+            List<GoodsInfo> data = goodsService.goodsInfoByPurchContractId(id);
             result.setData(data);
         } catch (Exception e) {
             e.printStackTrace();

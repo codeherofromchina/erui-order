@@ -10,6 +10,8 @@ public class PurchContractGoodsInfo {
     private Long id;
     // '商品ID'
     private Long orderGoodsId;
+    // 采购申请商品
+    private Long purchRequisitionGoodsId;
     // '本次采购数量'
     private Integer purchaseNum;
     // '不含税单价'
@@ -29,6 +31,14 @@ public class PurchContractGoodsInfo {
 
     public Long getOrderGoodsId() {
         return orderGoodsId;
+    }
+
+    public Long getPurchRequisitionGoodsId() {
+        return purchRequisitionGoodsId;
+    }
+
+    public void setPurchRequisitionGoodsId(Long purchRequisitionGoodsId) {
+        this.purchRequisitionGoodsId = purchRequisitionGoodsId;
     }
 
     public void setOrderGoodsId(Long orderGoodsId) {

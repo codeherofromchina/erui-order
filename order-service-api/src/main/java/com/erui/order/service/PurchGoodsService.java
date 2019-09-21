@@ -33,5 +33,7 @@ public interface PurchGoodsService {
     int updateById(Long id, PurchGoodsInfo PurchGoodsInfo) throws Exception;
 
     List<PurchGoodsInfo> listByPurchId(Long purchId);
+
+    PurchGoodsInfo findById(Long id);
 }
 

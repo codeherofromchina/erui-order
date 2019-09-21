@@ -8,9 +8,12 @@
     <result column="instock_date" property="instockDate" jdbcType="DATE" />
     <result column="remarks" property="remarks" jdbcType="VARCHAR" />
     <result column="instock_status" property="instockStatus" jdbcType="SMALLINT" />
-    <result column="inspect_apply_no" property="inspectApplyNo" jdbcType="CHAR" />
+    <result column="inspect_apply_no" property="inspectApplyNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
+    <result column="purch_no" property="purchNo" jdbcType="VARCHAR" />
     <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
-    <result column="out_check" property="outCheck" jdbcType="BIT" />
+    <result column="enter_erui_warehouse" property="enterEruiWarehouse" jdbcType="BIT" />
     <result column="submenu_id" property="submenuId" jdbcType="BIGINT" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
@@ -79,8 +82,8 @@
   </sql>
   <sql id="Base_Column_List" >
     id, inspect_report_id, uid, instock_date, remarks, instock_status, inspect_apply_no, 
-    supplier_name, out_check, submenu_id, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, delete_time
+    contract_no, project_no, purch_no, supplier_name, enter_erui_warehouse, submenu_id, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.InstockExample" >
     select
@@ -115,13 +118,15 @@
   <insert id="insert" parameterType="com.erui.order.model.entity.Instock" >
     insert into instock (id, inspect_report_id, uid, 
       instock_date, remarks, instock_status, 
-      inspect_apply_no, supplier_name, out_check, 
+      inspect_apply_no, contract_no, project_no, 
+      purch_no, supplier_name, enter_erui_warehouse, 
       submenu_id, create_user_id, create_time, 
       update_user_id, update_time, delete_flag, 
       delete_time)
     values (#{id,jdbcType=BIGINT}, #{inspectReportId,jdbcType=BIGINT}, #{uid,jdbcType=BIGINT}, 
       #{instockDate,jdbcType=DATE}, #{remarks,jdbcType=VARCHAR}, #{instockStatus,jdbcType=SMALLINT}, 
-      #{inspectApplyNo,jdbcType=CHAR}, #{supplierName,jdbcType=VARCHAR}, #{outCheck,jdbcType=BIT}, 
+      #{inspectApplyNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
+      #{purchNo,jdbcType=VARCHAR}, #{supplierName,jdbcType=VARCHAR}, #{enterEruiWarehouse,jdbcType=BIT}, 
       #{submenuId,jdbcType=BIGINT}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
       #{deleteTime,jdbcType=TIMESTAMP})
@@ -150,11 +155,20 @@
       <if test="inspectApplyNo != null" >
         inspect_apply_no,
       </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
+      <if test="purchNo != null" >
+        purch_no,
+      </if>
       <if test="supplierName != null" >
         supplier_name,
       </if>
-      <if test="outCheck != null" >
-        out_check,
+      <if test="enterEruiWarehouse != null" >
+        enter_erui_warehouse,
       </if>
       <if test="submenuId != null" >
         submenu_id,
@@ -198,13 +212,22 @@
         #{instockStatus,jdbcType=SMALLINT},
       </if>
       <if test="inspectApplyNo != null" >
-        #{inspectApplyNo,jdbcType=CHAR},
+        #{inspectApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchNo != null" >
+        #{purchNo,jdbcType=VARCHAR},
       </if>
       <if test="supplierName != null" >
         #{supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="outCheck != null" >
-        #{outCheck,jdbcType=BIT},
+      <if test="enterEruiWarehouse != null" >
+        #{enterEruiWarehouse,jdbcType=BIT},
       </if>
       <if test="submenuId != null" >
         #{submenuId,jdbcType=BIGINT},
@@ -257,13 +280,22 @@
         instock_status = #{record.instockStatus,jdbcType=SMALLINT},
       </if>
       <if test="record.inspectApplyNo != null" >
-        inspect_apply_no = #{record.inspectApplyNo,jdbcType=CHAR},
+        inspect_apply_no = #{record.inspectApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.projectNo != null" >
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.purchNo != null" >
+        purch_no = #{record.purchNo,jdbcType=VARCHAR},
       </if>
       <if test="record.supplierName != null" >
         supplier_name = #{record.supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="record.outCheck != null" >
-        out_check = #{record.outCheck,jdbcType=BIT},
+      <if test="record.enterEruiWarehouse != null" >
+        enter_erui_warehouse = #{record.enterEruiWarehouse,jdbcType=BIT},
       </if>
       <if test="record.submenuId != null" >
         submenu_id = #{record.submenuId,jdbcType=BIGINT},
@@ -299,9 +331,12 @@
       instock_date = #{record.instockDate,jdbcType=DATE},
       remarks = #{record.remarks,jdbcType=VARCHAR},
       instock_status = #{record.instockStatus,jdbcType=SMALLINT},
-      inspect_apply_no = #{record.inspectApplyNo,jdbcType=CHAR},
+      inspect_apply_no = #{record.inspectApplyNo,jdbcType=VARCHAR},
+      contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      project_no = #{record.projectNo,jdbcType=VARCHAR},
+      purch_no = #{record.purchNo,jdbcType=VARCHAR},
       supplier_name = #{record.supplierName,jdbcType=VARCHAR},
-      out_check = #{record.outCheck,jdbcType=BIT},
+      enter_erui_warehouse = #{record.enterEruiWarehouse,jdbcType=BIT},
       submenu_id = #{record.submenuId,jdbcType=BIGINT},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
@@ -332,13 +367,22 @@
         instock_status = #{instockStatus,jdbcType=SMALLINT},
       </if>
       <if test="inspectApplyNo != null" >
-        inspect_apply_no = #{inspectApplyNo,jdbcType=CHAR},
+        inspect_apply_no = #{inspectApplyNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
+      <if test="purchNo != null" >
+        purch_no = #{purchNo,jdbcType=VARCHAR},
       </if>
       <if test="supplierName != null" >
         supplier_name = #{supplierName,jdbcType=VARCHAR},
       </if>
-      <if test="outCheck != null" >
-        out_check = #{outCheck,jdbcType=BIT},
+      <if test="enterEruiWarehouse != null" >
+        enter_erui_warehouse = #{enterEruiWarehouse,jdbcType=BIT},
       </if>
       <if test="submenuId != null" >
         submenu_id = #{submenuId,jdbcType=BIGINT},
@@ -371,9 +415,12 @@
       instock_date = #{instockDate,jdbcType=DATE},
       remarks = #{remarks,jdbcType=VARCHAR},
       instock_status = #{instockStatus,jdbcType=SMALLINT},
-      inspect_apply_no = #{inspectApplyNo,jdbcType=CHAR},
+      inspect_apply_no = #{inspectApplyNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      project_no = #{projectNo,jdbcType=VARCHAR},
+      purch_no = #{purchNo,jdbcType=VARCHAR},
       supplier_name = #{supplierName,jdbcType=VARCHAR},
-      out_check = #{outCheck,jdbcType=BIT},
+      enter_erui_warehouse = #{enterEruiWarehouse,jdbcType=BIT},
       submenu_id = #{submenuId,jdbcType=BIGINT},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},

@@ -38,5 +38,7 @@ public interface DeliverNoticeService {
      * @return
      */
     DeliverNoticeDetailResponse detail(Long id) throws Exception;
+
+    DeliverNoticeDetailResponse detailByDeliverConsignId(Long deliverConsignId) throws Exception;
 }
 

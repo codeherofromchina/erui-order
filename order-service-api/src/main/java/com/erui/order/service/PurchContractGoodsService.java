@@ -32,4 +32,6 @@ public interface PurchContractGoodsService {
     int updateById(Long id, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception ;
 
     List<PurchContractGoodsInfo> listByPurchContractId(Long purchContractId);
+
+    PurchContractGoodsInfo findById(Long purchContractGoodsId);
 }

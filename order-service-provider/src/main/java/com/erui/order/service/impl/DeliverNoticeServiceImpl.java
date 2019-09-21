@@ -3,22 +3,27 @@ package com.erui.order.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
 import com.erui.order.common.enums.DeliverNoticeStatusEnum;
-import com.erui.order.common.pojo.AttachmentInfo;
-import com.erui.order.common.pojo.Pager;
-import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.DeliverNoticeQueryRequest;
 import com.erui.order.common.pojo.request.DeliverNoticeSaveRequest;
+import com.erui.order.common.pojo.response.DeliverConsignDetailResponse;
 import com.erui.order.common.pojo.response.DeliverNoticeDetailResponse;
 import com.erui.order.common.pojo.response.DeliverNoticeListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
+import com.erui.order.mapper.DeliverConsignMapper;
 import com.erui.order.mapper.DeliverNoticeMapper;
+import com.erui.order.model.entity.DeliverConsign;
 import com.erui.order.model.entity.DeliverNotice;
 import com.erui.order.model.entity.DeliverNoticeExample;
+import com.erui.order.model.entity.Order;
 import com.erui.order.service.AttachmentService;
+import com.erui.order.service.DeliverConsignGoodsService;
 import com.erui.order.service.DeliverNoticeService;
+import com.erui.order.service.GoodsService;
 import com.erui.order.service.util.DeliverNoticeFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,7 +41,13 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
     @Autowired
     private DeliverNoticeMapper deliverNoticeMapper;
     @Autowired
+    private DeliverConsignMapper deliverConsignMapper;
+    @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private DeliverConsignGoodsService deliverConsignGoodsService;
+    @Autowired
+    private GoodsService goodsService;
 
     @Override
     public Long insert(DeliverNoticeSaveRequest insertRequest) throws Exception {
@@ -115,39 +126,73 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         // 未删除
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-        // 订单状态 1:待确认 2:未执行 3:执行中 4：完成
-        if (queryRequest.getStatus() != null) {
-            criteria.andDeliverNoticeStatusEqualTo(queryRequest.getStatus());
+        if (StringUtils.isNotBlank(queryRequest.getContractNo())) {
+            criteria.andContractNoLike("%" + queryRequest.getContractNo() + "%");
         }
-        List<DeliverNotice> DeliverNotices = deliverNoticeMapper.selectByExample(example);
 
-        List<DeliverNoticeListResponse> DeliverNoticeListResponses = new ArrayList<>();
-        for (DeliverNotice DeliverNotice : DeliverNotices) {
-            DeliverNoticeListResponse DeliverNoticeListResponse = DeliverNoticeFactory.DeliverNoticeListResponse(DeliverNotice);
-            DeliverNoticeListResponses.add(DeliverNoticeListResponse);
+        if (StringUtils.isNotBlank(queryRequest.getCrmCode())) {
+            criteria.andCrmCodeLike("%" + queryRequest.getContractNo() + "%");
+        }
+
+        DeliverNoticeStatusEnum deliverNoticeStatusEnum = DeliverNoticeStatusEnum.valueOf(queryRequest.getDeliverNoticeStatus());
+        if (deliverNoticeStatusEnum != null) {
+            criteria.andDeliverNoticeStatusEqualTo(deliverNoticeStatusEnum.getCode());
+        }
+
+
+        List<DeliverNotice> deliverNoticeList = deliverNoticeMapper.selectByExample(example);
+        List<DeliverNoticeListResponse> deliverNoticeListResponses = new ArrayList<>();
+        for (DeliverNotice deliverNotice : deliverNoticeList) {
+            DeliverNoticeListResponse deliverNoticeListResponse = DeliverNoticeFactory.deliverNoticeListResponse(deliverNotice);
+            deliverNoticeListResponses.add(deliverNoticeListResponse);
         }
         // 输出
-        Page<DeliverNotice> page = (Page) DeliverNotices;
+        Page<DeliverNotice> page = (Page) deliverNoticeList;
         Pager<DeliverNoticeListResponse> pager = new Pager<>(page.getPageNum(), page.getPageSize()
-                , page.getPages(), page.getTotal(), DeliverNoticeListResponses);
+                , page.getPages(), page.getTotal(), deliverNoticeListResponses);
         return pager;
     }
 
     @Override
     public DeliverNoticeDetailResponse detail(Long id) throws Exception {
         // 准备数据
-        DeliverNotice DeliverNotice = deliverNoticeMapper.selectByPrimaryKey(id);
-        if (DeliverNotice == null) {
+        DeliverNotice deliverNotice = deliverNoticeMapper.selectByPrimaryKey(id);
+        if (deliverNotice == null) {
             throw new Exception("对象信息不存在");
         }
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.DELIVER_NOTICE, id);
 
+        // 商品
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverNotice.getDeliverConsignId());
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);
+
         // 组织数据
-        DeliverNoticeDetailResponse detail = DeliverNoticeFactory.DeliverNoticeDetailResponse(DeliverNotice);
+        DeliverNoticeDetailResponse detail = DeliverNoticeFactory.deliverNoticeDetailResponse(deliverNotice);
         detail.setAttachments(attachmentInfos);
+        detail.setGoodsInfos(goodsInfoList);
 
         return detail;
+    }
+
+
+    @Override
+    public DeliverNoticeDetailResponse detailByDeliverConsignId(Long deliverConsignId) throws Exception {
+        // 准备数据
+        DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(deliverConsignId);
+        if (deliverConsign == null) {
+            throw new Exception("订舱信息不存在");
+        }
+        // 查询商品的采购数量是否都已经和预报检数量数量相同，如果相同，返回null，否则返回预显示内容
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverConsignId);
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);
+        // 组装数据
+        DeliverNoticeDetailResponse detailResponse = new DeliverNoticeDetailResponse();
+        detailResponse.setDeliverConsignId(deliverConsignId);
+        // 商品
+        detailResponse.setGoodsInfos(goodsInfoList);
+
+        return detailResponse;
     }
 }
 

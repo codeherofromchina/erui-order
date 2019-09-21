@@ -23,32 +23,41 @@ public class InstockFactory {
         return Instock;
     }
 
-    public static InstockDetailResponse InstockDetailResponse(Instock Instock) {
+    public static InstockDetailResponse instockDetailResponse(Instock Instock) {
         if (Instock == null) {
             return null;
         }
+        InstockDetailResponse instockDetailResponse = new InstockDetailResponse();
+        instockDetailResponse.setId(Instock.getId());
+        instockDetailResponse.setuName(Instock.getSupplierName());
+        instockDetailResponse.setInstockDate(Instock.getInstockDate());
+        instockDetailResponse.setInstockStatus(Instock.getInstockStatus());
+        instockDetailResponse.setRemarks(Instock.getRemarks());
 
-        InstockDetailResponse InstockDetailResponse = new InstockDetailResponse();
-        InstockDetailResponse.setId(Instock.getId());
-        InstockDetailResponse.setInstockStatus(Instock.getInstockStatus());
-
-        return InstockDetailResponse;
+        return instockDetailResponse;
     }
 
-    public static InstockListResponse InstockListResponse(Instock Instock) {
-        if (Instock == null) {
+    public static InstockListResponse instockListResponse(Instock instock) {
+        if (instock == null) {
             return null;
         }
-        InstockListResponse InstockListResponse = new InstockListResponse();
-        InstockListResponse.setId(Instock.getId());
+        InstockListResponse instockListResponse = new InstockListResponse();
+        instockListResponse.setId(instock.getId());
+        instockListResponse.setInspectApplyNo(instock.getInspectApplyNo());
+        instockListResponse.setContractNo(instock.getContractNo());
+        instockListResponse.setProjectNo(instock.getProjectNo());
+        instockListResponse.setPurchNo(instock.getPurchNo());
+        instockListResponse.setSupplierName(instock.getSupplierName());
+        instockListResponse.setEnterEruiWarehouse(instock.getEnterEruiWarehouse());
+        instockListResponse.setInstockDate(instock.getInstockDate());
 
-        InstockListResponse.setInstockStatus(Instock.getInstockStatus());
-        InstockStatusEnum statusEnum = InstockStatusEnum.valueOf(Instock.getInstockStatus());
+        instockListResponse.setInstockStatus(instock.getInstockStatus());
+        InstockStatusEnum statusEnum = InstockStatusEnum.valueOf(instock.getInstockStatus());
         if (statusEnum != null) {
-            InstockListResponse.setInstockStatusName(statusEnum.getName());
+            instockListResponse.setInstockStatusName(statusEnum.getName());
         }
 
-        return InstockListResponse;
+        return instockListResponse;
     }
 }
 

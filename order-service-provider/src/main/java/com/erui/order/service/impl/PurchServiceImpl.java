@@ -47,6 +47,10 @@ public class PurchServiceImpl implements PurchService {
     private PurchPaymentService purchPaymentService;
     @Autowired
     private PurchGoodsService purchGoodsService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private UserService userService;
 
 
     @Override
@@ -54,14 +58,17 @@ public class PurchServiceImpl implements PurchService {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
-        Purch purch = PurchFactory.Purch(insertRequest);
+        Purch purch = PurchFactory.purch(insertRequest);
         PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purch.getPurchContractId());
         if (purchContract == null) {
             throw new Exception("采购合同不存在");
         }
+        purch.setSigningDate(purchContract.getSigningDate());
+        purch.setCurrencyBn(purchContract.getCurrencyBn());
         purch.setPurchNo(purchContract.getPurchContractNo());
-
+        purch.setSupplierId(purchContract.getSupplierId());
         purch.setCreateTime(new Date());
+        purch.setInspected(Boolean.FALSE);
         purch.setCreateUserId(userInfo.getId());
         purch.setDeleteFlag(Boolean.FALSE);
         int insertNum = purchMapper.insert(purch);
@@ -117,26 +124,42 @@ public class PurchServiceImpl implements PurchService {
             throw new Exception("对象当前状态错误");
         }
 
-        Long PurchId = Purch.getId();
+        Long purchId = Purch.getId();
         // 修改基本信息
-        Purch PurchSelective = PurchFactory.Purch(updateRequest);
-        PurchSelective.setId(PurchId);
+        Purch PurchSelective = PurchFactory.purch(updateRequest);
+        PurchSelective.setId(purchId);
         PurchSelective.setUpdateTime(new Date());
         PurchSelective.setUpdateUserId(userInfo.getId());
 
         purchMapper.updateByPrimaryKeySelective(PurchSelective);
+
+        // 商品信息
+        List<PurchGoodsInfo> purchGoodsList = updateRequest.getPurchGoodsList();
+        purchGoodsService.insertOnDuplicateIdUpdate(purchId, purchGoodsList);
+
+
+        // 付款信息
+        List<PurchPaymentInfo> purchPayments = updateRequest.getPurchPayments();
+        if (purchPayments != null && purchPayments.size() > 0) {
+            int purchPaymentInsertNum = purchPaymentService.insertOnDuplicateIdUpdate(purchId, purchPayments);
+            if (purchPayments.size() != purchPaymentInsertNum) {
+                LOGGER.info("purchPaymentInsertNum : {} - {}", purchPaymentInsertNum, JSON.toJSONString(purchPayments));
+                throw new Exception("采购单付款信息数据操作失败");
+            }
+        }
 
         // 对象附件
         List<AttachmentInfo> attachments = updateRequest.getAttachments();
         if (attachments == null) {
             attachments = new ArrayList<>();
         }
-        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.PURCH, PurchId, attachments);
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.PURCH, purchId, attachments);
         if (attachments.size() != attachmentUpdateNum) {
             LOGGER.info("attachmentUpdateNum : {} - {}", attachmentUpdateNum, JSON.toJSONString(updateRequest));
             throw new Exception("对象附件数据操作失败");
         }
     }
+
 
     @Override
     public Pager<PurchListResponse> list(PurchQueryRequest queryRequest) {
@@ -199,16 +222,31 @@ public class PurchServiceImpl implements PurchService {
     @Override
     public PurchDetailResponse detail(Long id) throws Exception {
         // 准备数据
-        Purch Purch = purchMapper.selectByPrimaryKey(id);
-        if (Purch == null) {
+        Purch purch = purchMapper.selectByPrimaryKey(id);
+        if (purch == null) {
             throw new Exception("对象信息不存在");
         }
+        // 商品信息
+        List<PurchGoodsInfo> purchGoodsInfos = purchGoodsService.listByPurchId(purch.getId());
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByPurchGoods(purchGoodsInfos);
+
+
+        // 付款信息
+        List<PurchPaymentInfo> purchPaymentInfos = purchPaymentService.list(purch.getId());
+
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.PURCH, id);
 
         // 组织数据
-        PurchDetailResponse detail = PurchFactory.PurchDetailResponse(Purch);
+        PurchDetailResponse detail = PurchFactory.purchDetailResponse(purch);
+
+        detail.setSupplierName(supplierService.findNameById(detail.getSupplierId()));
+        detail.setAgentName(userService.findNameById(detail.getAgentId()));
+
+
         detail.setAttachments(attachmentInfos);
+        detail.setPurchPayments(purchPaymentInfos);
+        detail.setPurchGoodsList(goodsInfoList);
 
         return detail;
     }

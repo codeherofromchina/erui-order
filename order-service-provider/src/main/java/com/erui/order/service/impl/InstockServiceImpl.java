@@ -3,22 +3,22 @@ package com.erui.order.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
 import com.erui.order.common.enums.InstockStatusEnum;
-import com.erui.order.common.pojo.AttachmentInfo;
-import com.erui.order.common.pojo.Pager;
-import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.InstockQueryRequest;
 import com.erui.order.common.pojo.request.InstockSaveRequest;
 import com.erui.order.common.pojo.response.InstockDetailResponse;
 import com.erui.order.common.pojo.response.InstockListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
+import com.erui.order.mapper.InspectReportMapper;
 import com.erui.order.mapper.InstockMapper;
+import com.erui.order.model.entity.InspectReport;
 import com.erui.order.model.entity.Instock;
 import com.erui.order.model.entity.InstockExample;
-import com.erui.order.service.AttachmentService;
-import com.erui.order.service.InstockService;
+import com.erui.order.service.*;
 import com.erui.order.service.util.InstockFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,67 +37,83 @@ public class InstockServiceImpl implements InstockService {
     private InstockMapper instockMapper;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private InspectReportMapper inspectReportMapper;
+    @Autowired
+    private InspectApplyGoodsService inspectApplyGoodsService;
+    @Autowired
+    private InstockGoodsService instockGoodsService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private UserService userService;
 
     @Override
-    public Long insert(InstockSaveRequest insertRequest) throws Exception {
+    public Long insert(Long inspectReportId) throws Exception {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        // 组织订单数据
-        Instock Instock = InstockFactory.Instock(insertRequest);
-        Instock.setCreateTime(new Date());
-        Instock.setCreateUserId(userInfo.getId());
-        int insertNum = instockMapper.insert(Instock);
-        if (insertNum == 0) {
-            throw new Exception("数据库操作失败");
-        }
-        Long InstockId = Instock.getId();
 
-        // 对象附件操作
-        List<AttachmentInfo> attachments = insertRequest.getAttachments();
-        if (attachments != null && attachments.size() > 0) {
-            int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.INSTOCK, InstockId, attachments);
-            if (attachments.size() != attachmentInsertNum) {
-                LOGGER.info("attachmentInsertNum : {} - {}", attachmentInsertNum, JSON.toJSONString(insertRequest));
-                throw new Exception("订单附件数据操作失败");
-            }
+        InspectReport inspectReport = inspectReportMapper.selectByPrimaryKey(inspectReportId);
+        if (inspectReport == null) {
+            throw new Exception("质检单不存在");
         }
 
-        return InstockId;
+        Instock instock = new Instock();
+        instock.setInspectReportId(inspectReportId);
+        instock.setInspectApplyNo(inspectReport.getInspectApplyNo()); // 报检单号
+        instock.setSupplierName(inspectReport.getSupplierName()); // 供应商
+        instock.setInstockStatus(InstockStatusEnum.INIT.getCode());
+
+        instock.setCreateTime(new Date());
+        instock.setCreateUserId(userInfo.getId());
+        instock.setDeleteFlag(Boolean.FALSE);
+        instockMapper.insert(instock);
+
+        Long instockId = instock.getId();
+
+        List<InspectApplyGoodsInfo> inspectApplyGoodsInfos = inspectApplyGoodsService.listByInpsectReportId(inspectReportId);
+        instockGoodsService.insert(instockId, inspectApplyGoodsInfos);
+        return instockId;
     }
 
     @Override
     public void update(Long id, InstockSaveRequest updateRequest) throws Exception {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        Instock Instock = instockMapper.selectByPrimaryKey(id);
-        if (Instock == null) {
-            throw new Exception("对象唯一标识错误");
+        Instock instock = instockMapper.selectByPrimaryKey(id);
+        if (instock == null) {
+            throw new Exception("入库信息不存在");
         }
         InstockStatusEnum requestStatusEnum = InstockStatusEnum.valueOf(updateRequest.getInstockStatus());
-        if (requestStatusEnum == InstockStatusEnum.INIT) {
+        if (requestStatusEnum != InstockStatusEnum.INIT && requestStatusEnum != InstockStatusEnum.SAVED) {
             throw new Exception("请求对象的状态错误");
         }
 
-        InstockStatusEnum statusEnum = InstockStatusEnum.valueOf(Instock.getInstockStatus());
+        InstockStatusEnum statusEnum = InstockStatusEnum.valueOf(instock.getInstockStatus());
         if (statusEnum != InstockStatusEnum.INIT && statusEnum != InstockStatusEnum.SAVED) {
             throw new Exception("对象当前状态错误");
         }
 
-        Long InstockId = Instock.getId();
+        Long instockId = instock.getId();
         // 修改基本信息
-        Instock InstockSelective = InstockFactory.Instock(updateRequest);
-        InstockSelective.setId(InstockId);
-        InstockSelective.setUpdateTime(new Date());
-        InstockSelective.setUpdateUserId(userInfo.getId());
+        Instock instockSelective = InstockFactory.Instock(updateRequest);
+        instockSelective.setId(instockId);
+        instockSelective.setInstockDate(updateRequest.getInstockDate());
+        instockSelective.setRemarks(updateRequest.getRemarks());
+        instockSelective.setUpdateTime(new Date());
+        instockSelective.setUpdateUserId(userInfo.getId());
+        instockMapper.updateByPrimaryKeySelective(instockSelective);
 
-        instockMapper.updateByPrimaryKeySelective(InstockSelective);
+        // 商品信息
+        List<InstockGoodsInfo> instockGoodsInfos = updateRequest.getInstockGoodsInfos();
+        instockGoodsService.update(instockId, instockGoodsInfos);
 
         // 对象附件
         List<AttachmentInfo> attachments = updateRequest.getAttachments();
         if (attachments == null) {
             attachments = new ArrayList<>();
         }
-        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.INSTOCK, InstockId, attachments);
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.INSTOCK, instockId, attachments);
         if (attachments.size() != attachmentUpdateNum) {
             LOGGER.info("attachmentUpdateNum : {} - {}", attachmentUpdateNum, JSON.toJSONString(updateRequest));
             throw new Exception("对象附件数据操作失败");
@@ -115,36 +131,59 @@ public class InstockServiceImpl implements InstockService {
         // 未删除
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-        // 订单状态 1:待确认 2:未执行 3:执行中 4：完成
-        if (queryRequest.getStatus() != null) {
-            criteria.andInstockStatusEqualTo(queryRequest.getStatus());
+        if (StringUtils.isNotBlank(queryRequest.getInspectApplyNo())) {
+            criteria.andInspectApplyNoLike("%" + queryRequest.getInspectApplyNo() + "%");
         }
-        List<Instock> Instocks = instockMapper.selectByExample(example);
 
-        List<InstockListResponse> InstockListResponses = new ArrayList<>();
-        for (Instock Instock : Instocks) {
-            InstockListResponse InstockListResponse = InstockFactory.InstockListResponse(Instock);
-            InstockListResponses.add(InstockListResponse);
+        if (StringUtils.isNotBlank(queryRequest.getContractNo())) {
+            criteria.andContractNoLike("%" + queryRequest.getContractNo() + "%");
+        }
+
+        if (StringUtils.isNotBlank(queryRequest.getProjectNo())) {
+            criteria.andProjectNoLike("%" + queryRequest.getProjectNo() + "%");
+        }
+
+        if (StringUtils.isNotBlank(queryRequest.getSupplierName())) {
+            criteria.andSupplierNameLike("%" + queryRequest.getSupplierName() + "%");
+        }
+        InstockStatusEnum instockStatusEnum = InstockStatusEnum.valueOf(queryRequest.getInstockStatus());
+        if (instockStatusEnum != null) {
+            criteria.andInstockStatusEqualTo(instockStatusEnum.getCode());
+        }
+
+
+        List<Instock> instocks = instockMapper.selectByExample(example);
+        List<InstockListResponse> instockListResponses = new ArrayList<>();
+        for (Instock instock : instocks) {
+            InstockListResponse instockListResponse = InstockFactory.instockListResponse(instock);
+
+
+            instockListResponses.add(instockListResponse);
         }
         // 输出
-        Page<Instock> page = (Page) Instocks;
+        Page<Instock> page = (Page) instocks;
         Pager<InstockListResponse> pager = new Pager<>(page.getPageNum(), page.getPageSize()
-                , page.getPages(), page.getTotal(), InstockListResponses);
+                , page.getPages(), page.getTotal(), instockListResponses);
         return pager;
     }
 
     @Override
     public InstockDetailResponse detail(Long id) throws Exception {
         // 准备数据
-        Instock Instock = instockMapper.selectByPrimaryKey(id);
-        if (Instock == null) {
+        Instock instock = instockMapper.selectByPrimaryKey(id);
+        if (instock == null) {
             throw new Exception("对象信息不存在");
         }
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.INSTOCK, id);
+        // 商品
+        List<InstockGoodsInfo> instockGoodsInfos = instockGoodsService.listByInstockId(id);
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByInstockGoods(instockGoodsInfos);
 
         // 组织数据
-        InstockDetailResponse detail = InstockFactory.InstockDetailResponse(Instock);
+        InstockDetailResponse detail = InstockFactory.instockDetailResponse(instock);
+        detail.setUid(userService.findNameById(instock.getUid()));
+        detail.setGoodsInfos(goodsInfoList);
         detail.setAttachments(attachmentInfos);
 
         return detail;

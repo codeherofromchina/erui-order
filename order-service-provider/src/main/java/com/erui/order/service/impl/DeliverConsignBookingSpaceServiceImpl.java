@@ -15,44 +15,27 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 @Service
 @Transactional
 public class DeliverConsignBookingSpaceServiceImpl implements DeliverConsignBookingSpaceService {
     private static Logger LOGGER = LoggerFactory.getLogger(DeliverConsignBookingSpaceServiceImpl.class);
     @Autowired
-    private DeliverConsignBookingSpaceMapper DeliverConsignBookingSpaceMapper;
+    private DeliverConsignBookingSpaceMapper deliverConsignBookingSpaceMapper;
 
 
     @Override
-    public int insertOnDuplicateIdUpdate(Long parentId, List<DeliverConsignBookingSpaceInfo> DeliverConsignBookingSpaceInfos) throws Exception {
-        if (parentId == null) {
+    public void insertOnDuplicateIdUpdate(Long deliverConsignId, DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo) throws Exception {
+        if (deliverConsignId == null) {
             throw new Exception("采购合同ID错误");
         }
-        List<DeliverConsignBookingSpace> DeliverConsignBookingSpacees = listByParentId02(parentId);
-        Set<Long> DeliverConsignBookingSpaceIds = DeliverConsignBookingSpacees.stream().map(DeliverConsignBookingSpace::getId).collect(Collectors.toSet());
-
-        int updateNum = 0;
-        for (DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo : DeliverConsignBookingSpaceInfos) {
-            Long id = DeliverConsignBookingSpaceInfo.getId();
-            if (id == null) {
-                updateNum += insert(parentId, DeliverConsignBookingSpaceInfo);
-            } else if (DeliverConsignBookingSpaceIds.remove(id)) {
-                // 更新操作
-                updateNum += updateById(id, DeliverConsignBookingSpaceInfo);
-            } else {
-                // 抛出异常，不是给定业务数据
-                throw new Exception("采购合同商品错误");
-            }
+        Long id = deliverConsignBookingSpaceInfo.getId();
+        if (id == null) {
+            insert(deliverConsignId, deliverConsignBookingSpaceInfo);
+        } else {
+            // 更新操作
+            updateById(id, deliverConsignBookingSpaceInfo);
         }
-
-        if (DeliverConsignBookingSpaceIds.size() > 0) {
-            delete(DeliverConsignBookingSpaceIds.toArray(new Long[DeliverConsignBookingSpaceIds.size()]));
-        }
-        return updateNum;
-
-
     }
 
     @Override
@@ -74,7 +57,7 @@ public class DeliverConsignBookingSpaceServiceImpl implements DeliverConsignBook
             DeliverConsignBookingSpace.setCreateUserId(userInfo.getId());
         }
         DeliverConsignBookingSpace.setCreateTime(new Date());
-        return DeliverConsignBookingSpaceMapper.insert(DeliverConsignBookingSpace);
+        return deliverConsignBookingSpaceMapper.insert(DeliverConsignBookingSpace);
     }
 
 
@@ -101,12 +84,12 @@ public class DeliverConsignBookingSpaceServiceImpl implements DeliverConsignBook
         DeliverConsignBookingSpaceSelective.setDeleteFlag(Boolean.TRUE);
         DeliverConsignBookingSpaceSelective.setDeleteTime(new Date());
 
-        DeliverConsignBookingSpaceMapper.updateByExampleSelective(DeliverConsignBookingSpaceSelective, example);
+        deliverConsignBookingSpaceMapper.updateByExampleSelective(DeliverConsignBookingSpaceSelective, example);
     }
 
     @Override
     public int updateById(Long id, DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo) throws Exception {
-        DeliverConsignBookingSpace DeliverConsignBookingSpace = DeliverConsignBookingSpaceMapper.selectByPrimaryKey(id);
+        DeliverConsignBookingSpace DeliverConsignBookingSpace = deliverConsignBookingSpaceMapper.selectByPrimaryKey(id);
         if (DeliverConsignBookingSpace == null) {
             throw new Exception("采购合同商品不存在");
         }
@@ -119,24 +102,24 @@ public class DeliverConsignBookingSpaceServiceImpl implements DeliverConsignBook
             contractGoods.setUpdateUserId(userInfo.getId());
         }
 
-        return DeliverConsignBookingSpaceMapper.updateByPrimaryKeySelective(contractGoods);
+        return deliverConsignBookingSpaceMapper.updateByPrimaryKeySelective(contractGoods);
     }
 
     @Override
-    public List<DeliverConsignBookingSpaceInfo> listByDeliverConsignId(Long deliverConsignId) {
-        List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList = listByParentId02(deliverConsignId);
-        return DeliverConsignBookingSpaceFactory.DeliverConsignBookingSpaceInfo(DeliverConsignBookingSpaceList);
+    public DeliverConsignBookingSpaceInfo selectByDeliverConsignId(Long deliverConsignId) {
+        DeliverConsignBookingSpace deliverConsignBookingSpace = listByParentId02(deliverConsignId);
+        return DeliverConsignBookingSpaceFactory.deliverConsignBookingSpaceInfo(deliverConsignBookingSpace);
     }
 
-    private List<DeliverConsignBookingSpace> listByParentId02(Long DeliverConsignId) {
+    private DeliverConsignBookingSpace listByParentId02(Long DeliverConsignId) {
         DeliverConsignBookingSpaceExample example = new DeliverConsignBookingSpaceExample();
         example.createCriteria().andDeliverConsignIdEqualTo(DeliverConsignId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList = DeliverConsignBookingSpaceMapper.selectByExample(example);
-        if (DeliverConsignBookingSpaceList == null) {
-            DeliverConsignBookingSpaceList = new ArrayList<>();
+        List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList = deliverConsignBookingSpaceMapper.selectByExample(example);
+        if (DeliverConsignBookingSpaceList != null) {
+            return DeliverConsignBookingSpaceList.get(0);
         }
-        return DeliverConsignBookingSpaceList;
+        return null;
     }
 }
 

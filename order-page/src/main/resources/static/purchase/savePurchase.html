@@ -1,4 +1,26 @@
+<script type="text/javascript">
+    // 获取采购合同基本数据
+    var savePurchasePageParams = getQueryStringFromGlobalParams();
+    var save_purchase_form_data = {};
+    var save_purchase_goods_data = [];
+    var save_purchase_attachment_data = [];
+    if (savePurchasePageParams.purchaseId) {
+        var savePurchaseResp = syncAjaxJson({"url": LOCAL_URL + "/order/purch/info"}, {"id": savePurchasePageParams.purchaseId});
+        if (savePurchaseResp.code == 0) {
+            save_purchase_form_data = savePurchaseResp.data;
+            // 商品内容
+            save_purchase_goods_data = save_purchase_form_data.purchGoodsList;
+            delete save_purchase_form_data.purchGoodsList;
+
+            // 附件信息
+            save_purchase_attachment_data = save_purchase_form_data.attachments;
+            delete save_purchase_form_data.attachments;
+        }
+    }
+</script>
+
 <form id="save_purchase_form">
+    <input type="hidden" name="id"/>
     <div id="save_purchase_panel_baseinfo" class="easyui-panel" title="基本信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
@@ -74,11 +96,11 @@
             <span style="color:blue;" id="save_purchase_form_show_currency_bn_span"> CNY</span>
             <label><span style="color:red;">*</span>是否含税：</label>
             <input class="easyui-radio" type="radio" name="taxBearing" id="save_purchase_form_tax_bearing_1_field"
-                   value="1" checked> <label style="margin-left:0;width:50px;text-align: left;"
-                                             for="save_purchase_form_tax_bearing_1_field">含税</label></input>
+                   value="true" checked> <label style="margin-left:0;width:50px;text-align: left;"
+                                                for="save_purchase_form_tax_bearing_1_field">含税</label></input>
             <input class="easyui-radio" type="radio" name="taxBearing" id="save_purchase_form_tax_bearing_2_field"
-                   value="0"> <label style="margin-left:0;width:50px;text-align: left;"
-                                     for="save_purchase_form_tax_bearing_2_field">不含税</label></input>
+                   value="false"> <label style="margin-left:0;width:50px;text-align: left;"
+                                         for="save_purchase_form_tax_bearing_2_field">不含税</label></input>
             <label style="width:160px;">采购总金额（USD）：</label>
             <input class="easyui-numberbox" id="save_purchase_form_total_price_usd_field"
                    data-options="precision:2,min:0" name="totalPriceUsd" value="0"
@@ -138,7 +160,8 @@
                 </div>
             </div>
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
-                <table class="easyui-datagrid" id="save_purchase_form_attachment_table" data-options="idField:'url'"
+                <table class="easyui-datagrid" id="save_purchase_form_attachment_table"
+                       data-options="idField:'url',data:save_purchase_attachment_data"
                        fit="true" fitColumn="true">
                     <thead>
                     <tr>
@@ -180,6 +203,7 @@
 <script type="text/javascript">
     var save_purchase_form_purch_payment_counter = 0;
     $(function () {
+        setTimeout(savePurchaseLoadData, 500);
         $("#save_purchase_form_goods_table").datagrid({
             border: false,
             singleSelect: true,
@@ -224,7 +248,14 @@
                         type: "textbox"
                     }
                 }
-            ]]
+            ]],
+            onLoadSuccess: function (data) {
+                // 控制表格可以编辑
+                for (var num = 0; num < data.total; ++num) {
+                    $(this).datagrid('beginEdit', num);
+                }
+            },
+            data: save_purchase_goods_data
         });
         // 添加付款记录按钮触发事件
         $("#save_purchase_panel_settlement_info_add_btn").click(function (e) {
@@ -320,18 +351,23 @@
         // 提交采购按钮
         $("#save_purchase_form_submit_btn").click(function (e) {
             e.preventDefault();
+            var formData = assemblyProjectData();
+            formData.purchStatus = 2; // 提交采购
 
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purch/savePurch"}, formData);
 
-            closeCurrentTab();
-
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交采购单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
         });
         // 保存采购按钮
         $("#save_purchase_form_save_btn").click(function (e) {
             e.preventDefault();
             var formData = assemblyProjectData();
-            formData.purchStatus = 1; // 保存项目
-
-            console.info(JSON.stringify(formData));
+            formData.purchStatus = 1; // 保存采购
 
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/purch/savePurch"}, formData);
 
@@ -456,4 +492,53 @@
         return formData;
     }
 
+
+    function savePurchaseLoata() {
+
+        // 付款信息
+        var purchPaymentIndex = 0;
+        $.each(save_purchase_form_data.purchPayments, function (index, purchPayment) {
+            save_purchase_form_data["purchPaymentList" + purchPaymentIndex + ".id"] = purchPayment.id;
+            save_purchase_form_data["purchPaymentList" + purchPaymentIndex + ".paymentType"] = purchPayment.paymentType;
+            save_purchase_form_data["purchPaymentList" + purchPaymentIndex + ".money"] = purchPayment.money;
+            save_purchase_form_data["purchPaymentList" + purchPaymentIndex + ".days"] = purchPayment.days;
+            // 添加表单控件
+            var targetObj = $('<div class="fitem"><input type="hidden" name="purchPaymentList' + purchPaymentIndex + '.id" />' +
+                '                <label><span style="color:red;">*</span>付款记录：</label>\n' +
+                '                <select class="easyui-combobox" editable="false" name="purchPaymentList' + purchPaymentIndex + '.paymentType" id="save_purchase_form_payment_' + purchPaymentIndex + '_type_field"\n' +
+                '                        data-options="required:true" validType="selectValueRequired[\'#save_purchase_form_payment_' + purchPaymentIndex + '_type_field\']">\n' +
+                '                    <option value="">请选择付款方式</option>\n' +
+                '                    <option value="1">预付</option>\n' +
+                '                    <option value="2">进度</option>\n' +
+                '                    <option value="3">提货前</option>\n' +
+                '                    <option value="4">提货后</option>\n' +
+                '                    <option value="5">质保金</option>\n' +
+                '                </select>\n' +
+                '                &nbsp;&nbsp;\n' +
+                '                <input class="easyui-numberbox" data-options="min:0,precision:0,required:true" name="purchPaymentList' + purchPaymentIndex + '.days" style="width: 100px;"/> <span class="standard_currency" style="width: 30px;"> 天</span>\n' +
+                '                &nbsp;&nbsp;\n' +
+                '                <input class="easyui-numberbox" data-options="min:0,precision:2,required:true" name="purchPaymentList' + purchPaymentIndex + '.money" style="width: 100px;"/> <span class="standard_currency" style="width: 30px;"> CNY</span>\n' +
+                '                <a href="javascript:void(0);" onclick="deletePurchPaymentList(this)" style="margin-left:50px;" class="easyui-linkbutton">删除</a>\n' +
+                '            </div>').appendTo("#save_purchase_panel_settlement_info_payment_div");
+            $.parser.parse(targetObj);
+            ++purchPaymentIndex;
+        });
+        delete save_purchase_form_data.purchPayments;
+        $("#save_purchase_form").form('load', save_purchase_form_data);
+
+
+        // 设置采购合同号
+        $("#save_purchase_form_purch_no_field").textbox("setValue", save_purchase_form_data.purchContractId);
+        $("#save_purchase_form_purch_no_field").textbox("setText", save_purchase_form_data.purchNo);
+        // 设置合同签订日期
+        $("#save_purchase_form_signing_date_field").textbox("setValue", save_purchase_form_data.signingDate);
+        $("#save_purchase_form_signing_date_field").textbox("setText", save_purchase_form_data.signingDate);
+        // 设置供应商名称
+        $("#save_purchase_form_supplier_name_field").textbox("setValue", save_purchase_form_data.supplierId);
+        $("#save_purchase_form_supplier_name_field").textbox("setText", save_purchase_form_data.supplierName);
+        // 设置采购经办人
+        $("#save_purchase_form_agent_id_field").textbox("setValue", save_purchase_form_data.agentId);
+        $("#save_purchase_form_agent_id_field").textbox("setText", save_purchase_form_data.agentName);
+
+    }
 </script>

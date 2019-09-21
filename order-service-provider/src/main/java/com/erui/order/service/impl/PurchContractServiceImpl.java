@@ -284,7 +284,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         PurchContractSignatoriesInfo sellerSignatoriesInfo = purchContractSignatoriesService.findByPurchContractId(id, PurchContractSignatoriesTypeEnum.SELLER);
         // 采购合同商品信息
         List<PurchContractGoodsInfo> purchContractGoodsInfos = purchContractGoodsService.listByPurchContractId(id);
-        List<GoodsInfo> goodsInfos = goodsService.goodsInfos(purchContractGoodsInfos);
+        List<GoodsInfo> goodsInfos = goodsService.goodsInfoByPurchContractGoods(purchContractGoodsInfos);
 
         // 采购合同附加信息
         PurchContractAdditionSimpleInfo purchContractAdditionSimpleInfo = null;

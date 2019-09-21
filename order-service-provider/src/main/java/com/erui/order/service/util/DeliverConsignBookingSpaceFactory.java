@@ -20,26 +20,53 @@ public class DeliverConsignBookingSpaceFactory {
         return DeliverConsignBookingSpace;
     }
 
-    public static List<DeliverConsignBookingSpaceInfo> DeliverConsignBookingSpaceInfo(List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList) {
+    public static List<DeliverConsignBookingSpaceInfo> deliverConsignBookingSpaceInfo(List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList) {
         if (DeliverConsignBookingSpaceList == null) {
             return null;
         }
         List<DeliverConsignBookingSpaceInfo> DeliverConsignBookingSpaceInfos = new ArrayList<>();
         for (DeliverConsignBookingSpace DeliverConsignBookingSpace : DeliverConsignBookingSpaceList) {
 
-            DeliverConsignBookingSpaceInfos.add(DeliverConsignBookingSpaceInfo(DeliverConsignBookingSpace));
+            DeliverConsignBookingSpaceInfos.add(deliverConsignBookingSpaceInfo(DeliverConsignBookingSpace));
         }
         return DeliverConsignBookingSpaceInfos;
     }
 
 
-    public static DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo(DeliverConsignBookingSpace DeliverConsignBookingSpace) {
-        if (DeliverConsignBookingSpace == null) {
+    public static DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo(DeliverConsignBookingSpace deliverConsignBookingSpace) {
+        if (deliverConsignBookingSpace == null) {
             return null;
         }
-        DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo = new DeliverConsignBookingSpaceInfo();
+        DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo = new DeliverConsignBookingSpaceInfo();
 
-        return DeliverConsignBookingSpaceInfo;
+        deliverConsignBookingSpaceInfo.setDeliverConsignId(deliverConsignBookingSpace.getDeliverConsignId());
+        deliverConsignBookingSpaceInfo.setReadyDate(deliverConsignBookingSpace.getReadyDate());
+        deliverConsignBookingSpaceInfo.setArrivalDate(deliverConsignBookingSpace.getArrivalDate());
+        deliverConsignBookingSpaceInfo.setOrderEmergency(deliverConsignBookingSpace.getOrderEmergency());
+        deliverConsignBookingSpaceInfo.setPenaltyProvision(deliverConsignBookingSpace.getPenaltyProvision());
+        deliverConsignBookingSpaceInfo.setRequiredDoc(deliverConsignBookingSpace.getRequiredDoc());
+        deliverConsignBookingSpaceInfo.setBillOfPositive(deliverConsignBookingSpace.getBillOfPositive());
+        deliverConsignBookingSpaceInfo.setBillOfVice(deliverConsignBookingSpace.getBillOfVice());
+        deliverConsignBookingSpaceInfo.setBoxListPositive(deliverConsignBookingSpace.getBoxListPositive());
+        deliverConsignBookingSpaceInfo.setBoxListVice(deliverConsignBookingSpace.getBoxListVice());
+        deliverConsignBookingSpaceInfo.setInvoicePositive(deliverConsignBookingSpace.getInvoicePositive());
+        deliverConsignBookingSpaceInfo.setInvoiceVice(deliverConsignBookingSpace.getInvoiceVice());
+        deliverConsignBookingSpaceInfo.setPrimaryOrigin(deliverConsignBookingSpace.getPrimaryOrigin());
+        deliverConsignBookingSpaceInfo.setOtherDoc(deliverConsignBookingSpace.getOtherDoc());
+        deliverConsignBookingSpaceInfo.setSpecificRequire(deliverConsignBookingSpace.getSpecificRequire());
+        deliverConsignBookingSpaceInfo.setBillOfLading(deliverConsignBookingSpace.getBillOfLading());
+        deliverConsignBookingSpaceInfo.setShippingMarks(deliverConsignBookingSpace.getShippingMarks());
+        deliverConsignBookingSpaceInfo.setPackageRequire(deliverConsignBookingSpace.getPackageRequire());
+        deliverConsignBookingSpaceInfo.setCorporateName(deliverConsignBookingSpace.getCorporateName());
+        deliverConsignBookingSpaceInfo.setAddress(deliverConsignBookingSpace.getAddress());
+        deliverConsignBookingSpaceInfo.setContacts(deliverConsignBookingSpace.getContacts());
+        deliverConsignBookingSpaceInfo.setContactInformation(deliverConsignBookingSpace.getContactInformation());
+        deliverConsignBookingSpaceInfo.setTenant(deliverConsignBookingSpace.getTenant());
+        deliverConsignBookingSpaceInfo.setDutyParagraph(deliverConsignBookingSpace.getDutyParagraph());
+        deliverConsignBookingSpaceInfo.setZipCode(deliverConsignBookingSpace.getZipCode());
+
+
+        return deliverConsignBookingSpaceInfo;
     }
 }
 

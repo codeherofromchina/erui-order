@@ -28,10 +28,10 @@
                 <li>
                     <label>采购状态：</label>
                     <select class="easyui-combobox" editable="false" name="purchStatus">
-                        <option code="">请选择</option>
-                        <option code="1">未进行</option>
-                        <option code="2">进行中</option>
-                        <option code="3">已完成</option>
+                        <option value="">请选择</option>
+                        <option value="1">未进行</option>
+                        <option value="2">进行中</option>
+                        <option value="3">已完成</option>
                     </select>
                 </li>
                 <li>
@@ -95,7 +95,7 @@
                 {
                     field: 'purchStatusName', width: 100, title: '采购状态'
                 },
-                {field: '_operate', width: 100, title: '操作', formatter: purchaseListFormatOper}
+                {field: '_operate', width: 150, title: '操作', formatter: purchaseListFormatOper}
             ]],
             url: LOCAL_URL + '/order/purch/list',
             onBeforeLoad: function (param) {
@@ -110,14 +110,7 @@
                 var opts = $(this).datagrid("options");
                 return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter: function (data) {
-                var finalData = {"total": 0, "rows": []};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         $("#purchase_list_supplier_id_dialog").dialog({
             title: '选择供应商',
@@ -158,7 +151,7 @@
 
         // 新建采购订单按钮
         $("#purchase_list_table_toolbar_add_btn").click(function () {
-            GLOBAL_PARAMS="";
+            GLOBAL_PARAMS = "";
             var newTabTitle = '新建采购订单';
             if ($("#tt").tabs("exists", newTabTitle)) { // 判断该Tab页是否已经存在
                 $("#tt").tabs("select", newTabTitle);
@@ -173,13 +166,12 @@
     });
 
 
-
     function handlePurchasePage(purchaseId) {
         var tabTitle = "办理采购单";
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $.messager.alert("无法打开新页签", "已经存在待新建采购单");
         } else {
-            GLOBAL_PARAMS = "purchaseId=" + projectId;
+            GLOBAL_PARAMS = "purchaseId=" + purchaseId;
             $("#tt").tabs("add", {
                 title: tabTitle,
                 href: 'purchase/savePurchase.html',
@@ -203,11 +195,27 @@
     }
 
 
+    function handleInspectApplyPage(purchaseId, purchNo) {
+        var tabTitle = purchNo;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "purchaseId=" + purchaseId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'inspectApply/inspectApplyList.html',
+                closable: true
+            });
+        }
+    }
+
     function purchaseListFormatOper(val, row, index) {
         var str = '';
-        if (row.purchStatus == 2) {
+        if (row.purchStatus == 1) {
             // 可办理
             str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handlePurchasePage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+        } else if (row.purchStatus == 2 && !row.insepcted) {
+            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handleInspectApplyPage(' + row.id + ',\'' + row.purchNo + '\')">新增报检单</a>&nbsp;&nbsp;&nbsp;';
         }
         str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchaseInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
         return str;

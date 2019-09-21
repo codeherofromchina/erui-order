@@ -772,6 +772,66 @@ public class InspectApplyExample {
             return (Criteria) this;
         }
 
+        public Criteria andEnterEruiWarehouseIsNull() {
+            addCriterion("enter_erui_warehouse is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseIsNotNull() {
+            addCriterion("enter_erui_warehouse is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse =", value, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseNotEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse <>", value, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseGreaterThan(Boolean value) {
+            addCriterion("enter_erui_warehouse >", value, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseGreaterThanOrEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse >=", value, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseLessThan(Boolean value) {
+            addCriterion("enter_erui_warehouse <", value, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseLessThanOrEqualTo(Boolean value) {
+            addCriterion("enter_erui_warehouse <=", value, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseIn(List<Boolean> values) {
+            addCriterion("enter_erui_warehouse in", values, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseNotIn(List<Boolean> values) {
+            addCriterion("enter_erui_warehouse not in", values, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseBetween(Boolean value1, Boolean value2) {
+            addCriterion("enter_erui_warehouse between", value1, value2, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
+        public Criteria andEnterEruiWarehouseNotBetween(Boolean value1, Boolean value2) {
+            addCriterion("enter_erui_warehouse not between", value1, value2, "enterEruiWarehouse");
+            return (Criteria) this;
+        }
+
         public Criteria andRemarkIsNull() {
             addCriterion("remark is null");
             return (Criteria) this;

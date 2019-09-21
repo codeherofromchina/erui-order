@@ -7,11 +7,13 @@ public class DeliverNotice {
 
     private String deliverNoticeNo;
 
+    private String contractNo;
+
+    private String crmCode;
+
     private Long deliverConsignId;
 
     private Long senderId;
-
-    private String contractNo;
 
     private Long operationSpecialistId;
 
@@ -61,6 +63,22 @@ public class DeliverNotice {
         this.deliverNoticeNo = deliverNoticeNo;
     }
 
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getCrmCode() {
+        return crmCode;
+    }
+
+    public void setCrmCode(String crmCode) {
+        this.crmCode = crmCode;
+    }
+
     public Long getDeliverConsignId() {
         return deliverConsignId;
     }
@@ -75,14 +93,6 @@ public class DeliverNotice {
 
     public void setSenderId(Long senderId) {
         this.senderId = senderId;
-    }
-
-    public String getContractNo() {
-        return contractNo;
-    }
-
-    public void setContractNo(String contractNo) {
-        this.contractNo = contractNo;
     }
 
     public Long getOperationSpecialistId() {

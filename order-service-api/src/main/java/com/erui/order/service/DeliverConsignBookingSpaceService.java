@@ -10,12 +10,12 @@ public interface DeliverConsignBookingSpaceService {
     /**
      * 不存在就插入，存在则更新操作
      *
-     * @param purchId
-     * @param DeliverConsignBookingSpaceList
+     * @param deliverConsignId
+     * @param deliverConsignBookingSpaceInfo
      * @return
      * @throws Exception
      */
-    int insertOnDuplicateIdUpdate(Long purchId, List<DeliverConsignBookingSpaceInfo> DeliverConsignBookingSpaceList) throws Exception;
+    void insertOnDuplicateIdUpdate(Long deliverConsignId, DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo) throws Exception;
 
     /**
      * 插入信息
@@ -32,6 +32,6 @@ public interface DeliverConsignBookingSpaceService {
 
     int updateById(Long id, DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo) throws Exception;
 
-    List<DeliverConsignBookingSpaceInfo> listByDeliverConsignId(Long deliverConsignId);
+    DeliverConsignBookingSpaceInfo selectByDeliverConsignId(Long deliverConsignId);
 }
 

@@ -11,14 +11,16 @@ import java.util.List;
  * @Date 2019/9/9 上午12:27
  */
 public class DeliverConsignGoodsFactory {
-    public static DeliverConsignGoods DeliverConsignGoods(DeliverConsignGoodsInfo DeliverConsignGoodsInfo) {
-        if (DeliverConsignGoodsInfo == null) {
+    public static DeliverConsignGoods deliverConsignGoods(DeliverConsignGoodsInfo deliverConsignGoodsInfo) {
+        if (deliverConsignGoodsInfo == null) {
             return null;
         }
-        DeliverConsignGoods DeliverConsignGoods = new DeliverConsignGoods();
-        DeliverConsignGoods.setOrderGoodsId(DeliverConsignGoodsInfo.getOrderGoodsId());
+        DeliverConsignGoods deliverConsignGoods = new DeliverConsignGoods();
+        deliverConsignGoods.setId(deliverConsignGoodsInfo.getId());
+        deliverConsignGoods.setOrderGoodsId(deliverConsignGoodsInfo.getOrderGoodsId());
+        deliverConsignGoods.setSendNum(deliverConsignGoodsInfo.getSendNum());
 
-        return DeliverConsignGoods;
+        return deliverConsignGoods;
     }
 
     public static List<DeliverConsignGoodsInfo> DeliverConsignGoodsInfo(List<DeliverConsignGoods> DeliverConsignGoodsList) {

@@ -12,38 +12,66 @@ import com.erui.order.model.entity.InspectApply;
  */
 public class InspectApplyFactory {
 
-    public static InspectApply InspectApply(InspectApplySaveRequest saveRequest) {
+    public static InspectApply inspectApply(InspectApplySaveRequest saveRequest) {
         if (saveRequest == null) {
             return null;
         }
-        InspectApply InspectApply = new InspectApply();
-        InspectApply.setId(saveRequest.getId());
-        InspectApply.setInspectApplyStatus(saveRequest.getInspectApplyStatus());
-
-        return InspectApply;
-    }
-
-    public static InspectApplyDetailResponse InspectApplyDetailResponse(InspectApply InspectApply) {
-        if (InspectApply == null) {
-            return null;
+        InspectApply inspectApply = new InspectApply();
+        inspectApply.setId(saveRequest.getId());
+        inspectApply.setPurchId(saveRequest.getPurchId());
+        inspectApply.setInspectDate(saveRequest.getInspectDate());
+        inspectApply.setEnterEruiWarehouse(saveRequest.getEnterEruiWarehouse());
+        inspectApply.setRemark(saveRequest.getRemark());
+        inspectApply.setInspectApplyStatus(saveRequest.getInspectApplyStatus());
+        inspectApply.setpId(saveRequest.getpId());
+        if (saveRequest.getpId() != null) {
+            inspectApply.setMasteer(Boolean.TRUE);
+        } else {
+            inspectApply.setMasteer(Boolean.FALSE);
         }
 
-        InspectApplyDetailResponse InspectApplyDetailResponse = new InspectApplyDetailResponse();
-        InspectApplyDetailResponse.setId(InspectApply.getId());
-        InspectApplyDetailResponse.setInspectApplyStatus(InspectApply.getInspectApplyStatus());
-
-        return InspectApplyDetailResponse;
+        return inspectApply;
     }
 
-    public static InspectApplyListResponse InspectApplyListResponse(InspectApply InspectApply) {
-        if (InspectApply == null) {
+    public static InspectApplyDetailResponse inspectApplyDetailResponse(InspectApply inspectApply) {
+        if (inspectApply == null) {
+            return null;
+        }
+        InspectApplyDetailResponse inspectApplyDetailResponse = new InspectApplyDetailResponse();
+        inspectApplyDetailResponse.setId(inspectApply.getId());
+        inspectApplyDetailResponse.setpId(inspectApply.getpId());
+        inspectApplyDetailResponse.setPurchId(inspectApply.getPurchId());
+        inspectApplyDetailResponse.setDepartment(inspectApply.getDepartment());
+        inspectApplyDetailResponse.setPurchaseNameId(inspectApply.getPurchaseNameId());
+        inspectApplyDetailResponse.setSupplierName(inspectApply.getSupplierName());
+        inspectApplyDetailResponse.setInspectDate(inspectApply.getInspectDate());
+        inspectApplyDetailResponse.setEnterEruiWarehouse(inspectApply.getEnterEruiWarehouse());
+        inspectApplyDetailResponse.setRemark(inspectApply.getRemark());
+        inspectApplyDetailResponse.setInspectApplyStatus(inspectApply.getInspectApplyStatus());
+        return inspectApplyDetailResponse;
+    }
+
+    public static InspectApplyListResponse inspectApplyListResponse(InspectApply inspectApply) {
+        if (inspectApply == null) {
             return null;
         }
         InspectApplyListResponse InspectApplyListResponse = new InspectApplyListResponse();
-        InspectApplyListResponse.setId(InspectApply.getId());
-
-        InspectApplyListResponse.setInspectApplyStatus(InspectApply.getInspectApplyStatus());
-        InspectApplyStatusEnum statusEnum = InspectApplyStatusEnum.valueOf(InspectApply.getInspectApplyStatus());
+        InspectApplyListResponse.setId(inspectApply.getId());
+        InspectApplyListResponse.setPurchNo(inspectApply.getPurchNo());
+        InspectApplyListResponse.setInspectApplyNo(inspectApply.getInspectApplyNo());
+        InspectApplyListResponse.setDepartment(inspectApply.getDepartment());
+        InspectApplyListResponse.setPurchaseNameId(inspectApply.getPurchaseNameId());
+//
+        InspectApplyListResponse.setSupplierName(inspectApply.getSupplierName());
+        InspectApplyListResponse.setInspectDate(inspectApply.getInspectDate());
+        InspectApplyListResponse.setNum(inspectApply.getNum());
+        InspectApplyListResponse.setPubStatus(inspectApply.getPubStatus());
+        InspectApplyStatusEnum pubStatusEnum = InspectApplyStatusEnum.valueOf(inspectApply.getPubStatus());
+        if (pubStatusEnum != null) {
+            InspectApplyListResponse.setPubStatusName(pubStatusEnum.getName());
+        }
+        InspectApplyListResponse.setInspectApplyStatus(inspectApply.getInspectApplyStatus());
+        InspectApplyStatusEnum statusEnum = InspectApplyStatusEnum.valueOf(inspectApply.getInspectApplyStatus());
         if (statusEnum != null) {
             InspectApplyListResponse.setInspectApplyStatusName(statusEnum.getName());
         }

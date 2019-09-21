@@ -4,12 +4,14 @@ import java.math.BigDecimal;
 
 /**
  * 采购合同的付款记录内容
+ *
  * @Auther 王晓丹
  * @Date 2019/9/17 下午1:33
  */
 public class PurchPaymentInfo {
     private Long id;
     private Short paymentType;
+    private String paymentTypeName;
     private Short days;
     private BigDecimal money;
 
@@ -43,5 +45,13 @@ public class PurchPaymentInfo {
 
     public void setMoney(BigDecimal money) {
         this.money = money;
+    }
+
+    public String getPaymentTypeName() {
+        return paymentTypeName;
+    }
+
+    public void setPaymentTypeName(String paymentTypeName) {
+        this.paymentTypeName = paymentTypeName;
     }
 }

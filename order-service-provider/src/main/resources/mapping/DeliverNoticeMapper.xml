@@ -3,10 +3,11 @@
 <mapper namespace="com.erui.order.mapper.DeliverNoticeMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.DeliverNotice" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="deliver_notice_no" property="deliverNoticeNo" jdbcType="CHAR" />
+    <result column="deliver_notice_no" property="deliverNoticeNo" jdbcType="VARCHAR" />
+    <result column="contract_no" property="contractNo" jdbcType="VARCHAR" />
+    <result column="crm_code" property="crmCode" jdbcType="VARCHAR" />
     <result column="deliver_consign_id" property="deliverConsignId" jdbcType="BIGINT" />
     <result column="sender_id" property="senderId" jdbcType="BIGINT" />
-    <result column="contract_no" property="contractNo" jdbcType="CHAR" />
     <result column="operation_specialist_id" property="operationSpecialistId" jdbcType="BIGINT" />
     <result column="operation_specialist" property="operationSpecialist" jdbcType="VARCHAR" />
     <result column="send_date" property="sendDate" jdbcType="DATE" />
@@ -83,7 +84,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, deliver_notice_no, deliver_consign_id, sender_id, contract_no, operation_specialist_id, 
+    id, deliver_notice_no, contract_no, crm_code, deliver_consign_id, sender_id, operation_specialist_id, 
     operation_specialist, send_date, numbers, other_req, package_req, prepare_req, deliver_notice_status, 
     handle_status, packing_time, create_user_id, create_time, update_user_id, update_time, 
     delete_flag, delete_time
@@ -119,22 +120,22 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.erui.order.model.entity.DeliverNotice" >
-    insert into deliver_notice (id, deliver_notice_no, deliver_consign_id, 
-      sender_id, contract_no, operation_specialist_id, 
-      operation_specialist, send_date, numbers, 
-      other_req, package_req, prepare_req, 
-      deliver_notice_status, handle_status, packing_time, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, delete_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{deliverNoticeNo,jdbcType=CHAR}, #{deliverConsignId,jdbcType=BIGINT}, 
-      #{senderId,jdbcType=BIGINT}, #{contractNo,jdbcType=CHAR}, #{operationSpecialistId,jdbcType=BIGINT}, 
-      #{operationSpecialist,jdbcType=VARCHAR}, #{sendDate,jdbcType=DATE}, #{numbers,jdbcType=INTEGER}, 
-      #{otherReq,jdbcType=VARCHAR}, #{packageReq,jdbcType=VARCHAR}, #{prepareReq,jdbcType=VARCHAR}, 
-      #{deliverNoticeStatus,jdbcType=SMALLINT}, #{handleStatus,jdbcType=SMALLINT}, #{packingTime,jdbcType=DATE}, 
-      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+    insert into deliver_notice (id, deliver_notice_no, contract_no, 
+      crm_code, deliver_consign_id, sender_id, 
+      operation_specialist_id, operation_specialist, 
+      send_date, numbers, other_req, 
+      package_req, prepare_req, deliver_notice_status, 
+      handle_status, packing_time, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, delete_time)
+    values (#{id,jdbcType=BIGINT}, #{deliverNoticeNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
+      #{crmCode,jdbcType=VARCHAR}, #{deliverConsignId,jdbcType=BIGINT}, #{senderId,jdbcType=BIGINT}, 
+      #{operationSpecialistId,jdbcType=BIGINT}, #{operationSpecialist,jdbcType=VARCHAR}, 
+      #{sendDate,jdbcType=DATE}, #{numbers,jdbcType=INTEGER}, #{otherReq,jdbcType=VARCHAR}, 
+      #{packageReq,jdbcType=VARCHAR}, #{prepareReq,jdbcType=VARCHAR}, #{deliverNoticeStatus,jdbcType=SMALLINT}, 
+      #{handleStatus,jdbcType=SMALLINT}, #{packingTime,jdbcType=DATE}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverNotice" >
     insert into deliver_notice
@@ -145,14 +146,17 @@
       <if test="deliverNoticeNo != null" >
         deliver_notice_no,
       </if>
+      <if test="contractNo != null" >
+        contract_no,
+      </if>
+      <if test="crmCode != null" >
+        crm_code,
+      </if>
       <if test="deliverConsignId != null" >
         deliver_consign_id,
       </if>
       <if test="senderId != null" >
         sender_id,
-      </if>
-      <if test="contractNo != null" >
-        contract_no,
       </if>
       <if test="operationSpecialistId != null" >
         operation_specialist_id,
@@ -208,16 +212,19 @@
         #{id,jdbcType=BIGINT},
       </if>
       <if test="deliverNoticeNo != null" >
-        #{deliverNoticeNo,jdbcType=CHAR},
+        #{deliverNoticeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="crmCode != null" >
+        #{crmCode,jdbcType=VARCHAR},
       </if>
       <if test="deliverConsignId != null" >
         #{deliverConsignId,jdbcType=BIGINT},
       </if>
       <if test="senderId != null" >
         #{senderId,jdbcType=BIGINT},
-      </if>
-      <if test="contractNo != null" >
-        #{contractNo,jdbcType=CHAR},
       </if>
       <if test="operationSpecialistId != null" >
         #{operationSpecialistId,jdbcType=BIGINT},
@@ -282,16 +289,19 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.deliverNoticeNo != null" >
-        deliver_notice_no = #{record.deliverNoticeNo,jdbcType=CHAR},
+        deliver_notice_no = #{record.deliverNoticeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contractNo != null" >
+        contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="record.crmCode != null" >
+        crm_code = #{record.crmCode,jdbcType=VARCHAR},
       </if>
       <if test="record.deliverConsignId != null" >
         deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
       </if>
       <if test="record.senderId != null" >
         sender_id = #{record.senderId,jdbcType=BIGINT},
-      </if>
-      <if test="record.contractNo != null" >
-        contract_no = #{record.contractNo,jdbcType=CHAR},
       </if>
       <if test="record.operationSpecialistId != null" >
         operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
@@ -349,10 +359,11 @@
   <update id="updateByExample" parameterType="map" >
     update deliver_notice
     set id = #{record.id,jdbcType=BIGINT},
-      deliver_notice_no = #{record.deliverNoticeNo,jdbcType=CHAR},
+      deliver_notice_no = #{record.deliverNoticeNo,jdbcType=VARCHAR},
+      contract_no = #{record.contractNo,jdbcType=VARCHAR},
+      crm_code = #{record.crmCode,jdbcType=VARCHAR},
       deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
       sender_id = #{record.senderId,jdbcType=BIGINT},
-      contract_no = #{record.contractNo,jdbcType=CHAR},
       operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
       operation_specialist = #{record.operationSpecialist,jdbcType=VARCHAR},
       send_date = #{record.sendDate,jdbcType=DATE},
@@ -377,16 +388,19 @@
     update deliver_notice
     <set >
       <if test="deliverNoticeNo != null" >
-        deliver_notice_no = #{deliverNoticeNo,jdbcType=CHAR},
+        deliver_notice_no = #{deliverNoticeNo,jdbcType=VARCHAR},
+      </if>
+      <if test="contractNo != null" >
+        contract_no = #{contractNo,jdbcType=VARCHAR},
+      </if>
+      <if test="crmCode != null" >
+        crm_code = #{crmCode,jdbcType=VARCHAR},
       </if>
       <if test="deliverConsignId != null" >
         deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
       </if>
       <if test="senderId != null" >
         sender_id = #{senderId,jdbcType=BIGINT},
-      </if>
-      <if test="contractNo != null" >
-        contract_no = #{contractNo,jdbcType=CHAR},
       </if>
       <if test="operationSpecialistId != null" >
         operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
@@ -441,10 +455,11 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.DeliverNotice" >
     update deliver_notice
-    set deliver_notice_no = #{deliverNoticeNo,jdbcType=CHAR},
+    set deliver_notice_no = #{deliverNoticeNo,jdbcType=VARCHAR},
+      contract_no = #{contractNo,jdbcType=VARCHAR},
+      crm_code = #{crmCode,jdbcType=VARCHAR},
       deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
       sender_id = #{senderId,jdbcType=BIGINT},
-      contract_no = #{contractNo,jdbcType=CHAR},
       operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
       operation_specialist = #{operationSpecialist,jdbcType=VARCHAR},
       send_date = #{sendDate,jdbcType=DATE},

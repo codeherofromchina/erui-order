@@ -125,8 +125,14 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
 
     @Override
     public List<PurchGoodsInfo> listByPurchId(Long purchId) {
-        List<PurchGoods> PurchGoodsList = listByParentId02(purchId);
-        return PurchGoodsFactory.PurchGoodsInfo(PurchGoodsList);
+        List<PurchGoods> purchGoodsList = listByParentId02(purchId);
+        return PurchGoodsFactory.purchGoodsInfo(purchGoodsList);
+    }
+
+    @Override
+    public PurchGoodsInfo findById(Long id) {
+        PurchGoods purchGoods = purchGoodsMapper.selectByPrimaryKey(id);
+        return PurchGoodsFactory.purchGoodsInfo(purchGoods);
     }
 
     private List<PurchGoods> listByParentId02(Long purchId) {
@@ -139,5 +145,7 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         }
         return PurchGoodsList;
     }
+
+
 }
 

@@ -15,7 +15,7 @@ public enum InstockStatusEnum {
         this.name = name;
     }
 
-    public int getCode() {
+    public short getCode() {
         return code;
     }
 

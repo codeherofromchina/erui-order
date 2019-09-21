@@ -14,6 +14,7 @@
     <result column="deliver_yn" property="deliverYn" jdbcType="SMALLINT" />
     <result column="advance_money" property="advanceMoney" jdbcType="DECIMAL" />
     <result column="this_shipments_money" property="thisShipmentsMoney" jdbcType="DECIMAL" />
+    <result column="currency_bn" property="currencyBn" jdbcType="VARCHAR" />
     <result column="invoice_rise" property="invoiceRise" jdbcType="VARCHAR" />
     <result column="business_nature" property="businessNature" jdbcType="SMALLINT" />
     <result column="business_sketch" property="businessSketch" jdbcType="VARCHAR" />
@@ -31,12 +32,11 @@
     <result column="business_leader_id" property="businessLeaderId" jdbcType="BIGINT" />
     <result column="business_leader" property="businessLeader" jdbcType="VARCHAR" />
     <result column="auditing_status" property="auditingStatus" jdbcType="SMALLINT" />
-    <result column="crm_code_or_name" property="crmCodeOrName" jdbcType="VARCHAR" />
+    <result column="crm_code" property="crmCode" jdbcType="VARCHAR" />
     <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
     <result column="contract_no" property="contractNo" jdbcType="CHAR" />
     <result column="booking_officer_id" property="bookingOfficerId" jdbcType="BIGINT" />
     <result column="operation_specialist_id" property="operationSpecialistId" jdbcType="BIGINT" />
-    <result column="process_id" property="processId" jdbcType="CHAR" />
     <result column="deliver_notice_status" property="deliverNoticeStatus" jdbcType="SMALLINT" />
     <result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
@@ -107,11 +107,11 @@
   <sql id="Base_Column_List" >
     id, deliver_consign_no, order_id, co_id, exec_co_name, write_date, booking_date, 
     remarks, deliver_consign_status, deliver_yn, advance_money, this_shipments_money, 
-    invoice_rise, business_nature, business_sketch, declare_customs_money, trade_money, 
-    direct_transfer_money, indirect_transfer_money, clear_customs_money, pay_method, 
-    shipping_batch, more_batch_explain, is_dangerous, goods_deposit_place, has_insurance, 
-    business_leader_id, business_leader, auditing_status, crm_code_or_name, dept_name, 
-    contract_no, booking_officer_id, operation_specialist_id, process_id, deliver_notice_status, 
+    currency_bn, invoice_rise, business_nature, business_sketch, declare_customs_money, 
+    trade_money, direct_transfer_money, indirect_transfer_money, clear_customs_money, 
+    pay_method, shipping_batch, more_batch_explain, is_dangerous, goods_deposit_place, 
+    has_insurance, business_leader_id, business_leader, auditing_status, crm_code, dept_name, 
+    contract_no, booking_officer_id, operation_specialist_id, deliver_notice_status, 
     submit_time, create_user_id, create_time, update_user_id, update_time, delete_flag, 
     delete_time
   </sql>
@@ -150,34 +150,32 @@
       co_id, exec_co_name, write_date, 
       booking_date, remarks, deliver_consign_status, 
       deliver_yn, advance_money, this_shipments_money, 
-      invoice_rise, business_nature, business_sketch, 
-      declare_customs_money, trade_money, direct_transfer_money, 
-      indirect_transfer_money, clear_customs_money, 
-      pay_method, shipping_batch, more_batch_explain, 
-      is_dangerous, goods_deposit_place, has_insurance, 
-      business_leader_id, business_leader, auditing_status, 
-      crm_code_or_name, dept_name, contract_no, 
-      booking_officer_id, operation_specialist_id, 
-      process_id, deliver_notice_status, submit_time, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, delete_time
-      )
+      currency_bn, invoice_rise, business_nature, 
+      business_sketch, declare_customs_money, trade_money, 
+      direct_transfer_money, indirect_transfer_money, 
+      clear_customs_money, pay_method, shipping_batch, 
+      more_batch_explain, is_dangerous, goods_deposit_place, 
+      has_insurance, business_leader_id, business_leader, 
+      auditing_status, crm_code, dept_name, 
+      contract_no, booking_officer_id, operation_specialist_id, 
+      deliver_notice_status, submit_time, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, delete_time)
     values (#{id,jdbcType=BIGINT}, #{deliverConsignNo,jdbcType=CHAR}, #{orderId,jdbcType=BIGINT}, 
       #{coId,jdbcType=VARCHAR}, #{execCoName,jdbcType=VARCHAR}, #{writeDate,jdbcType=DATE}, 
       #{bookingDate,jdbcType=DATE}, #{remarks,jdbcType=VARCHAR}, #{deliverConsignStatus,jdbcType=SMALLINT}, 
       #{deliverYn,jdbcType=SMALLINT}, #{advanceMoney,jdbcType=DECIMAL}, #{thisShipmentsMoney,jdbcType=DECIMAL}, 
-      #{invoiceRise,jdbcType=VARCHAR}, #{businessNature,jdbcType=SMALLINT}, #{businessSketch,jdbcType=VARCHAR}, 
-      #{declareCustomsMoney,jdbcType=DECIMAL}, #{tradeMoney,jdbcType=DECIMAL}, #{directTransferMoney,jdbcType=DECIMAL}, 
-      #{indirectTransferMoney,jdbcType=DECIMAL}, #{clearCustomsMoney,jdbcType=DECIMAL}, 
-      #{payMethod,jdbcType=SMALLINT}, #{shippingBatch,jdbcType=VARCHAR}, #{moreBatchExplain,jdbcType=VARCHAR}, 
-      #{isDangerous,jdbcType=SMALLINT}, #{goodsDepositPlace,jdbcType=VARCHAR}, #{hasInsurance,jdbcType=SMALLINT}, 
-      #{businessLeaderId,jdbcType=BIGINT}, #{businessLeader,jdbcType=VARCHAR}, #{auditingStatus,jdbcType=SMALLINT}, 
-      #{crmCodeOrName,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{contractNo,jdbcType=CHAR}, 
-      #{bookingOfficerId,jdbcType=BIGINT}, #{operationSpecialistId,jdbcType=BIGINT}, 
-      #{processId,jdbcType=CHAR}, #{deliverNoticeStatus,jdbcType=SMALLINT}, #{submitTime,jdbcType=TIMESTAMP}, 
-      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+      #{currencyBn,jdbcType=VARCHAR}, #{invoiceRise,jdbcType=VARCHAR}, #{businessNature,jdbcType=SMALLINT}, 
+      #{businessSketch,jdbcType=VARCHAR}, #{declareCustomsMoney,jdbcType=DECIMAL}, #{tradeMoney,jdbcType=DECIMAL}, 
+      #{directTransferMoney,jdbcType=DECIMAL}, #{indirectTransferMoney,jdbcType=DECIMAL}, 
+      #{clearCustomsMoney,jdbcType=DECIMAL}, #{payMethod,jdbcType=SMALLINT}, #{shippingBatch,jdbcType=VARCHAR}, 
+      #{moreBatchExplain,jdbcType=VARCHAR}, #{isDangerous,jdbcType=SMALLINT}, #{goodsDepositPlace,jdbcType=VARCHAR}, 
+      #{hasInsurance,jdbcType=SMALLINT}, #{businessLeaderId,jdbcType=BIGINT}, #{businessLeader,jdbcType=VARCHAR}, 
+      #{auditingStatus,jdbcType=SMALLINT}, #{crmCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
+      #{contractNo,jdbcType=CHAR}, #{bookingOfficerId,jdbcType=BIGINT}, #{operationSpecialistId,jdbcType=BIGINT}, 
+      #{deliverNoticeStatus,jdbcType=SMALLINT}, #{submitTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverConsign" >
     insert into deliver_consign
@@ -217,6 +215,9 @@
       </if>
       <if test="thisShipmentsMoney != null" >
         this_shipments_money,
+      </if>
+      <if test="currencyBn != null" >
+        currency_bn,
       </if>
       <if test="invoiceRise != null" >
         invoice_rise,
@@ -269,8 +270,8 @@
       <if test="auditingStatus != null" >
         auditing_status,
       </if>
-      <if test="crmCodeOrName != null" >
-        crm_code_or_name,
+      <if test="crmCode != null" >
+        crm_code,
       </if>
       <if test="deptName != null" >
         dept_name,
@@ -283,9 +284,6 @@
       </if>
       <if test="operationSpecialistId != null" >
         operation_specialist_id,
-      </if>
-      <if test="processId != null" >
-        process_id,
       </if>
       <if test="deliverNoticeStatus != null" >
         deliver_notice_status,
@@ -349,6 +347,9 @@
       <if test="thisShipmentsMoney != null" >
         #{thisShipmentsMoney,jdbcType=DECIMAL},
       </if>
+      <if test="currencyBn != null" >
+        #{currencyBn,jdbcType=VARCHAR},
+      </if>
       <if test="invoiceRise != null" >
         #{invoiceRise,jdbcType=VARCHAR},
       </if>
@@ -400,8 +401,8 @@
       <if test="auditingStatus != null" >
         #{auditingStatus,jdbcType=SMALLINT},
       </if>
-      <if test="crmCodeOrName != null" >
-        #{crmCodeOrName,jdbcType=VARCHAR},
+      <if test="crmCode != null" >
+        #{crmCode,jdbcType=VARCHAR},
       </if>
       <if test="deptName != null" >
         #{deptName,jdbcType=VARCHAR},
@@ -414,9 +415,6 @@
       </if>
       <if test="operationSpecialistId != null" >
         #{operationSpecialistId,jdbcType=BIGINT},
-      </if>
-      <if test="processId != null" >
-        #{processId,jdbcType=CHAR},
       </if>
       <if test="deliverNoticeStatus != null" >
         #{deliverNoticeStatus,jdbcType=SMALLINT},
@@ -489,6 +487,9 @@
       <if test="record.thisShipmentsMoney != null" >
         this_shipments_money = #{record.thisShipmentsMoney,jdbcType=DECIMAL},
       </if>
+      <if test="record.currencyBn != null" >
+        currency_bn = #{record.currencyBn,jdbcType=VARCHAR},
+      </if>
       <if test="record.invoiceRise != null" >
         invoice_rise = #{record.invoiceRise,jdbcType=VARCHAR},
       </if>
@@ -540,8 +541,8 @@
       <if test="record.auditingStatus != null" >
         auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
       </if>
-      <if test="record.crmCodeOrName != null" >
-        crm_code_or_name = #{record.crmCodeOrName,jdbcType=VARCHAR},
+      <if test="record.crmCode != null" >
+        crm_code = #{record.crmCode,jdbcType=VARCHAR},
       </if>
       <if test="record.deptName != null" >
         dept_name = #{record.deptName,jdbcType=VARCHAR},
@@ -554,9 +555,6 @@
       </if>
       <if test="record.operationSpecialistId != null" >
         operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
-      </if>
-      <if test="record.processId != null" >
-        process_id = #{record.processId,jdbcType=CHAR},
       </if>
       <if test="record.deliverNoticeStatus != null" >
         deliver_notice_status = #{record.deliverNoticeStatus,jdbcType=SMALLINT},
@@ -601,6 +599,7 @@
       deliver_yn = #{record.deliverYn,jdbcType=SMALLINT},
       advance_money = #{record.advanceMoney,jdbcType=DECIMAL},
       this_shipments_money = #{record.thisShipmentsMoney,jdbcType=DECIMAL},
+      currency_bn = #{record.currencyBn,jdbcType=VARCHAR},
       invoice_rise = #{record.invoiceRise,jdbcType=VARCHAR},
       business_nature = #{record.businessNature,jdbcType=SMALLINT},
       business_sketch = #{record.businessSketch,jdbcType=VARCHAR},
@@ -618,12 +617,11 @@
       business_leader_id = #{record.businessLeaderId,jdbcType=BIGINT},
       business_leader = #{record.businessLeader,jdbcType=VARCHAR},
       auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
-      crm_code_or_name = #{record.crmCodeOrName,jdbcType=VARCHAR},
+      crm_code = #{record.crmCode,jdbcType=VARCHAR},
       dept_name = #{record.deptName,jdbcType=VARCHAR},
       contract_no = #{record.contractNo,jdbcType=CHAR},
       booking_officer_id = #{record.bookingOfficerId,jdbcType=BIGINT},
       operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
-      process_id = #{record.processId,jdbcType=CHAR},
       deliver_notice_status = #{record.deliverNoticeStatus,jdbcType=SMALLINT},
       submit_time = #{record.submitTime,jdbcType=TIMESTAMP},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -671,6 +669,9 @@
       </if>
       <if test="thisShipmentsMoney != null" >
         this_shipments_money = #{thisShipmentsMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="currencyBn != null" >
+        currency_bn = #{currencyBn,jdbcType=VARCHAR},
       </if>
       <if test="invoiceRise != null" >
         invoice_rise = #{invoiceRise,jdbcType=VARCHAR},
@@ -723,8 +724,8 @@
       <if test="auditingStatus != null" >
         auditing_status = #{auditingStatus,jdbcType=SMALLINT},
       </if>
-      <if test="crmCodeOrName != null" >
-        crm_code_or_name = #{crmCodeOrName,jdbcType=VARCHAR},
+      <if test="crmCode != null" >
+        crm_code = #{crmCode,jdbcType=VARCHAR},
       </if>
       <if test="deptName != null" >
         dept_name = #{deptName,jdbcType=VARCHAR},
@@ -737,9 +738,6 @@
       </if>
       <if test="operationSpecialistId != null" >
         operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
-      </if>
-      <if test="processId != null" >
-        process_id = #{processId,jdbcType=CHAR},
       </if>
       <if test="deliverNoticeStatus != null" >
         deliver_notice_status = #{deliverNoticeStatus,jdbcType=SMALLINT},
@@ -781,6 +779,7 @@
       deliver_yn = #{deliverYn,jdbcType=SMALLINT},
       advance_money = #{advanceMoney,jdbcType=DECIMAL},
       this_shipments_money = #{thisShipmentsMoney,jdbcType=DECIMAL},
+      currency_bn = #{currencyBn,jdbcType=VARCHAR},
       invoice_rise = #{invoiceRise,jdbcType=VARCHAR},
       business_nature = #{businessNature,jdbcType=SMALLINT},
       business_sketch = #{businessSketch,jdbcType=VARCHAR},
@@ -798,12 +797,11 @@
       business_leader_id = #{businessLeaderId,jdbcType=BIGINT},
       business_leader = #{businessLeader,jdbcType=VARCHAR},
       auditing_status = #{auditingStatus,jdbcType=SMALLINT},
-      crm_code_or_name = #{crmCodeOrName,jdbcType=VARCHAR},
+      crm_code = #{crmCode,jdbcType=VARCHAR},
       dept_name = #{deptName,jdbcType=VARCHAR},
       contract_no = #{contractNo,jdbcType=CHAR},
       booking_officer_id = #{bookingOfficerId,jdbcType=BIGINT},
       operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
-      process_id = #{processId,jdbcType=CHAR},
       deliver_notice_status = #{deliverNoticeStatus,jdbcType=SMALLINT},
       submit_time = #{submitTime,jdbcType=TIMESTAMP},
       create_user_id = #{createUserId,jdbcType=BIGINT},

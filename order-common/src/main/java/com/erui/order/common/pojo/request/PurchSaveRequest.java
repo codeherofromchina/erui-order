@@ -170,11 +170,7 @@ public class PurchSaveRequest {
     }
 
     public void setTaxBearing(String taxBearing) {
-        if ("1".equals(taxBearing)) {
-            this.taxBearing = true;
-        } else {
-            this.taxBearing = false;
-        }
+        this.taxBearing = false;
     }
 
     public BigDecimal getExchangeRate() {

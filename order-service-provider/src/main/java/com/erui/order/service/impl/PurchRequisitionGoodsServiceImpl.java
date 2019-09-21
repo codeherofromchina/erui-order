@@ -98,6 +98,11 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
         return purchRequisitionGoodsInfos;
     }
 
+    @Override
+    public PurchRequisitionGoodsInfo findById(Long id) {
+        PurchRequisitionGoods purchRequisitionGoods = purchRequisitionGoodsMapper.selectByPrimaryKey(id);
+        return PurchRequisitionGoodsFactory.purchRequisitionGoodsInfo(purchRequisitionGoods);
+    }
 
     private List<PurchRequisitionGoods> listByPurchRequisitionId(Long purchRequisitionId) {
         PurchRequisitionGoodsExample example = new PurchRequisitionGoodsExample();

@@ -28,6 +28,8 @@ public class PurchListResponse {
     // 付款状态
     private short payStatus;
     private String payStatusName;
+    // 报检是否完成
+    private Boolean inspected;
 
     // 采购状态
     private Short purchStatus;
@@ -146,6 +148,14 @@ public class PurchListResponse {
 
     public void setPayStatusName(String payStatusName) {
         this.payStatusName = payStatusName;
+    }
+
+    public Boolean getInspected() {
+        return inspected;
+    }
+
+    public void setInspected(Boolean inspected) {
+        this.inspected = inspected;
     }
 }
 

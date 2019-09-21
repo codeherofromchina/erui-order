@@ -3,7 +3,7 @@
 <mapper namespace="com.erui.order.mapper.PurchContractGoodsMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.PurchContractGoods" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="purch_contract_id" property="purchContractGoodsId" jdbcType="BIGINT" />
+    <result column="purch_contract_id" property="purchContractId" jdbcType="BIGINT" />
     <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
     <result column="purchase_num" property="purchaseNum" jdbcType="INTEGER" />
     <result column="non_tax_price" property="nonTaxPrice" jdbcType="DECIMAL" />
@@ -119,7 +119,7 @@
       create_time, update_user_id, update_time, 
       delete_flag, delete_time, pre_purchased_num, 
       purchased_num)
-    values (#{id,jdbcType=BIGINT}, #{purchContractGoodsId,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT},
+    values (#{id,jdbcType=BIGINT}, #{purchContractId,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT},
       #{purchaseNum,jdbcType=INTEGER}, #{nonTaxPrice,jdbcType=DECIMAL}, #{purchasePrice,jdbcType=DECIMAL}, 
       #{purchaseTotalPrice,jdbcType=DECIMAL}, #{brand,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
@@ -132,7 +132,7 @@
       <if test="id != null" >
         id,
       </if>
-      <if test="purchContractGoodsId != null" >
+      <if test="purchContractId != null" >
         purch_contract_id,
       </if>
       <if test="orderGoodsId != null" >
@@ -182,8 +182,8 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="purchContractGoodsId != null" >
-        #{purchContractGoodsId,jdbcType=BIGINT},
+      <if test="purchContractId != null" >
+        #{purchContractId,jdbcType=BIGINT},
       </if>
       <if test="orderGoodsId != null" >
         #{orderGoodsId,jdbcType=BIGINT},
@@ -241,8 +241,8 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.purchContractGoodsId != null" >
-        purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
+      <if test="record.purchContractId != null" >
+        purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
       </if>
       <if test="record.orderGoodsId != null" >
         order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
@@ -294,7 +294,7 @@
   <update id="updateByExample" parameterType="map" >
     update purch_contract_goods
     set id = #{record.id,jdbcType=BIGINT},
-      purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
+      purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
       order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
       purchase_num = #{record.purchaseNum,jdbcType=INTEGER},
       non_tax_price = #{record.nonTaxPrice,jdbcType=DECIMAL},
@@ -316,8 +316,8 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.PurchContractGoods" >
     update purch_contract_goods
     <set >
-      <if test="purchContractGoodsId != null" >
-        purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
+      <if test="purchContractId != null" >
+        purch_contract_id = #{purchContractId,jdbcType=BIGINT},
       </if>
       <if test="orderGoodsId != null" >
         order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
@@ -366,7 +366,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.PurchContractGoods" >
     update purch_contract_goods
-    set purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
+    set purch_contract_id = #{purchContractId,jdbcType=BIGINT},
       order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
       purchase_num = #{purchaseNum,jdbcType=INTEGER},
       non_tax_price = #{nonTaxPrice,jdbcType=DECIMAL},

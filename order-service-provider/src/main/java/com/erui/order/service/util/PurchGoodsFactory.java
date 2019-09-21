@@ -26,27 +26,34 @@ public class PurchGoodsFactory {
         return purchGoods;
     }
 
-    public static List<PurchGoodsInfo> PurchGoodsInfo(List<PurchGoods> PurchGoodsList) {
+    public static List<PurchGoodsInfo> purchGoodsInfo(List<PurchGoods> PurchGoodsList) {
         if (PurchGoodsList == null) {
             return null;
         }
-        List<PurchGoodsInfo> PurchGoodsInfos = new ArrayList<>();
-        for (PurchGoods PurchGoods : PurchGoodsList) {
-
-            PurchGoodsInfos.add(PurchGoodsInfo(PurchGoods));
+        List<PurchGoodsInfo> purchGoodsInfos = new ArrayList<>();
+        for (PurchGoods purchGoods : PurchGoodsList) {
+            purchGoodsInfos.add(purchGoodsInfo(purchGoods));
         }
-        return PurchGoodsInfos;
+        return purchGoodsInfos;
     }
 
 
-    public static PurchGoodsInfo PurchGoodsInfo(PurchGoods PurchGoods) {
-        if (PurchGoods == null) {
+    public static PurchGoodsInfo purchGoodsInfo(PurchGoods purchGoods) {
+        if (purchGoods == null) {
             return null;
         }
-        PurchGoodsInfo PurchGoodsInfo = new PurchGoodsInfo();
-        PurchGoodsInfo.setOrderGoodsId(PurchGoods.getOrderGoodsId());
+        PurchGoodsInfo purchGoodsInfo = new PurchGoodsInfo();
+        purchGoodsInfo.setId(purchGoods.getId());
+        purchGoodsInfo.setPurchContractGoodsId(purchGoods.getPurchContractGoodsId());
+        purchGoodsInfo.setOrderGoodsId(purchGoods.getOrderGoodsId());
+        purchGoodsInfo.setPurchaseNum(purchGoods.getPurchaseNum());
+        purchGoodsInfo.setPurchasePrice(purchGoods.getPurchasePrice());
+        purchGoodsInfo.setNonTaxPrice(purchGoods.getNonTaxPrice());
+        purchGoodsInfo.setPurchaseRemark(purchGoods.getPurchaseRemark());
+        purchGoodsInfo.setPurchaseRemark(purchGoods.getPurchaseRemark());
+        purchGoodsInfo.setPreInspectNum(purchGoods.getPreInspectNum());
 
-        return PurchGoodsInfo;
+        return purchGoodsInfo;
     }
 }
 

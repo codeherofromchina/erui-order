@@ -14,7 +14,7 @@ public interface InstockService {
      * @return
      * @throws Exception
      */
-    Long insert(InstockSaveRequest insertRequest) throws Exception;
+    Long insert(Long inspectReportId) throws Exception;
 
     /**
      * 更新

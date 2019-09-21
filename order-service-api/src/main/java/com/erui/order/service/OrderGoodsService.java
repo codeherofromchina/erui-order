@@ -45,5 +45,7 @@ public interface OrderGoodsService {
      * @return
      */
     OrderGoodsInfo findById(Long id);
+
+    List<OrderGoodsInfo> listByOrderId(Long orderId);
 }
 

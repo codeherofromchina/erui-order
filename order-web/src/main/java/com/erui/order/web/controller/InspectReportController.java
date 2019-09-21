@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class InspectReportController {
     private static final Logger LOGGER = LoggerFactory.getLogger(InspectReportController.class);
     @Autowired
-    private InspectReportService InspectReportService;
+    private InspectReportService inspectReportService;
 
     /**
      * 保存InspectReport
@@ -50,13 +50,8 @@ public class InspectReportController {
         LOGGER.info("saveInspectReport - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
         Result<Void> result = new Result<>();
         try {
-            Long id = saveRequest.getId();
-            if (id != null) {
-                InspectReportService.update(id, saveRequest);
-            } else {
-                id = InspectReportService.insert(saveRequest);
-            }
-            LOGGER.info("saveInspectReport成功 - {} - {}", JSON.toJSONString(userInfo), id);
+            inspectReportService.update(saveRequest.getId(), saveRequest);
+            LOGGER.info("saveInspectReport成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("saveInspectReport异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest), e);
@@ -78,7 +73,7 @@ public class InspectReportController {
         LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
         Result<Pager<InspectReportListResponse>> result = new Result<>();
         try {
-            Pager<InspectReportListResponse> pageInfo = InspectReportService.list(queryRequest);
+            Pager<InspectReportListResponse> pageInfo = inspectReportService.list(queryRequest);
             result.setData(pageInfo);
             LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
         } catch (Exception e) {
@@ -101,7 +96,7 @@ public class InspectReportController {
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
         Result<InspectReportDetailResponse> result = new Result<>();
         try {
-            InspectReportDetailResponse detail = InspectReportService.detail(key.getId());
+            InspectReportDetailResponse detail = inspectReportService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {

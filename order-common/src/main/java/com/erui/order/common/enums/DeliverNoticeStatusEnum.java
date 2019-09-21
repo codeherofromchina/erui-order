@@ -15,7 +15,7 @@ public enum DeliverNoticeStatusEnum {
         this.name = name;
     }
 
-    public int getCode() {
+    public short getCode() {
         return code;
     }
 

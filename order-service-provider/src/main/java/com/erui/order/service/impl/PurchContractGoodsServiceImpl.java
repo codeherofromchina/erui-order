@@ -170,6 +170,12 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
         return PurchContractGoodsFactory.purchContractGoodsInfo(purchContractGoodsList);
     }
 
+    @Override
+    public PurchContractGoodsInfo findById(Long id) {
+        PurchContractGoods purchContractGoods = purchContractGoodsMapper.selectByPrimaryKey(id);
+        return PurchContractGoodsFactory.purchContractGoodsInfo(purchContractGoods);
+    }
+
     private List<PurchContractGoods> listByPurchContractId02(Long purchContractId) {
         PurchContractGoodsExample example = new PurchContractGoodsExample();
         example.createCriteria().andPurchContractIdEqualTo(purchContractId)

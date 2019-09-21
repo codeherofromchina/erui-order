@@ -12,43 +12,62 @@ import com.erui.order.model.entity.InspectReport;
  */
 public class InspectReportFactory {
 
-    public static InspectReport InspectReport(InspectReportSaveRequest saveRequest) {
+    public static InspectReport inspectReport(InspectReportSaveRequest saveRequest) {
         if (saveRequest == null) {
             return null;
         }
-        InspectReport InspectReport = new InspectReport();
-        InspectReport.setId(saveRequest.getId());
-        InspectReport.setInspectReportStatus(saveRequest.getInspectReportStatus());
+        InspectReport inspectReport = new InspectReport();
+        inspectReport.setId(saveRequest.getId());
+        inspectReport.setCheckDate(saveRequest.getCheckDate());
+        inspectReport.setDoneDate(saveRequest.getDoneDate());
+        inspectReport.setReportRemarks(saveRequest.getReportRemarks());
+        inspectReport.setInspectReportStatus(saveRequest.getInspectReportStatus());
 
-        return InspectReport;
+        return inspectReport;
     }
 
-    public static InspectReportDetailResponse InspectReportDetailResponse(InspectReport InspectReport) {
-        if (InspectReport == null) {
+    public static InspectReportDetailResponse inspectReportDetailResponse(InspectReport inspectReport) {
+        if (inspectReport == null) {
             return null;
         }
 
-        InspectReportDetailResponse InspectReportDetailResponse = new InspectReportDetailResponse();
-        InspectReportDetailResponse.setId(InspectReport.getId());
-        InspectReportDetailResponse.setInspectReportStatus(InspectReport.getInspectReportStatus());
+        InspectReportDetailResponse inspectReportDetailResponse = new InspectReportDetailResponse();
+        inspectReportDetailResponse.setId(inspectReport.getId());
+        inspectReportDetailResponse.setCheckUserId(inspectReport.getCheckUserId());
 
-        return InspectReportDetailResponse;
+
+        inspectReportDetailResponse.setNcrNo(inspectReport.getNcrNo());
+        inspectReportDetailResponse.setCheckDate(inspectReport.getCheckDate());
+        inspectReportDetailResponse.setDoneDate(inspectReport.getDoneDate());
+        inspectReportDetailResponse.setInspectReportStatus(inspectReport.getInspectReportStatus());
+        inspectReportDetailResponse.setReportRemarks(inspectReport.getReportRemarks());
+        inspectReportDetailResponse.setMsg(inspectReport.getMsg());
+        inspectReportDetailResponse.setInspectReportStatus(inspectReport.getInspectReportStatus());
+
+        return inspectReportDetailResponse;
     }
 
-    public static InspectReportListResponse InspectReportListResponse(InspectReport InspectReport) {
-        if (InspectReport == null) {
+    public static InspectReportListResponse inspectReportListResponse(InspectReport inspectReport) {
+        if (inspectReport == null) {
             return null;
         }
-        InspectReportListResponse InspectReportListResponse = new InspectReportListResponse();
-        InspectReportListResponse.setId(InspectReport.getId());
+        InspectReportListResponse inspectReportListResponse = new InspectReportListResponse();
+        inspectReportListResponse.setId(inspectReport.getId());
+        inspectReportListResponse.setInspectApplyNo(inspectReport.getInspectApplyNo());
+        inspectReportListResponse.setContractNo(inspectReport.getContractNo());
+        inspectReportListResponse.setProjectNo(inspectReport.getProjectNo());
+        inspectReportListResponse.setPurchNo(inspectReport.getPurchNo());
+        inspectReportListResponse.setSupplierName(inspectReport.getSupplierName());
+        inspectReportListResponse.setCheckDate(inspectReport.getCheckDate());
+        inspectReportListResponse.setCheckTimes(inspectReport.getCheckTimes());
 
-        InspectReportListResponse.setInspectReportStatus(InspectReport.getInspectReportStatus());
-        InspectReportStatusEnum statusEnum = InspectReportStatusEnum.valueOf(InspectReport.getInspectReportStatus());
+        inspectReportListResponse.setInspectReportStatus(inspectReport.getInspectReportStatus());
+        InspectReportStatusEnum statusEnum = InspectReportStatusEnum.valueOf(inspectReport.getInspectReportStatus());
         if (statusEnum != null) {
-            InspectReportListResponse.setInspectReportStatusName(statusEnum.getName());
+            inspectReportListResponse.setInspectReportStatusName(statusEnum.getName());
         }
 
-        return InspectReportListResponse;
+        return inspectReportListResponse;
     }
 }
 

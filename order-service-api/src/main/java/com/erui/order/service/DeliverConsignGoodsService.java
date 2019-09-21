@@ -10,12 +10,12 @@ public interface DeliverConsignGoodsService {
     /**
      * 不存在就插入，存在则更新操作
      *
-     * @param purchId
-     * @param DeliverConsignGoodsList
+     * @param deliverConsignId
+     * @param deliverConsignGoodsInfoList
      * @return
      * @throws Exception
      */
-    int insertOnDuplicateIdUpdate(Long purchId, List<DeliverConsignGoodsInfo> DeliverConsignGoodsList) throws Exception;
+    int insertOnDuplicateIdUpdate(Long deliverConsignId, List<DeliverConsignGoodsInfo> deliverConsignGoodsInfoList) throws Exception;
 
     /**
      * 插入信息

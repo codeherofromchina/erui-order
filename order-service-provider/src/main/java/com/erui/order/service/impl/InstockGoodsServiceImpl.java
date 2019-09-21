@@ -1,5 +1,6 @@
 package com.erui.order.service.impl;
 
+import com.erui.order.common.pojo.InspectApplyGoodsInfo;
 import com.erui.order.common.pojo.InstockGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
@@ -24,31 +25,30 @@ public class InstockGoodsServiceImpl implements InstockGoodsService {
     @Autowired
     private InstockGoodsMapper instockGoodsMapper;
 
-
     @Override
-    public int insertOnDuplicateIdUpdate(Long parentId, List<InstockGoodsInfo> InstockGoodsInfos) throws Exception {
+    public int update(Long parentId, List<InstockGoodsInfo> InstockGoodsInfos) throws Exception {
         if (parentId == null) {
             throw new Exception("采购合同ID错误");
         }
-        List<InstockGoods> InstockGoodses = listByInstockId02(parentId);
-        Set<Long> InstockGoodsIds = InstockGoodses.stream().map(InstockGoods::getId).collect(Collectors.toSet());
+        List<InstockGoods> instockGoods = listByInstockId02(parentId);
+        Set<Long> instockGoodsIds = instockGoods.stream().map(InstockGoods::getId).collect(Collectors.toSet());
 
         int updateNum = 0;
-        for (InstockGoodsInfo InstockGoodsInfo : InstockGoodsInfos) {
-            Long id = InstockGoodsInfo.getId();
+        for (InstockGoodsInfo instockGoodsInfo : InstockGoodsInfos) {
+            Long id = instockGoodsInfo.getId();
             if (id == null) {
-                updateNum += insert(parentId, InstockGoodsInfo);
-            } else if (InstockGoodsIds.remove(id)) {
+                throw new Exception("商品标识不存在");
+            } else if (instockGoodsIds.remove(id)) {
                 // 更新操作
-                updateNum += updateById(id, InstockGoodsInfo);
+                updateNum += updateById(id, instockGoodsInfo);
             } else {
                 // 抛出异常，不是给定业务数据
                 throw new Exception("采购合同商品错误");
             }
         }
 
-        if (InstockGoodsIds.size() > 0) {
-            delete(InstockGoodsIds.toArray(new Long[InstockGoodsIds.size()]));
+        if (instockGoodsIds.size() > 0) {
+            delete(instockGoodsIds.toArray(new Long[instockGoodsIds.size()]));
         }
         return updateNum;
 
@@ -56,25 +56,28 @@ public class InstockGoodsServiceImpl implements InstockGoodsService {
     }
 
     @Override
-    public int insert(Long InstockId, List<InstockGoodsInfo> InstockGoodsList) {
+    public int insert(Long instockId, List<InspectApplyGoodsInfo> inspectApplyGoodsInfos) {
         int insertNum = 0;
-        for (InstockGoodsInfo InstockGoodsInfo : InstockGoodsList) {
-            insertNum += insert(InstockId, InstockGoodsInfo);
+        for (InspectApplyGoodsInfo applyGoodsInfo : inspectApplyGoodsInfos) {
+            insertNum += insert(instockId, applyGoodsInfo);
         }
         return insertNum;
     }
 
 
-    @Override
-    public int insert(Long InstockId, InstockGoodsInfo InstockGoodsInfo) {
-        InstockGoods InstockGoods = InstockGoodsFactory.InstockGoods(InstockGoodsInfo);
+    private int insert(Long instockId, InspectApplyGoodsInfo inspectApplyGoodsInfo) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        InstockGoods.setInstockId(InstockId);
-        if (userInfo != null) {
-            InstockGoods.setCreateUserId(userInfo.getId());
-        }
-        InstockGoods.setCreateTime(new Date());
-        return instockGoodsMapper.insert(InstockGoods);
+        InstockGoods instockGoods = new InstockGoods();
+        instockGoods.setInstockId(instockId);
+        instockGoods.setOrderGoodsId(inspectApplyGoodsInfo.getOrderGoodsId());
+        instockGoods.setInspectApplyGoodsId(inspectApplyGoodsInfo.getId());
+        instockGoods.setInstockNum(inspectApplyGoodsInfo.getInspectNum() - inspectApplyGoodsInfo.getUnqualified()); // 入库数量
+        instockGoods.setCreateTime(new Date());
+
+        instockGoods.setCreateUserId(userInfo.getId());
+        instockGoods.setDeleteFlag(Boolean.FALSE);
+
+        return instockGoodsMapper.insert(instockGoods);
     }
 
 
@@ -105,38 +108,38 @@ public class InstockGoodsServiceImpl implements InstockGoodsService {
     }
 
     @Override
-    public int updateById(Long id, InstockGoodsInfo InstockGoodsInfo) throws Exception {
-        InstockGoods InstockGoods = instockGoodsMapper.selectByPrimaryKey(id);
-        if (InstockGoods == null) {
+    public int updateById(Long id, InstockGoodsInfo instockGoodsInfo) throws Exception {
+        InstockGoods instockGoods = instockGoodsMapper.selectByPrimaryKey(id);
+        if (instockGoods == null) {
             throw new Exception("采购合同商品不存在");
         }
 
-        InstockGoods contractGoods = InstockGoodsFactory.InstockGoods(InstockGoodsInfo);
-        contractGoods.setId(id);
-        contractGoods.setUpdateTime(new Date());
+        InstockGoods instockGoodsSelective = InstockGoodsFactory.instockGoods(instockGoodsInfo);
+        instockGoodsSelective.setId(id);
+        instockGoodsSelective.setUpdateTime(new Date());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
-            contractGoods.setUpdateUserId(userInfo.getId());
+            instockGoodsSelective.setUpdateUserId(userInfo.getId());
         }
 
-        return instockGoodsMapper.updateByPrimaryKeySelective(contractGoods);
+        return instockGoodsMapper.updateByPrimaryKeySelective(instockGoodsSelective);
     }
 
     @Override
     public List<InstockGoodsInfo> listByInstockId(Long instockId) {
-        List<InstockGoods> InstockGoodsList = listByInstockId02(instockId);
-        return InstockGoodsFactory.InstockGoodsInfo(InstockGoodsList);
+        List<InstockGoods> instockGoods = listByInstockId02(instockId);
+        return InstockGoodsFactory.instockGoodsInfo(instockGoods);
     }
 
-    private List<InstockGoods> listByInstockId02(Long InstockId) {
+    private List<InstockGoods> listByInstockId02(Long instockId) {
         InstockGoodsExample example = new InstockGoodsExample();
-        example.createCriteria().andInstockIdEqualTo(InstockId)
+        example.createCriteria().andInstockIdEqualTo(instockId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<InstockGoods> InstockGoodsList = instockGoodsMapper.selectByExample(example);
-        if (InstockGoodsList == null) {
-            InstockGoodsList = new ArrayList<>();
+        List<InstockGoods> instockGoods = instockGoodsMapper.selectByExample(example);
+        if (instockGoods == null) {
+            instockGoods = new ArrayList<>();
         }
-        return InstockGoodsList;
+        return instockGoods;
     }
 }
 

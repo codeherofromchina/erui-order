@@ -4,7 +4,7 @@
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.Purch" >
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="purch_no" property="purchNo" jdbcType="CHAR" />
-    <result column="purch_contract_id" property="purchContractGoodsId" jdbcType="BIGINT" />
+    <result column="purch_contract_id" property="purchContractId" jdbcType="BIGINT" />
     <result column="agent_id" property="agentId" jdbcType="BIGINT" />
     <result column="department" property="department" jdbcType="VARCHAR" />
     <result column="signing_date" property="signingDate" jdbcType="DATE" />
@@ -140,7 +140,7 @@
       create_user_id, create_time, update_user_id, 
       update_time, delete_flag, delete_time
       )
-    values (#{id,jdbcType=BIGINT}, #{purchNo,jdbcType=CHAR}, #{purchContractGoodsId,jdbcType=BIGINT},
+    values (#{id,jdbcType=BIGINT}, #{purchNo,jdbcType=CHAR}, #{purchContractId,jdbcType=BIGINT},
       #{agentId,jdbcType=BIGINT}, #{department,jdbcType=VARCHAR}, #{signingDate,jdbcType=DATE}, 
       #{arrivalDate,jdbcType=DATE}, #{purChgDate,jdbcType=DATE}, #{supplierId,jdbcType=BIGINT}, 
       #{totalPrice,jdbcType=DECIMAL}, #{currencyBn,jdbcType=CHAR}, #{remarks,jdbcType=VARCHAR}, 
@@ -161,7 +161,7 @@
       <if test="purchNo != null" >
         purch_no,
       </if>
-      <if test="purchContractGoodsId != null" >
+      <if test="purchContractId != null" >
         purch_contract_id,
       </if>
       <if test="agentId != null" >
@@ -253,8 +253,8 @@
       <if test="purchNo != null" >
         #{purchNo,jdbcType=CHAR},
       </if>
-      <if test="purchContractGoodsId != null" >
-        #{purchContractGoodsId,jdbcType=BIGINT},
+      <if test="purchContractId != null" >
+        #{purchContractId,jdbcType=BIGINT},
       </if>
       <if test="agentId != null" >
         #{agentId,jdbcType=BIGINT},
@@ -354,8 +354,8 @@
       <if test="record.purchNo != null" >
         purch_no = #{record.purchNo,jdbcType=CHAR},
       </if>
-      <if test="record.purchContractGoodsId != null" >
-        purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
+      <if test="record.purchContractId != null" >
+        purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
       </if>
       <if test="record.agentId != null" >
         agent_id = #{record.agentId,jdbcType=BIGINT},
@@ -447,7 +447,7 @@
     update purch
     set id = #{record.id,jdbcType=BIGINT},
       purch_no = #{record.purchNo,jdbcType=CHAR},
-      purch_contract_id = #{record.purchContractGoodsId,jdbcType=BIGINT},
+      purch_contract_id = #{record.purchContractId,jdbcType=BIGINT},
       agent_id = #{record.agentId,jdbcType=BIGINT},
       department = #{record.department,jdbcType=VARCHAR},
       signing_date = #{record.signingDate,jdbcType=DATE},
@@ -485,8 +485,8 @@
       <if test="purchNo != null" >
         purch_no = #{purchNo,jdbcType=CHAR},
       </if>
-      <if test="purchContractGoodsId != null" >
-        purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
+      <if test="purchContractId != null" >
+        purch_contract_id = #{purchContractId,jdbcType=BIGINT},
       </if>
       <if test="agentId != null" >
         agent_id = #{agentId,jdbcType=BIGINT},
@@ -575,7 +575,7 @@
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.Purch" >
     update purch
     set purch_no = #{purchNo,jdbcType=CHAR},
-      purch_contract_id = #{purchContractGoodsId,jdbcType=BIGINT},
+      purch_contract_id = #{purchContractId,jdbcType=BIGINT},
       agent_id = #{agentId,jdbcType=BIGINT},
       department = #{department,jdbcType=VARCHAR},
       signing_date = #{signingDate,jdbcType=DATE},
