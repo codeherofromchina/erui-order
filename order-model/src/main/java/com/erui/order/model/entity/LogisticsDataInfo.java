@@ -1,18 +1,21 @@
 package com.erui.order.model.entity;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
-public class OrderAccountDeliver {
+public class LogisticsDataInfo {
     private Long id;
 
-    private Long orderId;
+    private Long logisticsDataId;
 
-    private String accDesc;
+    private Short dynamicDescription;
 
-    private BigDecimal goodsPrice;
+    private String portName;
 
-    private Date deliverDate;
+    private String portNameZh;
+
+    private Date leavePortDate;
+
+    private Short logisticsDataInfoStatus;
 
     private Long createUserId;
 
@@ -34,36 +37,52 @@ public class OrderAccountDeliver {
         this.id = id;
     }
 
-    public Long getOrderId() {
-        return orderId;
+    public Long getLogisticsDataId() {
+        return logisticsDataId;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setLogisticsDataId(Long logisticsDataId) {
+        this.logisticsDataId = logisticsDataId;
     }
 
-    public String getAccDesc() {
-        return accDesc;
+    public Short getDynamicDescription() {
+        return dynamicDescription;
     }
 
-    public void setAccDesc(String accDesc) {
-        this.accDesc = accDesc;
+    public void setDynamicDescription(Short dynamicDescription) {
+        this.dynamicDescription = dynamicDescription;
     }
 
-    public BigDecimal getGoodsPrice() {
-        return goodsPrice;
+    public String getPortName() {
+        return portName;
     }
 
-    public void setGoodsPrice(BigDecimal goodsPrice) {
-        this.goodsPrice = goodsPrice;
+    public void setPortName(String portName) {
+        this.portName = portName;
     }
 
-    public Date getDeliverDate() {
-        return deliverDate;
+    public String getPortNameZh() {
+        return portNameZh;
     }
 
-    public void setDeliverDate(Date deliverDate) {
-        this.deliverDate = deliverDate;
+    public void setPortNameZh(String portNameZh) {
+        this.portNameZh = portNameZh;
+    }
+
+    public Date getLeavePortDate() {
+        return leavePortDate;
+    }
+
+    public void setLeavePortDate(Date leavePortDate) {
+        this.leavePortDate = leavePortDate;
+    }
+
+    public Short getLogisticsDataInfoStatus() {
+        return logisticsDataInfoStatus;
+    }
+
+    public void setLogisticsDataInfoStatus(Short logisticsDataInfoStatus) {
+        this.logisticsDataInfoStatus = logisticsDataInfoStatus;
     }
 
     public Long getCreateUserId() {

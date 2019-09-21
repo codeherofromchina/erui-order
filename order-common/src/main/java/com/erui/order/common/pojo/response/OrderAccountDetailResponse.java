@@ -2,6 +2,8 @@ package com.erui.order.common.pojo.response;
 
 import com.erui.order.common.pojo.AttachmentInfo;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -11,10 +13,21 @@ import java.util.List;
 public class OrderAccountDetailResponse {
     private Long id;
 
-    private Short OrderAccountStatus;
+    private Long orderId;
 
-    // 附件内容
-    private List<AttachmentInfo> attachments;
+    private Short accountType;
+
+    private String accDesc;
+
+    private BigDecimal money;
+
+    private BigDecimal discount;
+
+    private Date paymentDate;
+
+    private BigDecimal goodsPrice;
+
+    private Date deliverDate;
 
     public Long getId() {
         return id;
@@ -24,20 +37,68 @@ public class OrderAccountDetailResponse {
         this.id = id;
     }
 
-    public Short getOrderAccountStatus() {
-        return OrderAccountStatus;
+    public Long getOrderId() {
+        return orderId;
     }
 
-    public void setOrderAccountStatus(Short OrderAccountStatus) {
-        this.OrderAccountStatus = OrderAccountStatus;
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
     }
 
-    public List<AttachmentInfo> getAttachments() {
-        return attachments;
+    public Short getAccountType() {
+        return accountType;
     }
 
-    public void setAttachments(List<AttachmentInfo> attachments) {
-        this.attachments = attachments;
+    public void setAccountType(Short accountType) {
+        this.accountType = accountType;
+    }
+
+    public String getAccDesc() {
+        return accDesc;
+    }
+
+    public void setAccDesc(String accDesc) {
+        this.accDesc = accDesc;
+    }
+
+    public BigDecimal getMoney() {
+        return money;
+    }
+
+    public void setMoney(BigDecimal money) {
+        this.money = money;
+    }
+
+    public BigDecimal getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(BigDecimal discount) {
+        this.discount = discount;
+    }
+
+    public Date getPaymentDate() {
+        return paymentDate;
+    }
+
+    public void setPaymentDate(Date paymentDate) {
+        this.paymentDate = paymentDate;
+    }
+
+    public BigDecimal getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(BigDecimal goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
+    public Date getDeliverDate() {
+        return deliverDate;
+    }
+
+    public void setDeliverDate(Date deliverDate) {
+        this.deliverDate = deliverDate;
     }
 }
 

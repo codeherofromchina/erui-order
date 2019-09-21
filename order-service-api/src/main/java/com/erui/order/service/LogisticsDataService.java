@@ -9,12 +9,12 @@ import com.erui.order.common.pojo.response.LogisticsDataListResponse;
 
 public interface LogisticsDataService {
     /**
-     * 新建
+     * 推送物流信息
      *
      * @return
      * @throws Exception
      */
-    Long insert(LogisticsDataSaveRequest insertRequest) throws Exception;
+    Long insert(Long deliverDetailId) throws Exception;
 
     /**
      * 更新

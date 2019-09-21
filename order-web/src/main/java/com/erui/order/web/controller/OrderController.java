@@ -3,6 +3,7 @@ package com.erui.order.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.Result;
 import com.erui.order.common.ResultStatus;
+import com.erui.order.common.enums.OrderPayStatusEnum;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
@@ -60,6 +61,29 @@ public class OrderController {
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("saveOrder异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+    /**
+     * 收款完成
+     *
+     * @param orderId
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "accountDone", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> accountDone(@RequestBody @Valid PrimaryKey orderId, BindingResult bindingResult) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("accountDone - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId));
+        Result<Void> result = new Result<>();
+        try {
+            orderService.accountDone(orderId.getId(), OrderPayStatusEnum.PAYMENT_COMPLETION);
+            LOGGER.info("accountDone成功 - {} - {}", JSON.toJSONString(userInfo), orderId.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("accountDone异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;

@@ -1,12 +1,14 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.erui.order.mapper.OrderAccountDeliverMapper" >
-  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.OrderAccountDeliver" >
+<mapper namespace="com.erui.order.mapper.LogisticsDataInfoMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.LogisticsDataInfo" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="order_id" property="orderId" jdbcType="BIGINT" />
-    <result column="acc_desc" property="accDesc" jdbcType="VARCHAR" />
-    <result column="goods_price" property="goodsPrice" jdbcType="DECIMAL" />
-    <result column="deliver_date" property="deliverDate" jdbcType="DATE" />
+    <result column="logistics_data_id" property="logisticsDataId" jdbcType="BIGINT" />
+    <result column="dynamic_description" property="dynamicDescription" jdbcType="SMALLINT" />
+    <result column="port_name" property="portName" jdbcType="VARCHAR" />
+    <result column="port_name_zh" property="portNameZh" jdbcType="VARCHAR" />
+    <result column="leave_port_date" property="leavePortDate" jdbcType="TIMESTAMP" />
+    <result column="logistics_data_info_status" property="logisticsDataInfoStatus" jdbcType="SMALLINT" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
@@ -73,16 +75,17 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, order_id, acc_desc, goods_price, deliver_date, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, delete_time
+    id, logistics_data_id, dynamic_description, port_name, port_name_zh, leave_port_date, 
+    logistics_data_info_status, create_user_id, create_time, update_user_id, update_time, 
+    delete_flag, delete_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.OrderAccountDeliverExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.LogisticsDataInfoExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from order_account_deliver
+    from logistics_data_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -93,46 +96,54 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from order_account_deliver
+    from logistics_data_info
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from order_account_deliver
+    delete from logistics_data_info
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.OrderAccountDeliverExample" >
-    delete from order_account_deliver
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.LogisticsDataInfoExample" >
+    delete from logistics_data_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.OrderAccountDeliver" >
-    insert into order_account_deliver (id, order_id, acc_desc, 
-      goods_price, deliver_date, create_user_id, 
+  <insert id="insert" parameterType="com.erui.order.model.entity.LogisticsDataInfo" >
+    insert into logistics_data_info (id, logistics_data_id, dynamic_description, 
+      port_name, port_name_zh, leave_port_date, 
+      logistics_data_info_status, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, delete_time)
-    values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{accDesc,jdbcType=VARCHAR}, 
-      #{goodsPrice,jdbcType=DECIMAL}, #{deliverDate,jdbcType=DATE}, #{createUserId,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{logisticsDataId,jdbcType=BIGINT}, #{dynamicDescription,jdbcType=SMALLINT}, 
+      #{portName,jdbcType=VARCHAR}, #{portNameZh,jdbcType=VARCHAR}, #{leavePortDate,jdbcType=TIMESTAMP}, 
+      #{logisticsDataInfoStatus,jdbcType=SMALLINT}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
-  <insert id="insertSelective" parameterType="com.erui.order.model.entity.OrderAccountDeliver" >
-    insert into order_account_deliver
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.LogisticsDataInfo" >
+    insert into logistics_data_info
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="orderId != null" >
-        order_id,
+      <if test="logisticsDataId != null" >
+        logistics_data_id,
       </if>
-      <if test="accDesc != null" >
-        acc_desc,
+      <if test="dynamicDescription != null" >
+        dynamic_description,
       </if>
-      <if test="goodsPrice != null" >
-        goods_price,
+      <if test="portName != null" >
+        port_name,
       </if>
-      <if test="deliverDate != null" >
-        deliver_date,
+      <if test="portNameZh != null" >
+        port_name_zh,
+      </if>
+      <if test="leavePortDate != null" >
+        leave_port_date,
+      </if>
+      <if test="logisticsDataInfoStatus != null" >
+        logistics_data_info_status,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -157,17 +168,23 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="orderId != null" >
-        #{orderId,jdbcType=BIGINT},
+      <if test="logisticsDataId != null" >
+        #{logisticsDataId,jdbcType=BIGINT},
       </if>
-      <if test="accDesc != null" >
-        #{accDesc,jdbcType=VARCHAR},
+      <if test="dynamicDescription != null" >
+        #{dynamicDescription,jdbcType=SMALLINT},
       </if>
-      <if test="goodsPrice != null" >
-        #{goodsPrice,jdbcType=DECIMAL},
+      <if test="portName != null" >
+        #{portName,jdbcType=VARCHAR},
       </if>
-      <if test="deliverDate != null" >
-        #{deliverDate,jdbcType=DATE},
+      <if test="portNameZh != null" >
+        #{portNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="leavePortDate != null" >
+        #{leavePortDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsDataInfoStatus != null" >
+        #{logisticsDataInfoStatus,jdbcType=SMALLINT},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=BIGINT},
@@ -189,29 +206,35 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.erui.order.model.entity.OrderAccountDeliverExample" resultType="java.lang.Integer" >
-    select count(*) from order_account_deliver
+  <select id="countByExample" parameterType="com.erui.order.model.entity.LogisticsDataInfoExample" resultType="java.lang.Integer" >
+    select count(*) from logistics_data_info
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update order_account_deliver
+    update logistics_data_info
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.orderId != null" >
-        order_id = #{record.orderId,jdbcType=BIGINT},
+      <if test="record.logisticsDataId != null" >
+        logistics_data_id = #{record.logisticsDataId,jdbcType=BIGINT},
       </if>
-      <if test="record.accDesc != null" >
-        acc_desc = #{record.accDesc,jdbcType=VARCHAR},
+      <if test="record.dynamicDescription != null" >
+        dynamic_description = #{record.dynamicDescription,jdbcType=SMALLINT},
       </if>
-      <if test="record.goodsPrice != null" >
-        goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
+      <if test="record.portName != null" >
+        port_name = #{record.portName,jdbcType=VARCHAR},
       </if>
-      <if test="record.deliverDate != null" >
-        deliver_date = #{record.deliverDate,jdbcType=DATE},
+      <if test="record.portNameZh != null" >
+        port_name_zh = #{record.portNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="record.leavePortDate != null" >
+        leave_port_date = #{record.leavePortDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.logisticsDataInfoStatus != null" >
+        logistics_data_info_status = #{record.logisticsDataInfoStatus,jdbcType=SMALLINT},
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -237,12 +260,14 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update order_account_deliver
+    update logistics_data_info
     set id = #{record.id,jdbcType=BIGINT},
-      order_id = #{record.orderId,jdbcType=BIGINT},
-      acc_desc = #{record.accDesc,jdbcType=VARCHAR},
-      goods_price = #{record.goodsPrice,jdbcType=DECIMAL},
-      deliver_date = #{record.deliverDate,jdbcType=DATE},
+      logistics_data_id = #{record.logisticsDataId,jdbcType=BIGINT},
+      dynamic_description = #{record.dynamicDescription,jdbcType=SMALLINT},
+      port_name = #{record.portName,jdbcType=VARCHAR},
+      port_name_zh = #{record.portNameZh,jdbcType=VARCHAR},
+      leave_port_date = #{record.leavePortDate,jdbcType=TIMESTAMP},
+      logistics_data_info_status = #{record.logisticsDataInfoStatus,jdbcType=SMALLINT},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
@@ -253,20 +278,26 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.OrderAccountDeliver" >
-    update order_account_deliver
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.LogisticsDataInfo" >
+    update logistics_data_info
     <set >
-      <if test="orderId != null" >
-        order_id = #{orderId,jdbcType=BIGINT},
+      <if test="logisticsDataId != null" >
+        logistics_data_id = #{logisticsDataId,jdbcType=BIGINT},
       </if>
-      <if test="accDesc != null" >
-        acc_desc = #{accDesc,jdbcType=VARCHAR},
+      <if test="dynamicDescription != null" >
+        dynamic_description = #{dynamicDescription,jdbcType=SMALLINT},
       </if>
-      <if test="goodsPrice != null" >
-        goods_price = #{goodsPrice,jdbcType=DECIMAL},
+      <if test="portName != null" >
+        port_name = #{portName,jdbcType=VARCHAR},
       </if>
-      <if test="deliverDate != null" >
-        deliver_date = #{deliverDate,jdbcType=DATE},
+      <if test="portNameZh != null" >
+        port_name_zh = #{portNameZh,jdbcType=VARCHAR},
+      </if>
+      <if test="leavePortDate != null" >
+        leave_port_date = #{leavePortDate,jdbcType=TIMESTAMP},
+      </if>
+      <if test="logisticsDataInfoStatus != null" >
+        logistics_data_info_status = #{logisticsDataInfoStatus,jdbcType=SMALLINT},
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -289,12 +320,14 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.OrderAccountDeliver" >
-    update order_account_deliver
-    set order_id = #{orderId,jdbcType=BIGINT},
-      acc_desc = #{accDesc,jdbcType=VARCHAR},
-      goods_price = #{goodsPrice,jdbcType=DECIMAL},
-      deliver_date = #{deliverDate,jdbcType=DATE},
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.LogisticsDataInfo" >
+    update logistics_data_info
+    set logistics_data_id = #{logisticsDataId,jdbcType=BIGINT},
+      dynamic_description = #{dynamicDescription,jdbcType=SMALLINT},
+      port_name = #{portName,jdbcType=VARCHAR},
+      port_name_zh = #{portNameZh,jdbcType=VARCHAR},
+      leave_port_date = #{leavePortDate,jdbcType=TIMESTAMP},
+      logistics_data_info_status = #{logisticsDataInfoStatus,jdbcType=SMALLINT},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},

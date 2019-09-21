@@ -8,6 +8,8 @@ public class OrderAccount {
 
     private Long orderId;
 
+    private Short accountType;
+
     private String accDesc;
 
     private BigDecimal money;
@@ -15,6 +17,10 @@ public class OrderAccount {
     private BigDecimal discount;
 
     private Date paymentDate;
+
+    private BigDecimal goodsPrice;
+
+    private Date deliverDate;
 
     private Long createUserId;
 
@@ -42,6 +48,14 @@ public class OrderAccount {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public Short getAccountType() {
+        return accountType;
+    }
+
+    public void setAccountType(Short accountType) {
+        this.accountType = accountType;
     }
 
     public String getAccDesc() {
@@ -74,6 +88,22 @@ public class OrderAccount {
 
     public void setPaymentDate(Date paymentDate) {
         this.paymentDate = paymentDate;
+    }
+
+    public BigDecimal getGoodsPrice() {
+        return goodsPrice;
+    }
+
+    public void setGoodsPrice(BigDecimal goodsPrice) {
+        this.goodsPrice = goodsPrice;
+    }
+
+    public Date getDeliverDate() {
+        return deliverDate;
+    }
+
+    public void setDeliverDate(Date deliverDate) {
+        this.deliverDate = deliverDate;
     }
 
     public Long getCreateUserId() {

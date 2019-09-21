@@ -253,6 +253,66 @@ public class OrderAccountExample {
             return (Criteria) this;
         }
 
+        public Criteria andAccountTypeIsNull() {
+            addCriterion("account_type is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeIsNotNull() {
+            addCriterion("account_type is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeEqualTo(Short value) {
+            addCriterion("account_type =", value, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeNotEqualTo(Short value) {
+            addCriterion("account_type <>", value, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeGreaterThan(Short value) {
+            addCriterion("account_type >", value, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeGreaterThanOrEqualTo(Short value) {
+            addCriterion("account_type >=", value, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeLessThan(Short value) {
+            addCriterion("account_type <", value, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeLessThanOrEqualTo(Short value) {
+            addCriterion("account_type <=", value, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeIn(List<Short> values) {
+            addCriterion("account_type in", values, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeNotIn(List<Short> values) {
+            addCriterion("account_type not in", values, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeBetween(Short value1, Short value2) {
+            addCriterion("account_type between", value1, value2, "accountType");
+            return (Criteria) this;
+        }
+
+        public Criteria andAccountTypeNotBetween(Short value1, Short value2) {
+            addCriterion("account_type not between", value1, value2, "accountType");
+            return (Criteria) this;
+        }
+
         public Criteria andAccDescIsNull() {
             addCriterion("acc_desc is null");
             return (Criteria) this;
@@ -500,6 +560,126 @@ public class OrderAccountExample {
 
         public Criteria andPaymentDateNotBetween(Date value1, Date value2) {
             addCriterionForJDBCDate("payment_date not between", value1, value2, "paymentDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceIsNull() {
+            addCriterion("goods_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceIsNotNull() {
+            addCriterion("goods_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceEqualTo(BigDecimal value) {
+            addCriterion("goods_price =", value, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceNotEqualTo(BigDecimal value) {
+            addCriterion("goods_price <>", value, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceGreaterThan(BigDecimal value) {
+            addCriterion("goods_price >", value, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("goods_price >=", value, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceLessThan(BigDecimal value) {
+            addCriterion("goods_price <", value, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("goods_price <=", value, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceIn(List<BigDecimal> values) {
+            addCriterion("goods_price in", values, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceNotIn(List<BigDecimal> values) {
+            addCriterion("goods_price not in", values, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("goods_price between", value1, value2, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andGoodsPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("goods_price not between", value1, value2, "goodsPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateIsNull() {
+            addCriterion("deliver_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateIsNotNull() {
+            addCriterion("deliver_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateEqualTo(Date value) {
+            addCriterionForJDBCDate("deliver_date =", value, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("deliver_date <>", value, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("deliver_date >", value, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("deliver_date >=", value, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateLessThan(Date value) {
+            addCriterionForJDBCDate("deliver_date <", value, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("deliver_date <=", value, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateIn(List<Date> values) {
+            addCriterionForJDBCDate("deliver_date in", values, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("deliver_date not in", values, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("deliver_date between", value1, value2, "deliverDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("deliver_date not between", value1, value2, "deliverDate");
             return (Criteria) this;
         }
 

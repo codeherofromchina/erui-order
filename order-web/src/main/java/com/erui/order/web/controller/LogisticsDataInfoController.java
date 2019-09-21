@@ -6,36 +6,39 @@ import com.erui.order.common.ResultStatus;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.request.LogisticsDataInfoSaveRequest;
 import com.erui.order.common.pojo.request.LogisticsDataQueryRequest;
 import com.erui.order.common.pojo.request.LogisticsDataSaveRequest;
 import com.erui.order.common.pojo.response.LogisticsDataDetailResponse;
+import com.erui.order.common.pojo.response.LogisticsDataInfoDetailResponse;
 import com.erui.order.common.pojo.response.LogisticsDataListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
-import com.erui.order.service.LogisticsDataService;
+import com.erui.order.model.entity.LogisticsDataInfo;
+import com.erui.order.service.LogisticsDataInfoService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.util.List;
 
 /**
+ * 物流跟踪动态信息
+ *
  * @Auther 王晓丹
  * @Date 2019/7/21 下午5:26
  */
 @RestController
-@RequestMapping("order/logisticsData")
+@RequestMapping("order/logisticsDataInfo")
 @Validated
-public class LogisticsDataController {
-    private static final Logger LOGGER = LoggerFactory.getLogger(LogisticsDataController.class);
+public class LogisticsDataInfoController {
+    private static final Logger LOGGER = LoggerFactory.getLogger(LogisticsDataInfoController.class);
     @Autowired
-    private LogisticsDataService logisticsDataService;
+    private LogisticsDataInfoService logisticsDataInfoService;
 
     /**
      * 保存LogisticsData
@@ -44,15 +47,14 @@ public class LogisticsDataController {
      * @param bindingResult
      * @return
      */
-    @RequestMapping(value = "saveLogisticsData", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<Void> saveLogisticsData(@RequestBody @Valid LogisticsDataSaveRequest saveRequest, BindingResult bindingResult) {
+    @RequestMapping(value = "saveLogisticsDataInfo/{logisticsDataId}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> saveLogisticsDataInfo(@PathVariable("logisticsDataId") Long logisticsDataId, @RequestBody @Valid LogisticsDataInfoSaveRequest saveRequest, BindingResult bindingResult) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         LOGGER.info("saveLogisticsData - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
         Result<Void> result = new Result<>();
         try {
-            Long id = saveRequest.getId();
-            logisticsDataService.update(id, saveRequest);
-            LOGGER.info("saveLogisticsData成功 - {} - {}", JSON.toJSONString(userInfo), id);
+            logisticsDataInfoService.insertOnDuplicateIdUpdate(logisticsDataId, saveRequest);
+            LOGGER.info("saveLogisticsData成功 - {} - {}", JSON.toJSONString(userInfo), logisticsDataId);
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("saveLogisticsData异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest), e);
@@ -62,28 +64,18 @@ public class LogisticsDataController {
     }
 
 
-    /**
-     * 分页查询LogisticsData列表内容
-     *
-     * @param queryRequest
-     * @return
-     */
-    @RequestMapping(value = "list", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<Pager<LogisticsDataListResponse>> list(@RequestBody LogisticsDataQueryRequest queryRequest) {
-        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
-        Result<Pager<LogisticsDataListResponse>> result = new Result<>();
+    @RequestMapping(value = "delete", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> delete(@RequestBody PrimaryKey key) {
+        Result<Void> result = new Result<>();
         try {
-            Pager<LogisticsDataListResponse> pageInfo = logisticsDataService.list(queryRequest);
-            result.setData(pageInfo);
-            LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+            logisticsDataInfoService.delete(key.getId());
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.info("list异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;
     }
+
 
     /**
      * 获取LogisticsData详情
@@ -92,12 +84,12 @@ public class LogisticsDataController {
      * @return
      */
     @RequestMapping(value = "info", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<LogisticsDataDetailResponse> detail(@RequestBody PrimaryKey key) {
+    public Result<LogisticsDataInfoDetailResponse> detail(@RequestBody PrimaryKey key) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
-        Result<LogisticsDataDetailResponse> result = new Result<>();
+        Result<LogisticsDataInfoDetailResponse> result = new Result<>();
         try {
-            LogisticsDataDetailResponse detail = logisticsDataService.detail(key.getId());
+            LogisticsDataInfoDetailResponse detail = logisticsDataInfoService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {

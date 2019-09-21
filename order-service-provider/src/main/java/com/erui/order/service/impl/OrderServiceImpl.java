@@ -283,6 +283,17 @@ public class OrderServiceImpl implements OrderService {
         return detail;
     }
 
+    @Override
+    public void accountDone(Long id, OrderPayStatusEnum orderPayStatusEnum) throws Exception {
+        Order order = orderMapper.selectByPrimaryKey(id);
+        if (order == null) {
+            throw new Exception("订单不存在");
+        }
+        Order orderSelective = new Order();
+        orderSelective.setId(id);
+        orderSelective.setPayStatus(orderPayStatusEnum.getCode());
+        orderMapper.updateByPrimaryKeySelective(orderSelective);
+    }
 
     private String findLastContractNo() {
         PageHelper.startPage(1, 1);

@@ -1,9 +1,7 @@
 package com.erui.order.service.util;
 
-import com.erui.order.common.enums.OrderAccountStatusEnum;
 import com.erui.order.common.pojo.request.OrderAccountSaveRequest;
 import com.erui.order.common.pojo.response.OrderAccountDetailResponse;
-import com.erui.order.common.pojo.response.OrderAccountListResponse;
 import com.erui.order.model.entity.OrderAccount;
 
 /**
@@ -12,36 +10,42 @@ import com.erui.order.model.entity.OrderAccount;
  */
 public class OrderAccountFactory {
 
-    public static OrderAccount OrderAccount(OrderAccountSaveRequest saveRequest) {
-        if (saveRequest == null) {
+    public static OrderAccount orderAccount(OrderAccountSaveRequest orderAccountSaveRequest) {
+        if (orderAccountSaveRequest == null) {
             return null;
         }
-        OrderAccount OrderAccount = new OrderAccount();
-        OrderAccount.setId(saveRequest.getId());
+        OrderAccount orderAccount = new OrderAccount();
+        orderAccount.setId(orderAccountSaveRequest.getId());
+        orderAccount.setOrderId(orderAccountSaveRequest.getOrderId());
+        orderAccount.setAccountType(orderAccountSaveRequest.getAccountType());
+        orderAccount.setAccDesc(orderAccountSaveRequest.getAccDesc());
+        orderAccount.setMoney(orderAccountSaveRequest.getMoney());
+        orderAccount.setDiscount(orderAccountSaveRequest.getDiscount());
+        orderAccount.setPaymentDate(orderAccountSaveRequest.getPaymentDate());
+        orderAccount.setGoodsPrice(orderAccountSaveRequest.getGoodsPrice());
+        orderAccount.setDeliverDate(orderAccountSaveRequest.getDeliverDate());
 
-        return OrderAccount;
+        return orderAccount;
     }
 
-    public static OrderAccountDetailResponse OrderAccountDetailResponse(OrderAccount OrderAccount) {
-        if (OrderAccount == null) {
+    public static OrderAccountDetailResponse orderAccountDetailResponse(OrderAccount orderAccount) {
+        if (orderAccount == null) {
             return null;
         }
 
-        OrderAccountDetailResponse OrderAccountDetailResponse = new OrderAccountDetailResponse();
-        OrderAccountDetailResponse.setId(OrderAccount.getId());
+        OrderAccountDetailResponse orderAccountDetailResponse = new OrderAccountDetailResponse();
+        orderAccountDetailResponse.setId(orderAccount.getId());
+        orderAccountDetailResponse.setOrderId(orderAccount.getOrderId());
+        orderAccountDetailResponse.setAccountType(orderAccount.getAccountType());
+        orderAccountDetailResponse.setAccDesc(orderAccount.getAccDesc());
+        orderAccountDetailResponse.setMoney(orderAccount.getMoney());
+        orderAccountDetailResponse.setDiscount(orderAccount.getDiscount());
+        orderAccountDetailResponse.setPaymentDate(orderAccount.getPaymentDate());
+        orderAccountDetailResponse.setGoodsPrice(orderAccount.getGoodsPrice());
+        orderAccountDetailResponse.setDeliverDate(orderAccount.getDeliverDate());
 
-        return OrderAccountDetailResponse;
+        return orderAccountDetailResponse;
     }
 
-    public static OrderAccountListResponse OrderAccountListResponse(OrderAccount OrderAccount) {
-        if (OrderAccount == null) {
-            return null;
-        }
-        OrderAccountListResponse OrderAccountListResponse = new OrderAccountListResponse();
-        OrderAccountListResponse.setId(OrderAccount.getId());
-
-
-        return OrderAccountListResponse;
-    }
 }
 

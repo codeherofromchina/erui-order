@@ -4,13 +4,13 @@ package com.erui.order.common.enums;
  * @Auther 王晓丹
  * @Date 2019/9/10 下午10:45
  */
-public enum OrderAccountDeliverStatusEnum {
+public enum LogisticsDataInfoStatusEnum {
     INIT(1, "未编辑"), SAVED(2, "已保存"), SUBMITED(3, "已提交"), DONE(4, "已完成"), DELETE(5, "已删除");
 
     private short code;
     private String name;
 
-    OrderAccountDeliverStatusEnum(int code, String name) {
+    LogisticsDataInfoStatusEnum(int code, String name) {
         this.code = (short) code;
         this.name = name;
     }
@@ -29,10 +29,10 @@ public enum OrderAccountDeliverStatusEnum {
      * @param code
      * @return
      */
-    public static OrderAccountDeliverStatusEnum valueOf(Short code) {
+    public static LogisticsDataInfoStatusEnum valueOf(Short code) {
         if (code != null) {
             short code02 = code.shortValue(); // 拆箱一次
-            for (OrderAccountDeliverStatusEnum statusEnum : OrderAccountDeliverStatusEnum.values()) {
+            for (LogisticsDataInfoStatusEnum statusEnum : LogisticsDataInfoStatusEnum.values()) {
                 if (code02 == statusEnum.code) {
                     return statusEnum;
                 }

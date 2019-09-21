@@ -1,19 +1,17 @@
 package com.erui.order.model.entity;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 
-public class OrderAccountDeliverExample {
+public class LogisticsDataInfoExample {
     protected String orderByClause;
 
     protected boolean distinct;
 
     protected List<Criteria> oredCriteria;
 
-    public OrderAccountDeliverExample() {
+    public LogisticsDataInfoExample() {
         oredCriteria = new ArrayList<Criteria>();
     }
 
@@ -107,32 +105,6 @@ public class OrderAccountDeliverExample {
             criteria.add(new Criterion(condition, value1, value2));
         }
 
-        protected void addCriterionForJDBCDate(String condition, Date value, String property) {
-            if (value == null) {
-                throw new RuntimeException("Value for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value.getTime()), property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, List<Date> values, String property) {
-            if (values == null || values.size() == 0) {
-                throw new RuntimeException("Value list for " + property + " cannot be null or empty");
-            }
-            List<java.sql.Date> dateList = new ArrayList<java.sql.Date>();
-            Iterator<Date> iter = values.iterator();
-            while (iter.hasNext()) {
-                dateList.add(new java.sql.Date(iter.next().getTime()));
-            }
-            addCriterion(condition, dateList, property);
-        }
-
-        protected void addCriterionForJDBCDate(String condition, Date value1, Date value2, String property) {
-            if (value1 == null || value2 == null) {
-                throw new RuntimeException("Between values for " + property + " cannot be null");
-            }
-            addCriterion(condition, new java.sql.Date(value1.getTime()), new java.sql.Date(value2.getTime()), property);
-        }
-
         public Criteria andIdIsNull() {
             addCriterion("id is null");
             return (Criteria) this;
@@ -193,253 +165,383 @@ public class OrderAccountDeliverExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNull() {
-            addCriterion("order_id is null");
+        public Criteria andLogisticsDataIdIsNull() {
+            addCriterion("logistics_data_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIsNotNull() {
-            addCriterion("order_id is not null");
+        public Criteria andLogisticsDataIdIsNotNull() {
+            addCriterion("logistics_data_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdEqualTo(Long value) {
-            addCriterion("order_id =", value, "orderId");
+        public Criteria andLogisticsDataIdEqualTo(Long value) {
+            addCriterion("logistics_data_id =", value, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotEqualTo(Long value) {
-            addCriterion("order_id <>", value, "orderId");
+        public Criteria andLogisticsDataIdNotEqualTo(Long value) {
+            addCriterion("logistics_data_id <>", value, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThan(Long value) {
-            addCriterion("order_id >", value, "orderId");
+        public Criteria andLogisticsDataIdGreaterThan(Long value) {
+            addCriterion("logistics_data_id >", value, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("order_id >=", value, "orderId");
+        public Criteria andLogisticsDataIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("logistics_data_id >=", value, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThan(Long value) {
-            addCriterion("order_id <", value, "orderId");
+        public Criteria andLogisticsDataIdLessThan(Long value) {
+            addCriterion("logistics_data_id <", value, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdLessThanOrEqualTo(Long value) {
-            addCriterion("order_id <=", value, "orderId");
+        public Criteria andLogisticsDataIdLessThanOrEqualTo(Long value) {
+            addCriterion("logistics_data_id <=", value, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdIn(List<Long> values) {
-            addCriterion("order_id in", values, "orderId");
+        public Criteria andLogisticsDataIdIn(List<Long> values) {
+            addCriterion("logistics_data_id in", values, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotIn(List<Long> values) {
-            addCriterion("order_id not in", values, "orderId");
+        public Criteria andLogisticsDataIdNotIn(List<Long> values) {
+            addCriterion("logistics_data_id not in", values, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdBetween(Long value1, Long value2) {
-            addCriterion("order_id between", value1, value2, "orderId");
+        public Criteria andLogisticsDataIdBetween(Long value1, Long value2) {
+            addCriterion("logistics_data_id between", value1, value2, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderIdNotBetween(Long value1, Long value2) {
-            addCriterion("order_id not between", value1, value2, "orderId");
+        public Criteria andLogisticsDataIdNotBetween(Long value1, Long value2) {
+            addCriterion("logistics_data_id not between", value1, value2, "logisticsDataId");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescIsNull() {
-            addCriterion("acc_desc is null");
+        public Criteria andDynamicDescriptionIsNull() {
+            addCriterion("dynamic_description is null");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescIsNotNull() {
-            addCriterion("acc_desc is not null");
+        public Criteria andDynamicDescriptionIsNotNull() {
+            addCriterion("dynamic_description is not null");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescEqualTo(String value) {
-            addCriterion("acc_desc =", value, "accDesc");
+        public Criteria andDynamicDescriptionEqualTo(Short value) {
+            addCriterion("dynamic_description =", value, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescNotEqualTo(String value) {
-            addCriterion("acc_desc <>", value, "accDesc");
+        public Criteria andDynamicDescriptionNotEqualTo(Short value) {
+            addCriterion("dynamic_description <>", value, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescGreaterThan(String value) {
-            addCriterion("acc_desc >", value, "accDesc");
+        public Criteria andDynamicDescriptionGreaterThan(Short value) {
+            addCriterion("dynamic_description >", value, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescGreaterThanOrEqualTo(String value) {
-            addCriterion("acc_desc >=", value, "accDesc");
+        public Criteria andDynamicDescriptionGreaterThanOrEqualTo(Short value) {
+            addCriterion("dynamic_description >=", value, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescLessThan(String value) {
-            addCriterion("acc_desc <", value, "accDesc");
+        public Criteria andDynamicDescriptionLessThan(Short value) {
+            addCriterion("dynamic_description <", value, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescLessThanOrEqualTo(String value) {
-            addCriterion("acc_desc <=", value, "accDesc");
+        public Criteria andDynamicDescriptionLessThanOrEqualTo(Short value) {
+            addCriterion("dynamic_description <=", value, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescLike(String value) {
-            addCriterion("acc_desc like", value, "accDesc");
+        public Criteria andDynamicDescriptionIn(List<Short> values) {
+            addCriterion("dynamic_description in", values, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescNotLike(String value) {
-            addCriterion("acc_desc not like", value, "accDesc");
+        public Criteria andDynamicDescriptionNotIn(List<Short> values) {
+            addCriterion("dynamic_description not in", values, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescIn(List<String> values) {
-            addCriterion("acc_desc in", values, "accDesc");
+        public Criteria andDynamicDescriptionBetween(Short value1, Short value2) {
+            addCriterion("dynamic_description between", value1, value2, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescNotIn(List<String> values) {
-            addCriterion("acc_desc not in", values, "accDesc");
+        public Criteria andDynamicDescriptionNotBetween(Short value1, Short value2) {
+            addCriterion("dynamic_description not between", value1, value2, "dynamicDescription");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescBetween(String value1, String value2) {
-            addCriterion("acc_desc between", value1, value2, "accDesc");
+        public Criteria andPortNameIsNull() {
+            addCriterion("port_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andAccDescNotBetween(String value1, String value2) {
-            addCriterion("acc_desc not between", value1, value2, "accDesc");
+        public Criteria andPortNameIsNotNull() {
+            addCriterion("port_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceIsNull() {
-            addCriterion("goods_price is null");
+        public Criteria andPortNameEqualTo(String value) {
+            addCriterion("port_name =", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceIsNotNull() {
-            addCriterion("goods_price is not null");
+        public Criteria andPortNameNotEqualTo(String value) {
+            addCriterion("port_name <>", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceEqualTo(BigDecimal value) {
-            addCriterion("goods_price =", value, "goodsPrice");
+        public Criteria andPortNameGreaterThan(String value) {
+            addCriterion("port_name >", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceNotEqualTo(BigDecimal value) {
-            addCriterion("goods_price <>", value, "goodsPrice");
+        public Criteria andPortNameGreaterThanOrEqualTo(String value) {
+            addCriterion("port_name >=", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceGreaterThan(BigDecimal value) {
-            addCriterion("goods_price >", value, "goodsPrice");
+        public Criteria andPortNameLessThan(String value) {
+            addCriterion("port_name <", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("goods_price >=", value, "goodsPrice");
+        public Criteria andPortNameLessThanOrEqualTo(String value) {
+            addCriterion("port_name <=", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceLessThan(BigDecimal value) {
-            addCriterion("goods_price <", value, "goodsPrice");
+        public Criteria andPortNameLike(String value) {
+            addCriterion("port_name like", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("goods_price <=", value, "goodsPrice");
+        public Criteria andPortNameNotLike(String value) {
+            addCriterion("port_name not like", value, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceIn(List<BigDecimal> values) {
-            addCriterion("goods_price in", values, "goodsPrice");
+        public Criteria andPortNameIn(List<String> values) {
+            addCriterion("port_name in", values, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceNotIn(List<BigDecimal> values) {
-            addCriterion("goods_price not in", values, "goodsPrice");
+        public Criteria andPortNameNotIn(List<String> values) {
+            addCriterion("port_name not in", values, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("goods_price between", value1, value2, "goodsPrice");
+        public Criteria andPortNameBetween(String value1, String value2) {
+            addCriterion("port_name between", value1, value2, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andGoodsPriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("goods_price not between", value1, value2, "goodsPrice");
+        public Criteria andPortNameNotBetween(String value1, String value2) {
+            addCriterion("port_name not between", value1, value2, "portName");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateIsNull() {
-            addCriterion("deliver_date is null");
+        public Criteria andPortNameZhIsNull() {
+            addCriterion("port_name_zh is null");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateIsNotNull() {
-            addCriterion("deliver_date is not null");
+        public Criteria andPortNameZhIsNotNull() {
+            addCriterion("port_name_zh is not null");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateEqualTo(Date value) {
-            addCriterionForJDBCDate("deliver_date =", value, "deliverDate");
+        public Criteria andPortNameZhEqualTo(String value) {
+            addCriterion("port_name_zh =", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("deliver_date <>", value, "deliverDate");
+        public Criteria andPortNameZhNotEqualTo(String value) {
+            addCriterion("port_name_zh <>", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("deliver_date >", value, "deliverDate");
+        public Criteria andPortNameZhGreaterThan(String value) {
+            addCriterion("port_name_zh >", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("deliver_date >=", value, "deliverDate");
+        public Criteria andPortNameZhGreaterThanOrEqualTo(String value) {
+            addCriterion("port_name_zh >=", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateLessThan(Date value) {
-            addCriterionForJDBCDate("deliver_date <", value, "deliverDate");
+        public Criteria andPortNameZhLessThan(String value) {
+            addCriterion("port_name_zh <", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("deliver_date <=", value, "deliverDate");
+        public Criteria andPortNameZhLessThanOrEqualTo(String value) {
+            addCriterion("port_name_zh <=", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateIn(List<Date> values) {
-            addCriterionForJDBCDate("deliver_date in", values, "deliverDate");
+        public Criteria andPortNameZhLike(String value) {
+            addCriterion("port_name_zh like", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("deliver_date not in", values, "deliverDate");
+        public Criteria andPortNameZhNotLike(String value) {
+            addCriterion("port_name_zh not like", value, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("deliver_date between", value1, value2, "deliverDate");
+        public Criteria andPortNameZhIn(List<String> values) {
+            addCriterion("port_name_zh in", values, "portNameZh");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("deliver_date not between", value1, value2, "deliverDate");
+        public Criteria andPortNameZhNotIn(List<String> values) {
+            addCriterion("port_name_zh not in", values, "portNameZh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPortNameZhBetween(String value1, String value2) {
+            addCriterion("port_name_zh between", value1, value2, "portNameZh");
+            return (Criteria) this;
+        }
+
+        public Criteria andPortNameZhNotBetween(String value1, String value2) {
+            addCriterion("port_name_zh not between", value1, value2, "portNameZh");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateIsNull() {
+            addCriterion("leave_port_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateIsNotNull() {
+            addCriterion("leave_port_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateEqualTo(Date value) {
+            addCriterion("leave_port_date =", value, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateNotEqualTo(Date value) {
+            addCriterion("leave_port_date <>", value, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateGreaterThan(Date value) {
+            addCriterion("leave_port_date >", value, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateGreaterThanOrEqualTo(Date value) {
+            addCriterion("leave_port_date >=", value, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateLessThan(Date value) {
+            addCriterion("leave_port_date <", value, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateLessThanOrEqualTo(Date value) {
+            addCriterion("leave_port_date <=", value, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateIn(List<Date> values) {
+            addCriterion("leave_port_date in", values, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateNotIn(List<Date> values) {
+            addCriterion("leave_port_date not in", values, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateBetween(Date value1, Date value2) {
+            addCriterion("leave_port_date between", value1, value2, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeavePortDateNotBetween(Date value1, Date value2) {
+            addCriterion("leave_port_date not between", value1, value2, "leavePortDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusIsNull() {
+            addCriterion("logistics_data_info_status is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusIsNotNull() {
+            addCriterion("logistics_data_info_status is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusEqualTo(Short value) {
+            addCriterion("logistics_data_info_status =", value, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusNotEqualTo(Short value) {
+            addCriterion("logistics_data_info_status <>", value, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusGreaterThan(Short value) {
+            addCriterion("logistics_data_info_status >", value, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusGreaterThanOrEqualTo(Short value) {
+            addCriterion("logistics_data_info_status >=", value, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusLessThan(Short value) {
+            addCriterion("logistics_data_info_status <", value, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusLessThanOrEqualTo(Short value) {
+            addCriterion("logistics_data_info_status <=", value, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusIn(List<Short> values) {
+            addCriterion("logistics_data_info_status in", values, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusNotIn(List<Short> values) {
+            addCriterion("logistics_data_info_status not in", values, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusBetween(Short value1, Short value2) {
+            addCriterion("logistics_data_info_status between", value1, value2, "logisticsDataInfoStatus");
+            return (Criteria) this;
+        }
+
+        public Criteria andLogisticsDataInfoStatusNotBetween(Short value1, Short value2) {
+            addCriterion("logistics_data_info_status not between", value1, value2, "logisticsDataInfoStatus");
             return (Criteria) this;
         }
 

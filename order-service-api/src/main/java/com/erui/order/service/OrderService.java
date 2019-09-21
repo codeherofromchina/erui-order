@@ -1,5 +1,6 @@
 package com.erui.order.service;
 
+import com.erui.order.common.enums.OrderPayStatusEnum;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.request.OrderQueryRequest;
 import com.erui.order.common.pojo.request.OrderSaveRequest;
@@ -17,6 +18,7 @@ public interface OrderService {
 
     /**
      * 新建订单
+     *
      * @return
      * @throws Exception
      */
@@ -24,12 +26,14 @@ public interface OrderService {
 
     /**
      * 更新订单
+     *
      * @throws Exception
      */
     void update(Long id, OrderSaveRequest updateRequest) throws Exception;
 
     /**
      * 查询订单列表
+     *
      * @param queryRequest
      * @return
      */
@@ -37,10 +41,17 @@ public interface OrderService {
 
     /**
      * 查询订单详情
+     *
      * @param id
      * @return
      */
     OrderDetailResponse detail(Long id) throws Exception;
 
+    /**
+     * 收款完成
+     *
+     * @param id
+     */
+    void accountDone(Long id, OrderPayStatusEnum orderPayStatusEnum) throws Exception;
 }
 
