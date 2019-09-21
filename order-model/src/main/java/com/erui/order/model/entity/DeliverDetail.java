@@ -9,6 +9,12 @@ public class DeliverDetail {
 
     private Long deliverNoticeId;
 
+    private String contractNo;
+
+    private String deliverConsignNo;
+
+    private String projectNo;
+
     private Date billingDate;
 
     private String carrierCo;
@@ -29,21 +35,15 @@ public class DeliverDetail {
 
     private Date sendDate;
 
-    private Long sender;
+    private Long senderUserId;
 
-    private String senderName;
-
-    private Long reviewer;
-
-    private String reviewerName;
+    private Long reviewerUserId;
 
     private String goodsChkStatus;
 
     private String billsChkStatus;
 
-    private Long checkerUid;
-
-    private String checkerName;
+    private Long checkUserId;
 
     private String checkDept;
 
@@ -51,23 +51,15 @@ public class DeliverDetail {
 
     private Date releaseDate;
 
-    private String releaseName;
+    private Long releaseUserId;
 
-    private Long releaseUid;
+    private Long qualityLeaderUserId;
 
-    private Long qualityLeaderId;
-
-    private String qualityLeaderName;
-
-    private Long applicant;
-
-    private String applicantName;
+    private Long applicantUserId;
 
     private Date applicantDate;
 
-    private Long approver;
-
-    private String approverName;
+    private Long approverUserId;
 
     private Date approvalDate;
 
@@ -117,6 +109,30 @@ public class DeliverDetail {
 
     public void setDeliverNoticeId(Long deliverNoticeId) {
         this.deliverNoticeId = deliverNoticeId;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getDeliverConsignNo() {
+        return deliverConsignNo;
+    }
+
+    public void setDeliverConsignNo(String deliverConsignNo) {
+        this.deliverConsignNo = deliverConsignNo;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public Date getBillingDate() {
@@ -199,36 +215,20 @@ public class DeliverDetail {
         this.sendDate = sendDate;
     }
 
-    public Long getSender() {
-        return sender;
+    public Long getSenderUserId() {
+        return senderUserId;
     }
 
-    public void setSender(Long sender) {
-        this.sender = sender;
+    public void setSenderUserId(Long senderUserId) {
+        this.senderUserId = senderUserId;
     }
 
-    public String getSenderName() {
-        return senderName;
+    public Long getReviewerUserId() {
+        return reviewerUserId;
     }
 
-    public void setSenderName(String senderName) {
-        this.senderName = senderName;
-    }
-
-    public Long getReviewer() {
-        return reviewer;
-    }
-
-    public void setReviewer(Long reviewer) {
-        this.reviewer = reviewer;
-    }
-
-    public String getReviewerName() {
-        return reviewerName;
-    }
-
-    public void setReviewerName(String reviewerName) {
-        this.reviewerName = reviewerName;
+    public void setReviewerUserId(Long reviewerUserId) {
+        this.reviewerUserId = reviewerUserId;
     }
 
     public String getGoodsChkStatus() {
@@ -247,20 +247,12 @@ public class DeliverDetail {
         this.billsChkStatus = billsChkStatus;
     }
 
-    public Long getCheckerUid() {
-        return checkerUid;
+    public Long getCheckUserId() {
+        return checkUserId;
     }
 
-    public void setCheckerUid(Long checkerUid) {
-        this.checkerUid = checkerUid;
-    }
-
-    public String getCheckerName() {
-        return checkerName;
-    }
-
-    public void setCheckerName(String checkerName) {
-        this.checkerName = checkerName;
+    public void setCheckUserId(Long checkUserId) {
+        this.checkUserId = checkUserId;
     }
 
     public String getCheckDept() {
@@ -287,52 +279,28 @@ public class DeliverDetail {
         this.releaseDate = releaseDate;
     }
 
-    public String getReleaseName() {
-        return releaseName;
+    public Long getReleaseUserId() {
+        return releaseUserId;
     }
 
-    public void setReleaseName(String releaseName) {
-        this.releaseName = releaseName;
+    public void setReleaseUserId(Long releaseUserId) {
+        this.releaseUserId = releaseUserId;
     }
 
-    public Long getReleaseUid() {
-        return releaseUid;
+    public Long getQualityLeaderUserId() {
+        return qualityLeaderUserId;
     }
 
-    public void setReleaseUid(Long releaseUid) {
-        this.releaseUid = releaseUid;
+    public void setQualityLeaderUserId(Long qualityLeaderUserId) {
+        this.qualityLeaderUserId = qualityLeaderUserId;
     }
 
-    public Long getQualityLeaderId() {
-        return qualityLeaderId;
+    public Long getApplicantUserId() {
+        return applicantUserId;
     }
 
-    public void setQualityLeaderId(Long qualityLeaderId) {
-        this.qualityLeaderId = qualityLeaderId;
-    }
-
-    public String getQualityLeaderName() {
-        return qualityLeaderName;
-    }
-
-    public void setQualityLeaderName(String qualityLeaderName) {
-        this.qualityLeaderName = qualityLeaderName;
-    }
-
-    public Long getApplicant() {
-        return applicant;
-    }
-
-    public void setApplicant(Long applicant) {
-        this.applicant = applicant;
-    }
-
-    public String getApplicantName() {
-        return applicantName;
-    }
-
-    public void setApplicantName(String applicantName) {
-        this.applicantName = applicantName;
+    public void setApplicantUserId(Long applicantUserId) {
+        this.applicantUserId = applicantUserId;
     }
 
     public Date getApplicantDate() {
@@ -343,20 +311,12 @@ public class DeliverDetail {
         this.applicantDate = applicantDate;
     }
 
-    public Long getApprover() {
-        return approver;
+    public Long getApproverUserId() {
+        return approverUserId;
     }
 
-    public void setApprover(Long approver) {
-        this.approver = approver;
-    }
-
-    public String getApproverName() {
-        return approverName;
-    }
-
-    public void setApproverName(String approverName) {
-        this.approverName = approverName;
+    public void setApproverUserId(Long approverUserId) {
+        this.approverUserId = approverUserId;
     }
 
     public Date getApprovalDate() {

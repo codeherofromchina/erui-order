@@ -12,12 +12,16 @@ import com.erui.order.model.entity.DeliverNotice;
  */
 public class DeliverNoticeFactory {
 
-    public static DeliverNotice DeliverNotice(DeliverNoticeSaveRequest saveRequest) {
+    public static DeliverNotice deliverNotice(DeliverNoticeSaveRequest saveRequest) {
         if (saveRequest == null) {
             return null;
         }
         DeliverNotice deliverNotice = new DeliverNotice();
         deliverNotice.setId(saveRequest.getId());
+        deliverNotice.setDeliverConsignId(saveRequest.getDeliverConsignId());
+        deliverNotice.setOtherReq(saveRequest.getOtherReq());
+        deliverNotice.setPackageReq(saveRequest.getPackageReq());
+        deliverNotice.setPrepareReq(saveRequest.getPrepareReq());
 
         return deliverNotice;
     }
@@ -27,11 +31,14 @@ public class DeliverNoticeFactory {
             return null;
         }
 
-        DeliverNoticeDetailResponse DeliverNoticeDetailResponse = new DeliverNoticeDetailResponse();
-        DeliverNoticeDetailResponse.setId(deliverNotice.getId());
-        DeliverNoticeDetailResponse.setDeliverConsignId(deliverNotice.getDeliverConsignId());
+        DeliverNoticeDetailResponse deliverNoticeDetailResponse = new DeliverNoticeDetailResponse();
+        deliverNoticeDetailResponse.setId(deliverNotice.getId());
+        deliverNoticeDetailResponse.setDeliverConsignId(deliverNotice.getDeliverConsignId());
+        deliverNoticeDetailResponse.setOtherReq(deliverNotice.getOtherReq());
+        deliverNoticeDetailResponse.setPackageReq(deliverNotice.getPackageReq());
+        deliverNoticeDetailResponse.setPrepareReq(deliverNotice.getPrepareReq());
 
-        return DeliverNoticeDetailResponse;
+        return deliverNoticeDetailResponse;
     }
 
     public static DeliverNoticeListResponse deliverNoticeListResponse(DeliverNotice deliverNotice) {

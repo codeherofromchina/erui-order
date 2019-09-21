@@ -9,12 +9,12 @@ import com.erui.order.common.pojo.response.DeliverDetailListResponse;
 
 public interface DeliverDetailService {
     /**
-     * 新建
+     * 看货通知单后推送信息到出库中
      *
      * @return
      * @throws Exception
      */
-    Long insert(DeliverDetailSaveRequest insertRequest) throws Exception;
+    Long insert(Long inspectNoticeId) throws Exception;
 
     /**
      * 更新

@@ -1,15 +1,29 @@
 package com.erui.order.common.pojo.response;
 
+import java.util.Date;
+
 /**
  * @Auther 王晓丹
  * @Date 2019/9/7 下午5:30
  */
 public class DeliverDetailListResponse {
     private Long id;
+    // 产品放行单号
+    private String deliverDetailNo;
+    // 销售合同号
+    private String contractNo;
+    // 出口通知单号
+    private String deliverConsignNo;
+    // 项目号
+    private String projectNo;
+    // 放行日期
+    private Date releaseDate;
+    // 出库日期
+    private Date leaveDate;
+    //  出库状态
+    private Short deliverDetailStatus;
+    private String deliverDetailStatusName;
 
-    // 状态
-    private Short DeliverDetailStatus;
-    private String DeliverDetailStatusName;
 
     public Long getId() {
         return id;
@@ -20,19 +34,68 @@ public class DeliverDetailListResponse {
     }
 
     public Short getDeliverDetailStatus() {
-        return DeliverDetailStatus;
+        return deliverDetailStatus;
     }
 
     public void setDeliverDetailStatus(Short DeliverDetailStatus) {
-        this.DeliverDetailStatus = DeliverDetailStatus;
+        this.deliverDetailStatus = DeliverDetailStatus;
     }
 
     public String getDeliverDetailStatusName() {
-        return DeliverDetailStatusName;
+        return deliverDetailStatusName;
     }
 
     public void setDeliverDetailStatusName(String DeliverDetailStatusName) {
-        this.DeliverDetailStatusName = DeliverDetailStatusName;
+        this.deliverDetailStatusName = DeliverDetailStatusName;
+    }
+
+
+    public String getDeliverDetailNo() {
+        return deliverDetailNo;
+    }
+
+    public void setDeliverDetailNo(String deliverDetailNo) {
+        this.deliverDetailNo = deliverDetailNo;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getDeliverConsignNo() {
+        return deliverConsignNo;
+    }
+
+    public void setDeliverConsignNo(String deliverConsignNo) {
+        this.deliverConsignNo = deliverConsignNo;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
+    }
+
+    public Date getReleaseDate() {
+        return releaseDate;
+    }
+
+    public void setReleaseDate(Date releaseDate) {
+        this.releaseDate = releaseDate;
+    }
+
+    public Date getLeaveDate() {
+        return leaveDate;
+    }
+
+    public void setLeaveDate(Date leaveDate) {
+        this.leaveDate = leaveDate;
     }
 }
 

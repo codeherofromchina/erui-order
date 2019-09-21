@@ -35,6 +35,8 @@ public class GoodsServiceImpl implements GoodsService {
     private PurchRequisitionGoodsService purchRequisitionGoodsService;
     @Autowired
     private OrderGoodsService orderGoodsService;
+    @Autowired
+    private DeliverConsignGoodsService deliverConsignGoodsService;
 
 
     @Override
@@ -108,6 +110,23 @@ public class GoodsServiceImpl implements GoodsService {
 
     // ------------------------------------------------------------------------
 
+
+    @Override
+    public List<GoodsInfo> goodsinfobyDeliverDetailGoods(List<DeliverDetailGoodsInfo> deliverDetailGoodsInfos) {
+        return deliverDetailGoodsInfos.stream().map(vo -> goodsinfobyDeliverDetailGoods(vo)).collect(Collectors.toList());
+    }
+
+    @Override
+    public GoodsInfo goodsinfobyDeliverDetailGoods(DeliverDetailGoodsInfo deliverDetailGoodsInfo) {
+        DeliverConsignGoodsInfo deliverConsignGoodsInfo = deliverConsignGoodsService.findById(deliverDetailGoodsInfo.getDeliverConsignGoodsId());
+        GoodsInfo goodsInfo = goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfo);
+
+        goodsInfo.setDeliverDetailGoodsId(deliverDetailGoodsInfo.getId());
+        goodsInfo.setOutboundNum(deliverDetailGoodsInfo.getOutboundNum());
+        goodsInfo.setStraightNum(deliverDetailGoodsInfo.getStraightNum());
+        goodsInfo.setDetailGoodsRemarks(deliverDetailGoodsInfo.getDetailGoodsRemarks());
+        return goodsInfo;
+    }
 
     @Override
     public List<GoodsInfo> goodsInfoByDeliverConsignGoods(List<DeliverConsignGoodsInfo> deliverConsignGoodsInfoList) {

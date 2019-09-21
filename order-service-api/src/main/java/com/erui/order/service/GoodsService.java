@@ -22,6 +22,9 @@ public interface GoodsService {
 
 // ---------------------------------------------------------------------------
 
+    List<GoodsInfo> goodsinfobyDeliverDetailGoods(List<DeliverDetailGoodsInfo> deliverDetailGoodsInfos);
+    GoodsInfo goodsinfobyDeliverDetailGoods(DeliverDetailGoodsInfo deliverDetailGoodsInfo);
+
     /**
      * 通过订舱商品查询商品完整信息
      * @param deliverConsignGoodsInfoList
@@ -81,6 +84,7 @@ public interface GoodsService {
     List<GoodsInfo> goodsInfoByOrderGoods(List<OrderGoodsInfo> orderGoodsInfoList);
 
     GoodsInfo goodsInfoByOrderGoods(OrderGoodsInfo orderGoodsInfo);
+
 
 
 }

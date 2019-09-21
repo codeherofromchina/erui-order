@@ -2,14 +2,18 @@ package com.erui.order.model.entity;
 
 import java.util.Date;
 
-public class DeliverConsignGoods {
+public class DeliverDetailGoods {
     private Long id;
 
-    private Long deliverConsignId;
+    private Long deliverDetailId;
 
-    private Long orderGoodsId;
+    private Long deliverConsignGoodsId;
 
-    private Short sendNum;
+    private Short outboundNum;
+
+    private Short straightNum;
+
+    private String detailGoodsRemarks;
 
     private Long createUserId;
 
@@ -31,28 +35,44 @@ public class DeliverConsignGoods {
         this.id = id;
     }
 
-    public Long getDeliverConsignId() {
-        return deliverConsignId;
+    public Long getDeliverDetailId() {
+        return deliverDetailId;
     }
 
-    public void setDeliverConsignId(Long deliverConsignId) {
-        this.deliverConsignId = deliverConsignId;
+    public void setDeliverDetailId(Long deliverDetailId) {
+        this.deliverDetailId = deliverDetailId;
     }
 
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
+    public Long getDeliverConsignGoodsId() {
+        return deliverConsignGoodsId;
     }
 
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
+    public void setDeliverConsignGoodsId(Long deliverConsignGoodsId) {
+        this.deliverConsignGoodsId = deliverConsignGoodsId;
     }
 
-    public Short getSendNum() {
-        return sendNum;
+    public Short getOutboundNum() {
+        return outboundNum;
     }
 
-    public void setSendNum(Short sendNum) {
-        this.sendNum = sendNum;
+    public void setOutboundNum(Short outboundNum) {
+        this.outboundNum = outboundNum;
+    }
+
+    public Short getStraightNum() {
+        return straightNum;
+    }
+
+    public void setStraightNum(Short straightNum) {
+        this.straightNum = straightNum;
+    }
+
+    public String getDetailGoodsRemarks() {
+        return detailGoodsRemarks;
+    }
+
+    public void setDetailGoodsRemarks(String detailGoodsRemarks) {
+        this.detailGoodsRemarks = detailGoodsRemarks;
     }
 
     public Long getCreateUserId() {

@@ -13,7 +13,15 @@ public class DeliverNoticeDetailResponse {
     private Long id;
     private Long deliverConsignId;
 
-    private Short DeliverNoticeStatus;
+
+    // 其他要求
+    private String otherReq;
+    // '包装要求'
+    private String packageReq;
+    // '备货要求'
+    private String prepareReq;
+
+    private Short deliverNoticeStatus;
 
     // 附件内容
     private List<AttachmentInfo> attachments;
@@ -29,11 +37,11 @@ public class DeliverNoticeDetailResponse {
     }
 
     public Short getDeliverNoticeStatus() {
-        return DeliverNoticeStatus;
+        return deliverNoticeStatus;
     }
 
     public void setDeliverNoticeStatus(Short DeliverNoticeStatus) {
-        this.DeliverNoticeStatus = DeliverNoticeStatus;
+        this.deliverNoticeStatus = DeliverNoticeStatus;
     }
 
     public List<AttachmentInfo> getAttachments() {
@@ -58,6 +66,30 @@ public class DeliverNoticeDetailResponse {
 
     public void setDeliverConsignId(Long deliverConsignId) {
         this.deliverConsignId = deliverConsignId;
+    }
+
+    public String getOtherReq() {
+        return otherReq;
+    }
+
+    public void setOtherReq(String otherReq) {
+        this.otherReq = otherReq;
+    }
+
+    public String getPackageReq() {
+        return packageReq;
+    }
+
+    public void setPackageReq(String packageReq) {
+        this.packageReq = packageReq;
+    }
+
+    public String getPrepareReq() {
+        return prepareReq;
+    }
+
+    public void setPrepareReq(String prepareReq) {
+        this.prepareReq = prepareReq;
     }
 }
 

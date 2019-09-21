@@ -125,8 +125,14 @@ public class DeliverConsignGoodsServiceImpl implements DeliverConsignGoodsServic
 
     @Override
     public List<DeliverConsignGoodsInfo> listByDeliverConsignId(Long deliverConsignId) {
-        List<DeliverConsignGoods> DeliverConsignGoodsList = listByDeliverConsignId02(deliverConsignId);
-        return DeliverConsignGoodsFactory.DeliverConsignGoodsInfo(DeliverConsignGoodsList);
+        List<DeliverConsignGoods> deliverConsignGoodsInfos = listByDeliverConsignId02(deliverConsignId);
+        return DeliverConsignGoodsFactory.deliverConsignGoodsInfo(deliverConsignGoodsInfos);
+    }
+
+    @Override
+    public DeliverConsignGoodsInfo findById(Long deliverConsignGoodsId) {
+        DeliverConsignGoods deliverConsignGoods = this.deliverConsignGoods.selectByPrimaryKey(deliverConsignGoodsId);
+        return DeliverConsignGoodsFactory.deliverConsignGoodsInfo(deliverConsignGoods);
     }
 
     private List<DeliverConsignGoods> listByDeliverConsignId02(Long purchId) {

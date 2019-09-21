@@ -5,7 +5,14 @@ package com.erui.order.common.enums;
  * @Date 2019/9/10 下午10:45
  */
 public enum DeliverDetailStatusEnum {
-    INIT(1, "未编辑"), SAVED(2, "已保存"), SUBMITED(3, "已提交"), DONE(4, "已完成"), DELETE(5, "已删除");
+    INIT(1, "未编辑"),
+    SAVED_OUTSTOCK(2, "出库保存"),
+    SUBMITED_OUTSTOCK(3, "出库提交"),
+    SAVED_OUT_INSPECT(4, "出库质检保存"),
+    SUBMITED_OUT_INSPECT(5, "质检完成"),
+    PROCESS_LOGI_PERSON(6, "已出库"),
+    PROCESS_LOGI(7, "完善物流状态中"),
+    DONE_PROJECT(8, "项目完结");
 
     private short code;
     private String name;
@@ -15,7 +22,7 @@ public enum DeliverDetailStatusEnum {
         this.name = name;
     }
 
-    public int getCode() {
+    public short getCode() {
         return code;
     }
 

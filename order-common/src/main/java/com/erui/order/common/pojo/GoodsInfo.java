@@ -22,6 +22,8 @@ public class GoodsInfo {
     private Long instockGoodsId;
     // 订舱商品ID
     private Long deliverConsignGoodsId;
+    // 出库商品ID
+    private Long deliverDetailGoodsId;
     // 采购ID
     private Long purchId;
     // 销售合同号
@@ -87,6 +89,12 @@ public class GoodsInfo {
     private String instockStock;
     // 订舱本次发货数量
     private Short sendNum;
+    // 出库数量
+    private Short outboundNum;
+    // 厂家直发数量
+    private Short straightNum;
+    // 备注
+    private String detailGoodsRemarks;
 
 
     public Long getId() {
@@ -341,6 +349,14 @@ public class GoodsInfo {
         this.deliverConsignGoodsId = deliverConsignGoodsId;
     }
 
+    public Long getDeliverDetailGoodsId() {
+        return deliverDetailGoodsId;
+    }
+
+    public void setDeliverDetailGoodsId(Long deliverDetailGoodsId) {
+        this.deliverDetailGoodsId = deliverDetailGoodsId;
+    }
+
     public Integer getInspectNum() {
         return inspectNum;
     }
@@ -411,5 +427,29 @@ public class GoodsInfo {
 
     public void setSendNum(Short sendNum) {
         this.sendNum = sendNum;
+    }
+
+    public Short getOutboundNum() {
+        return outboundNum;
+    }
+
+    public void setOutboundNum(Short outboundNum) {
+        this.outboundNum = outboundNum;
+    }
+
+    public Short getStraightNum() {
+        return straightNum;
+    }
+
+    public void setStraightNum(Short straightNum) {
+        this.straightNum = straightNum;
+    }
+
+    public String getDetailGoodsRemarks() {
+        return detailGoodsRemarks;
+    }
+
+    public void setDetailGoodsRemarks(String detailGoodsRemarks) {
+        this.detailGoodsRemarks = detailGoodsRemarks;
     }
 }

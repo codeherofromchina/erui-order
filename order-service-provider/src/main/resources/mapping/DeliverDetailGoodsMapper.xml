@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="com.erui.order.mapper.DeliverConsignGoodsMapper" >
-  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.DeliverConsignGoods" >
+<mapper namespace="com.erui.order.mapper.DeliverDetailGoodsMapper" >
+  <resultMap id="BaseResultMap" type="com.erui.order.model.entity.DeliverDetailGoods" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="deliver_consign_id" property="deliverConsignId" jdbcType="BIGINT" />
-    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
-    <result column="send_num" property="sendNum" jdbcType="SMALLINT" />
+    <result column="deliver_detail_id" property="deliverDetailId" jdbcType="BIGINT" />
+    <result column="deliver_consign_goods_id" property="deliverConsignGoodsId" jdbcType="BIGINT" />
+    <result column="outbound_num" property="outboundNum" jdbcType="SMALLINT" />
+    <result column="straight_num" property="straightNum" jdbcType="SMALLINT" />
+    <result column="detail_goods_remarks" property="detailGoodsRemarks" jdbcType="VARCHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
@@ -72,16 +74,16 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, deliver_consign_id, order_goods_id, send_num, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, delete_time
+    id, deliver_detail_id, deliver_consign_goods_id, outbound_num, straight_num, detail_goods_remarks, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverConsignGoodsExample" >
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverDetailGoodsExample" >
     select
     <if test="distinct" >
       distinct
     </if>
     <include refid="Base_Column_List" />
-    from deliver_consign_goods
+    from deliver_detail_goods
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
@@ -92,43 +94,51 @@
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
     select 
     <include refid="Base_Column_List" />
-    from deliver_consign_goods
+    from deliver_detail_goods
     where id = #{id,jdbcType=BIGINT}
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
-    delete from deliver_consign_goods
+    delete from deliver_detail_goods
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.DeliverConsignGoodsExample" >
-    delete from deliver_consign_goods
+  <delete id="deleteByExample" parameterType="com.erui.order.model.entity.DeliverDetailGoodsExample" >
+    delete from deliver_detail_goods
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverConsignGoods" >
-    insert into deliver_consign_goods (id, deliver_consign_id, order_goods_id, 
-      send_num, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      delete_time)
-    values (#{id,jdbcType=BIGINT}, #{deliverConsignId,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT}, 
-      #{sendNum,jdbcType=SMALLINT}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverDetailGoods" >
+    insert into deliver_detail_goods (id, deliver_detail_id, deliver_consign_goods_id, 
+      outbound_num, straight_num, detail_goods_remarks, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
+    values (#{id,jdbcType=BIGINT}, #{deliverDetailId,jdbcType=BIGINT}, #{deliverConsignGoodsId,jdbcType=BIGINT}, 
+      #{outboundNum,jdbcType=SMALLINT}, #{straightNum,jdbcType=SMALLINT}, #{detailGoodsRemarks,jdbcType=VARCHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
   </insert>
-  <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverConsignGoods" >
-    insert into deliver_consign_goods
+  <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverDetailGoods" >
+    insert into deliver_detail_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
       </if>
-      <if test="deliverConsignId != null" >
-        deliver_consign_id,
+      <if test="deliverDetailId != null" >
+        deliver_detail_id,
       </if>
-      <if test="orderGoodsId != null" >
-        order_goods_id,
+      <if test="deliverConsignGoodsId != null" >
+        deliver_consign_goods_id,
       </if>
-      <if test="sendNum != null" >
-        send_num,
+      <if test="outboundNum != null" >
+        outbound_num,
+      </if>
+      <if test="straightNum != null" >
+        straight_num,
+      </if>
+      <if test="detailGoodsRemarks != null" >
+        detail_goods_remarks,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -153,14 +163,20 @@
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
-      <if test="deliverConsignId != null" >
-        #{deliverConsignId,jdbcType=BIGINT},
+      <if test="deliverDetailId != null" >
+        #{deliverDetailId,jdbcType=BIGINT},
       </if>
-      <if test="orderGoodsId != null" >
-        #{orderGoodsId,jdbcType=BIGINT},
+      <if test="deliverConsignGoodsId != null" >
+        #{deliverConsignGoodsId,jdbcType=BIGINT},
       </if>
-      <if test="sendNum != null" >
-        #{sendNum,jdbcType=SMALLINT},
+      <if test="outboundNum != null" >
+        #{outboundNum,jdbcType=SMALLINT},
+      </if>
+      <if test="straightNum != null" >
+        #{straightNum,jdbcType=SMALLINT},
+      </if>
+      <if test="detailGoodsRemarks != null" >
+        #{detailGoodsRemarks,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=BIGINT},
@@ -182,26 +198,32 @@
       </if>
     </trim>
   </insert>
-  <select id="countByExample" parameterType="com.erui.order.model.entity.DeliverConsignGoodsExample" resultType="java.lang.Integer" >
-    select count(*) from deliver_consign_goods
+  <select id="countByExample" parameterType="com.erui.order.model.entity.DeliverDetailGoodsExample" resultType="java.lang.Integer" >
+    select count(*) from deliver_detail_goods
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
   <update id="updateByExampleSelective" parameterType="map" >
-    update deliver_consign_goods
+    update deliver_detail_goods
     <set >
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.deliverConsignId != null" >
-        deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
+      <if test="record.deliverDetailId != null" >
+        deliver_detail_id = #{record.deliverDetailId,jdbcType=BIGINT},
       </if>
-      <if test="record.orderGoodsId != null" >
-        order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
+      <if test="record.deliverConsignGoodsId != null" >
+        deliver_consign_goods_id = #{record.deliverConsignGoodsId,jdbcType=BIGINT},
       </if>
-      <if test="record.sendNum != null" >
-        send_num = #{record.sendNum,jdbcType=SMALLINT},
+      <if test="record.outboundNum != null" >
+        outbound_num = #{record.outboundNum,jdbcType=SMALLINT},
+      </if>
+      <if test="record.straightNum != null" >
+        straight_num = #{record.straightNum,jdbcType=SMALLINT},
+      </if>
+      <if test="record.detailGoodsRemarks != null" >
+        detail_goods_remarks = #{record.detailGoodsRemarks,jdbcType=VARCHAR},
       </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -227,11 +249,13 @@
     </if>
   </update>
   <update id="updateByExample" parameterType="map" >
-    update deliver_consign_goods
+    update deliver_detail_goods
     set id = #{record.id,jdbcType=BIGINT},
-      deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
-      order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
-      send_num = #{record.sendNum,jdbcType=SMALLINT},
+      deliver_detail_id = #{record.deliverDetailId,jdbcType=BIGINT},
+      deliver_consign_goods_id = #{record.deliverConsignGoodsId,jdbcType=BIGINT},
+      outbound_num = #{record.outboundNum,jdbcType=SMALLINT},
+      straight_num = #{record.straightNum,jdbcType=SMALLINT},
+      detail_goods_remarks = #{record.detailGoodsRemarks,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
@@ -242,17 +266,23 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.DeliverConsignGoods" >
-    update deliver_consign_goods
+  <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.DeliverDetailGoods" >
+    update deliver_detail_goods
     <set >
-      <if test="deliverConsignId != null" >
-        deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
+      <if test="deliverDetailId != null" >
+        deliver_detail_id = #{deliverDetailId,jdbcType=BIGINT},
       </if>
-      <if test="orderGoodsId != null" >
-        order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
+      <if test="deliverConsignGoodsId != null" >
+        deliver_consign_goods_id = #{deliverConsignGoodsId,jdbcType=BIGINT},
       </if>
-      <if test="sendNum != null" >
-        send_num = #{sendNum,jdbcType=SMALLINT},
+      <if test="outboundNum != null" >
+        outbound_num = #{outboundNum,jdbcType=SMALLINT},
+      </if>
+      <if test="straightNum != null" >
+        straight_num = #{straightNum,jdbcType=SMALLINT},
+      </if>
+      <if test="detailGoodsRemarks != null" >
+        detail_goods_remarks = #{detailGoodsRemarks,jdbcType=VARCHAR},
       </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=BIGINT},
@@ -275,11 +305,13 @@
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
-  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.DeliverConsignGoods" >
-    update deliver_consign_goods
-    set deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
-      order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
-      send_num = #{sendNum,jdbcType=SMALLINT},
+  <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.DeliverDetailGoods" >
+    update deliver_detail_goods
+    set deliver_detail_id = #{deliverDetailId,jdbcType=BIGINT},
+      deliver_consign_goods_id = #{deliverConsignGoodsId,jdbcType=BIGINT},
+      outbound_num = #{outboundNum,jdbcType=SMALLINT},
+      straight_num = #{straightNum,jdbcType=SMALLINT},
+      detail_goods_remarks = #{detailGoodsRemarks,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},

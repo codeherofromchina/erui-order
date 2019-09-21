@@ -6,7 +6,6 @@ import com.erui.order.common.enums.DeliverNoticeStatusEnum;
 import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.DeliverNoticeQueryRequest;
 import com.erui.order.common.pojo.request.DeliverNoticeSaveRequest;
-import com.erui.order.common.pojo.response.DeliverConsignDetailResponse;
 import com.erui.order.common.pojo.response.DeliverNoticeDetailResponse;
 import com.erui.order.common.pojo.response.DeliverNoticeListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
@@ -15,7 +14,6 @@ import com.erui.order.mapper.DeliverNoticeMapper;
 import com.erui.order.model.entity.DeliverConsign;
 import com.erui.order.model.entity.DeliverNotice;
 import com.erui.order.model.entity.DeliverNoticeExample;
-import com.erui.order.model.entity.Order;
 import com.erui.order.service.AttachmentService;
 import com.erui.order.service.DeliverConsignGoodsService;
 import com.erui.order.service.DeliverNoticeService;
@@ -54,61 +52,61 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
-        DeliverNotice DeliverNotice = DeliverNoticeFactory.DeliverNotice(insertRequest);
-        DeliverNotice.setCreateTime(new Date());
-        DeliverNotice.setCreateUserId(userInfo.getId());
-        int insertNum = deliverNoticeMapper.insert(DeliverNotice);
+        DeliverNotice deliverNotice = DeliverNoticeFactory.deliverNotice(insertRequest);
+        deliverNotice.setCreateTime(new Date());
+        deliverNotice.setCreateUserId(userInfo.getId());
+        deliverNotice.setDeleteFlag(Boolean.FALSE);
+        int insertNum = deliverNoticeMapper.insert(deliverNotice);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
         }
-        Long DeliverNoticeId = DeliverNotice.getId();
+        Long deliverNoticeId = deliverNotice.getId();
 
         // 对象附件操作
         List<AttachmentInfo> attachments = insertRequest.getAttachments();
         if (attachments != null && attachments.size() > 0) {
-            int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.DELIVER_NOTICE, DeliverNoticeId, attachments);
+            int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.DELIVER_NOTICE, deliverNoticeId, attachments);
             if (attachments.size() != attachmentInsertNum) {
                 LOGGER.info("attachmentInsertNum : {} - {}", attachmentInsertNum, JSON.toJSONString(insertRequest));
                 throw new Exception("订单附件数据操作失败");
             }
         }
 
-        return DeliverNoticeId;
+        return deliverNoticeId;
     }
 
     @Override
     public void update(Long id, DeliverNoticeSaveRequest updateRequest) throws Exception {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        DeliverNotice DeliverNotice = deliverNoticeMapper.selectByPrimaryKey(id);
-        if (DeliverNotice == null) {
+        DeliverNotice deliverNotice = deliverNoticeMapper.selectByPrimaryKey(id);
+        if (deliverNotice == null) {
             throw new Exception("对象唯一标识错误");
         }
         DeliverNoticeStatusEnum requestStatusEnum = DeliverNoticeStatusEnum.valueOf(updateRequest.getDeliverNoticeStatus());
-        if (requestStatusEnum == DeliverNoticeStatusEnum.INIT) {
+        if (requestStatusEnum != DeliverNoticeStatusEnum.SAVED && requestStatusEnum != DeliverNoticeStatusEnum.SUBMITED) {
             throw new Exception("请求对象的状态错误");
         }
-
-        DeliverNoticeStatusEnum statusEnum = DeliverNoticeStatusEnum.valueOf(DeliverNotice.getDeliverNoticeStatus());
-        if (statusEnum != DeliverNoticeStatusEnum.INIT && statusEnum != DeliverNoticeStatusEnum.SAVED) {
+        DeliverNoticeStatusEnum statusEnum = DeliverNoticeStatusEnum.valueOf(deliverNotice.getDeliverNoticeStatus());
+        if (statusEnum != DeliverNoticeStatusEnum.SAVED) {
             throw new Exception("对象当前状态错误");
         }
 
-        Long DeliverNoticeId = DeliverNotice.getId();
+        Long deliverNoticeId = deliverNotice.getId();
         // 修改基本信息
-        DeliverNotice DeliverNoticeSelective = DeliverNoticeFactory.DeliverNotice(updateRequest);
-        DeliverNoticeSelective.setId(DeliverNoticeId);
-        DeliverNoticeSelective.setUpdateTime(new Date());
-        DeliverNoticeSelective.setUpdateUserId(userInfo.getId());
+        DeliverNotice deliverNoticeSelective = DeliverNoticeFactory.deliverNotice(updateRequest);
+        deliverNoticeSelective.setId(deliverNoticeId);
+        deliverNoticeSelective.setUpdateTime(new Date());
+        deliverNoticeSelective.setUpdateUserId(userInfo.getId());
 
-        deliverNoticeMapper.updateByPrimaryKeySelective(DeliverNoticeSelective);
+        deliverNoticeMapper.updateByPrimaryKeySelective(deliverNoticeSelective);
 
         // 对象附件
         List<AttachmentInfo> attachments = updateRequest.getAttachments();
         if (attachments == null) {
             attachments = new ArrayList<>();
         }
-        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.DELIVER_NOTICE, DeliverNoticeId, attachments);
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.DELIVER_NOTICE, deliverNoticeId, attachments);
         if (attachments.size() != attachmentUpdateNum) {
             LOGGER.info("attachmentUpdateNum : {} - {}", attachmentUpdateNum, JSON.toJSONString(updateRequest));
             throw new Exception("对象附件数据操作失败");
@@ -162,7 +160,6 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         }
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.DELIVER_NOTICE, id);
-
         // 商品
         List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverNotice.getDeliverConsignId());
         List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);

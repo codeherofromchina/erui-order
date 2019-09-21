@@ -12,43 +12,99 @@ import com.erui.order.model.entity.DeliverDetail;
  */
 public class DeliverDetailFactory {
 
-    public static DeliverDetail DeliverDetail(DeliverDetailSaveRequest saveRequest) {
-        if (saveRequest == null) {
+    public static DeliverDetail deliverDetail(DeliverDetailSaveRequest deliverDetailSaveRequest) {
+        if (deliverDetailSaveRequest == null) {
             return null;
         }
-        DeliverDetail DeliverDetail = new DeliverDetail();
-        DeliverDetail.setId(saveRequest.getId());
-//        DELIVER_DETAIL.setDeliverDetailStatus(saveRequest.getDeliverDetailStatus());
+        DeliverDetail deliverDetail = new DeliverDetail();
+        deliverDetail.setId(deliverDetailSaveRequest.getId());
+        deliverDetail.setDeliverNoticeId(deliverDetailSaveRequest.getDeliverNoticeId());
+        deliverDetail.setBillingDate(deliverDetailSaveRequest.getBillingDate());
+        deliverDetail.setPackTotal(deliverDetailSaveRequest.getPackTotal());
+        deliverDetail.setCarrierCo(deliverDetailSaveRequest.getCarrierCo());
+        deliverDetail.setDriver(deliverDetailSaveRequest.getDriver());
+        deliverDetail.setPlateNo(deliverDetailSaveRequest.getPlateNo());
+        deliverDetail.setPickupDate(deliverDetailSaveRequest.getPickupDate());
+        deliverDetail.setContactTel(deliverDetailSaveRequest.getContactTel());
+        deliverDetail.setSenderUserId(deliverDetailSaveRequest.getSenderUserId());
+        deliverDetail.setSendDate(deliverDetailSaveRequest.getSendDate());
+        deliverDetail.setReviewerUserId(deliverDetailSaveRequest.getReviewerUserId());
+        deliverDetail.setGoodsChkStatus(deliverDetailSaveRequest.getGoodsChkStatus());
+        deliverDetail.setBillsChkStatus(deliverDetailSaveRequest.getBillsChkStatus());
+        deliverDetail.setCheckUserId(deliverDetailSaveRequest.getCheckUserId());
+        deliverDetail.setCheckDept(deliverDetailSaveRequest.getCheckDept());
+        deliverDetail.setCheckDate(deliverDetailSaveRequest.getCheckDate());
+        deliverDetail.setReleaseUserId(deliverDetailSaveRequest.getReleaseUserId());
+        deliverDetail.setReleaseDate(deliverDetailSaveRequest.getReleaseDate());
+        deliverDetail.setQualityLeaderUserId(deliverDetailSaveRequest.getQualityLeaderUserId());
+        deliverDetail.setApplicantUserId(deliverDetailSaveRequest.getApplicantUserId());
+        deliverDetail.setApplicantDate(deliverDetailSaveRequest.getApplicantDate());
+        deliverDetail.setApproverUserId(deliverDetailSaveRequest.getApproverUserId());
+        deliverDetail.setApprovalDate(deliverDetailSaveRequest.getApprovalDate());
+        deliverDetail.setReason(deliverDetailSaveRequest.getReason());
+        deliverDetail.setOpinion(deliverDetailSaveRequest.getOpinion());
+        deliverDetail.setDeliverDetailStatus(deliverDetailSaveRequest.getDeliverDetailStatus());
 
-        return DeliverDetail;
+        return deliverDetail;
     }
 
-    public static DeliverDetailDetailResponse DeliverDetailDetailResponse(DeliverDetail DeliverDetail) {
-        if (DeliverDetail == null) {
+    public static DeliverDetailDetailResponse deliverDetailDetailResponse(DeliverDetail deliverDetail) {
+        if (deliverDetail == null) {
             return null;
         }
 
-        DeliverDetailDetailResponse DeliverDetailDetailResponse = new DeliverDetailDetailResponse();
-        DeliverDetailDetailResponse.setId(DeliverDetail.getId());
-//        DeliverDetailDetailResponse.setDeliverDetailStatus(DELIVER_DETAIL.getDeliverDetailStatus());
+        DeliverDetailDetailResponse deliverDetailDetailResponse = new DeliverDetailDetailResponse();
 
-        return DeliverDetailDetailResponse;
+        deliverDetailDetailResponse.setId(deliverDetail.getId());
+        deliverDetailDetailResponse.setDeliverNoticeId(deliverDetail.getDeliverNoticeId());
+        deliverDetailDetailResponse.setBillingDate(deliverDetail.getBillingDate());
+        deliverDetailDetailResponse.setPackTotal(deliverDetail.getPackTotal());
+        deliverDetailDetailResponse.setCarrierCo(deliverDetail.getCarrierCo());
+        deliverDetailDetailResponse.setDriver(deliverDetail.getDriver());
+        deliverDetailDetailResponse.setPlateNo(deliverDetail.getPlateNo());
+        deliverDetailDetailResponse.setPickupDate(deliverDetail.getPickupDate());
+        deliverDetailDetailResponse.setContactTel(deliverDetail.getContactTel());
+        deliverDetailDetailResponse.setSenderUserId(deliverDetail.getSenderUserId());
+        deliverDetailDetailResponse.setSendDate(deliverDetail.getSendDate());
+        deliverDetailDetailResponse.setReviewerUserId(deliverDetail.getReviewerUserId());
+        deliverDetailDetailResponse.setGoodsChkStatus(deliverDetail.getGoodsChkStatus());
+        deliverDetailDetailResponse.setBillsChkStatus(deliverDetail.getBillsChkStatus());
+        deliverDetailDetailResponse.setCheckUserId(deliverDetail.getCheckUserId());
+        deliverDetailDetailResponse.setCheckDept(deliverDetail.getCheckDept());
+        deliverDetailDetailResponse.setCheckDate(deliverDetail.getCheckDate());
+        deliverDetailDetailResponse.setReleaseUserId(deliverDetail.getReleaseUserId());
+        deliverDetailDetailResponse.setReleaseDate(deliverDetail.getReleaseDate());
+        deliverDetailDetailResponse.setQualityLeaderUserId(deliverDetail.getQualityLeaderUserId());
+        deliverDetailDetailResponse.setApplicantUserId(deliverDetail.getApplicantUserId());
+        deliverDetailDetailResponse.setApplicantDate(deliverDetail.getApplicantDate());
+        deliverDetailDetailResponse.setApproverUserId(deliverDetail.getApproverUserId());
+        deliverDetailDetailResponse.setApprovalDate(deliverDetail.getApprovalDate());
+        deliverDetailDetailResponse.setReason(deliverDetail.getReason());
+        deliverDetailDetailResponse.setOpinion(deliverDetail.getOpinion());
+        deliverDetailDetailResponse.setDeliverDetailStatus(deliverDetail.getDeliverDetailStatus());
+
+        return deliverDetailDetailResponse;
     }
 
-    public static DeliverDetailListResponse DeliverDetailListResponse(DeliverDetail DeliverDetail) {
-        if (DeliverDetail == null) {
+    public static DeliverDetailListResponse deliverDetailListResponse(DeliverDetail deliverDetail) {
+        if (deliverDetail == null) {
             return null;
         }
-        DeliverDetailListResponse DeliverDetailListResponse = new DeliverDetailListResponse();
-        DeliverDetailListResponse.setId(DeliverDetail.getId());
+        DeliverDetailListResponse deliverDetailListResponse = new DeliverDetailListResponse();
+        deliverDetailListResponse.setId(deliverDetail.getId());
+        deliverDetailListResponse.setDeliverDetailNo(deliverDetail.getDeliverDetailNo());
+        deliverDetailListResponse.setContractNo(deliverDetail.getContractNo());
+        deliverDetailListResponse.setDeliverConsignNo(deliverDetail.getDeliverConsignNo());
+        deliverDetailListResponse.setProjectNo(deliverDetail.getProjectNo());
+        deliverDetailListResponse.setReleaseDate(deliverDetail.getReleaseDate());
+        deliverDetailListResponse.setLeaveDate(deliverDetail.getLeaveDate());
+        deliverDetailListResponse.setDeliverDetailStatus(deliverDetail.getDeliverDetailStatus());
+        DeliverDetailStatusEnum statusEnum = DeliverDetailStatusEnum.valueOf(deliverDetail.getDeliverDetailStatus());
+        if (statusEnum != null) {
+            deliverDetailListResponse.setDeliverDetailStatusName(statusEnum.getName());
+        }
 
-//        DeliverDetailListResponse.setDeliverDetailStatus(DELIVER_DETAIL.getDeliverDetailStatus());
-//        DeliverDetailStatusEnum statusEnum = DeliverDetailStatusEnum.valueOf(DELIVER_DETAIL.getDeliverDetailStatus());
-//        if (statusEnum != null) {
-//            DeliverDetailListResponse.setDeliverDetailStatusName(statusEnum.getName());
-//        }
-
-        return DeliverDetailListResponse;
+        return deliverDetailListResponse;
     }
 }
 

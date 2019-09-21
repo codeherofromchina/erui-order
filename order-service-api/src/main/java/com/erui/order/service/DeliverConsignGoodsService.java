@@ -33,5 +33,7 @@ public interface DeliverConsignGoodsService {
     int updateById(Long id, DeliverConsignGoodsInfo DeliverConsignGoodsInfo) throws Exception;
 
     List<DeliverConsignGoodsInfo> listByDeliverConsignId(Long deliverConsignId);
+
+    DeliverConsignGoodsInfo findById(Long deliverConsignGoodsId);
 }
 

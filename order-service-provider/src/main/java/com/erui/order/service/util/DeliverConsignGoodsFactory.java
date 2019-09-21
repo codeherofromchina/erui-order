@@ -23,27 +23,27 @@ public class DeliverConsignGoodsFactory {
         return deliverConsignGoods;
     }
 
-    public static List<DeliverConsignGoodsInfo> DeliverConsignGoodsInfo(List<DeliverConsignGoods> DeliverConsignGoodsList) {
-        if (DeliverConsignGoodsList == null) {
+    public static List<DeliverConsignGoodsInfo> deliverConsignGoodsInfo(List<DeliverConsignGoods> deliverConsignGoodsList) {
+        if (deliverConsignGoodsList == null) {
             return null;
         }
-        List<DeliverConsignGoodsInfo> DeliverConsignGoodsInfos = new ArrayList<>();
-        for (DeliverConsignGoods DeliverConsignGoods : DeliverConsignGoodsList) {
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = new ArrayList<>();
+        for (DeliverConsignGoods deliverConsignGoods : deliverConsignGoodsList) {
 
-            DeliverConsignGoodsInfos.add(DeliverConsignGoodsInfo(DeliverConsignGoods));
+            deliverConsignGoodsInfos.add(deliverConsignGoodsInfo(deliverConsignGoods));
         }
-        return DeliverConsignGoodsInfos;
+        return deliverConsignGoodsInfos;
     }
 
 
-    public static DeliverConsignGoodsInfo DeliverConsignGoodsInfo(DeliverConsignGoods DeliverConsignGoods) {
-        if (DeliverConsignGoods == null) {
+    public static DeliverConsignGoodsInfo deliverConsignGoodsInfo(DeliverConsignGoods deliverConsignGoods) {
+        if (deliverConsignGoods == null) {
             return null;
         }
-        DeliverConsignGoodsInfo DeliverConsignGoodsInfo = new DeliverConsignGoodsInfo();
-        DeliverConsignGoodsInfo.setOrderGoodsId(DeliverConsignGoods.getOrderGoodsId());
+        DeliverConsignGoodsInfo deliverConsignGoodsInfo = new DeliverConsignGoodsInfo();
+        deliverConsignGoodsInfo.setOrderGoodsId(deliverConsignGoods.getOrderGoodsId());
 
-        return DeliverConsignGoodsInfo;
+        return deliverConsignGoodsInfo;
     }
 }
 

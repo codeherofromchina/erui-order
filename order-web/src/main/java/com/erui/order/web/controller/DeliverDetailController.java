@@ -35,7 +35,7 @@ import javax.validation.Valid;
 public class DeliverDetailController {
     private static final Logger LOGGER = LoggerFactory.getLogger(DeliverDetailController.class);
     @Autowired
-    private DeliverDetailService DeliverDetailService;
+    private DeliverDetailService deliverDetailService;
 
     /**
      * 保存DeliverDetail
@@ -51,11 +51,7 @@ public class DeliverDetailController {
         Result<Void> result = new Result<>();
         try {
             Long id = saveRequest.getId();
-            if (id != null) {
-                DeliverDetailService.update(id, saveRequest);
-            } else {
-                id = DeliverDetailService.insert(saveRequest);
-            }
+            deliverDetailService.update(id, saveRequest);
             LOGGER.info("saveDeliverDetail成功 - {} - {}", JSON.toJSONString(userInfo), id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -78,7 +74,7 @@ public class DeliverDetailController {
         LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
         Result<Pager<DeliverDetailListResponse>> result = new Result<>();
         try {
-            Pager<DeliverDetailListResponse> pageInfo = DeliverDetailService.list(queryRequest);
+            Pager<DeliverDetailListResponse> pageInfo = deliverDetailService.list(queryRequest);
             result.setData(pageInfo);
             LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
         } catch (Exception e) {
@@ -101,7 +97,7 @@ public class DeliverDetailController {
         LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
         Result<DeliverDetailDetailResponse> result = new Result<>();
         try {
-            DeliverDetailDetailResponse detail = DeliverDetailService.detail(key.getId());
+            DeliverDetailDetailResponse detail = deliverDetailService.detail(key.getId());
             result.setData(detail);
             LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {
