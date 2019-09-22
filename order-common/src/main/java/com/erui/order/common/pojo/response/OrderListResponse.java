@@ -15,44 +15,30 @@ public class OrderListResponse {
     // 易瑞海外销售合同号
     private String contractNoOs;
     // 询单号
-
+    private String inquiryNo;
     // 事业部项目负责人
     private Long technicalId;
     private String technicalName;
-
     // 执行事业部
     private Long businessUnitId;
     private String businessUnitName;
-
     // 合同交货日期
     private String deliveryDate;
     // CRM客户代码
     private Long buyerId;
     private String crmCode;
-
     // 客户合同金额(USD)
     private BigDecimal totalPriceUsd;
-
     // 款项状态
     private Short payStatus;
     private String payStatusName;
-
     // 订单状态
     private Short orderStatus;
     private String orderStatusName;
-
     // 流程进度
     private String processProgress;
     private String processProgressName;
 
-
-    // 审核进度
-    private String auditingProcess;
-    private String auditingProcessName;
-
-    // 审核状态
-    private Short auditingStatus;
-    private String auditingStatusName;
 
     public Long getId() {
         return id;
@@ -84,6 +70,14 @@ public class OrderListResponse {
 
     public void setContractNoOs(String contractNoOs) {
         this.contractNoOs = contractNoOs;
+    }
+
+    public String getInquiryNo() {
+        return inquiryNo;
+    }
+
+    public void setInquiryNo(String inquiryNo) {
+        this.inquiryNo = inquiryNo;
     }
 
     public Long getTechnicalId() {
@@ -196,37 +190,5 @@ public class OrderListResponse {
 
     public void setProcessProgressName(String processProgressName) {
         this.processProgressName = processProgressName;
-    }
-
-    public String getAuditingProcess() {
-        return auditingProcess;
-    }
-
-    public void setAuditingProcess(String auditingProcess) {
-        this.auditingProcess = auditingProcess;
-    }
-
-    public String getAuditingProcessName() {
-        return auditingProcessName;
-    }
-
-    public void setAuditingProcessName(String auditingProcessName) {
-        this.auditingProcessName = auditingProcessName;
-    }
-
-    public Short getAuditingStatus() {
-        return auditingStatus;
-    }
-
-    public void setAuditingStatus(Short auditingStatus) {
-        this.auditingStatus = auditingStatus;
-    }
-
-    public String getAuditingStatusName() {
-        return auditingStatusName;
-    }
-
-    public void setAuditingStatusName(String auditingStatusName) {
-        this.auditingStatusName = auditingStatusName;
     }
 }

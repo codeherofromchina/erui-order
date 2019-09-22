@@ -126,7 +126,6 @@ public class DeliverConsignFactory {
         deliverConsignListResponse.setCurrencyBn(deliverConsign.getCurrencyBn());
         deliverConsignListResponse.setCoId(deliverConsign.getCoId());
         deliverConsignListResponse.setExecCoName(deliverConsign.getExecCoName());
-
         deliverConsignListResponse.setDeliverConsignStatus(deliverConsign.getDeliverConsignStatus());
         DeliverConsignStatusEnum statusEnum = DeliverConsignStatusEnum.valueOf(deliverConsign.getDeliverConsignStatus());
         if (statusEnum != null) {

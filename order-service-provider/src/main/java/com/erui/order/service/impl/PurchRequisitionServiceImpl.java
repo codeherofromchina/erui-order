@@ -123,7 +123,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         // 组织采购申请数据
         PurchRequisition PurchRequisition = PurchRequisitionFactory.purchRequisition(insertRequest);
         PurchRequisition.setProjectNo(project.getProjectNo());
-        PurchRequisition.setPmUid(project.getBusinessUid());
+        PurchRequisition.setBusinessUid(project.getBusinessUid());
         PurchRequisition.setDepartment(project.getSendDeptId());
         PurchRequisition.setTradeMethod(projectProfitInfo.getProjectType());
         PurchRequisition.setTransModeBn(order.getTradeTerms());
@@ -212,14 +212,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         List<PurchRequisitionListResponse> purchRequisitionListResponses = new ArrayList<>();
         for (PurchRequisition purchRequisition : purchRequisitions) {
             PurchRequisitionListResponse purchRequisitionListResponse = PurchRequisitionFactory.purchRequisitionListResponse(purchRequisition);
-            Project project = projectMapper.selectByPrimaryKey(purchRequisition.getProjectId());
-            purchRequisitionListResponse.setContractNo(project.getProjectNo());
-            purchRequisitionListResponse.setProjectNo(project.getProjectNo());
-            purchRequisitionListResponse.setProjectName(project.getProjectName());
-            purchRequisitionListResponse.setPmUserName(userService.findNameById(purchRequisition.getPmUid()));
-            purchRequisitionListResponse.setStartDate(project.getStartDate());
-            purchRequisitionListResponse.setRequirePurchaseDate(project.getRequirePurchaseDate());
-
+            purchRequisitionListResponse.setBusinessUserName(userService.findNameById(purchRequisition.getBusinessUid()));
             purchRequisitionListResponses.add(purchRequisitionListResponse);
         }
 
@@ -244,7 +237,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
 
         // 组织数据
         PurchRequisitionDetailResponse detail = PurchRequisitionFactory.purchRequisitionDetailResponse(purchRequisition);
-        detail.setPmUserName(userService.findNameById(purchRequisition.getPmUid()));
+        detail.setPmUserName(userService.findNameById(purchRequisition.getBusinessUid()));
         detail.setDepartmentName(orgService.findOrgNameById(purchRequisition.getDepartment()));
         List<GoodsInfo> goodsInfos = new ArrayList<>();
         for (PurchRequisitionGoodsInfo purchRequisitionGoodsInfo : purchRequisitionGoodsInfos) {

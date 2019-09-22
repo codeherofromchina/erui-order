@@ -98,6 +98,14 @@ public class DeliverDetailFactory {
         deliverDetailListResponse.setProjectNo(deliverDetail.getProjectNo());
         deliverDetailListResponse.setReleaseDate(deliverDetail.getReleaseDate());
         deliverDetailListResponse.setLeaveDate(deliverDetail.getLeaveDate());
+        deliverDetailListResponse.setHandleDepartment(deliverDetail.getHandleDepartment());
+        deliverDetailListResponse.setBillingDate(deliverDetail.getBillingDate());
+        deliverDetailListResponse.setWareHouseman(deliverDetail.getWareHouseman());
+        deliverDetailListResponse.setWareHousemanName(deliverDetail.getWareHousemanName());
+        deliverDetailListResponse.setOutCheck(deliverDetail.getOutCheck());
+        deliverDetailListResponse.setCheckDept(deliverDetail.getCheckDept());
+        deliverDetailListResponse.setCheckUserId(deliverDetail.getCheckUserId());
+        deliverDetailListResponse.setCheckDate(deliverDetail.getCheckDate());
         deliverDetailListResponse.setDeliverDetailStatus(deliverDetail.getDeliverDetailStatus());
         DeliverDetailStatusEnum statusEnum = DeliverDetailStatusEnum.valueOf(deliverDetail.getDeliverDetailStatus());
         if (statusEnum != null) {

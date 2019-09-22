@@ -10,25 +10,26 @@ public class InspectApplyListResponse {
     private Long id;
     // 采购合同号
     private String purchNo;
-    //    到货报检单号
+    // 到货报检单号
     private String inspectApplyNo;
-    //    下发部门
+    // 下发部门
     private String department;
-    //    采购经办人
+    // 采购经办人
     private Long purchaseNameId;
     private String purchaseName;
-    //    供应商名称
+    // 供应商名称
     private String supplierName;
-    //    报检日期
+    // 报检日期
     private Date inspectDate;
-    //    报检次数
+    // 报检次数
     private Short num;
-    //    全局质检结果
+    // 全局质检结果
     private Short pubStatus;
     private String pubStatusName;
     // 当前报检单质检结果
     private Short inspectApplyStatus;
     private String inspectApplyStatusName;
+
 
     public Long getId() {
         return id;

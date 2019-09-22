@@ -50,7 +50,6 @@ public class InstockFactory {
         instockListResponse.setSupplierName(instock.getSupplierName());
         instockListResponse.setEnterEruiWarehouse(instock.getEnterEruiWarehouse());
         instockListResponse.setInstockDate(instock.getInstockDate());
-
         instockListResponse.setInstockStatus(instock.getInstockStatus());
         InstockStatusEnum statusEnum = InstockStatusEnum.valueOf(instock.getInstockStatus());
         if (statusEnum != null) {

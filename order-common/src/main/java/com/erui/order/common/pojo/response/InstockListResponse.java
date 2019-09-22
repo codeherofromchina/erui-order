@@ -27,6 +27,7 @@ public class InstockListResponse {
     private Short instockStatus;
     private String instockStatusName;
 
+
     public Long getId() {
         return id;
     }

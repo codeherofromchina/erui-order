@@ -252,6 +252,76 @@ public class PurchRequisitionExample {
             return (Criteria) this;
         }
 
+        public Criteria andContractNoIsNull() {
+            addCriterion("contract_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIsNotNull() {
+            addCriterion("contract_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoEqualTo(String value) {
+            addCriterion("contract_no =", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotEqualTo(String value) {
+            addCriterion("contract_no <>", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThan(String value) {
+            addCriterion("contract_no >", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
+            addCriterion("contract_no >=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThan(String value) {
+            addCriterion("contract_no <", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThanOrEqualTo(String value) {
+            addCriterion("contract_no <=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLike(String value) {
+            addCriterion("contract_no like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotLike(String value) {
+            addCriterion("contract_no not like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIn(List<String> values) {
+            addCriterion("contract_no in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotIn(List<String> values) {
+            addCriterion("contract_no not in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoBetween(String value1, String value2) {
+            addCriterion("contract_no between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotBetween(String value1, String value2) {
+            addCriterion("contract_no not between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
         public Criteria andProjectNoIsNull() {
             addCriterion("project_no is null");
             return (Criteria) this;
@@ -322,63 +392,253 @@ public class PurchRequisitionExample {
             return (Criteria) this;
         }
 
-        public Criteria andPmUidIsNull() {
-            addCriterion("pm_uid is null");
+        public Criteria andProjectNameIsNull() {
+            addCriterion("project_name is null");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidIsNotNull() {
-            addCriterion("pm_uid is not null");
+        public Criteria andProjectNameIsNotNull() {
+            addCriterion("project_name is not null");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidEqualTo(Long value) {
-            addCriterion("pm_uid =", value, "pmUid");
+        public Criteria andProjectNameEqualTo(String value) {
+            addCriterion("project_name =", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidNotEqualTo(Long value) {
-            addCriterion("pm_uid <>", value, "pmUid");
+        public Criteria andProjectNameNotEqualTo(String value) {
+            addCriterion("project_name <>", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidGreaterThan(Long value) {
-            addCriterion("pm_uid >", value, "pmUid");
+        public Criteria andProjectNameGreaterThan(String value) {
+            addCriterion("project_name >", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidGreaterThanOrEqualTo(Long value) {
-            addCriterion("pm_uid >=", value, "pmUid");
+        public Criteria andProjectNameGreaterThanOrEqualTo(String value) {
+            addCriterion("project_name >=", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidLessThan(Long value) {
-            addCriterion("pm_uid <", value, "pmUid");
+        public Criteria andProjectNameLessThan(String value) {
+            addCriterion("project_name <", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidLessThanOrEqualTo(Long value) {
-            addCriterion("pm_uid <=", value, "pmUid");
+        public Criteria andProjectNameLessThanOrEqualTo(String value) {
+            addCriterion("project_name <=", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidIn(List<Long> values) {
-            addCriterion("pm_uid in", values, "pmUid");
+        public Criteria andProjectNameLike(String value) {
+            addCriterion("project_name like", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidNotIn(List<Long> values) {
-            addCriterion("pm_uid not in", values, "pmUid");
+        public Criteria andProjectNameNotLike(String value) {
+            addCriterion("project_name not like", value, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidBetween(Long value1, Long value2) {
-            addCriterion("pm_uid between", value1, value2, "pmUid");
+        public Criteria andProjectNameIn(List<String> values) {
+            addCriterion("project_name in", values, "projectName");
             return (Criteria) this;
         }
 
-        public Criteria andPmUidNotBetween(Long value1, Long value2) {
-            addCriterion("pm_uid not between", value1, value2, "pmUid");
+        public Criteria andProjectNameNotIn(List<String> values) {
+            addCriterion("project_name not in", values, "projectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNameBetween(String value1, String value2) {
+            addCriterion("project_name between", value1, value2, "projectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectNameNotBetween(String value1, String value2) {
+            addCriterion("project_name not between", value1, value2, "projectName");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateIsNull() {
+            addCriterion("project_start_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateIsNotNull() {
+            addCriterion("project_start_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateEqualTo(Date value) {
+            addCriterionForJDBCDate("project_start_date =", value, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("project_start_date <>", value, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("project_start_date >", value, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("project_start_date >=", value, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateLessThan(Date value) {
+            addCriterionForJDBCDate("project_start_date <", value, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("project_start_date <=", value, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateIn(List<Date> values) {
+            addCriterionForJDBCDate("project_start_date in", values, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("project_start_date not in", values, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("project_start_date between", value1, value2, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectStartDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("project_start_date not between", value1, value2, "projectStartDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidIsNull() {
+            addCriterion("business_uid is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidIsNotNull() {
+            addCriterion("business_uid is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidEqualTo(Long value) {
+            addCriterion("business_uid =", value, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidNotEqualTo(Long value) {
+            addCriterion("business_uid <>", value, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidGreaterThan(Long value) {
+            addCriterion("business_uid >", value, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidGreaterThanOrEqualTo(Long value) {
+            addCriterion("business_uid >=", value, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidLessThan(Long value) {
+            addCriterion("business_uid <", value, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidLessThanOrEqualTo(Long value) {
+            addCriterion("business_uid <=", value, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidIn(List<Long> values) {
+            addCriterion("business_uid in", values, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidNotIn(List<Long> values) {
+            addCriterion("business_uid not in", values, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidBetween(Long value1, Long value2) {
+            addCriterion("business_uid between", value1, value2, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andBusinessUidNotBetween(Long value1, Long value2) {
+            addCriterion("business_uid not between", value1, value2, "businessUid");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateIsNull() {
+            addCriterion("require_purchase_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateIsNotNull() {
+            addCriterion("require_purchase_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateEqualTo(Date value) {
+            addCriterionForJDBCDate("require_purchase_date =", value, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("require_purchase_date <>", value, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("require_purchase_date >", value, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("require_purchase_date >=", value, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateLessThan(Date value) {
+            addCriterionForJDBCDate("require_purchase_date <", value, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("require_purchase_date <=", value, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateIn(List<Date> values) {
+            addCriterionForJDBCDate("require_purchase_date in", values, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("require_purchase_date not in", values, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("require_purchase_date between", value1, value2, "requirePurchaseDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andRequirePurchaseDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("require_purchase_date not between", value1, value2, "requirePurchaseDate");
             return (Criteria) this;
         }
 

@@ -204,10 +204,7 @@ public class PurchServiceImpl implements PurchService {
         for (Purch purch : purches) {
             PurchListResponse purchListResponse = PurchFactory.PurchListResponse(purch);
             PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purch.getPurchContractId());
-            if (purchContract != null) {
-                purchListResponse.setContractNo(purchContract.getProjectNo());
-                purchListResponse.setProjectNo(purchContract.getProjectNo());
-            }
+            purchContract.setSupplierName(supplierService.findNameById(purchListResponse.getSupplierId()));
             purchListResponse.setSupplierName(supplierService.findNameById(purch.getSupplierId()));
 
             purchListResponses.add(purchListResponse);

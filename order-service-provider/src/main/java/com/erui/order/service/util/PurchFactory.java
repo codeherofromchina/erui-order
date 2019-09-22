@@ -76,28 +76,30 @@ public class PurchFactory {
         if (purch == null) {
             return null;
         }
-        PurchListResponse purchListResponse = new PurchListResponse();
-        purchListResponse.setId(purch.getId());
-        purchListResponse.setPurchNo(purch.getPurchNo());
-        purchListResponse.setSigningDate(purch.getSigningDate());
-        purchListResponse.setArrivalDate(purch.getArrivalDate());
-        purchListResponse.setSupplierId(purch.getSupplierId());
-        purchListResponse.setTotalPrice(purch.getTotalPrice());
-        purchListResponse.setInspected(purch.getInspected());
-        purchListResponse.setCurrencyBn(purch.getCurrencyBn());
+        PurchListResponse response = new PurchListResponse();
+        response.setId(purch.getId());
+        response.setPurchNo(purch.getPurchNo());
+        response.setSigningDate(purch.getSigningDate());
+        response.setArrivalDate(purch.getArrivalDate());
+        response.setContractNo(purch.getContractNo());
+        response.setProjectNo(purch.getProjectNo());
+        response.setSupplierId(purch.getSupplierId());
 
-        purchListResponse.setPayStatus(purch.getPurchStatus());
+        response.setTotalPrice(purch.getTotalPrice());
+        response.setCurrencyBn(purch.getCurrencyBn());
+        response.setPayStatus(purch.getPayStatus());
+        response.setInspected(purch.getInspected());
+        response.setPurchStatus(purch.getPurchStatus());
+        response.setPayStatus(purch.getPurchStatus());
         PurchPayStatusEnum purchPayStatusEnum = PurchPayStatusEnum.valueOf(purch.getPurchStatus());
         if (purchPayStatusEnum != null) {
-            purchListResponse.setPayStatusName(purchPayStatusEnum.getName());
+            response.setPayStatusName(purchPayStatusEnum.getName());
         }
-
-        purchListResponse.setPurchStatus(purch.getPurchStatus());
         PurchStatusEnum statusEnum = PurchStatusEnum.valueOf(purch.getPurchStatus());
         if (statusEnum != null) {
-            purchListResponse.setPurchStatusName(statusEnum.getName());
+            response.setPurchStatusName(statusEnum.getName());
         }
-        return purchListResponse;
+        return response;
     }
 }
 

@@ -14,7 +14,10 @@ public class ProjectListResponse {
     private String projectNo;
     // 合同标的
     private String projectName;
-    // 下发部门，订单的执行事业部
+    /**
+     * 下发部门，订单的执行事业部
+     * 执行事业部
+     */
     private Long sendDeptId;
     private String sendDeptName;
     // 事业部项目负责人/商务技术部经办人
@@ -32,7 +35,6 @@ public class ProjectListResponse {
     // 流程进度
     private String processProgress;
     private String processProgressName;
-
 
     public Long getId() {
         return id;
@@ -153,5 +155,4 @@ public class ProjectListResponse {
     public void setProcessProgressName(String processProgressName) {
         this.processProgressName = processProgressName;
     }
-
 }

@@ -35,14 +35,18 @@ public class PurchRequisitionFactory {
         PurchRequisitionListResponse response = new PurchRequisitionListResponse();
         response.setId(purchRequisition.getId());
         response.setProjectId(purchRequisition.getProjectId());
-        response.setPmUid(purchRequisition.getPmUid());
+        response.setContractNo(purchRequisition.getContractNo());
+        response.setProjectNo(purchRequisition.getProjectNo());
+        response.setProjectName(purchRequisition.getProjectName());
+        response.setBusinessUid(purchRequisition.getBusinessUid());
+        response.setProjectStartDate(purchRequisition.getProjectStartDate());
         response.setSubmitDate(purchRequisition.getSubmitDate());
+        response.setRequirePurchaseDate(purchRequisition.getRequirePurchaseDate());
         response.setPurchStatus(purchRequisition.getPurchStatus());
         PurchStatusEnum purchStatusEnum = PurchStatusEnum.valueOf(purchRequisition.getPurchStatus());
         if (purchStatusEnum != null) {
             response.setPurchStatusName(purchStatusEnum.getName());
         }
-
 
         return response;
     }
@@ -55,7 +59,7 @@ public class PurchRequisitionFactory {
         response.setId(purchRequisition.getId());
         response.setProjectId(purchRequisition.getProjectId());
         response.setProjectNo(purchRequisition.getProjectNo());
-        response.setPmUid(purchRequisition.getPmUid());
+        response.setPmUid(purchRequisition.getBusinessUid());
         response.setDepartment(purchRequisition.getDepartment());
         response.setSubmitDate(purchRequisition.getSubmitDate());
         response.setTradeMethod(purchRequisition.getTradeMethod());

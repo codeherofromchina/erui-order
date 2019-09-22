@@ -194,15 +194,7 @@ public class PurchContractServiceImpl implements PurchContractService {
         List<PurchContractListResponse> purchContractListResponses = new ArrayList<>();
         for (PurchContract purchContract : purchContracts) {
             PurchContractListResponse purchContractListResponse = PurchContractFactory.purchContractListResponse(purchContract);
-            try {
-                UserInfo userInfo = userService.findById(purchContract.getAgentId());
-                if (userInfo != null) {
-                    purchContractListResponse.setAgentName(userInfo.getUserName());
-                }
-            } catch (Exception e) {
-                LOGGER.error("用户不存在 - {} - {}", purchContract.getId(), purchContract.getAgentId());
-            }
-            purchContractListResponse.setSupplierName(supplierService.findNameById(purchContract.getSupplierId()));
+            purchContractListResponse.setAgentName(userService.findNameById(purchContract.getAgentId()));
 
             purchContractListResponses.add(purchContractListResponse);
         }

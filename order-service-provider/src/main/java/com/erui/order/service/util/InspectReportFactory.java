@@ -51,23 +51,22 @@ public class InspectReportFactory {
         if (inspectReport == null) {
             return null;
         }
-        InspectReportListResponse inspectReportListResponse = new InspectReportListResponse();
-        inspectReportListResponse.setId(inspectReport.getId());
-        inspectReportListResponse.setInspectApplyNo(inspectReport.getInspectApplyNo());
-        inspectReportListResponse.setContractNo(inspectReport.getContractNo());
-        inspectReportListResponse.setProjectNo(inspectReport.getProjectNo());
-        inspectReportListResponse.setPurchNo(inspectReport.getPurchNo());
-        inspectReportListResponse.setSupplierName(inspectReport.getSupplierName());
-        inspectReportListResponse.setCheckDate(inspectReport.getCheckDate());
-        inspectReportListResponse.setCheckTimes(inspectReport.getCheckTimes());
-
-        inspectReportListResponse.setInspectReportStatus(inspectReport.getInspectReportStatus());
+        InspectReportListResponse listResponse = new InspectReportListResponse();
+        listResponse.setId(inspectReport.getId());
+        listResponse.setInspectApplyNo(inspectReport.getInspectApplyNo());
+        listResponse.setContractNo(inspectReport.getContractNo());
+        listResponse.setProjectNo(inspectReport.getProjectNo());
+        listResponse.setPurchNo(inspectReport.getPurchNo());
+        listResponse.setSupplierName(inspectReport.getSupplierName());
+        listResponse.setCheckDate(inspectReport.getCheckDate());
+        listResponse.setCheckTimes(inspectReport.getCheckTimes());
+        listResponse.setInspectReportStatus(inspectReport.getInspectReportStatus());
         InspectReportStatusEnum statusEnum = InspectReportStatusEnum.valueOf(inspectReport.getInspectReportStatus());
         if (statusEnum != null) {
-            inspectReportListResponse.setInspectReportStatusName(statusEnum.getName());
+            listResponse.setInspectReportStatusName(statusEnum.getName());
         }
 
-        return inspectReportListResponse;
+        return listResponse;
     }
 }
 

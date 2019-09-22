@@ -582,73 +582,203 @@ public class DeliverNoticeExample {
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistIsNull() {
-            addCriterion("operation_specialist is null");
+        public Criteria andWareHousemanIsNull() {
+            addCriterion("ware_houseman is null");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistIsNotNull() {
-            addCriterion("operation_specialist is not null");
+        public Criteria andWareHousemanIsNotNull() {
+            addCriterion("ware_houseman is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistEqualTo(String value) {
-            addCriterion("operation_specialist =", value, "operationSpecialist");
+        public Criteria andWareHousemanEqualTo(Long value) {
+            addCriterion("ware_houseman =", value, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistNotEqualTo(String value) {
-            addCriterion("operation_specialist <>", value, "operationSpecialist");
+        public Criteria andWareHousemanNotEqualTo(Long value) {
+            addCriterion("ware_houseman <>", value, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistGreaterThan(String value) {
-            addCriterion("operation_specialist >", value, "operationSpecialist");
+        public Criteria andWareHousemanGreaterThan(Long value) {
+            addCriterion("ware_houseman >", value, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistGreaterThanOrEqualTo(String value) {
-            addCriterion("operation_specialist >=", value, "operationSpecialist");
+        public Criteria andWareHousemanGreaterThanOrEqualTo(Long value) {
+            addCriterion("ware_houseman >=", value, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistLessThan(String value) {
-            addCriterion("operation_specialist <", value, "operationSpecialist");
+        public Criteria andWareHousemanLessThan(Long value) {
+            addCriterion("ware_houseman <", value, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistLessThanOrEqualTo(String value) {
-            addCriterion("operation_specialist <=", value, "operationSpecialist");
+        public Criteria andWareHousemanLessThanOrEqualTo(Long value) {
+            addCriterion("ware_houseman <=", value, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistLike(String value) {
-            addCriterion("operation_specialist like", value, "operationSpecialist");
+        public Criteria andWareHousemanIn(List<Long> values) {
+            addCriterion("ware_houseman in", values, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistNotLike(String value) {
-            addCriterion("operation_specialist not like", value, "operationSpecialist");
+        public Criteria andWareHousemanNotIn(List<Long> values) {
+            addCriterion("ware_houseman not in", values, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistIn(List<String> values) {
-            addCriterion("operation_specialist in", values, "operationSpecialist");
+        public Criteria andWareHousemanBetween(Long value1, Long value2) {
+            addCriterion("ware_houseman between", value1, value2, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistNotIn(List<String> values) {
-            addCriterion("operation_specialist not in", values, "operationSpecialist");
+        public Criteria andWareHousemanNotBetween(Long value1, Long value2) {
+            addCriterion("ware_houseman not between", value1, value2, "wareHouseman");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistBetween(String value1, String value2) {
-            addCriterion("operation_specialist between", value1, value2, "operationSpecialist");
+        public Criteria andDeliveryDateIsNull() {
+            addCriterion("delivery_date is null");
             return (Criteria) this;
         }
 
-        public Criteria andOperationSpecialistNotBetween(String value1, String value2) {
-            addCriterion("operation_specialist not between", value1, value2, "operationSpecialist");
+        public Criteria andDeliveryDateIsNotNull() {
+            addCriterion("delivery_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateEqualTo(String value) {
+            addCriterion("delivery_date =", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateNotEqualTo(String value) {
+            addCriterion("delivery_date <>", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateGreaterThan(String value) {
+            addCriterion("delivery_date >", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateGreaterThanOrEqualTo(String value) {
+            addCriterion("delivery_date >=", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateLessThan(String value) {
+            addCriterion("delivery_date <", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateLessThanOrEqualTo(String value) {
+            addCriterion("delivery_date <=", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateLike(String value) {
+            addCriterion("delivery_date like", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateNotLike(String value) {
+            addCriterion("delivery_date not like", value, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateIn(List<String> values) {
+            addCriterion("delivery_date in", values, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateNotIn(List<String> values) {
+            addCriterion("delivery_date not in", values, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateBetween(String value1, String value2) {
+            addCriterion("delivery_date between", value1, value2, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliveryDateNotBetween(String value1, String value2) {
+            addCriterion("delivery_date not between", value1, value2, "deliveryDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameIsNull() {
+            addCriterion("exec_co_name is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameIsNotNull() {
+            addCriterion("exec_co_name is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameEqualTo(String value) {
+            addCriterion("exec_co_name =", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameNotEqualTo(String value) {
+            addCriterion("exec_co_name <>", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameGreaterThan(String value) {
+            addCriterion("exec_co_name >", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameGreaterThanOrEqualTo(String value) {
+            addCriterion("exec_co_name >=", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameLessThan(String value) {
+            addCriterion("exec_co_name <", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameLessThanOrEqualTo(String value) {
+            addCriterion("exec_co_name <=", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameLike(String value) {
+            addCriterion("exec_co_name like", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameNotLike(String value) {
+            addCriterion("exec_co_name not like", value, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameIn(List<String> values) {
+            addCriterion("exec_co_name in", values, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameNotIn(List<String> values) {
+            addCriterion("exec_co_name not in", values, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameBetween(String value1, String value2) {
+            addCriterion("exec_co_name between", value1, value2, "execCoName");
+            return (Criteria) this;
+        }
+
+        public Criteria andExecCoNameNotBetween(String value1, String value2) {
+            addCriterion("exec_co_name not between", value1, value2, "execCoName");
             return (Criteria) this;
         }
 

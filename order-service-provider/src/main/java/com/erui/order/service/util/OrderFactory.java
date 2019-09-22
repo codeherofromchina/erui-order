@@ -123,35 +123,29 @@ public class OrderFactory {
         orderListResponse.setContractNo(order.getContractNo());
         orderListResponse.setProjectNo(order.getProjectNo());
         orderListResponse.setContractNoOs(order.getContractNoOs());
+        orderListResponse.setInquiryNo(order.getInquiryNo());
         orderListResponse.setTechnicalId(order.getTechnicalId());
-
+//        orderListResponse.setTechnicalName(order.getTechnicalName());
         orderListResponse.setBusinessUnitId(order.getBusinessUnitId());
-
+//        orderListResponse.setBusinessUnitName(order.getBusinessUnitName());
         orderListResponse.setDeliveryDate(order.getDeliveryDate());
         orderListResponse.setBuyerId(order.getBuyerId());
         orderListResponse.setCrmCode(order.getCrmCode());
-        orderListResponse.setBuyerId(order.getBuyerId());
         orderListResponse.setTotalPriceUsd(order.getTotalPriceUsd());
         orderListResponse.setPayStatus(order.getPayStatus());
+        orderListResponse.setOrderStatus(order.getOrderStatus());
+        orderListResponse.setProcessProgress(order.getProcessProgress());
         OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getPayStatus());
         if (orderPayStatusEnum != null) {
             orderListResponse.setPayStatusName(orderPayStatusEnum.getName());
         }
-        orderListResponse.setOrderStatus(order.getOrderStatus());
         OrderStatusEnum orderStatusEnum = OrderStatusEnum.valueOf(order.getOrderStatus());
         if (orderStatusEnum != null) {
             orderListResponse.setOrderStatusName(orderStatusEnum.getName());
         }
-        orderListResponse.setProcessProgress(order.getProcessProgress());
         ProcessProgressEnum processProgressEnum = ProcessProgressEnum.fromCode(order.getProcessProgress());
         if (processProgressEnum != null) {
             orderListResponse.setProcessProgressName(processProgressEnum.getName());
-        }
-        orderListResponse.setAuditingProcess(order.getAuditingProcess());
-        orderListResponse.setAuditingStatus(order.getAuditingStatus());
-        AuditingStatusEnum auditingStatusEnum = AuditingStatusEnum.valueOf(order.getAuditingStatus());
-        if (auditingStatusEnum != null) {
-            orderListResponse.setAuditingStatusName(auditingStatusEnum.getName());
         }
 
         return orderListResponse;

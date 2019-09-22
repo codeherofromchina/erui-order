@@ -88,7 +88,10 @@ public class PurchPayApplicationFactory {
         purchPayApplicationListResponse.setId(purchPayApplication.getId());
         purchPayApplicationListResponse.setPayNo(purchPayApplication.getPayNo());
         purchPayApplicationListResponse.setPurchContractNo(purchPayApplication.getPurchContractNo());
-
+        purchPayApplicationListResponse.setSupplierId(purchPayApplication.getSupplierId());
+        purchPayApplicationListResponse.setSupplierName(purchPayApplication.getSupplierName());
+        purchPayApplicationListResponse.setContractAmount(purchPayApplication.getContractAmount());
+        purchPayApplicationListResponse.setApplicantAmount(purchPayApplication.getApplicantAmount());
         purchPayApplicationListResponse.setPayStatus(purchPayApplication.getPayStatus());
         PurchPayApplicationStatusEnum statusEnum = PurchPayApplicationStatusEnum.valueOf(purchPayApplication.getPayerName());
         if (statusEnum != null) {

@@ -7,9 +7,17 @@ public class PurchRequisition {
 
     private Long projectId;
 
+    private String contractNo;
+
     private String projectNo;
 
-    private Long pmUid;
+    private String projectName;
+
+    private Date projectStartDate;
+
+    private Long businessUid;
+
+    private Date requirePurchaseDate;
 
     private Long department;
 
@@ -63,6 +71,14 @@ public class PurchRequisition {
         this.projectId = projectId;
     }
 
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
     public String getProjectNo() {
         return projectNo;
     }
@@ -71,12 +87,36 @@ public class PurchRequisition {
         this.projectNo = projectNo;
     }
 
-    public Long getPmUid() {
-        return pmUid;
+    public String getProjectName() {
+        return projectName;
     }
 
-    public void setPmUid(Long pmUid) {
-        this.pmUid = pmUid;
+    public void setProjectName(String projectName) {
+        this.projectName = projectName;
+    }
+
+    public Date getProjectStartDate() {
+        return projectStartDate;
+    }
+
+    public void setProjectStartDate(Date projectStartDate) {
+        this.projectStartDate = projectStartDate;
+    }
+
+    public Long getBusinessUid() {
+        return businessUid;
+    }
+
+    public void setBusinessUid(Long businessUid) {
+        this.businessUid = businessUid;
+    }
+
+    public Date getRequirePurchaseDate() {
+        return requirePurchaseDate;
+    }
+
+    public void setRequirePurchaseDate(Date requirePurchaseDate) {
+        this.requirePurchaseDate = requirePurchaseDate;
     }
 
     public Long getDepartment() {

@@ -35,6 +35,7 @@ public class PurchListResponse {
     private Short purchStatus;
     private String purchStatusName;
 
+
     public Long getId() {
         return id;
     }

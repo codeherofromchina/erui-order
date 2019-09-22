@@ -18,23 +18,24 @@ public class PurchContractFactory {
         if (purchContract == null) {
             return null;
         }
-        PurchContractListResponse response = new PurchContractListResponse();
-        response.setId(purchContract.getId());
-        response.setPurchContractNo(purchContract.getPurchContractNo());
-        response.setSigningDate(purchContract.getSigningDate());
-        response.setAgentId(purchContract.getAgentId());
-        response.setSupplierId(purchContract.getSupplierId());
-        response.setSupplierName(purchContract.getSupplierName());
-        response.setLowercasePrice(purchContract.getLowercasePrice());
-        response.setCurrencyBn(purchContract.getCurrencyBn());
-        response.setContractStatus(purchContract.getPurchContractStatus());
+        PurchContractListResponse listResponse = new PurchContractListResponse();
+        listResponse.setId(purchContract.getId());
+        listResponse.setPurchContractNo(purchContract.getPurchContractNo());
+        listResponse.setSigningDate(purchContract.getSigningDate());
+        listResponse.setAgentId(purchContract.getAgentId());
+        listResponse.setSupplierId(purchContract.getSupplierId());
+        listResponse.setSupplierName(purchContract.getSupplierName());
+        listResponse.setLowercasePrice(purchContract.getLowercasePrice());
+        listResponse.setCurrencyBn(purchContract.getCurrencyBn());
+        listResponse.setContractStatus(purchContract.getPurchContractStatus());
+        listResponse.setContractType(purchContract.getContractType());
         PurchContractStatusEnum purchContractStatusEnum = PurchContractStatusEnum.valueOf(purchContract.getPurchContractStatus());
         if (purchContractStatusEnum != null) {
-            response.setContractStatusName(purchContractStatusEnum.getName());
+            listResponse.setContractStatusName(purchContractStatusEnum.getName());
         }
-        response.setContractType(purchContract.getContractType());
+        listResponse.setContractType(purchContract.getContractType());
 
-        return response;
+        return listResponse;
     }
 
     public static PurchContract purchContract(PurchContractSaveRequest saveRequest) {

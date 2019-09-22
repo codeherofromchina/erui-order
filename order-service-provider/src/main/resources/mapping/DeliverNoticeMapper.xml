@@ -9,7 +9,9 @@
     <result column="deliver_consign_id" property="deliverConsignId" jdbcType="BIGINT" />
     <result column="sender_id" property="senderId" jdbcType="BIGINT" />
     <result column="operation_specialist_id" property="operationSpecialistId" jdbcType="BIGINT" />
-    <result column="operation_specialist" property="operationSpecialist" jdbcType="VARCHAR" />
+    <result column="ware_houseman" property="wareHouseman" jdbcType="BIGINT" />
+    <result column="delivery_date" property="deliveryDate" jdbcType="VARCHAR" />
+    <result column="exec_co_name" property="execCoName" jdbcType="VARCHAR" />
     <result column="send_date" property="sendDate" jdbcType="DATE" />
     <result column="numbers" property="numbers" jdbcType="INTEGER" />
     <result column="other_req" property="otherReq" jdbcType="VARCHAR" />
@@ -85,9 +87,9 @@
   </sql>
   <sql id="Base_Column_List" >
     id, deliver_notice_no, contract_no, crm_code, deliver_consign_id, sender_id, operation_specialist_id, 
-    operation_specialist, send_date, numbers, other_req, package_req, prepare_req, deliver_notice_status, 
-    handle_status, packing_time, create_user_id, create_time, update_user_id, update_time, 
-    delete_flag, delete_time
+    ware_houseman, delivery_date, exec_co_name, send_date, numbers, other_req, package_req, 
+    prepare_req, deliver_notice_status, handle_status, packing_time, create_user_id, 
+    create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverNoticeExample" >
     select
@@ -122,20 +124,22 @@
   <insert id="insert" parameterType="com.erui.order.model.entity.DeliverNotice" >
     insert into deliver_notice (id, deliver_notice_no, contract_no, 
       crm_code, deliver_consign_id, sender_id, 
-      operation_specialist_id, operation_specialist, 
-      send_date, numbers, other_req, 
-      package_req, prepare_req, deliver_notice_status, 
-      handle_status, packing_time, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, delete_time)
+      operation_specialist_id, ware_houseman, delivery_date, 
+      exec_co_name, send_date, numbers, 
+      other_req, package_req, prepare_req, 
+      deliver_notice_status, handle_status, packing_time, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
     values (#{id,jdbcType=BIGINT}, #{deliverNoticeNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
       #{crmCode,jdbcType=VARCHAR}, #{deliverConsignId,jdbcType=BIGINT}, #{senderId,jdbcType=BIGINT}, 
-      #{operationSpecialistId,jdbcType=BIGINT}, #{operationSpecialist,jdbcType=VARCHAR}, 
-      #{sendDate,jdbcType=DATE}, #{numbers,jdbcType=INTEGER}, #{otherReq,jdbcType=VARCHAR}, 
-      #{packageReq,jdbcType=VARCHAR}, #{prepareReq,jdbcType=VARCHAR}, #{deliverNoticeStatus,jdbcType=SMALLINT}, 
-      #{handleStatus,jdbcType=SMALLINT}, #{packingTime,jdbcType=DATE}, #{createUserId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
+      #{operationSpecialistId,jdbcType=BIGINT}, #{wareHouseman,jdbcType=BIGINT}, #{deliveryDate,jdbcType=VARCHAR}, 
+      #{execCoName,jdbcType=VARCHAR}, #{sendDate,jdbcType=DATE}, #{numbers,jdbcType=INTEGER}, 
+      #{otherReq,jdbcType=VARCHAR}, #{packageReq,jdbcType=VARCHAR}, #{prepareReq,jdbcType=VARCHAR}, 
+      #{deliverNoticeStatus,jdbcType=SMALLINT}, #{handleStatus,jdbcType=SMALLINT}, #{packingTime,jdbcType=DATE}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverNotice" >
     insert into deliver_notice
@@ -161,8 +165,14 @@
       <if test="operationSpecialistId != null" >
         operation_specialist_id,
       </if>
-      <if test="operationSpecialist != null" >
-        operation_specialist,
+      <if test="wareHouseman != null" >
+        ware_houseman,
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date,
+      </if>
+      <if test="execCoName != null" >
+        exec_co_name,
       </if>
       <if test="sendDate != null" >
         send_date,
@@ -229,8 +239,14 @@
       <if test="operationSpecialistId != null" >
         #{operationSpecialistId,jdbcType=BIGINT},
       </if>
-      <if test="operationSpecialist != null" >
-        #{operationSpecialist,jdbcType=VARCHAR},
+      <if test="wareHouseman != null" >
+        #{wareHouseman,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryDate != null" >
+        #{deliveryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="execCoName != null" >
+        #{execCoName,jdbcType=VARCHAR},
       </if>
       <if test="sendDate != null" >
         #{sendDate,jdbcType=DATE},
@@ -306,8 +322,14 @@
       <if test="record.operationSpecialistId != null" >
         operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
       </if>
-      <if test="record.operationSpecialist != null" >
-        operation_specialist = #{record.operationSpecialist,jdbcType=VARCHAR},
+      <if test="record.wareHouseman != null" >
+        ware_houseman = #{record.wareHouseman,jdbcType=BIGINT},
+      </if>
+      <if test="record.deliveryDate != null" >
+        delivery_date = #{record.deliveryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="record.execCoName != null" >
+        exec_co_name = #{record.execCoName,jdbcType=VARCHAR},
       </if>
       <if test="record.sendDate != null" >
         send_date = #{record.sendDate,jdbcType=DATE},
@@ -365,7 +387,9 @@
       deliver_consign_id = #{record.deliverConsignId,jdbcType=BIGINT},
       sender_id = #{record.senderId,jdbcType=BIGINT},
       operation_specialist_id = #{record.operationSpecialistId,jdbcType=BIGINT},
-      operation_specialist = #{record.operationSpecialist,jdbcType=VARCHAR},
+      ware_houseman = #{record.wareHouseman,jdbcType=BIGINT},
+      delivery_date = #{record.deliveryDate,jdbcType=VARCHAR},
+      exec_co_name = #{record.execCoName,jdbcType=VARCHAR},
       send_date = #{record.sendDate,jdbcType=DATE},
       numbers = #{record.numbers,jdbcType=INTEGER},
       other_req = #{record.otherReq,jdbcType=VARCHAR},
@@ -405,8 +429,14 @@
       <if test="operationSpecialistId != null" >
         operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
       </if>
-      <if test="operationSpecialist != null" >
-        operation_specialist = #{operationSpecialist,jdbcType=VARCHAR},
+      <if test="wareHouseman != null" >
+        ware_houseman = #{wareHouseman,jdbcType=BIGINT},
+      </if>
+      <if test="deliveryDate != null" >
+        delivery_date = #{deliveryDate,jdbcType=VARCHAR},
+      </if>
+      <if test="execCoName != null" >
+        exec_co_name = #{execCoName,jdbcType=VARCHAR},
       </if>
       <if test="sendDate != null" >
         send_date = #{sendDate,jdbcType=DATE},
@@ -461,7 +491,9 @@
       deliver_consign_id = #{deliverConsignId,jdbcType=BIGINT},
       sender_id = #{senderId,jdbcType=BIGINT},
       operation_specialist_id = #{operationSpecialistId,jdbcType=BIGINT},
-      operation_specialist = #{operationSpecialist,jdbcType=VARCHAR},
+      ware_houseman = #{wareHouseman,jdbcType=BIGINT},
+      delivery_date = #{deliveryDate,jdbcType=VARCHAR},
+      exec_co_name = #{execCoName,jdbcType=VARCHAR},
       send_date = #{sendDate,jdbcType=DATE},
       numbers = #{numbers,jdbcType=INTEGER},
       other_req = #{otherReq,jdbcType=VARCHAR},

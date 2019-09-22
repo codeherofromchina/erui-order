@@ -50,10 +50,11 @@ public class DeliverNoticeFactory {
         deliverNoticeListResponse.setDeliverConsignId(deliverNotice.getDeliverConsignId());
         deliverNoticeListResponse.setContractNo(deliverNotice.getContractNo());
         deliverNoticeListResponse.setCrmCode(deliverNotice.getCrmCode());
-//        deliverNoticeListResponse.setDeliveryDate(deliverNotice.getSecon);
-//        deliverNoticeListResponse.setExecCoName(deliverNotice.);
-        deliverNoticeListResponse.setOperationSpecialistId(deliverNotice.getOperationSpecialistId());
+        deliverNoticeListResponse.setDeliveryDate(deliverNotice.getDeliveryDate());
+        deliverNoticeListResponse.setExecCoName(deliverNotice.getExecCoName());
+        deliverNoticeListResponse.setWareHouseman(deliverNotice.getWareHouseman());
 
+        deliverNoticeListResponse.setOperationSpecialistId(deliverNotice.getOperationSpecialistId());
         deliverNoticeListResponse.setDeliverNoticeStatus(deliverNotice.getDeliverNoticeStatus());
         DeliverNoticeStatusEnum statusEnum = DeliverNoticeStatusEnum.valueOf(deliverNotice.getDeliverNoticeStatus());
         if (statusEnum != null) {

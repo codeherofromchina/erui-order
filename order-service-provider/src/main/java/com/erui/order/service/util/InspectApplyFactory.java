@@ -55,28 +55,28 @@ public class InspectApplyFactory {
         if (inspectApply == null) {
             return null;
         }
-        InspectApplyListResponse InspectApplyListResponse = new InspectApplyListResponse();
-        InspectApplyListResponse.setId(inspectApply.getId());
-        InspectApplyListResponse.setPurchNo(inspectApply.getPurchNo());
-        InspectApplyListResponse.setInspectApplyNo(inspectApply.getInspectApplyNo());
-        InspectApplyListResponse.setDepartment(inspectApply.getDepartment());
-        InspectApplyListResponse.setPurchaseNameId(inspectApply.getPurchaseNameId());
-//
-        InspectApplyListResponse.setSupplierName(inspectApply.getSupplierName());
-        InspectApplyListResponse.setInspectDate(inspectApply.getInspectDate());
-        InspectApplyListResponse.setNum(inspectApply.getNum());
-        InspectApplyListResponse.setPubStatus(inspectApply.getPubStatus());
+        InspectApplyListResponse applyListResponse = new InspectApplyListResponse();
+        applyListResponse.setId(inspectApply.getId());
+        applyListResponse.setPurchNo(inspectApply.getPurchNo());
+        applyListResponse.setInspectApplyNo(inspectApply.getInspectApplyNo());
+        applyListResponse.setDepartment(inspectApply.getDepartment());
+        applyListResponse.setPurchaseNameId(inspectApply.getPurchaseNameId());
+        applyListResponse.setSupplierName(inspectApply.getSupplierName());
+        applyListResponse.setInspectDate(inspectApply.getInspectDate());
+        applyListResponse.setNum(inspectApply.getNum());
+        applyListResponse.setPubStatus(inspectApply.getPubStatus());
+        applyListResponse.setInspectApplyStatus(inspectApply.getInspectApplyStatus());
         InspectApplyStatusEnum pubStatusEnum = InspectApplyStatusEnum.valueOf(inspectApply.getPubStatus());
         if (pubStatusEnum != null) {
-            InspectApplyListResponse.setPubStatusName(pubStatusEnum.getName());
+            applyListResponse.setPubStatusName(pubStatusEnum.getName());
         }
-        InspectApplyListResponse.setInspectApplyStatus(inspectApply.getInspectApplyStatus());
+        applyListResponse.setInspectApplyStatus(inspectApply.getInspectApplyStatus());
         InspectApplyStatusEnum statusEnum = InspectApplyStatusEnum.valueOf(inspectApply.getInspectApplyStatus());
         if (statusEnum != null) {
-            InspectApplyListResponse.setInspectApplyStatusName(statusEnum.getName());
+            applyListResponse.setInspectApplyStatusName(statusEnum.getName());
         }
 
-        return InspectApplyListResponse;
+        return applyListResponse;
     }
 }
 

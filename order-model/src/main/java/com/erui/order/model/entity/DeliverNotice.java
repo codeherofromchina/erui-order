@@ -17,7 +17,11 @@ public class DeliverNotice {
 
     private Long operationSpecialistId;
 
-    private String operationSpecialist;
+    private Long wareHouseman;
+
+    private String deliveryDate;
+
+    private String execCoName;
 
     private Date sendDate;
 
@@ -103,12 +107,28 @@ public class DeliverNotice {
         this.operationSpecialistId = operationSpecialistId;
     }
 
-    public String getOperationSpecialist() {
-        return operationSpecialist;
+    public Long getWareHouseman() {
+        return wareHouseman;
     }
 
-    public void setOperationSpecialist(String operationSpecialist) {
-        this.operationSpecialist = operationSpecialist;
+    public void setWareHouseman(Long wareHouseman) {
+        this.wareHouseman = wareHouseman;
+    }
+
+    public String getDeliveryDate() {
+        return deliveryDate;
+    }
+
+    public void setDeliveryDate(String deliveryDate) {
+        this.deliveryDate = deliveryDate;
+    }
+
+    public String getExecCoName() {
+        return execCoName;
+    }
+
+    public void setExecCoName(String execCoName) {
+        this.execCoName = execCoName;
     }
 
     public Date getSendDate() {

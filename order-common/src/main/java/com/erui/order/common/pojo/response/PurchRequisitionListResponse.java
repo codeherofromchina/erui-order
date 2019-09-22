@@ -8,15 +8,19 @@ import java.util.Date;
  */
 public class PurchRequisitionListResponse {
     private Long id;
-
+    // 项目ID
     private Long projectId;
+    // 销售合同号
     private String contractNo;
+    // 项目号
     private String projectNo;
+    // 合同标的物
     private String projectName;
-    private Long pmUid;
-    private String pmUserName;
-    private Date startDate;
-
+    // 事业部项目负责人
+    private Long businessUid;
+    private String businessUserName;
+    // 项目开始日期
+    private Date projectStartDate;
     // 下发采购日期
     private Date submitDate;
     // 要求采购到货日期
@@ -25,6 +29,13 @@ public class PurchRequisitionListResponse {
     private Short purchStatus;
     private String purchStatusName;
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public Long getProjectId() {
         return projectId;
@@ -32,14 +43,6 @@ public class PurchRequisitionListResponse {
 
     public void setProjectId(Long projectId) {
         this.projectId = projectId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getContractNo() {
@@ -66,28 +69,28 @@ public class PurchRequisitionListResponse {
         this.projectName = projectName;
     }
 
-    public Long getPmUid() {
-        return pmUid;
+    public Long getBusinessUid() {
+        return businessUid;
     }
 
-    public void setPmUid(Long pmUid) {
-        this.pmUid = pmUid;
+    public void setBusinessUid(Long businessUid) {
+        this.businessUid = businessUid;
     }
 
-    public String getPmUserName() {
-        return pmUserName;
+    public String getBusinessUserName() {
+        return businessUserName;
     }
 
-    public void setPmUserName(String pmUserName) {
-        this.pmUserName = pmUserName;
+    public void setBusinessUserName(String businessUserName) {
+        this.businessUserName = businessUserName;
     }
 
-    public Date getStartDate() {
-        return startDate;
+    public Date getProjectStartDate() {
+        return projectStartDate;
     }
 
-    public void setStartDate(Date startDate) {
-        this.startDate = startDate;
+    public void setProjectStartDate(Date projectStartDate) {
+        this.projectStartDate = projectStartDate;
     }
 
     public Date getSubmitDate() {

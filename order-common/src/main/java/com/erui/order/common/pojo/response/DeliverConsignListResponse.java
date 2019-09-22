@@ -25,6 +25,7 @@ public class DeliverConsignListResponse {
     private Short deliverConsignStatus;
     private String deliverConsignStatusName;
 
+
     public Long getId() {
         return id;
     }

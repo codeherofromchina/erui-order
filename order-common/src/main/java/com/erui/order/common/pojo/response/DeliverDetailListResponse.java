@@ -20,6 +20,22 @@ public class DeliverDetailListResponse {
     private Date releaseDate;
     // 出库日期
     private Date leaveDate;
+    // 经办部门
+    private String handleDepartment;
+    // 开单日期
+    private Date billingDate;
+    // 仓库经办人
+    private Long wareHouseman;
+    private String wareHousemanName;
+    // 是否厂家直接发 1:直发  2：否
+    private Boolean outCheck;
+    // 质检部门
+    private String checkDept;
+    // 检验员
+    private Long checkUserId;
+    private String checkUserName;
+    // 检验日期
+    private Date checkDate;
     //  出库状态
     private Short deliverDetailStatus;
     private String deliverDetailStatusName;
@@ -96,6 +112,79 @@ public class DeliverDetailListResponse {
 
     public void setLeaveDate(Date leaveDate) {
         this.leaveDate = leaveDate;
+    }
+
+
+    public String getHandleDepartment() {
+        return handleDepartment;
+    }
+
+    public void setHandleDepartment(String handleDepartment) {
+        this.handleDepartment = handleDepartment;
+    }
+
+    public Date getBillingDate() {
+        return billingDate;
+    }
+
+    public void setBillingDate(Date billingDate) {
+        this.billingDate = billingDate;
+    }
+
+    public Long getWareHouseman() {
+        return wareHouseman;
+    }
+
+    public void setWareHouseman(Long wareHouseman) {
+        this.wareHouseman = wareHouseman;
+    }
+
+    public String getWareHousemanName() {
+        return wareHousemanName;
+    }
+
+    public void setWareHousemanName(String wareHousemanName) {
+        this.wareHousemanName = wareHousemanName;
+    }
+
+    public Boolean getOutCheck() {
+        return outCheck;
+    }
+
+    public void setOutCheck(Boolean outCheck) {
+        this.outCheck = outCheck;
+    }
+
+    public String getCheckDept() {
+        return checkDept;
+    }
+
+    public void setCheckDept(String checkDept) {
+        this.checkDept = checkDept;
+    }
+
+    public Long getCheckUserId() {
+        return checkUserId;
+    }
+
+    public void setCheckUserId(Long checkUserId) {
+        this.checkUserId = checkUserId;
+    }
+
+    public String getCheckUserName() {
+        return checkUserName;
+    }
+
+    public void setCheckUserName(String checkUserName) {
+        this.checkUserName = checkUserName;
+    }
+
+    public Date getCheckDate() {
+        return checkDate;
+    }
+
+    public void setCheckDate(Date checkDate) {
+        this.checkDate = checkDate;
     }
 }
 

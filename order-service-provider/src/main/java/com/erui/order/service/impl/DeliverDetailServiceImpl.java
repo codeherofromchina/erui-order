@@ -148,6 +148,7 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         List<DeliverDetailListResponse> deliverDetailListResponses = new ArrayList<>();
         for (DeliverDetail deliverDetail : deliverDetails) {
             DeliverDetailListResponse deliverDetailListResponse = DeliverDetailFactory.deliverDetailListResponse(deliverDetail);
+            deliverDetailListResponse.setCheckUserName(userService.findNameById(deliverDetail.getCheckUserId()));
             deliverDetailListResponses.add(deliverDetailListResponse);
         }
         // 输出

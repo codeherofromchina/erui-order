@@ -1,6 +1,5 @@
 package com.erui.order.common.pojo.response;
 
-import java.math.BigDecimal;
 import java.util.Date;
 
 /**
@@ -21,8 +20,9 @@ public class LogisticsDataListResponse {
     // 实际完成日期
     private Date accomplishDate;
     // 状态
-    private Short LogisticsDataStatus;
-    private String LogisticsDataStatusName;
+    private Short logisticsDataStatus;
+    private String logisticsDataStatusName;
+
 
     public Long getId() {
         return id;
@@ -73,19 +73,19 @@ public class LogisticsDataListResponse {
     }
 
     public Short getLogisticsDataStatus() {
-        return LogisticsDataStatus;
+        return logisticsDataStatus;
     }
 
     public void setLogisticsDataStatus(Short logisticsDataStatus) {
-        LogisticsDataStatus = logisticsDataStatus;
+        this.logisticsDataStatus = logisticsDataStatus;
     }
 
     public String getLogisticsDataStatusName() {
-        return LogisticsDataStatusName;
+        return logisticsDataStatusName;
     }
 
     public void setLogisticsDataStatusName(String logisticsDataStatusName) {
-        LogisticsDataStatusName = logisticsDataStatusName;
+        this.logisticsDataStatusName = logisticsDataStatusName;
     }
 }
 

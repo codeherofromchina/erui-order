@@ -14,10 +14,7 @@ import com.erui.order.mapper.DeliverNoticeMapper;
 import com.erui.order.model.entity.DeliverConsign;
 import com.erui.order.model.entity.DeliverNotice;
 import com.erui.order.model.entity.DeliverNoticeExample;
-import com.erui.order.service.AttachmentService;
-import com.erui.order.service.DeliverConsignGoodsService;
-import com.erui.order.service.DeliverNoticeService;
-import com.erui.order.service.GoodsService;
+import com.erui.order.service.*;
 import com.erui.order.service.util.DeliverNoticeFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -46,6 +43,8 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
     private DeliverConsignGoodsService deliverConsignGoodsService;
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private UserService userService;
 
     @Override
     public Long insert(DeliverNoticeSaveRequest insertRequest) throws Exception {
@@ -142,6 +141,8 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         List<DeliverNoticeListResponse> deliverNoticeListResponses = new ArrayList<>();
         for (DeliverNotice deliverNotice : deliverNoticeList) {
             DeliverNoticeListResponse deliverNoticeListResponse = DeliverNoticeFactory.deliverNoticeListResponse(deliverNotice);
+            deliverNoticeListResponse.setWareHousemanName(userService.findNameById(deliverNotice.getWareHouseman()));
+            deliverNoticeListResponse.setOperationSpecialistUserName(userService.findNameById(deliverNotice.getOperationSpecialistId()));
             deliverNoticeListResponses.add(deliverNoticeListResponse);
         }
         // 输出

@@ -8,6 +8,10 @@ public class Purch {
 
     private String purchNo;
 
+    private String contractNo;
+
+    private String projectNo;
+
     private Long purchContractId;
 
     private Long agentId;
@@ -78,6 +82,22 @@ public class Purch {
 
     public void setPurchNo(String purchNo) {
         this.purchNo = purchNo;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public Long getPurchContractId() {
