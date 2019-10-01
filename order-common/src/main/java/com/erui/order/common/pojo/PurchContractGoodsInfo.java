@@ -8,9 +8,7 @@ import java.math.BigDecimal;
  */
 public class PurchContractGoodsInfo {
     private Long id;
-    // '商品ID'
-    private Long orderGoodsId;
-    // 采购申请商品
+    // 采购申请ID
     private Long purchRequisitionGoodsId;
     // '本次采购数量'
     private Integer purchaseNum;
@@ -19,7 +17,7 @@ public class PurchContractGoodsInfo {
     // '采购单价'
     private BigDecimal purchasePrice;
     // '品牌'
-    private String brand;
+    private String purchContractBrand;
 
     public Long getId() {
         return id;
@@ -27,22 +25,6 @@ public class PurchContractGoodsInfo {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public Long getPurchRequisitionGoodsId() {
-        return purchRequisitionGoodsId;
-    }
-
-    public void setPurchRequisitionGoodsId(Long purchRequisitionGoodsId) {
-        this.purchRequisitionGoodsId = purchRequisitionGoodsId;
-    }
-
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
     }
 
     public Integer getPurchaseNum() {
@@ -70,11 +52,19 @@ public class PurchContractGoodsInfo {
         this.purchasePrice = purchasePrice;
     }
 
-    public String getBrand() {
-        return brand;
+    public String getPurchContractBrand() {
+        return purchContractBrand;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setPurchContractBrand(String purchContractBrand) {
+        this.purchContractBrand = purchContractBrand;
+    }
+
+    public Long getPurchRequisitionGoodsId() {
+        return purchRequisitionGoodsId;
+    }
+
+    public void setPurchRequisitionGoodsId(Long purchRequisitionGoodsId) {
+        this.purchRequisitionGoodsId = purchRequisitionGoodsId;
     }
 }

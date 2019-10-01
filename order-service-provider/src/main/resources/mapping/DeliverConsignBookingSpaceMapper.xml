@@ -131,7 +131,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverConsignBookingSpace" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.DeliverConsignBookingSpace" >
     insert into deliver_consign_booking_space (id, deliver_consign_id, ready_date, 
       arrival_date, order_emergency, penalty_provision, 
       required_doc, bill_of_positive, bill_of_vice, 

@@ -124,7 +124,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.PurchRequisition" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.PurchRequisition" >
     insert into purch_requisition (id, project_id, contract_no, 
       project_no, project_name, project_start_date, 
       business_uid, require_purchase_date, department, 

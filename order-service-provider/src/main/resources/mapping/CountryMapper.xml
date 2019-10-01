@@ -106,7 +106,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Country" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.Country" >
     insert into country (id, lang, region_bn, 
       code, bn, country_name, 
       int_tel_code, time_zone, status, 

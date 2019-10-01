@@ -1983,66 +1983,6 @@ public class DeliverConsignExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusIsNull() {
-            addCriterion("auditing_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusIsNotNull() {
-            addCriterion("auditing_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusEqualTo(Short value) {
-            addCriterion("auditing_status =", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusNotEqualTo(Short value) {
-            addCriterion("auditing_status <>", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusGreaterThan(Short value) {
-            addCriterion("auditing_status >", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusGreaterThanOrEqualTo(Short value) {
-            addCriterion("auditing_status >=", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusLessThan(Short value) {
-            addCriterion("auditing_status <", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusLessThanOrEqualTo(Short value) {
-            addCriterion("auditing_status <=", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusIn(List<Short> values) {
-            addCriterion("auditing_status in", values, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusNotIn(List<Short> values) {
-            addCriterion("auditing_status not in", values, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusBetween(Short value1, Short value2) {
-            addCriterion("auditing_status between", value1, value2, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusNotBetween(Short value1, Short value2) {
-            addCriterion("auditing_status not between", value1, value2, "auditingStatus");
-            return (Criteria) this;
-        }
-
         public Criteria andCrmCodeIsNull() {
             addCriterion("crm_code is null");
             return (Criteria) this;

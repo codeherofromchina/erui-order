@@ -111,7 +111,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.OrderAccount" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.OrderAccount" >
     insert into order_account (id, order_id, account_type, 
       acc_desc, money, discount, 
       payment_date, goods_price, deliver_date, 

@@ -8,7 +8,9 @@ public class PurchContractGoods {
 
     private Long purchContractId;
 
-    private Long orderGoodsId;
+    private Long purchRequisitionGoodsId;
+
+    private String purchContractBrand;
 
     private Integer purchaseNum;
 
@@ -18,7 +20,9 @@ public class PurchContractGoods {
 
     private BigDecimal purchaseTotalPrice;
 
-    private String brand;
+    private Integer prePurchasedNum;
+
+    private Integer purchasedNum;
 
     private Long createUserId;
 
@@ -31,10 +35,6 @@ public class PurchContractGoods {
     private Boolean deleteFlag;
 
     private Date deleteTime;
-
-    private Integer prePurchasedNum;
-
-    private Integer purchasedNum;
 
     public Long getId() {
         return id;
@@ -52,12 +52,20 @@ public class PurchContractGoods {
         this.purchContractId = purchContractId;
     }
 
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
+    public Long getPurchRequisitionGoodsId() {
+        return purchRequisitionGoodsId;
     }
 
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
+    public void setPurchRequisitionGoodsId(Long purchRequisitionGoodsId) {
+        this.purchRequisitionGoodsId = purchRequisitionGoodsId;
+    }
+
+    public String getPurchContractBrand() {
+        return purchContractBrand;
+    }
+
+    public void setPurchContractBrand(String purchContractBrand) {
+        this.purchContractBrand = purchContractBrand;
     }
 
     public Integer getPurchaseNum() {
@@ -92,12 +100,20 @@ public class PurchContractGoods {
         this.purchaseTotalPrice = purchaseTotalPrice;
     }
 
-    public String getBrand() {
-        return brand;
+    public Integer getPrePurchasedNum() {
+        return prePurchasedNum;
     }
 
-    public void setBrand(String brand) {
-        this.brand = brand;
+    public void setPrePurchasedNum(Integer prePurchasedNum) {
+        this.prePurchasedNum = prePurchasedNum;
+    }
+
+    public Integer getPurchasedNum() {
+        return purchasedNum;
+    }
+
+    public void setPurchasedNum(Integer purchasedNum) {
+        this.purchasedNum = purchasedNum;
     }
 
     public Long getCreateUserId() {
@@ -146,21 +162,5 @@ public class PurchContractGoods {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    public Integer getPrePurchasedNum() {
-        return prePurchasedNum;
-    }
-
-    public void setPrePurchasedNum(Integer prePurchasedNum) {
-        this.prePurchasedNum = prePurchasedNum;
-    }
-
-    public Integer getPurchasedNum() {
-        return purchasedNum;
-    }
-
-    public void setPurchasedNum(Integer purchasedNum) {
-        this.purchasedNum = purchasedNum;
     }
 }

@@ -17,7 +17,7 @@ public interface GoodsService {
      */
     List<GoodsInfo> purchContractAbleGoodsList(List<Long> projectIds);
 
-    void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum) throws Exception;
+    void updateOrderGoodsPurchContractNum(Long purchRequisitionGoodsId, boolean pre, Integer purchaseNum) throws Exception;
 
 
 // ---------------------------------------------------------------------------

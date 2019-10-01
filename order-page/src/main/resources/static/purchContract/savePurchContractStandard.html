@@ -537,7 +537,7 @@
                 {field: 'sku', width: 125, title: '平台SKU'},
                 {field: 'nameZh', width: 80, title: '中文品名'},
                 {field: 'unitName', width: 40, title: '单位'},
-                {field: 'brand', width: 80, title: '品牌'},
+                {field: 'purchContractBrand', width: 80, title: '品牌'},
                 {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
                 {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
                 {
@@ -645,7 +645,7 @@
                             projectIds.push(value.id);
                             projectNos.push(value.projectNo);
                         });
-                        var resp = syncAjaxJson({"url": LOCAL_URL + "/order/goods/purchContractGoods"}, projectIds);
+                        var resp = syncAjaxJson({"url": LOCAL_URL + "/order/goods/purchContractAbleGoods"}, projectIds);
                         if (resp.code == 0) {
                             goodsData = resp.data;
                         }
@@ -729,10 +729,10 @@
 
             formData.purchContractGoodsList.push({
                 id: value.id,
-                orderGoodsId: value.orderGoodsId,
+                purchRequisitionGoodsId: value.purchRequisitionGoodsId,
                 purchaseNum: purchaseNum,
                 purchasePrice: purchasePrice,
-                brand: value.brand
+                purchContractBrand: value.purchContractBrand
             });
         });
 

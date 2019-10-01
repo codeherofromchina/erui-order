@@ -70,6 +70,8 @@ public class Order {
 
     private BigDecimal totalPrice;
 
+    private BigDecimal eruiTotalPrice;
+
     private BigDecimal totalPriceUsd;
 
     private BigDecimal exchangeRate;
@@ -96,7 +98,7 @@ public class Order {
 
     private String processProgress;
 
-    private Short deliverConsignHas;
+    private Boolean deliverConsignHas;
 
     private Short orderBelongs;
 
@@ -112,12 +114,6 @@ public class Order {
 
     private BigDecimal advanceMoney;
 
-    private Short auditingStatus;
-
-    private String auditingProcess;
-
-    private String processId;
-
     private Long createUserId;
 
     private Date createTime;
@@ -129,8 +125,6 @@ public class Order {
     private Boolean deleteFlag;
 
     private Date deleteTime;
-
-    private BigDecimal eruiTotalPrice;
 
     public Long getId() {
         return id;
@@ -396,6 +390,14 @@ public class Order {
         this.totalPrice = totalPrice;
     }
 
+    public BigDecimal getEruiTotalPrice() {
+        return eruiTotalPrice;
+    }
+
+    public void setEruiTotalPrice(BigDecimal eruiTotalPrice) {
+        this.eruiTotalPrice = eruiTotalPrice;
+    }
+
     public BigDecimal getTotalPriceUsd() {
         return totalPriceUsd;
     }
@@ -500,11 +502,11 @@ public class Order {
         this.processProgress = processProgress;
     }
 
-    public Short getDeliverConsignHas() {
+    public Boolean getDeliverConsignHas() {
         return deliverConsignHas;
     }
 
-    public void setDeliverConsignHas(Short deliverConsignHas) {
+    public void setDeliverConsignHas(Boolean deliverConsignHas) {
         this.deliverConsignHas = deliverConsignHas;
     }
 
@@ -564,30 +566,6 @@ public class Order {
         this.advanceMoney = advanceMoney;
     }
 
-    public Short getAuditingStatus() {
-        return auditingStatus;
-    }
-
-    public void setAuditingStatus(Short auditingStatus) {
-        this.auditingStatus = auditingStatus;
-    }
-
-    public String getAuditingProcess() {
-        return auditingProcess;
-    }
-
-    public void setAuditingProcess(String auditingProcess) {
-        this.auditingProcess = auditingProcess;
-    }
-
-    public String getProcessId() {
-        return processId;
-    }
-
-    public void setProcessId(String processId) {
-        this.processId = processId;
-    }
-
     public Long getCreateUserId() {
         return createUserId;
     }
@@ -634,13 +612,5 @@ public class Order {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    public BigDecimal getEruiTotalPrice() {
-        return eruiTotalPrice;
-    }
-
-    public void setEruiTotalPrice(BigDecimal eruiTotalPrice) {
-        this.eruiTotalPrice = eruiTotalPrice;
     }
 }

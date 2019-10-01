@@ -2313,6 +2313,66 @@ public class OrderExample {
             return (Criteria) this;
         }
 
+        public Criteria andEruiTotalPriceIsNull() {
+            addCriterion("erui_total_price is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceIsNotNull() {
+            addCriterion("erui_total_price is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price =", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceNotEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price <>", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceGreaterThan(BigDecimal value) {
+            addCriterion("erui_total_price >", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceGreaterThanOrEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price >=", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceLessThan(BigDecimal value) {
+            addCriterion("erui_total_price <", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceLessThanOrEqualTo(BigDecimal value) {
+            addCriterion("erui_total_price <=", value, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceIn(List<BigDecimal> values) {
+            addCriterion("erui_total_price in", values, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceNotIn(List<BigDecimal> values) {
+            addCriterion("erui_total_price not in", values, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("erui_total_price between", value1, value2, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
+        public Criteria andEruiTotalPriceNotBetween(BigDecimal value1, BigDecimal value2) {
+            addCriterion("erui_total_price not between", value1, value2, "eruiTotalPrice");
+            return (Criteria) this;
+        }
+
         public Criteria andTotalPriceUsdIsNull() {
             addCriterion("total_price_usd is null");
             return (Criteria) this;
@@ -3143,52 +3203,52 @@ public class OrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasEqualTo(Short value) {
+        public Criteria andDeliverConsignHasEqualTo(Boolean value) {
             addCriterion("deliver_consign_has =", value, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasNotEqualTo(Short value) {
+        public Criteria andDeliverConsignHasNotEqualTo(Boolean value) {
             addCriterion("deliver_consign_has <>", value, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasGreaterThan(Short value) {
+        public Criteria andDeliverConsignHasGreaterThan(Boolean value) {
             addCriterion("deliver_consign_has >", value, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasGreaterThanOrEqualTo(Short value) {
+        public Criteria andDeliverConsignHasGreaterThanOrEqualTo(Boolean value) {
             addCriterion("deliver_consign_has >=", value, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasLessThan(Short value) {
+        public Criteria andDeliverConsignHasLessThan(Boolean value) {
             addCriterion("deliver_consign_has <", value, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasLessThanOrEqualTo(Short value) {
+        public Criteria andDeliverConsignHasLessThanOrEqualTo(Boolean value) {
             addCriterion("deliver_consign_has <=", value, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasIn(List<Short> values) {
+        public Criteria andDeliverConsignHasIn(List<Boolean> values) {
             addCriterion("deliver_consign_has in", values, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasNotIn(List<Short> values) {
+        public Criteria andDeliverConsignHasNotIn(List<Boolean> values) {
             addCriterion("deliver_consign_has not in", values, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasBetween(Short value1, Short value2) {
+        public Criteria andDeliverConsignHasBetween(Boolean value1, Boolean value2) {
             addCriterion("deliver_consign_has between", value1, value2, "deliverConsignHas");
             return (Criteria) this;
         }
 
-        public Criteria andDeliverConsignHasNotBetween(Short value1, Short value2) {
+        public Criteria andDeliverConsignHasNotBetween(Boolean value1, Boolean value2) {
             addCriterion("deliver_consign_has not between", value1, value2, "deliverConsignHas");
             return (Criteria) this;
         }
@@ -3613,206 +3673,6 @@ public class OrderExample {
             return (Criteria) this;
         }
 
-        public Criteria andAuditingStatusIsNull() {
-            addCriterion("auditing_status is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusIsNotNull() {
-            addCriterion("auditing_status is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusEqualTo(Short value) {
-            addCriterion("auditing_status =", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusNotEqualTo(Short value) {
-            addCriterion("auditing_status <>", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusGreaterThan(Short value) {
-            addCriterion("auditing_status >", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusGreaterThanOrEqualTo(Short value) {
-            addCriterion("auditing_status >=", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusLessThan(Short value) {
-            addCriterion("auditing_status <", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusLessThanOrEqualTo(Short value) {
-            addCriterion("auditing_status <=", value, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusIn(List<Short> values) {
-            addCriterion("auditing_status in", values, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusNotIn(List<Short> values) {
-            addCriterion("auditing_status not in", values, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusBetween(Short value1, Short value2) {
-            addCriterion("auditing_status between", value1, value2, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingStatusNotBetween(Short value1, Short value2) {
-            addCriterion("auditing_status not between", value1, value2, "auditingStatus");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessIsNull() {
-            addCriterion("auditing_process is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessIsNotNull() {
-            addCriterion("auditing_process is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessEqualTo(String value) {
-            addCriterion("auditing_process =", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessNotEqualTo(String value) {
-            addCriterion("auditing_process <>", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessGreaterThan(String value) {
-            addCriterion("auditing_process >", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessGreaterThanOrEqualTo(String value) {
-            addCriterion("auditing_process >=", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessLessThan(String value) {
-            addCriterion("auditing_process <", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessLessThanOrEqualTo(String value) {
-            addCriterion("auditing_process <=", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessLike(String value) {
-            addCriterion("auditing_process like", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessNotLike(String value) {
-            addCriterion("auditing_process not like", value, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessIn(List<String> values) {
-            addCriterion("auditing_process in", values, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessNotIn(List<String> values) {
-            addCriterion("auditing_process not in", values, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessBetween(String value1, String value2) {
-            addCriterion("auditing_process between", value1, value2, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andAuditingProcessNotBetween(String value1, String value2) {
-            addCriterion("auditing_process not between", value1, value2, "auditingProcess");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdIsNull() {
-            addCriterion("process_id is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdIsNotNull() {
-            addCriterion("process_id is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdEqualTo(String value) {
-            addCriterion("process_id =", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotEqualTo(String value) {
-            addCriterion("process_id <>", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdGreaterThan(String value) {
-            addCriterion("process_id >", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdGreaterThanOrEqualTo(String value) {
-            addCriterion("process_id >=", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdLessThan(String value) {
-            addCriterion("process_id <", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdLessThanOrEqualTo(String value) {
-            addCriterion("process_id <=", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdLike(String value) {
-            addCriterion("process_id like", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotLike(String value) {
-            addCriterion("process_id not like", value, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdIn(List<String> values) {
-            addCriterion("process_id in", values, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotIn(List<String> values) {
-            addCriterion("process_id not in", values, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdBetween(String value1, String value2) {
-            addCriterion("process_id between", value1, value2, "processId");
-            return (Criteria) this;
-        }
-
-        public Criteria andProcessIdNotBetween(String value1, String value2) {
-            addCriterion("process_id not between", value1, value2, "processId");
-            return (Criteria) this;
-        }
-
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;
@@ -4170,66 +4030,6 @@ public class OrderExample {
 
         public Criteria andDeleteTimeNotBetween(Date value1, Date value2) {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceIsNull() {
-            addCriterion("erui_total_price is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceIsNotNull() {
-            addCriterion("erui_total_price is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceEqualTo(BigDecimal value) {
-            addCriterion("erui_total_price =", value, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceNotEqualTo(BigDecimal value) {
-            addCriterion("erui_total_price <>", value, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceGreaterThan(BigDecimal value) {
-            addCriterion("erui_total_price >", value, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceGreaterThanOrEqualTo(BigDecimal value) {
-            addCriterion("erui_total_price >=", value, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceLessThan(BigDecimal value) {
-            addCriterion("erui_total_price <", value, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceLessThanOrEqualTo(BigDecimal value) {
-            addCriterion("erui_total_price <=", value, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceIn(List<BigDecimal> values) {
-            addCriterion("erui_total_price in", values, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceNotIn(List<BigDecimal> values) {
-            addCriterion("erui_total_price not in", values, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("erui_total_price between", value1, value2, "eruiTotalPrice");
-            return (Criteria) this;
-        }
-
-        public Criteria andEruiTotalPriceNotBetween(BigDecimal value1, BigDecimal value2) {
-            addCriterion("erui_total_price not between", value1, value2, "eruiTotalPrice");
             return (Criteria) this;
         }
     }

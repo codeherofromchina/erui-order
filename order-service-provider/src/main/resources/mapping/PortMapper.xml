@@ -105,7 +105,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Port" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.Port" >
     insert into port (id, lang, country_bn, 
       bn, port_name, name_en, 
       port_type, trans_mode, created_at, 

@@ -128,7 +128,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.LogisticsData" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.LogisticsData" >
     insert into logistics_data (id, the_awb_no, contract_no, 
       deliver_detail_no, release_date, logistics_user_id, 
       logistics_date, booking_time, logi_invoice_no, 

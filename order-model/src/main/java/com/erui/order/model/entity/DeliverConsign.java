@@ -62,8 +62,6 @@ public class DeliverConsign {
 
     private String businessLeader;
 
-    private Short auditingStatus;
-
     private String crmCode;
 
     private String deptName;
@@ -320,14 +318,6 @@ public class DeliverConsign {
 
     public void setBusinessLeader(String businessLeader) {
         this.businessLeader = businessLeader;
-    }
-
-    public Short getAuditingStatus() {
-        return auditingStatus;
-    }
-
-    public void setAuditingStatus(Short auditingStatus) {
-        this.auditingStatus = auditingStatus;
     }
 
     public String getCrmCode() {

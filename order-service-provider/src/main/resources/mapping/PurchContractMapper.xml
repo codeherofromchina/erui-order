@@ -120,7 +120,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.PurchContract" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.PurchContract" >
     insert into purch_contract (id, purch_contract_no, contract_type, 
       purch_contract_status, signing_date, supplier_id, 
       supplier_name, signing_place, agent_id, 

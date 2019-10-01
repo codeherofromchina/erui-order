@@ -68,4 +68,14 @@ public class BuyerServiceImpl implements BuyerService {
                 , page.getPages(), page.getTotal(), buyerInfoList);
         return pager;
     }
+
+
+    @Override
+    public String findBuyerCodeById(Long buyerId) {
+        Buyer buyer = buyerMapper.selectByPrimaryKey(buyerId);
+        if (buyer != null) {
+            return buyer.getBuyerCode();
+        }
+        return null;
+    }
 }

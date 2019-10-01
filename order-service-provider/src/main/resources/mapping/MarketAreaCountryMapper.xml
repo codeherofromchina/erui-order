@@ -100,7 +100,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.MarketAreaCountry" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.MarketAreaCountry" >
     insert into market_area_country (country_bn, market_area_bn, status, 
       created_at)
     values (#{countryBn,jdbcType=VARCHAR}, #{marketAreaBn,jdbcType=VARCHAR}, #{status,jdbcType=VARCHAR}, 

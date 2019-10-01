@@ -110,7 +110,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.User" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.User" >
     insert into user (id, user_no, user_name, 
       nick_name, email, mobile, 
       password_hash, citizenship, avatar, 

@@ -104,7 +104,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Org" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.Org" >
     insert into org (id, membership, parent_id, 
       org_name_en, org_name, org_status, 
       deleted_flag, org_node, used_for_goods

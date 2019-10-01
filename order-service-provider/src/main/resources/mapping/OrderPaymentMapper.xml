@@ -107,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.OrderPayment" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.OrderPayment" >
     insert into order_payment (id, order_id, payment_type, 
       money, receipt_date, receipt_days, 
       create_user_id, create_time, update_user_id, 

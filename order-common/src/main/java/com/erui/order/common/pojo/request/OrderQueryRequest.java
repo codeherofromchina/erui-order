@@ -37,8 +37,6 @@ public class OrderQueryRequest extends PagingRequest {
 
     // 执行事业部
     private Long businessUnitId;
-    // 审核进度
-    private String auditingProcess;
 
 
     public String getContractNo() {
@@ -121,11 +119,4 @@ public class OrderQueryRequest extends PagingRequest {
         this.businessUnitId = businessUnitId;
     }
 
-    public String getAuditingProcess() {
-        return auditingProcess;
-    }
-
-    public void setAuditingProcess(String auditingProcess) {
-        this.auditingProcess = auditingProcess;
-    }
 }

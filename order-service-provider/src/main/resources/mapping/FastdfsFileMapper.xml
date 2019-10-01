@@ -101,7 +101,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.FastdfsFile" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.FastdfsFile" >
     insert into fastdfs_file (id, dfs_group, fileid, 
       original_filename, file_size, create_user_id, 
       create_time)

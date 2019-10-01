@@ -107,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.InstockGoods" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.InstockGoods" >
     insert into instock_goods (id, order_goods_id, instock_id, 
       inspect_apply_goods_id, instock_num, instock_stock, 
       create_user_id, create_time, update_user_id, 

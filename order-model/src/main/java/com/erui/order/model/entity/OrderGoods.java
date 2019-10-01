@@ -8,6 +8,8 @@ public class OrderGoods {
 
     private Long orderId;
 
+    private String contractNo;
+
     private String sku;
 
     private String meteType;
@@ -36,6 +38,18 @@ public class OrderGoods {
 
     private String brand;
 
+    private Short prePurchContractNum;
+
+    private Short purchContractNum;
+
+    private Short preOutstockedNum;
+
+    private Short outstockedNum;
+
+    private Short instockedNum;
+
+    private Date exeChgDate;
+
     private Long createUserId;
 
     private Date createTime;
@@ -47,16 +61,6 @@ public class OrderGoods {
     private Boolean deleteFlag;
 
     private Date deleteTime;
-
-    private Short prePurchContractNum;
-
-    private Short purchContractNum;
-
-    private String contractNo;
-
-    private String projectNo;
-
-    private Date exeChgDate;
 
     private String attrs;
 
@@ -74,6 +78,14 @@ public class OrderGoods {
 
     public void setOrderId(Long orderId) {
         this.orderId = orderId;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
     }
 
     public String getSku() {
@@ -188,6 +200,54 @@ public class OrderGoods {
         this.brand = brand;
     }
 
+    public Short getPrePurchContractNum() {
+        return prePurchContractNum;
+    }
+
+    public void setPrePurchContractNum(Short prePurchContractNum) {
+        this.prePurchContractNum = prePurchContractNum;
+    }
+
+    public Short getPurchContractNum() {
+        return purchContractNum;
+    }
+
+    public void setPurchContractNum(Short purchContractNum) {
+        this.purchContractNum = purchContractNum;
+    }
+
+    public Short getPreOutstockedNum() {
+        return preOutstockedNum;
+    }
+
+    public void setPreOutstockedNum(Short preOutstockedNum) {
+        this.preOutstockedNum = preOutstockedNum;
+    }
+
+    public Short getOutstockedNum() {
+        return outstockedNum;
+    }
+
+    public void setOutstockedNum(Short outstockedNum) {
+        this.outstockedNum = outstockedNum;
+    }
+
+    public Short getInstockedNum() {
+        return instockedNum;
+    }
+
+    public void setInstockedNum(Short instockedNum) {
+        this.instockedNum = instockedNum;
+    }
+
+    public Date getExeChgDate() {
+        return exeChgDate;
+    }
+
+    public void setExeChgDate(Date exeChgDate) {
+        this.exeChgDate = exeChgDate;
+    }
+
     public Long getCreateUserId() {
         return createUserId;
     }
@@ -234,46 +294,6 @@ public class OrderGoods {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
-    }
-
-    public Short getPrePurchContractNum() {
-        return prePurchContractNum;
-    }
-
-    public void setPrePurchContractNum(Short prePurchContractNum) {
-        this.prePurchContractNum = prePurchContractNum;
-    }
-
-    public Short getPurchContractNum() {
-        return purchContractNum;
-    }
-
-    public void setPurchContractNum(Short purchContractNum) {
-        this.purchContractNum = purchContractNum;
-    }
-
-    public String getContractNo() {
-        return contractNo;
-    }
-
-    public void setContractNo(String contractNo) {
-        this.contractNo = contractNo;
-    }
-
-    public String getProjectNo() {
-        return projectNo;
-    }
-
-    public void setProjectNo(String projectNo) {
-        this.projectNo = projectNo;
-    }
-
-    public Date getExeChgDate() {
-        return exeChgDate;
-    }
-
-    public void setExeChgDate(Date exeChgDate) {
-        this.exeChgDate = exeChgDate;
     }
 
     public String getAttrs() {

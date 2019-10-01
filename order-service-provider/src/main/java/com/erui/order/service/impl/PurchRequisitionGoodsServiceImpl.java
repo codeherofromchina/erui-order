@@ -49,10 +49,8 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
                 purchRequisitionGoodsSelective.setOrderGoodsId(null);
                 purchRequisitionGoodsSelective.setUpdateTime(new Date());
                 purchRequisitionGoodsSelective.setUpdateUserId(userInfo.getId());
-
                 // 更新操作
                 purchRequisitionGoodsMapper.updateByPrimaryKeySelective(purchRequisitionGoodsSelective);
-
                 purchRequisitionGoodsIds.remove(id);
             } else {
                 // 抛出异常，不是给定业务附件
@@ -102,6 +100,31 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
     public PurchRequisitionGoodsInfo findById(Long id) {
         PurchRequisitionGoods purchRequisitionGoods = purchRequisitionGoodsMapper.selectByPrimaryKey(id);
         return PurchRequisitionGoodsFactory.purchRequisitionGoodsInfo(purchRequisitionGoods);
+    }
+
+    @Override
+    public PurchRequisitionGoodsInfo selectByOrderGoodsId(Long orderGoodsId) {
+        PurchRequisitionGoodsExample example = new PurchRequisitionGoodsExample();
+        example.createCriteria().andOrderGoodsIdEqualTo(orderGoodsId)
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+        List<PurchRequisitionGoods> purchRequisitionGoods = purchRequisitionGoodsMapper.selectByExample(example);
+        if (purchRequisitionGoods == null) {
+            return null;
+        }
+        return PurchRequisitionGoodsFactory.purchRequisitionGoodsInfo(purchRequisitionGoods.get(0));
+    }
+
+
+    @Override
+    public List<PurchRequisitionGoodsInfo> selectByOrderGoodsIds(List<Long> orderGoodsIds) {
+        PurchRequisitionGoodsExample example = new PurchRequisitionGoodsExample();
+        example.createCriteria().andOrderGoodsIdIn(orderGoodsIds)
+                .andDeleteFlagEqualTo(Boolean.FALSE);
+        List<PurchRequisitionGoods> purchRequisitionGoods = purchRequisitionGoodsMapper.selectByExample(example);
+        if (purchRequisitionGoods == null) {
+            return null;
+        }
+        return PurchRequisitionGoodsFactory.purchRequisitionGoodsInfos(purchRequisitionGoods);
     }
 
     private List<PurchRequisitionGoods> listByPurchRequisitionId(Long purchRequisitionId) {

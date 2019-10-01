@@ -35,6 +35,7 @@
     <result column="to_port" property="toPort" jdbcType="VARCHAR" />
     <result column="to_place" property="toPlace" jdbcType="VARCHAR" />
     <result column="total_price" property="totalPrice" jdbcType="DECIMAL" />
+    <result column="erui_total_price" property="eruiTotalPrice" jdbcType="DECIMAL" />
     <result column="total_price_usd" property="totalPriceUsd" jdbcType="DECIMAL" />
     <result column="exchange_rate" property="exchangeRate" jdbcType="DECIMAL" />
     <result column="currency_bn" property="currencyBn" jdbcType="CHAR" />
@@ -48,7 +49,7 @@
     <result column="receivable_account_remaining" property="receivableAccountRemaining" jdbcType="DECIMAL" />
     <result column="acquire_id" property="acquireId" jdbcType="BIGINT" />
     <result column="process_progress" property="processProgress" jdbcType="VARCHAR" />
-    <result column="deliver_consign_has" property="deliverConsignHas" jdbcType="SMALLINT" />
+    <result column="deliver_consign_has" property="deliverConsignHas" jdbcType="BIT" />
     <result column="order_belongs" property="orderBelongs" jdbcType="SMALLINT" />
     <result column="order_category" property="orderCategory" jdbcType="SMALLINT" />
     <result column="overseas_sales" property="overseasSales" jdbcType="SMALLINT" />
@@ -56,16 +57,12 @@
     <result column="already_gathering_money" property="alreadyGatheringMoney" jdbcType="DECIMAL" />
     <result column="purch_req_create" property="purchReqCreate" jdbcType="SMALLINT" />
     <result column="advance_money" property="advanceMoney" jdbcType="DECIMAL" />
-    <result column="auditing_status" property="auditingStatus" jdbcType="SMALLINT" />
-    <result column="auditing_process" property="auditingProcess" jdbcType="VARCHAR" />
-    <result column="process_id" property="processId" jdbcType="CHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
-    <result column="erui_total_price" property="eruiTotalPrice" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -130,13 +127,12 @@
     project_no, signing_date, delivery_date, signing_co, agent_id, exec_co_code, region, 
     country, buyer_id, crm_code, customer_type, per_liable_repay_id, business_unit_id, 
     technical_id, grant_type, financing, trade_terms, transport_type, from_country, from_port, 
-    from_place, to_country, to_port, to_place, total_price, total_price_usd, exchange_rate, 
-    currency_bn, tax_bearing, payment_mode_bn, quality_funds, delivery_requires, customer_context, 
-    pay_status, order_status, receivable_account_remaining, acquire_id, process_progress, 
-    deliver_consign_has, order_belongs, order_category, overseas_sales, shipments_money, 
-    already_gathering_money, purch_req_create, advance_money, auditing_status, auditing_process, 
-    process_id, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    delete_time, erui_total_price
+    from_place, to_country, to_port, to_place, total_price, erui_total_price, total_price_usd, 
+    exchange_rate, currency_bn, tax_bearing, payment_mode_bn, quality_funds, delivery_requires, 
+    customer_context, pay_status, order_status, receivable_account_remaining, acquire_id, 
+    process_progress, deliver_consign_has, order_belongs, order_category, overseas_sales, 
+    shipments_money, already_gathering_money, purch_req_create, advance_money, create_user_id, 
+    create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.OrderExample" >
     select
@@ -153,7 +149,7 @@
     </if>
   </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select
+    select 
     <include refid="Base_Column_List" />
     from `order`
     where id = #{id,jdbcType=BIGINT}
@@ -180,18 +176,16 @@
       trade_terms, transport_type, from_country, 
       from_port, from_place, to_country, 
       to_port, to_place, total_price, 
-      total_price_usd, exchange_rate, currency_bn, 
-      tax_bearing, payment_mode_bn, quality_funds, 
-      delivery_requires, customer_context, pay_status, 
-      order_status, receivable_account_remaining, 
+      erui_total_price, total_price_usd, exchange_rate, 
+      currency_bn, tax_bearing, payment_mode_bn, 
+      quality_funds, delivery_requires, customer_context, 
+      pay_status, order_status, receivable_account_remaining, 
       acquire_id, process_progress, deliver_consign_has, 
       order_belongs, order_category, overseas_sales, 
       shipments_money, already_gathering_money, 
-      purch_req_create, advance_money, auditing_status, 
-      auditing_process, process_id, create_user_id, 
+      purch_req_create, advance_money, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, delete_time, erui_total_price
-      )
+      delete_flag, delete_time)
     values (#{id,jdbcType=BIGINT}, #{contractNo,jdbcType=VARCHAR}, #{frameworkNo,jdbcType=VARCHAR}, 
       #{contractNoOs,jdbcType=VARCHAR}, #{poNo,jdbcType=VARCHAR}, #{inquiryId,jdbcType=BIGINT}, 
       #{inquiryNo,jdbcType=VARCHAR}, #{orderSource,jdbcType=SMALLINT}, #{projectNo,jdbcType=VARCHAR}, 
@@ -203,18 +197,16 @@
       #{tradeTerms,jdbcType=CHAR}, #{transportType,jdbcType=VARCHAR}, #{fromCountry,jdbcType=VARCHAR}, 
       #{fromPort,jdbcType=VARCHAR}, #{fromPlace,jdbcType=VARCHAR}, #{toCountry,jdbcType=VARCHAR}, 
       #{toPort,jdbcType=VARCHAR}, #{toPlace,jdbcType=VARCHAR}, #{totalPrice,jdbcType=DECIMAL}, 
-      #{totalPriceUsd,jdbcType=DECIMAL}, #{exchangeRate,jdbcType=DECIMAL}, #{currencyBn,jdbcType=CHAR}, 
-      #{taxBearing,jdbcType=SMALLINT}, #{paymentModeBn,jdbcType=SMALLINT}, #{qualityFunds,jdbcType=DECIMAL}, 
-      #{deliveryRequires,jdbcType=VARCHAR}, #{customerContext,jdbcType=VARCHAR}, #{payStatus,jdbcType=SMALLINT}, 
-      #{orderStatus,jdbcType=SMALLINT}, #{receivableAccountRemaining,jdbcType=DECIMAL}, 
-      #{acquireId,jdbcType=BIGINT}, #{processProgress,jdbcType=VARCHAR}, #{deliverConsignHas,jdbcType=SMALLINT}, 
+      #{eruiTotalPrice,jdbcType=DECIMAL}, #{totalPriceUsd,jdbcType=DECIMAL}, #{exchangeRate,jdbcType=DECIMAL}, 
+      #{currencyBn,jdbcType=CHAR}, #{taxBearing,jdbcType=SMALLINT}, #{paymentModeBn,jdbcType=SMALLINT}, 
+      #{qualityFunds,jdbcType=DECIMAL}, #{deliveryRequires,jdbcType=VARCHAR}, #{customerContext,jdbcType=VARCHAR}, 
+      #{payStatus,jdbcType=SMALLINT}, #{orderStatus,jdbcType=SMALLINT}, #{receivableAccountRemaining,jdbcType=DECIMAL}, 
+      #{acquireId,jdbcType=BIGINT}, #{processProgress,jdbcType=VARCHAR}, #{deliverConsignHas,jdbcType=BIT}, 
       #{orderBelongs,jdbcType=SMALLINT}, #{orderCategory,jdbcType=SMALLINT}, #{overseasSales,jdbcType=SMALLINT}, 
       #{shipmentsMoney,jdbcType=DECIMAL}, #{alreadyGatheringMoney,jdbcType=DECIMAL}, 
-      #{purchReqCreate,jdbcType=SMALLINT}, #{advanceMoney,jdbcType=DECIMAL}, #{auditingStatus,jdbcType=SMALLINT}, 
-      #{auditingProcess,jdbcType=VARCHAR}, #{processId,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{purchReqCreate,jdbcType=SMALLINT}, #{advanceMoney,jdbcType=DECIMAL}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, #{eruiTotalPrice,jdbcType=DECIMAL}
-      )
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.Order" >
     insert into `order`
@@ -318,6 +310,9 @@
       <if test="totalPrice != null" >
         total_price,
       </if>
+      <if test="eruiTotalPrice != null" >
+        erui_total_price,
+      </if>
       <if test="totalPriceUsd != null" >
         total_price_usd,
       </if>
@@ -381,15 +376,6 @@
       <if test="advanceMoney != null" >
         advance_money,
       </if>
-      <if test="auditingStatus != null" >
-        auditing_status,
-      </if>
-      <if test="auditingProcess != null" >
-        auditing_process,
-      </if>
-      <if test="processId != null" >
-        process_id,
-      </if>
       <if test="createUserId != null" >
         create_user_id,
       </if>
@@ -407,9 +393,6 @@
       </if>
       <if test="deleteTime != null" >
         delete_time,
-      </if>
-      <if test="eruiTotalPrice != null" >
-        erui_total_price,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -512,6 +495,9 @@
       <if test="totalPrice != null" >
         #{totalPrice,jdbcType=DECIMAL},
       </if>
+      <if test="eruiTotalPrice != null" >
+        #{eruiTotalPrice,jdbcType=DECIMAL},
+      </if>
       <if test="totalPriceUsd != null" >
         #{totalPriceUsd,jdbcType=DECIMAL},
       </if>
@@ -552,7 +538,7 @@
         #{processProgress,jdbcType=VARCHAR},
       </if>
       <if test="deliverConsignHas != null" >
-        #{deliverConsignHas,jdbcType=SMALLINT},
+        #{deliverConsignHas,jdbcType=BIT},
       </if>
       <if test="orderBelongs != null" >
         #{orderBelongs,jdbcType=SMALLINT},
@@ -575,15 +561,6 @@
       <if test="advanceMoney != null" >
         #{advanceMoney,jdbcType=DECIMAL},
       </if>
-      <if test="auditingStatus != null" >
-        #{auditingStatus,jdbcType=SMALLINT},
-      </if>
-      <if test="auditingProcess != null" >
-        #{auditingProcess,jdbcType=VARCHAR},
-      </if>
-      <if test="processId != null" >
-        #{processId,jdbcType=CHAR},
-      </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=BIGINT},
       </if>
@@ -601,9 +578,6 @@
       </if>
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="eruiTotalPrice != null" >
-        #{eruiTotalPrice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -715,6 +689,9 @@
       <if test="record.totalPrice != null" >
         total_price = #{record.totalPrice,jdbcType=DECIMAL},
       </if>
+      <if test="record.eruiTotalPrice != null" >
+        erui_total_price = #{record.eruiTotalPrice,jdbcType=DECIMAL},
+      </if>
       <if test="record.totalPriceUsd != null" >
         total_price_usd = #{record.totalPriceUsd,jdbcType=DECIMAL},
       </if>
@@ -755,7 +732,7 @@
         process_progress = #{record.processProgress,jdbcType=VARCHAR},
       </if>
       <if test="record.deliverConsignHas != null" >
-        deliver_consign_has = #{record.deliverConsignHas,jdbcType=SMALLINT},
+        deliver_consign_has = #{record.deliverConsignHas,jdbcType=BIT},
       </if>
       <if test="record.orderBelongs != null" >
         order_belongs = #{record.orderBelongs,jdbcType=SMALLINT},
@@ -778,15 +755,6 @@
       <if test="record.advanceMoney != null" >
         advance_money = #{record.advanceMoney,jdbcType=DECIMAL},
       </if>
-      <if test="record.auditingStatus != null" >
-        auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
-      </if>
-      <if test="record.auditingProcess != null" >
-        auditing_process = #{record.auditingProcess,jdbcType=VARCHAR},
-      </if>
-      <if test="record.processId != null" >
-        process_id = #{record.processId,jdbcType=CHAR},
-      </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
       </if>
@@ -804,9 +772,6 @@
       </if>
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.eruiTotalPrice != null" >
-        erui_total_price = #{record.eruiTotalPrice,jdbcType=DECIMAL},
       </if>
     </set>
     <if test="_parameter != null" >
@@ -848,6 +813,7 @@
       to_port = #{record.toPort,jdbcType=VARCHAR},
       to_place = #{record.toPlace,jdbcType=VARCHAR},
       total_price = #{record.totalPrice,jdbcType=DECIMAL},
+      erui_total_price = #{record.eruiTotalPrice,jdbcType=DECIMAL},
       total_price_usd = #{record.totalPriceUsd,jdbcType=DECIMAL},
       exchange_rate = #{record.exchangeRate,jdbcType=DECIMAL},
       currency_bn = #{record.currencyBn,jdbcType=CHAR},
@@ -861,7 +827,7 @@
       receivable_account_remaining = #{record.receivableAccountRemaining,jdbcType=DECIMAL},
       acquire_id = #{record.acquireId,jdbcType=BIGINT},
       process_progress = #{record.processProgress,jdbcType=VARCHAR},
-      deliver_consign_has = #{record.deliverConsignHas,jdbcType=SMALLINT},
+      deliver_consign_has = #{record.deliverConsignHas,jdbcType=BIT},
       order_belongs = #{record.orderBelongs,jdbcType=SMALLINT},
       order_category = #{record.orderCategory,jdbcType=SMALLINT},
       overseas_sales = #{record.overseasSales,jdbcType=SMALLINT},
@@ -869,16 +835,12 @@
       already_gathering_money = #{record.alreadyGatheringMoney,jdbcType=DECIMAL},
       purch_req_create = #{record.purchReqCreate,jdbcType=SMALLINT},
       advance_money = #{record.advanceMoney,jdbcType=DECIMAL},
-      auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
-      auditing_process = #{record.auditingProcess,jdbcType=VARCHAR},
-      process_id = #{record.processId,jdbcType=CHAR},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
-      erui_total_price = #{record.eruiTotalPrice,jdbcType=DECIMAL}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -982,6 +944,9 @@
       <if test="totalPrice != null" >
         total_price = #{totalPrice,jdbcType=DECIMAL},
       </if>
+      <if test="eruiTotalPrice != null" >
+        erui_total_price = #{eruiTotalPrice,jdbcType=DECIMAL},
+      </if>
       <if test="totalPriceUsd != null" >
         total_price_usd = #{totalPriceUsd,jdbcType=DECIMAL},
       </if>
@@ -1022,7 +987,7 @@
         process_progress = #{processProgress,jdbcType=VARCHAR},
       </if>
       <if test="deliverConsignHas != null" >
-        deliver_consign_has = #{deliverConsignHas,jdbcType=SMALLINT},
+        deliver_consign_has = #{deliverConsignHas,jdbcType=BIT},
       </if>
       <if test="orderBelongs != null" >
         order_belongs = #{orderBelongs,jdbcType=SMALLINT},
@@ -1045,15 +1010,6 @@
       <if test="advanceMoney != null" >
         advance_money = #{advanceMoney,jdbcType=DECIMAL},
       </if>
-      <if test="auditingStatus != null" >
-        auditing_status = #{auditingStatus,jdbcType=SMALLINT},
-      </if>
-      <if test="auditingProcess != null" >
-        auditing_process = #{auditingProcess,jdbcType=VARCHAR},
-      </if>
-      <if test="processId != null" >
-        process_id = #{processId,jdbcType=CHAR},
-      </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=BIGINT},
       </if>
@@ -1071,9 +1027,6 @@
       </if>
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="eruiTotalPrice != null" >
-        erui_total_price = #{eruiTotalPrice,jdbcType=DECIMAL},
       </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
@@ -1112,6 +1065,7 @@
       to_port = #{toPort,jdbcType=VARCHAR},
       to_place = #{toPlace,jdbcType=VARCHAR},
       total_price = #{totalPrice,jdbcType=DECIMAL},
+      erui_total_price = #{eruiTotalPrice,jdbcType=DECIMAL},
       total_price_usd = #{totalPriceUsd,jdbcType=DECIMAL},
       exchange_rate = #{exchangeRate,jdbcType=DECIMAL},
       currency_bn = #{currencyBn,jdbcType=CHAR},
@@ -1125,7 +1079,7 @@
       receivable_account_remaining = #{receivableAccountRemaining,jdbcType=DECIMAL},
       acquire_id = #{acquireId,jdbcType=BIGINT},
       process_progress = #{processProgress,jdbcType=VARCHAR},
-      deliver_consign_has = #{deliverConsignHas,jdbcType=SMALLINT},
+      deliver_consign_has = #{deliverConsignHas,jdbcType=BIT},
       order_belongs = #{orderBelongs,jdbcType=SMALLINT},
       order_category = #{orderCategory,jdbcType=SMALLINT},
       overseas_sales = #{overseasSales,jdbcType=SMALLINT},
@@ -1133,16 +1087,12 @@
       already_gathering_money = #{alreadyGatheringMoney,jdbcType=DECIMAL},
       purch_req_create = #{purchReqCreate,jdbcType=SMALLINT},
       advance_money = #{advanceMoney,jdbcType=DECIMAL},
-      auditing_status = #{auditingStatus,jdbcType=SMALLINT},
-      auditing_process = #{auditingProcess,jdbcType=VARCHAR},
-      process_id = #{processId,jdbcType=CHAR},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
-      erui_total_price = #{eruiTotalPrice,jdbcType=DECIMAL}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

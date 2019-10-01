@@ -107,7 +107,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverDetailGoods" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.DeliverDetailGoods" >
     insert into deliver_detail_goods (id, deliver_detail_id, deliver_consign_goods_id, 
       outbound_num, straight_num, detail_goods_remarks, 
       create_user_id, create_time, update_user_id, 

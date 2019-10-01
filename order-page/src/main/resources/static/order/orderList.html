@@ -25,6 +25,7 @@
         <th field="contractNo">销售合同号</th>
         <th field="projectNo">项目号</th>
         <th field="contractNoOs">易瑞海外销售合同号</th>
+        <th field="inquiryNo">询单号</th>
         <th field="technicalName">事业部项目负责人</th>
         <th field="businessUnitName">执行事业部</th>
         <th field="deliveryDate">合同交货日期</th>
@@ -38,14 +39,10 @@
             }
         ">客户合同金额（USD）
         </th>
-        <th field="payStatusName">款项状态
+        <th field="payStatusName">收款状态
         </th>
         <th field="orderStatusName">订单状态</th>
         <th field="processProgressName">流程进度
-        </th>
-        <th field="auditingProcessName">审核进度
-        </th>
-        <th field="auditingStatusName">审核状态
         </th>
         <th field="_operate" data-options="formatter:orderListFormatOper">操作</th>
     </tr>
@@ -129,12 +126,6 @@
                            editable="false" name="businessUnitId" buttonText="请选择"
                            data-options="onClickButton:function(){$('#order_list_business_unit_id_dialog').dialog('open');$('#order_list_business_unit_id_dialog').dialog('refresh', 'common/businessUnitDialog.html');}"/>
 
-                </li>
-                <li>
-                    <label>审核进度：</label>
-                    <select class="easyui-combobox"
-                            data-options="editable:false,valueField: 'actId',textField: 'actName',data:order_list_auditing_process_node_arr"
-                            name="auditingProcess"></select>
                 </li>
                 <li>
                 <span class="search-btn">

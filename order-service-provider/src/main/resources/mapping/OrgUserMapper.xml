@@ -91,7 +91,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.OrgUserKey" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.OrgUserKey" >
     insert into org_user (org_id, user_id)
     values (#{orgId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
   </insert>

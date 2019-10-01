@@ -51,19 +51,26 @@ public class GoodsServiceImpl implements GoodsService {
                 .andOrderIdIn(orderIds);
 
         List<OrderGoods> orderGoodsList = orderGoodsMapper.selectByExample(example);
-        List<GoodsInfo> goodsInfoList = orderGoodsList.stream().filter(vo -> {
-            return vo.getContractGoodsNum() > vo.getPrePurchContractNum();
-        }).map(vo -> goodsInfo(vo)).collect(Collectors.toList());
 
-        return goodsInfoList;
+        List<Long> orderGoodsIds = orderGoodsList.stream().filter(vo -> {
+            return vo.getContractGoodsNum() > vo.getPrePurchContractNum();
+        }).map(OrderGoods::getId).collect(Collectors.toList());
+
+
+        List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos = purchRequisitionGoodsService.selectByOrderGoodsIds(orderGoodsIds);
+
+
+        return goodsInfoByPurchRequisitionGoods(purchRequisitionGoodsInfos);
     }
 
     @Override
-    public void updateOrderGoodsPurchContractNum(Long orderGoodsId, boolean pre, Integer purchaseNum) throws Exception {
-        OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(orderGoodsId);
+    public void updateOrderGoodsPurchContractNum(Long purchRequisitionGoodsId, boolean pre, Integer purchaseNum) throws Exception {
+        PurchRequisitionGoodsInfo purchRequisitionGoodsInfo = purchRequisitionGoodsService.findById(purchRequisitionGoodsId);
+
+        OrderGoods orderGoods = orderGoodsMapper.selectByPrimaryKey(purchRequisitionGoodsInfo.getOrderGoodsId());
 
         OrderGoods orderGoodsSelective = new OrderGoods();
-        orderGoodsSelective.setId(orderGoodsId);
+        orderGoodsSelective.setId(orderGoods.getId());
         int prePurchContractNum = orderGoods.getPrePurchContractNum() + purchaseNum.shortValue();
 
         if (prePurchContractNum > orderGoods.getContractGoodsNum()) {
@@ -94,7 +101,6 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsInfo goodsInfo = new GoodsInfo();
         goodsInfo.setOrderGoodsId(orderGoods.getId());
         goodsInfo.setContractNo(orderGoods.getContractNo());
-        goodsInfo.setProjectNo(orderGoods.getProjectNo());
         goodsInfo.setExeChgDate(orderGoods.getExeChgDate());
         goodsInfo.setSku(orderGoods.getSku());
         goodsInfo.setNameEn(orderGoods.getNameEn());
@@ -106,9 +112,6 @@ public class GoodsServiceImpl implements GoodsService {
         goodsInfo.setPrePurchContractNum(orderGoods.getPrePurchContractNum());
         return goodsInfo;
     }
-
-
-    // ------------------------------------------------------------------------
 
 
     @Override
@@ -206,6 +209,7 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsInfo goodsInfoByPurchContractGoods(PurchContractGoodsInfo purchContractGoodsInfo) {
         PurchRequisitionGoodsInfo purchRequisitionGoodsInfo = purchRequisitionGoodsService.findById(purchContractGoodsInfo.getPurchRequisitionGoodsId());
         GoodsInfo goodsInfo = goodsInfoByPurchRequisitionGoods(purchRequisitionGoodsInfo);
+        goodsInfo.setPurchContractGoodsId(purchContractGoodsInfo.getId());
         // 采购合同数量
         goodsInfo.setPurchaseNum(purchContractGoodsInfo.getPurchaseNum());
         return goodsInfo;
@@ -221,6 +225,7 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsInfo goodsInfoByPurchRequisitionGoods(PurchRequisitionGoodsInfo purchRequisitionGoodsInfo) {
         OrderGoodsInfo orderGoodsInfo = orderGoodsService.findById(purchRequisitionGoodsInfo.getOrderGoodsId());
         GoodsInfo goodsInfo = goodsInfoByOrderGoods(orderGoodsInfo);
+        goodsInfo.setPurchRequisitionGoodsId(purchRequisitionGoodsInfo.getId());
         goodsInfo.setRequirePurchaseDate(purchRequisitionGoodsInfo.getRequirePurchaseDate());
         return goodsInfo;
     }

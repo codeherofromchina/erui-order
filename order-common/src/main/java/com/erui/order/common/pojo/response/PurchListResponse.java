@@ -26,7 +26,7 @@ public class PurchListResponse {
     private BigDecimal totalPrice;
     private String currencyBn; // 货币类型
     // 付款状态
-    private short payStatus;
+    private Short payStatus;
     private String payStatusName;
     // 报检是否完成
     private Boolean inspected;
@@ -102,11 +102,11 @@ public class PurchListResponse {
     }
 
 
-    public short getPayStatus() {
+    public Short getPayStatus() {
         return payStatus;
     }
 
-    public void setPayStatus(short payStatus) {
+    public void setPayStatus(Short payStatus) {
         this.payStatus = payStatus;
     }
 

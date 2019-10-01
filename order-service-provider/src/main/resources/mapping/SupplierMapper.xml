@@ -201,7 +201,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Supplier" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.Supplier" >
     insert into supplier (id, lang, serial_no, 
       supplier_no, supplier_type, name, 
       name_en, bn, name_en_bn, 

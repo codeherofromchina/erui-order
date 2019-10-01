@@ -1,6 +1,7 @@
 package com.erui.order.service;
 
 import com.erui.order.common.pojo.Pager;
+import com.erui.order.common.pojo.PurchRequisitionGoodsInfo;
 import com.erui.order.common.pojo.response.PurchRequisitionDetailResponse;
 import com.erui.order.common.pojo.response.PurchRequisitionListResponse;
 import com.erui.order.common.pojo.request.PurchRequisitionQueryRequest;

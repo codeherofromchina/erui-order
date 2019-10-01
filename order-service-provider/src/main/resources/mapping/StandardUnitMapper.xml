@@ -96,7 +96,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.StandardUnit" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.StandardUnit" >
     insert into standard_unit (unit_code, name_zh)
     values (#{unitCode,jdbcType=CHAR}, #{nameZh,jdbcType=VARCHAR})
   </insert>

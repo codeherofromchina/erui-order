@@ -109,7 +109,6 @@ public class OrderFactory {
         }
         detailResponse.setDeliveryRequires(order.getDeliveryRequires());
         detailResponse.setCustomerContext(order.getCustomerContext());
-        detailResponse.setProcessId(order.getProcessId());
 
         return detailResponse;
     }
@@ -174,7 +173,6 @@ public class OrderFactory {
         order.setExecCoCode(orderSaveRequest.getExecCoCode());
         order.setRegion(orderSaveRequest.getRegion());
         order.setCountry(orderSaveRequest.getCountry());
-        order.setCrmCode(orderSaveRequest.getCrmCode());
         order.setBuyerId(orderSaveRequest.getBuyerId());
         order.setCustomerType(orderSaveRequest.getCustomerType());
         order.setPerLiableRepayId(orderSaveRequest.getPerLiableRepayId());

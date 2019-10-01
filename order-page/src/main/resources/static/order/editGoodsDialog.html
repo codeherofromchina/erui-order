@@ -184,7 +184,7 @@
                     var i = $("#edit_goods_dialog_base_info_table").datagrid("getRowIndex", row);
                     var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {
                         index: i,
-                        field: 'brand'
+                        field: 'purchContractBrand'
                     });
                     $(edBrand.target).combobox('setValue', record.name_zh);
                 });
@@ -271,7 +271,7 @@
                     }
                 },
                 {
-                    field: 'brand', width: '10%', title: '品牌',
+                    field: 'purchContractBrand', width: '10%', title: '品牌',
                     editor: {
                         type: "combobox",
                         options: {
@@ -377,7 +377,7 @@
             "unit": "",
             "price": "",
             "eruiPrice": "",
-            "brand": ""
+            "purchContractBrand": ""
         });
         refreshGoodsTable([editGoodsTableData.length - 1]);
     }
@@ -543,9 +543,9 @@
             var eruiPriceValue = $(edEruiPrice.target).numberbox('getValue');
             editGoodsTableData[num].eruiPrice = eruiPriceValue;
             // 品牌
-            var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'brand'});
+            var edBrand = $('#edit_goods_dialog_base_info_table').datagrid('getEditor', {index: num, field: 'purchContractBrand'});
             var brandValue = $(edBrand.target).combobox('getValue');
-            editGoodsTableData[num].brand = brandValue;
+            editGoodsTableData[num].purchContractBrand = brandValue;
 
             if ($.inArray(num, selectedRowNums) != -1) {
                 // TODO 加载属性面板中的内容到数据源中

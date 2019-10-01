@@ -2,6 +2,7 @@ package com.erui.order.service.impl;
 
 import com.erui.order.common.enums.PurchContractStatusEnum;
 import com.erui.order.common.pojo.PurchContractGoodsInfo;
+import com.erui.order.common.pojo.PurchRequisitionGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.PurchContractGoodsMapper;
@@ -11,6 +12,8 @@ import com.erui.order.model.entity.PurchContractGoods;
 import com.erui.order.model.entity.PurchContractGoodsExample;
 import com.erui.order.service.GoodsService;
 import com.erui.order.service.PurchContractGoodsService;
+import com.erui.order.service.PurchRequisitionGoodsService;
+import com.erui.order.service.PurchRequisitionService;
 import com.erui.order.service.util.PurchContractGoodsFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +34,8 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
     private PurchContractMapper purchContractMapper;
     @Autowired
     private GoodsService goodsService;
+    @Autowired
+    private PurchRequisitionGoodsService purchRequisitionGoodsService;
 
 
     @Override
@@ -76,6 +81,8 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
     @Override
     public int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception {
         PurchContractGoods purchContractGoods = PurchContractGoodsFactory.purchContractGoods(purchContractGoodsInfo);
+
+        purchContractGoods.setPurchContractId(purchContractId);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         purchContractGoods.setPurchContractId(purchContractId);
         if (userInfo != null) {
@@ -96,7 +103,7 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
             throw new Exception("采购合同状态错误");
         }
         boolean preFlag = (purchContractStatusEnum == PurchContractStatusEnum.READY);
-        goodsService.updateOrderGoodsPurchContractNum(purchContractGoodsInfo.getOrderGoodsId(), preFlag, purchContractGoodsInfo.getPurchaseNum());
+        goodsService.updateOrderGoodsPurchContractNum(purchContractGoodsInfo.getPurchRequisitionGoodsId(), preFlag, purchContractGoodsInfo.getPurchaseNum());
 
         return insertNum;
     }
@@ -128,7 +135,7 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
             purchContractGood.setDeleteFlag(Boolean.TRUE);
             purchContractGood.setDeleteTime(new Date());
             purchContractGoodsMapper.updateByPrimaryKey(purchContractGood);
-            goodsService.updateOrderGoodsPurchContractNum(purchContractGood.getOrderGoodsId(), true, -purchaseNum);
+            goodsService.updateOrderGoodsPurchContractNum(purchContractGood.getPurchRequisitionGoodsId(), true, -purchaseNum);
         }
     }
 
@@ -158,9 +165,9 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
         if (purchContractStatusEnum == null) {
             throw new Exception("采购合同状态错误");
         }
-        goodsService.updateOrderGoodsPurchContractNum(purchContractGoods.getOrderGoodsId(), true, -purchContractGoods.getPurchaseNum());
+        goodsService.updateOrderGoodsPurchContractNum(purchContractGoods.getPurchRequisitionGoodsId(), true, -purchContractGoods.getPurchaseNum());
         boolean preFlag = (purchContractStatusEnum == PurchContractStatusEnum.READY);
-        goodsService.updateOrderGoodsPurchContractNum(purchContractGoodsInfo.getOrderGoodsId(), preFlag, contractGoods.getPurchaseNum());
+        goodsService.updateOrderGoodsPurchContractNum(purchContractGoodsInfo.getPurchRequisitionGoodsId(), preFlag, contractGoods.getPurchaseNum());
         return updateNum;
     }
 

@@ -16,12 +16,12 @@ public class PurchContractGoodsFactory {
             return null;
         }
         PurchContractGoods purchContractGoods = new PurchContractGoods();
-        purchContractGoods.setOrderGoodsId(purchContractGoodsInfo.getOrderGoodsId());
+        purchContractGoods.setPurchRequisitionGoodsId(purchContractGoodsInfo.getPurchRequisitionGoodsId());
         purchContractGoods.setPurchaseNum(purchContractGoodsInfo.getPurchaseNum());
         purchContractGoods.setNonTaxPrice(purchContractGoodsInfo.getNonTaxPrice());
         purchContractGoods.setPurchasePrice(purchContractGoodsInfo.getPurchasePrice());
         purchContractGoods.setPurchaseTotalPrice(purchContractGoodsInfo.getPurchasePrice());
-        purchContractGoods.setBrand(purchContractGoodsInfo.getBrand());
+        purchContractGoods.setPurchContractBrand(purchContractGoodsInfo.getPurchContractBrand());
 
         return purchContractGoods;
     }
@@ -32,7 +32,6 @@ public class PurchContractGoodsFactory {
         }
         List<PurchContractGoodsInfo> purchContractGoodsInfos = new ArrayList<>();
         for (PurchContractGoods purchContractGoods : purchContractGoodsList) {
-
             purchContractGoodsInfos.add(purchContractGoodsInfo(purchContractGoods));
         }
         return purchContractGoodsInfos;
@@ -45,11 +44,12 @@ public class PurchContractGoodsFactory {
         }
         PurchContractGoodsInfo purchContractGoodsInfo = new PurchContractGoodsInfo();
         purchContractGoodsInfo.setId(purchContractGoods.getId());
-        purchContractGoodsInfo.setOrderGoodsId(purchContractGoods.getOrderGoodsId());
+        purchContractGoodsInfo.setPurchRequisitionGoodsId(purchContractGoods.getPurchRequisitionGoodsId());
         purchContractGoodsInfo.setPurchaseNum(purchContractGoods.getPurchaseNum());
         purchContractGoodsInfo.setNonTaxPrice(purchContractGoods.getNonTaxPrice());
         purchContractGoodsInfo.setPurchasePrice(purchContractGoods.getPurchasePrice());
-        purchContractGoodsInfo.setBrand(purchContractGoods.getBrand());
+        purchContractGoodsInfo.setPurchContractBrand(purchContractGoods.getPurchContractBrand());
+
 
         return purchContractGoodsInfo;
     }

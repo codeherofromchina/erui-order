@@ -31,7 +31,6 @@
     <result column="has_insurance" property="hasInsurance" jdbcType="SMALLINT" />
     <result column="business_leader_id" property="businessLeaderId" jdbcType="BIGINT" />
     <result column="business_leader" property="businessLeader" jdbcType="VARCHAR" />
-    <result column="auditing_status" property="auditingStatus" jdbcType="SMALLINT" />
     <result column="crm_code" property="crmCode" jdbcType="VARCHAR" />
     <result column="dept_name" property="deptName" jdbcType="VARCHAR" />
     <result column="contract_no" property="contractNo" jdbcType="CHAR" />
@@ -110,10 +109,9 @@
     currency_bn, invoice_rise, business_nature, business_sketch, declare_customs_money, 
     trade_money, direct_transfer_money, indirect_transfer_money, clear_customs_money, 
     pay_method, shipping_batch, more_batch_explain, is_dangerous, goods_deposit_place, 
-    has_insurance, business_leader_id, business_leader, auditing_status, crm_code, dept_name, 
-    contract_no, booking_officer_id, operation_specialist_id, deliver_notice_status, 
-    submit_time, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    delete_time
+    has_insurance, business_leader_id, business_leader, crm_code, dept_name, contract_no, 
+    booking_officer_id, operation_specialist_id, deliver_notice_status, submit_time, 
+    create_user_id, create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverConsignExample" >
     select
@@ -145,7 +143,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverConsign" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.DeliverConsign" >
     insert into deliver_consign (id, deliver_consign_no, order_id, 
       co_id, exec_co_name, write_date, 
       booking_date, remarks, deliver_consign_status, 
@@ -156,8 +154,8 @@
       clear_customs_money, pay_method, shipping_batch, 
       more_batch_explain, is_dangerous, goods_deposit_place, 
       has_insurance, business_leader_id, business_leader, 
-      auditing_status, crm_code, dept_name, 
-      contract_no, booking_officer_id, operation_specialist_id, 
+      crm_code, dept_name, contract_no, 
+      booking_officer_id, operation_specialist_id, 
       deliver_notice_status, submit_time, create_user_id, 
       create_time, update_user_id, update_time, 
       delete_flag, delete_time)
@@ -171,8 +169,8 @@
       #{clearCustomsMoney,jdbcType=DECIMAL}, #{payMethod,jdbcType=SMALLINT}, #{shippingBatch,jdbcType=VARCHAR}, 
       #{moreBatchExplain,jdbcType=VARCHAR}, #{isDangerous,jdbcType=SMALLINT}, #{goodsDepositPlace,jdbcType=VARCHAR}, 
       #{hasInsurance,jdbcType=SMALLINT}, #{businessLeaderId,jdbcType=BIGINT}, #{businessLeader,jdbcType=VARCHAR}, 
-      #{auditingStatus,jdbcType=SMALLINT}, #{crmCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, 
-      #{contractNo,jdbcType=CHAR}, #{bookingOfficerId,jdbcType=BIGINT}, #{operationSpecialistId,jdbcType=BIGINT}, 
+      #{crmCode,jdbcType=VARCHAR}, #{deptName,jdbcType=VARCHAR}, #{contractNo,jdbcType=CHAR}, 
+      #{bookingOfficerId,jdbcType=BIGINT}, #{operationSpecialistId,jdbcType=BIGINT}, 
       #{deliverNoticeStatus,jdbcType=SMALLINT}, #{submitTime,jdbcType=TIMESTAMP}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
       #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
@@ -266,9 +264,6 @@
       </if>
       <if test="businessLeader != null" >
         business_leader,
-      </if>
-      <if test="auditingStatus != null" >
-        auditing_status,
       </if>
       <if test="crmCode != null" >
         crm_code,
@@ -397,9 +392,6 @@
       </if>
       <if test="businessLeader != null" >
         #{businessLeader,jdbcType=VARCHAR},
-      </if>
-      <if test="auditingStatus != null" >
-        #{auditingStatus,jdbcType=SMALLINT},
       </if>
       <if test="crmCode != null" >
         #{crmCode,jdbcType=VARCHAR},
@@ -538,9 +530,6 @@
       <if test="record.businessLeader != null" >
         business_leader = #{record.businessLeader,jdbcType=VARCHAR},
       </if>
-      <if test="record.auditingStatus != null" >
-        auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
-      </if>
       <if test="record.crmCode != null" >
         crm_code = #{record.crmCode,jdbcType=VARCHAR},
       </if>
@@ -616,7 +605,6 @@
       has_insurance = #{record.hasInsurance,jdbcType=SMALLINT},
       business_leader_id = #{record.businessLeaderId,jdbcType=BIGINT},
       business_leader = #{record.businessLeader,jdbcType=VARCHAR},
-      auditing_status = #{record.auditingStatus,jdbcType=SMALLINT},
       crm_code = #{record.crmCode,jdbcType=VARCHAR},
       dept_name = #{record.deptName,jdbcType=VARCHAR},
       contract_no = #{record.contractNo,jdbcType=CHAR},
@@ -721,9 +709,6 @@
       <if test="businessLeader != null" >
         business_leader = #{businessLeader,jdbcType=VARCHAR},
       </if>
-      <if test="auditingStatus != null" >
-        auditing_status = #{auditingStatus,jdbcType=SMALLINT},
-      </if>
       <if test="crmCode != null" >
         crm_code = #{crmCode,jdbcType=VARCHAR},
       </if>
@@ -796,7 +781,6 @@
       has_insurance = #{hasInsurance,jdbcType=SMALLINT},
       business_leader_id = #{businessLeaderId,jdbcType=BIGINT},
       business_leader = #{businessLeader,jdbcType=VARCHAR},
-      auditing_status = #{auditingStatus,jdbcType=SMALLINT},
       crm_code = #{crmCode,jdbcType=VARCHAR},
       dept_name = #{deptName,jdbcType=VARCHAR},
       contract_no = #{contractNo,jdbcType=CHAR},

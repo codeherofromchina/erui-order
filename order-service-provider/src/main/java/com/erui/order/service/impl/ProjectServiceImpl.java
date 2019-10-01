@@ -62,6 +62,12 @@ public class ProjectServiceImpl implements ProjectService {
     private AttachmentService attachmentService;
 
 
+    /**
+     * 项目立项
+     * @param orderId
+     * @return
+     * @throws Exception
+     */
     public Long insert(Long orderId) throws Exception {
         Order order = orderMapper.selectByPrimaryKey(orderId);
         if (order == null) {

@@ -10,4 +10,6 @@ import com.erui.order.common.pojo.request.BuyerListQueryRequest;
  */
 public interface BuyerService {
     Pager<BuyerInfo> list(BuyerListQueryRequest queryRequest);
+
+    String findBuyerCodeById(Long buyerId);
 }

@@ -54,6 +54,8 @@ public class OrderServiceImpl implements OrderService {
     private OrgService orgService;
     @Autowired
     private PortService portService;
+    @Autowired
+    private BuyerService buyerService;
 
     @Override
     public Long insert(OrderSaveRequest insertRequest) throws Exception {
@@ -61,6 +63,7 @@ public class OrderServiceImpl implements OrderService {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
         Order order = OrderFactory.order(insertRequest);
+        order.setCrmCode(buyerService.findBuyerCodeById(insertRequest.getBuyerId()));
         // 生成出口通知单
         String lastContractNo = findLastContractNo();
         order.setContractNo(StringUtil.genContractNo(lastContractNo));
@@ -105,6 +108,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (OrderStatusEnum.valueOf(order.getOrderStatus()) == OrderStatusEnum.UNEXECUTED) {
+            order.setProjectNo(order.getContractNo());
+            orderMapper.updateByPrimaryKey(order);
             projectService.insert(orderId);
         }
 
@@ -129,6 +134,7 @@ public class OrderServiceImpl implements OrderService {
         // 修改基本信息
         Order orderSelective = OrderFactory.order(updateRequest);
         orderSelective.setId(orderId);
+        orderSelective.setCrmCode(buyerService.findBuyerCodeById(updateRequest.getBuyerId()));
         orderSelective.setUpdateTime(new Date());
         orderSelective.setUpdateUserId(userInfo.getId());
 
@@ -168,6 +174,8 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (OrderStatusEnum.valueOf(orderSelective.getOrderStatus()) == OrderStatusEnum.UNEXECUTED) {
+            orderSelective.setProjectNo(order.getContractNo());
+            orderMapper.updateByPrimaryKeySelective(order);
             projectService.insert(orderId);
         }
     }
@@ -308,5 +316,4 @@ public class OrderServiceImpl implements OrderService {
         }
         return null;
     }
-
 }

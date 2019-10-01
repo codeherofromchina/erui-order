@@ -121,24 +121,28 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
 
 
         // 组织采购申请数据
-        PurchRequisition PurchRequisition = PurchRequisitionFactory.purchRequisition(insertRequest);
-        PurchRequisition.setProjectNo(project.getProjectNo());
-        PurchRequisition.setBusinessUid(project.getBusinessUid());
-        PurchRequisition.setDepartment(project.getSendDeptId());
-        PurchRequisition.setTradeMethod(projectProfitInfo.getProjectType());
-        PurchRequisition.setTransModeBn(order.getTradeTerms());
-        PurchRequisition.setPurchStatus(PurchStatusEnum.SAVE.getCode());
-        PurchRequisition.setCreateTime(new Date());
-        PurchRequisition.setCreateUserId(userInfo.getId());
-        PurchRequisition.setDeleteFlag(Boolean.FALSE);
-        int insertNum = purchRequisitionMapper.insert(PurchRequisition);
+        PurchRequisition purchRequisition = PurchRequisitionFactory.purchRequisition(insertRequest);
+
+        purchRequisition.setProjectNo(project.getProjectNo());
+        purchRequisition.setProjectName(project.getProjectName());
+        purchRequisition.setProjectStartDate(project.getStartDate());
+        purchRequisition.setRequirePurchaseDate(project.getRequirePurchaseDate());
+        purchRequisition.setBusinessUid(project.getBusinessUid());
+        purchRequisition.setDepartment(project.getSendDeptId());
+        purchRequisition.setTradeMethod(projectProfitInfo.getProjectType());
+        purchRequisition.setTransModeBn(order.getTradeTerms());
+        purchRequisition.setPurchStatus(PurchStatusEnum.SAVE.getCode());
+        purchRequisition.setCreateTime(new Date());
+        purchRequisition.setCreateUserId(userInfo.getId());
+        purchRequisition.setDeleteFlag(Boolean.FALSE);
+        int insertNum = purchRequisitionMapper.insert(purchRequisition);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
         }
-        Long purchRequisitionId = PurchRequisition.getId();
+        Long purchRequisitionId = purchRequisition.getId();
 
         // 判断是保存还是提交采购申请，将状态写入到项目中
-        PurchRequisitionStatusEnum purchRequisitionStatusEnum = PurchRequisitionStatusEnum.valueOf(PurchRequisition.getPurchRequisitionStatus());
+        PurchRequisitionStatusEnum purchRequisitionStatusEnum = PurchRequisitionStatusEnum.valueOf(purchRequisition.getPurchRequisitionStatus());
         if (purchRequisitionStatusEnum != null) {
             Project projectSelective = new Project();
             projectSelective.setId(projectId);
@@ -308,4 +312,5 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         List<PurchRequisition> purchRequisitions = purchRequisitionMapper.selectByExample(example);
         return purchRequisitions.stream().map(PurchRequisition::getProjectId).collect(Collectors.toList());
     }
+
 }

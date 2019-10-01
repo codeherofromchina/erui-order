@@ -14,4 +14,8 @@ public interface PurchRequisitionGoodsService {
     List<PurchRequisitionGoodsInfo> list(Long purchRequisitionId);
 
     PurchRequisitionGoodsInfo findById(Long id);
+
+    PurchRequisitionGoodsInfo selectByOrderGoodsId(Long orderGoodsId);
+
+    List<PurchRequisitionGoodsInfo> selectByOrderGoodsIds(List<Long> orderGoodsIds);
 }

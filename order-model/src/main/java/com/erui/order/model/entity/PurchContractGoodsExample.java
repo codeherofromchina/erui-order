@@ -226,63 +226,133 @@ public class PurchContractGoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdIsNull() {
-            addCriterion("order_goods_id is null");
+        public Criteria andPurchRequisitionGoodsIdIsNull() {
+            addCriterion("purch_requisition_goods_id is null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdIsNotNull() {
-            addCriterion("order_goods_id is not null");
+        public Criteria andPurchRequisitionGoodsIdIsNotNull() {
+            addCriterion("purch_requisition_goods_id is not null");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdEqualTo(Long value) {
-            addCriterion("order_goods_id =", value, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdEqualTo(Long value) {
+            addCriterion("purch_requisition_goods_id =", value, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdNotEqualTo(Long value) {
-            addCriterion("order_goods_id <>", value, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdNotEqualTo(Long value) {
+            addCriterion("purch_requisition_goods_id <>", value, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdGreaterThan(Long value) {
-            addCriterion("order_goods_id >", value, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdGreaterThan(Long value) {
+            addCriterion("purch_requisition_goods_id >", value, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdGreaterThanOrEqualTo(Long value) {
-            addCriterion("order_goods_id >=", value, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("purch_requisition_goods_id >=", value, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdLessThan(Long value) {
-            addCriterion("order_goods_id <", value, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdLessThan(Long value) {
+            addCriterion("purch_requisition_goods_id <", value, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdLessThanOrEqualTo(Long value) {
-            addCriterion("order_goods_id <=", value, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdLessThanOrEqualTo(Long value) {
+            addCriterion("purch_requisition_goods_id <=", value, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdIn(List<Long> values) {
-            addCriterion("order_goods_id in", values, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdIn(List<Long> values) {
+            addCriterion("purch_requisition_goods_id in", values, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdNotIn(List<Long> values) {
-            addCriterion("order_goods_id not in", values, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdNotIn(List<Long> values) {
+            addCriterion("purch_requisition_goods_id not in", values, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdBetween(Long value1, Long value2) {
-            addCriterion("order_goods_id between", value1, value2, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdBetween(Long value1, Long value2) {
+            addCriterion("purch_requisition_goods_id between", value1, value2, "purchRequisitionGoodsId");
             return (Criteria) this;
         }
 
-        public Criteria andOrderGoodsIdNotBetween(Long value1, Long value2) {
-            addCriterion("order_goods_id not between", value1, value2, "orderGoodsId");
+        public Criteria andPurchRequisitionGoodsIdNotBetween(Long value1, Long value2) {
+            addCriterion("purch_requisition_goods_id not between", value1, value2, "purchRequisitionGoodsId");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandIsNull() {
+            addCriterion("purch_contract_brand is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandIsNotNull() {
+            addCriterion("purch_contract_brand is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandEqualTo(String value) {
+            addCriterion("purch_contract_brand =", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandNotEqualTo(String value) {
+            addCriterion("purch_contract_brand <>", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandGreaterThan(String value) {
+            addCriterion("purch_contract_brand >", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandGreaterThanOrEqualTo(String value) {
+            addCriterion("purch_contract_brand >=", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandLessThan(String value) {
+            addCriterion("purch_contract_brand <", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandLessThanOrEqualTo(String value) {
+            addCriterion("purch_contract_brand <=", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandLike(String value) {
+            addCriterion("purch_contract_brand like", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandNotLike(String value) {
+            addCriterion("purch_contract_brand not like", value, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandIn(List<String> values) {
+            addCriterion("purch_contract_brand in", values, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandNotIn(List<String> values) {
+            addCriterion("purch_contract_brand not in", values, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandBetween(String value1, String value2) {
+            addCriterion("purch_contract_brand between", value1, value2, "purchContractBrand");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractBrandNotBetween(String value1, String value2) {
+            addCriterion("purch_contract_brand not between", value1, value2, "purchContractBrand");
             return (Criteria) this;
         }
 
@@ -526,73 +596,123 @@ public class PurchContractGoodsExample {
             return (Criteria) this;
         }
 
-        public Criteria andBrandIsNull() {
-            addCriterion("brand is null");
+        public Criteria andPrePurchasedNumIsNull() {
+            addCriterion("pre_purchased_num is null");
             return (Criteria) this;
         }
 
-        public Criteria andBrandIsNotNull() {
-            addCriterion("brand is not null");
+        public Criteria andPrePurchasedNumIsNotNull() {
+            addCriterion("pre_purchased_num is not null");
             return (Criteria) this;
         }
 
-        public Criteria andBrandEqualTo(String value) {
-            addCriterion("brand =", value, "brand");
+        public Criteria andPrePurchasedNumEqualTo(Integer value) {
+            addCriterion("pre_purchased_num =", value, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandNotEqualTo(String value) {
-            addCriterion("brand <>", value, "brand");
+        public Criteria andPrePurchasedNumNotEqualTo(Integer value) {
+            addCriterion("pre_purchased_num <>", value, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandGreaterThan(String value) {
-            addCriterion("brand >", value, "brand");
+        public Criteria andPrePurchasedNumGreaterThan(Integer value) {
+            addCriterion("pre_purchased_num >", value, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandGreaterThanOrEqualTo(String value) {
-            addCriterion("brand >=", value, "brand");
+        public Criteria andPrePurchasedNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("pre_purchased_num >=", value, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandLessThan(String value) {
-            addCriterion("brand <", value, "brand");
+        public Criteria andPrePurchasedNumLessThan(Integer value) {
+            addCriterion("pre_purchased_num <", value, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandLessThanOrEqualTo(String value) {
-            addCriterion("brand <=", value, "brand");
+        public Criteria andPrePurchasedNumLessThanOrEqualTo(Integer value) {
+            addCriterion("pre_purchased_num <=", value, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandLike(String value) {
-            addCriterion("brand like", value, "brand");
+        public Criteria andPrePurchasedNumIn(List<Integer> values) {
+            addCriterion("pre_purchased_num in", values, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandNotLike(String value) {
-            addCriterion("brand not like", value, "brand");
+        public Criteria andPrePurchasedNumNotIn(List<Integer> values) {
+            addCriterion("pre_purchased_num not in", values, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandIn(List<String> values) {
-            addCriterion("brand in", values, "brand");
+        public Criteria andPrePurchasedNumBetween(Integer value1, Integer value2) {
+            addCriterion("pre_purchased_num between", value1, value2, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandNotIn(List<String> values) {
-            addCriterion("brand not in", values, "brand");
+        public Criteria andPrePurchasedNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("pre_purchased_num not between", value1, value2, "prePurchasedNum");
             return (Criteria) this;
         }
 
-        public Criteria andBrandBetween(String value1, String value2) {
-            addCriterion("brand between", value1, value2, "brand");
+        public Criteria andPurchasedNumIsNull() {
+            addCriterion("purchased_num is null");
             return (Criteria) this;
         }
 
-        public Criteria andBrandNotBetween(String value1, String value2) {
-            addCriterion("brand not between", value1, value2, "brand");
+        public Criteria andPurchasedNumIsNotNull() {
+            addCriterion("purchased_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumEqualTo(Integer value) {
+            addCriterion("purchased_num =", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumNotEqualTo(Integer value) {
+            addCriterion("purchased_num <>", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumGreaterThan(Integer value) {
+            addCriterion("purchased_num >", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("purchased_num >=", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumLessThan(Integer value) {
+            addCriterion("purchased_num <", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumLessThanOrEqualTo(Integer value) {
+            addCriterion("purchased_num <=", value, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumIn(List<Integer> values) {
+            addCriterion("purchased_num in", values, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumNotIn(List<Integer> values) {
+            addCriterion("purchased_num not in", values, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumBetween(Integer value1, Integer value2) {
+            addCriterion("purchased_num between", value1, value2, "purchasedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchasedNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("purchased_num not between", value1, value2, "purchasedNum");
             return (Criteria) this;
         }
 
@@ -953,126 +1073,6 @@ public class PurchContractGoodsExample {
 
         public Criteria andDeleteTimeNotBetween(Date value1, Date value2) {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumIsNull() {
-            addCriterion("pre_purchased_num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumIsNotNull() {
-            addCriterion("pre_purchased_num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumEqualTo(Integer value) {
-            addCriterion("pre_purchased_num =", value, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumNotEqualTo(Integer value) {
-            addCriterion("pre_purchased_num <>", value, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumGreaterThan(Integer value) {
-            addCriterion("pre_purchased_num >", value, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("pre_purchased_num >=", value, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumLessThan(Integer value) {
-            addCriterion("pre_purchased_num <", value, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumLessThanOrEqualTo(Integer value) {
-            addCriterion("pre_purchased_num <=", value, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumIn(List<Integer> values) {
-            addCriterion("pre_purchased_num in", values, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumNotIn(List<Integer> values) {
-            addCriterion("pre_purchased_num not in", values, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumBetween(Integer value1, Integer value2) {
-            addCriterion("pre_purchased_num between", value1, value2, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchasedNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("pre_purchased_num not between", value1, value2, "prePurchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumIsNull() {
-            addCriterion("purchased_num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumIsNotNull() {
-            addCriterion("purchased_num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumEqualTo(Integer value) {
-            addCriterion("purchased_num =", value, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumNotEqualTo(Integer value) {
-            addCriterion("purchased_num <>", value, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumGreaterThan(Integer value) {
-            addCriterion("purchased_num >", value, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumGreaterThanOrEqualTo(Integer value) {
-            addCriterion("purchased_num >=", value, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumLessThan(Integer value) {
-            addCriterion("purchased_num <", value, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumLessThanOrEqualTo(Integer value) {
-            addCriterion("purchased_num <=", value, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumIn(List<Integer> values) {
-            addCriterion("purchased_num in", values, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumNotIn(List<Integer> values) {
-            addCriterion("purchased_num not in", values, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumBetween(Integer value1, Integer value2) {
-            addCriterion("purchased_num between", value1, value2, "purchasedNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchasedNumNotBetween(Integer value1, Integer value2) {
-            addCriterion("purchased_num not between", value1, value2, "purchasedNum");
             return (Criteria) this;
         }
     }

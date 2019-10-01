@@ -111,7 +111,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
     insert into purch_requisition_goods (id, purch_requisition_id, order_goods_id, 
       require_purchase_date, tech_require, check_type, 
       check_method, certificate, tech_audit, 

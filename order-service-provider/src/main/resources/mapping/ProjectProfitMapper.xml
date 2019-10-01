@@ -150,7 +150,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.ProjectProfit" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.ProjectProfit" >
     insert into project_profit (id, project_id, country_bn, 
       trade_term, project_type, contract_amount_usd, 
       contract_amount, exchange_rate, tax_refund, 

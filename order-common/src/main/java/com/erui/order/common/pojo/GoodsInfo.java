@@ -12,6 +12,8 @@ public class GoodsInfo {
     private Long id;
     // 订单表
     private Long orderGoodsId;
+    // 采购申请商品表ID
+    private Long purchRequisitionGoodsId;
     // 采购合同表
     private Long purchContractGoodsId;
     // 采购表
@@ -111,6 +113,14 @@ public class GoodsInfo {
 
     public void setOrderGoodsId(Long orderGoodsId) {
         this.orderGoodsId = orderGoodsId;
+    }
+
+    public Long getPurchRequisitionGoodsId() {
+        return purchRequisitionGoodsId;
+    }
+
+    public void setPurchRequisitionGoodsId(Long purchRequisitionGoodsId) {
+        this.purchRequisitionGoodsId = purchRequisitionGoodsId;
     }
 
     public String getProjectNo() {

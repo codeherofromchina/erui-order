@@ -121,7 +121,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.InspectApply" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.InspectApply" >
     insert into inspect_apply (id, inspect_apply_no, purch_no, 
       purch_id, masteer, p_id, department, 
       purchase_name_id, supplier_name, inspect_date, 

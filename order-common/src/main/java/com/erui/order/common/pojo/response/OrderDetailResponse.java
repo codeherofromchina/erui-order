@@ -120,8 +120,6 @@ public class OrderDetailResponse {
     private String deliveryRequires;
     // 客户及项目背景描述
     private String customerContext;
-    // 业务流实例ID
-    private String processId;
 
     // 合同金额（预收货款）
     private List<OrderPaymentInfo> orderPayments;
@@ -571,13 +569,6 @@ public class OrderDetailResponse {
         this.customerContext = customerContext;
     }
 
-    public String getProcessId() {
-        return processId;
-    }
-
-    public void setProcessId(String processId) {
-        this.processId = processId;
-    }
 
     public List<OrderPaymentInfo> getOrderPayments() {
         return orderPayments;

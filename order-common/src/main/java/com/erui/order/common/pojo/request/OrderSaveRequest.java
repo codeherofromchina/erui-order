@@ -49,8 +49,6 @@ public class OrderSaveRequest {
     private String country;
     // CRM客户ID
     private Long buyerId;
-    // CRM客户代码
-    private String crmCode;
     // 客户类型
     private Short customerType;
     // 回款负责人
@@ -248,14 +246,6 @@ public class OrderSaveRequest {
 
     public void setBuyerId(Long buyerId) {
         this.buyerId = buyerId;
-    }
-
-    public String getCrmCode() {
-        return crmCode;
-    }
-
-    public void setCrmCode(String crmCode) {
-        this.crmCode = crmCode;
     }
 
     public Short getCustomerType() {

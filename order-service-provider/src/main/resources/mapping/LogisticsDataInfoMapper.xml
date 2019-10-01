@@ -109,7 +109,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.LogisticsDataInfo" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.LogisticsDataInfo" >
     insert into logistics_data_info (id, logistics_data_id, dynamic_description, 
       port_name, port_name_zh, leave_port_date, 
       logistics_data_info_status, create_user_id, 

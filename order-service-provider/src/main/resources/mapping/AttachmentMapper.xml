@@ -108,7 +108,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Attachment" >
+  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.Attachment" >
     insert into attachment (id, attach_group, title, 
       url, attach_type, target_obj_id, 
       target_obj_table, create_user_id, create_time, 

@@ -253,6 +253,76 @@ public class OrderGoodsExample {
             return (Criteria) this;
         }
 
+        public Criteria andContractNoIsNull() {
+            addCriterion("contract_no is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIsNotNull() {
+            addCriterion("contract_no is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoEqualTo(String value) {
+            addCriterion("contract_no =", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotEqualTo(String value) {
+            addCriterion("contract_no <>", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThan(String value) {
+            addCriterion("contract_no >", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
+            addCriterion("contract_no >=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThan(String value) {
+            addCriterion("contract_no <", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLessThanOrEqualTo(String value) {
+            addCriterion("contract_no <=", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoLike(String value) {
+            addCriterion("contract_no like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotLike(String value) {
+            addCriterion("contract_no not like", value, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoIn(List<String> values) {
+            addCriterion("contract_no in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotIn(List<String> values) {
+            addCriterion("contract_no not in", values, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoBetween(String value1, String value2) {
+            addCriterion("contract_no between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
+        public Criteria andContractNoNotBetween(String value1, String value2) {
+            addCriterion("contract_no not between", value1, value2, "contractNo");
+            return (Criteria) this;
+        }
+
         public Criteria andSkuIsNull() {
             addCriterion("sku is null");
             return (Criteria) this;
@@ -1183,6 +1253,366 @@ public class OrderGoodsExample {
             return (Criteria) this;
         }
 
+        public Criteria andPrePurchContractNumIsNull() {
+            addCriterion("pre_purch_contract_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumIsNotNull() {
+            addCriterion("pre_purch_contract_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num =", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumNotEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num <>", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumGreaterThan(Short value) {
+            addCriterion("pre_purch_contract_num >", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num >=", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumLessThan(Short value) {
+            addCriterion("pre_purch_contract_num <", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumLessThanOrEqualTo(Short value) {
+            addCriterion("pre_purch_contract_num <=", value, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumIn(List<Short> values) {
+            addCriterion("pre_purch_contract_num in", values, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumNotIn(List<Short> values) {
+            addCriterion("pre_purch_contract_num not in", values, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumBetween(Short value1, Short value2) {
+            addCriterion("pre_purch_contract_num between", value1, value2, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPrePurchContractNumNotBetween(Short value1, Short value2) {
+            addCriterion("pre_purch_contract_num not between", value1, value2, "prePurchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumIsNull() {
+            addCriterion("purch_contract_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumIsNotNull() {
+            addCriterion("purch_contract_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumEqualTo(Short value) {
+            addCriterion("purch_contract_num =", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumNotEqualTo(Short value) {
+            addCriterion("purch_contract_num <>", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumGreaterThan(Short value) {
+            addCriterion("purch_contract_num >", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("purch_contract_num >=", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumLessThan(Short value) {
+            addCriterion("purch_contract_num <", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumLessThanOrEqualTo(Short value) {
+            addCriterion("purch_contract_num <=", value, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumIn(List<Short> values) {
+            addCriterion("purch_contract_num in", values, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumNotIn(List<Short> values) {
+            addCriterion("purch_contract_num not in", values, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumBetween(Short value1, Short value2) {
+            addCriterion("purch_contract_num between", value1, value2, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPurchContractNumNotBetween(Short value1, Short value2) {
+            addCriterion("purch_contract_num not between", value1, value2, "purchContractNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumIsNull() {
+            addCriterion("pre_outstocked_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumIsNotNull() {
+            addCriterion("pre_outstocked_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumEqualTo(Short value) {
+            addCriterion("pre_outstocked_num =", value, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumNotEqualTo(Short value) {
+            addCriterion("pre_outstocked_num <>", value, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumGreaterThan(Short value) {
+            addCriterion("pre_outstocked_num >", value, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("pre_outstocked_num >=", value, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumLessThan(Short value) {
+            addCriterion("pre_outstocked_num <", value, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumLessThanOrEqualTo(Short value) {
+            addCriterion("pre_outstocked_num <=", value, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumIn(List<Short> values) {
+            addCriterion("pre_outstocked_num in", values, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumNotIn(List<Short> values) {
+            addCriterion("pre_outstocked_num not in", values, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumBetween(Short value1, Short value2) {
+            addCriterion("pre_outstocked_num between", value1, value2, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andPreOutstockedNumNotBetween(Short value1, Short value2) {
+            addCriterion("pre_outstocked_num not between", value1, value2, "preOutstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumIsNull() {
+            addCriterion("outstocked_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumIsNotNull() {
+            addCriterion("outstocked_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumEqualTo(Short value) {
+            addCriterion("outstocked_num =", value, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumNotEqualTo(Short value) {
+            addCriterion("outstocked_num <>", value, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumGreaterThan(Short value) {
+            addCriterion("outstocked_num >", value, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("outstocked_num >=", value, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumLessThan(Short value) {
+            addCriterion("outstocked_num <", value, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumLessThanOrEqualTo(Short value) {
+            addCriterion("outstocked_num <=", value, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumIn(List<Short> values) {
+            addCriterion("outstocked_num in", values, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumNotIn(List<Short> values) {
+            addCriterion("outstocked_num not in", values, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumBetween(Short value1, Short value2) {
+            addCriterion("outstocked_num between", value1, value2, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andOutstockedNumNotBetween(Short value1, Short value2) {
+            addCriterion("outstocked_num not between", value1, value2, "outstockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumIsNull() {
+            addCriterion("instocked_num is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumIsNotNull() {
+            addCriterion("instocked_num is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumEqualTo(Short value) {
+            addCriterion("instocked_num =", value, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumNotEqualTo(Short value) {
+            addCriterion("instocked_num <>", value, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumGreaterThan(Short value) {
+            addCriterion("instocked_num >", value, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumGreaterThanOrEqualTo(Short value) {
+            addCriterion("instocked_num >=", value, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumLessThan(Short value) {
+            addCriterion("instocked_num <", value, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumLessThanOrEqualTo(Short value) {
+            addCriterion("instocked_num <=", value, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumIn(List<Short> values) {
+            addCriterion("instocked_num in", values, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumNotIn(List<Short> values) {
+            addCriterion("instocked_num not in", values, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumBetween(Short value1, Short value2) {
+            addCriterion("instocked_num between", value1, value2, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andInstockedNumNotBetween(Short value1, Short value2) {
+            addCriterion("instocked_num not between", value1, value2, "instockedNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateIsNull() {
+            addCriterion("exe_chg_date is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateIsNotNull() {
+            addCriterion("exe_chg_date is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date =", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateNotEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date <>", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateGreaterThan(Date value) {
+            addCriterionForJDBCDate("exe_chg_date >", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateGreaterThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date >=", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateLessThan(Date value) {
+            addCriterionForJDBCDate("exe_chg_date <", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateLessThanOrEqualTo(Date value) {
+            addCriterionForJDBCDate("exe_chg_date <=", value, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateIn(List<Date> values) {
+            addCriterionForJDBCDate("exe_chg_date in", values, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateNotIn(List<Date> values) {
+            addCriterionForJDBCDate("exe_chg_date not in", values, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("exe_chg_date between", value1, value2, "exeChgDate");
+            return (Criteria) this;
+        }
+
+        public Criteria andExeChgDateNotBetween(Date value1, Date value2) {
+            addCriterionForJDBCDate("exe_chg_date not between", value1, value2, "exeChgDate");
+            return (Criteria) this;
+        }
+
         public Criteria andCreateUserIdIsNull() {
             addCriterion("create_user_id is null");
             return (Criteria) this;
@@ -1540,326 +1970,6 @@ public class OrderGoodsExample {
 
         public Criteria andDeleteTimeNotBetween(Date value1, Date value2) {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumIsNull() {
-            addCriterion("pre_purch_contract_num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumIsNotNull() {
-            addCriterion("pre_purch_contract_num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumEqualTo(Short value) {
-            addCriterion("pre_purch_contract_num =", value, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumNotEqualTo(Short value) {
-            addCriterion("pre_purch_contract_num <>", value, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumGreaterThan(Short value) {
-            addCriterion("pre_purch_contract_num >", value, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumGreaterThanOrEqualTo(Short value) {
-            addCriterion("pre_purch_contract_num >=", value, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumLessThan(Short value) {
-            addCriterion("pre_purch_contract_num <", value, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumLessThanOrEqualTo(Short value) {
-            addCriterion("pre_purch_contract_num <=", value, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumIn(List<Short> values) {
-            addCriterion("pre_purch_contract_num in", values, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumNotIn(List<Short> values) {
-            addCriterion("pre_purch_contract_num not in", values, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumBetween(Short value1, Short value2) {
-            addCriterion("pre_purch_contract_num between", value1, value2, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPrePurchContractNumNotBetween(Short value1, Short value2) {
-            addCriterion("pre_purch_contract_num not between", value1, value2, "prePurchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumIsNull() {
-            addCriterion("purch_contract_num is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumIsNotNull() {
-            addCriterion("purch_contract_num is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumEqualTo(Short value) {
-            addCriterion("purch_contract_num =", value, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumNotEqualTo(Short value) {
-            addCriterion("purch_contract_num <>", value, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumGreaterThan(Short value) {
-            addCriterion("purch_contract_num >", value, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumGreaterThanOrEqualTo(Short value) {
-            addCriterion("purch_contract_num >=", value, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumLessThan(Short value) {
-            addCriterion("purch_contract_num <", value, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumLessThanOrEqualTo(Short value) {
-            addCriterion("purch_contract_num <=", value, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumIn(List<Short> values) {
-            addCriterion("purch_contract_num in", values, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumNotIn(List<Short> values) {
-            addCriterion("purch_contract_num not in", values, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumBetween(Short value1, Short value2) {
-            addCriterion("purch_contract_num between", value1, value2, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andPurchContractNumNotBetween(Short value1, Short value2) {
-            addCriterion("purch_contract_num not between", value1, value2, "purchContractNum");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoIsNull() {
-            addCriterion("contract_no is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoIsNotNull() {
-            addCriterion("contract_no is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoEqualTo(String value) {
-            addCriterion("contract_no =", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotEqualTo(String value) {
-            addCriterion("contract_no <>", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoGreaterThan(String value) {
-            addCriterion("contract_no >", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoGreaterThanOrEqualTo(String value) {
-            addCriterion("contract_no >=", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoLessThan(String value) {
-            addCriterion("contract_no <", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoLessThanOrEqualTo(String value) {
-            addCriterion("contract_no <=", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoLike(String value) {
-            addCriterion("contract_no like", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotLike(String value) {
-            addCriterion("contract_no not like", value, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoIn(List<String> values) {
-            addCriterion("contract_no in", values, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotIn(List<String> values) {
-            addCriterion("contract_no not in", values, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoBetween(String value1, String value2) {
-            addCriterion("contract_no between", value1, value2, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andContractNoNotBetween(String value1, String value2) {
-            addCriterion("contract_no not between", value1, value2, "contractNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoIsNull() {
-            addCriterion("project_no is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoIsNotNull() {
-            addCriterion("project_no is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoEqualTo(String value) {
-            addCriterion("project_no =", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoNotEqualTo(String value) {
-            addCriterion("project_no <>", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoGreaterThan(String value) {
-            addCriterion("project_no >", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoGreaterThanOrEqualTo(String value) {
-            addCriterion("project_no >=", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoLessThan(String value) {
-            addCriterion("project_no <", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoLessThanOrEqualTo(String value) {
-            addCriterion("project_no <=", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoLike(String value) {
-            addCriterion("project_no like", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoNotLike(String value) {
-            addCriterion("project_no not like", value, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoIn(List<String> values) {
-            addCriterion("project_no in", values, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoNotIn(List<String> values) {
-            addCriterion("project_no not in", values, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoBetween(String value1, String value2) {
-            addCriterion("project_no between", value1, value2, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andProjectNoNotBetween(String value1, String value2) {
-            addCriterion("project_no not between", value1, value2, "projectNo");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateIsNull() {
-            addCriterion("exe_chg_date is null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateIsNotNull() {
-            addCriterion("exe_chg_date is not null");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateEqualTo(Date value) {
-            addCriterionForJDBCDate("exe_chg_date =", value, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateNotEqualTo(Date value) {
-            addCriterionForJDBCDate("exe_chg_date <>", value, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateGreaterThan(Date value) {
-            addCriterionForJDBCDate("exe_chg_date >", value, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateGreaterThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("exe_chg_date >=", value, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateLessThan(Date value) {
-            addCriterionForJDBCDate("exe_chg_date <", value, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateLessThanOrEqualTo(Date value) {
-            addCriterionForJDBCDate("exe_chg_date <=", value, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateIn(List<Date> values) {
-            addCriterionForJDBCDate("exe_chg_date in", values, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateNotIn(List<Date> values) {
-            addCriterionForJDBCDate("exe_chg_date not in", values, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("exe_chg_date between", value1, value2, "exeChgDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andExeChgDateNotBetween(Date value1, Date value2) {
-            addCriterionForJDBCDate("exe_chg_date not between", value1, value2, "exeChgDate");
             return (Criteria) this;
         }
     }
