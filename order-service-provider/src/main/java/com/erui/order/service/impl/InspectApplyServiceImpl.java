@@ -9,9 +9,11 @@ import com.erui.order.common.pojo.response.InspectApplyDetailResponse;
 import com.erui.order.common.pojo.response.InspectApplyListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.InspectApplyMapper;
+import com.erui.order.mapper.InspectReportMapper;
 import com.erui.order.mapper.PurchMapper;
 import com.erui.order.model.entity.InspectApply;
 import com.erui.order.model.entity.InspectApplyExample;
+import com.erui.order.model.entity.InspectReport;
 import com.erui.order.model.entity.Purch;
 import com.erui.order.service.*;
 import com.erui.order.service.util.InspectApplyFactory;
@@ -54,6 +56,8 @@ public class InspectApplyServiceImpl implements InspectApplyService {
     private InspectApplyGoodsService inspectApplyGoodsService;
     @Autowired
     private InspectReportService inspectReportService;
+    @Autowired
+    private InspectReportMapper inspectReportMapper;
 
     @Override
     public Long insert(InspectApplySaveRequest insertRequest) throws Exception {
@@ -167,7 +171,7 @@ public class InspectApplyServiceImpl implements InspectApplyService {
             throw new Exception("对象附件数据操作失败");
         }
 
-        if (inspectApply.getInspectApplyStatus() == InspectApplyStatusEnum.SUBMITED.getCode()) {
+        if (inspectApplySelective.getInspectApplyStatus() == InspectApplyStatusEnum.SUBMITED.getCode()) {
             // 推送信息到报检内容中
             inspectReportService.insert(inspectApplyId);
         }
@@ -247,6 +251,37 @@ public class InspectApplyServiceImpl implements InspectApplyService {
         return detailResponse;
     }
 
+
+    @Override
+    public List<InspectApplyListResponse> listByInspectReportId(Long inspectReportId) {
+        InspectReport inspectReport = inspectReportMapper.selectByPrimaryKey(inspectReportId);
+
+        List<InspectApplyListResponse> resultList = new ArrayList<>();
+
+        // 查找父级的报检单
+        Long inspectApplyId = inspectReport.getInspectApplyId();
+        InspectApply inspectApply = inspectApplyMapper.selectByPrimaryKey(inspectApplyId);
+        InspectApplyListResponse inspectApplyListResponse = InspectApplyFactory.inspectApplyListResponse(inspectApply);
+        inspectApplyListResponse.setPurchaseName(userService.findNameById(inspectApply.getPurchaseNameId()));
+        resultList.add(inspectApplyListResponse);
+        // 查找所有子级报检单
+        if (inspectApply.getMasteer()) {
+            InspectApplyExample example = new InspectApplyExample();
+            example.setOrderByClause("inspect_apply_no asc");
+            InspectApplyExample.Criteria criteria = example.createCriteria();
+            // 未删除
+            criteria.andDeleteFlagEqualTo(Boolean.FALSE).andPIdEqualTo(inspectApply.getId());
+            List<InspectApply> inspectApplies = inspectApplyMapper.selectByExample(example);
+            for (InspectApply inspectApply02 : inspectApplies) {
+                InspectApplyListResponse inspectApplyListResponse02 = InspectApplyFactory.inspectApplyListResponse(inspectApply02);
+                inspectApplyListResponse02.setPurchaseName(userService.findNameById(inspectApply02.getPurchaseNameId()));
+                resultList.add(inspectApplyListResponse02);
+            }
+        }
+
+        return resultList;
+    }
+
     @Override
     public void againInspectApplyInfo(Long id, String msg) throws Exception {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
@@ -298,7 +333,6 @@ public class InspectApplyServiceImpl implements InspectApplyService {
         List<InspectApplyGoodsInfo> newInspectApplyGoodsInfos = new ArrayList<>();
         inspectApplyGoodsInfos.forEach(inspectApplyGoodsInfo -> {
             InspectApplyGoodsInfo applyGoodsInfo = new InspectApplyGoodsInfo();
-            applyGoodsInfo.setOrderGoodsId(inspectApplyGoodsInfo.getOrderGoodsId());
             applyGoodsInfo.setPurchGoodsId(inspectApplyGoodsInfo.getPurchGoodsId());
             applyGoodsInfo.setInspectNum(inspectApplyGoodsInfo.getUnqualified());
             applyGoodsInfo.setHeight(inspectApplyGoodsInfo.getHeight());

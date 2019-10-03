@@ -8,6 +8,8 @@ import java.util.Date;
  */
 public class InspectApplyListResponse {
     private Long id;
+    // 质检单ID
+    private Long inspectReportId;
     // 采购合同号
     private String purchNo;
     // 到货报检单号
@@ -39,6 +41,14 @@ public class InspectApplyListResponse {
         this.id = id;
     }
 
+    public Long getInspectReportId() {
+        return inspectReportId;
+    }
+
+
+    public void setInspectReportId(Long inspectReportId) {
+        this.inspectReportId = inspectReportId;
+    }
 
     public String getPurchNo() {
         return purchNo;

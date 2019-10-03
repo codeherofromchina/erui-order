@@ -37,8 +37,13 @@ function tokenAjaxLoader(opts, param, success, error) {
 function tableLoadFilter(data) {
     var finalData = {"total": 0, "rows": []};
     if (data.code == 0) {
-        finalData.total = data.data.total;
-        finalData.rows = data.data.rows;
+        if (data.data.total) {
+            finalData.total = data.data.total;
+            finalData.rows = data.data.rows;
+        } else {
+            finalData.total = data.data.length;
+            finalData.rows = data.data;
+        }
     }
     return finalData;
 }

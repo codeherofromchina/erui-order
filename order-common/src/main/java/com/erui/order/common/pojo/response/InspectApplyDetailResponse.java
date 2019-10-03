@@ -21,7 +21,6 @@ public class InspectApplyDetailResponse {
     private Long purchaseNameId;
     private String purchaseName;
     // 供应商
-
     private Long supplierId;
     private String supplierName;
     // 报检日期

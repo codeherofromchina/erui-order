@@ -108,7 +108,7 @@
                                 ">类型
                     </th>
                     <th field="createTime" width="170">日期</th>
-                    <th field="_operate" width="80" data-options="formatter:saveInspectApplyAttachmentFormatOper">
+                    <th field="_operate" width="80" data-options="formatter:savePurchRequisitionAttachmentFormatOper">
                         操作
                     </th>
                     </thead>
@@ -238,7 +238,7 @@
             }
         });
     });
-    function saveInspectApplyAttachmentFormatOper(val, row, index) {
+    function savePurchRequisitionAttachmentFormatOper(val, row, index) {
         return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectApplyDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
     }
 

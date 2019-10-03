@@ -58,5 +58,12 @@ public interface InspectApplyService {
      * @return
      */
     void againInspectApplyInfo(Long id, String msg) throws Exception;
+
+    /**
+     * 通过质检单查询所有父子关系的报检单列表
+     * @param inspectReportId
+     * @return
+     */
+    List<InspectApplyListResponse> listByInspectReportId(Long inspectReportId);
 }
 

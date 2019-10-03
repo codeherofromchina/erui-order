@@ -87,5 +87,6 @@ public class PurchGoodsInfo {
     public void setPreInspectNum(Integer preInspectNum) {
         this.preInspectNum = preInspectNum;
     }
+
 }
 

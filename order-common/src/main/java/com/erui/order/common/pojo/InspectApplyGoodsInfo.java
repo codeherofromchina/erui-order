@@ -7,8 +7,6 @@ package com.erui.order.common.pojo;
 public class InspectApplyGoodsInfo {
     // 主键
     private Long id;
-    // '商品ID'
-    private Long orderGoodsId;
     // 采购单商品ID
     private Long purchGoodsId;
     // 报检数量
@@ -17,6 +15,8 @@ public class InspectApplyGoodsInfo {
     private String height;
     // 长宽高
     private String lwh;
+    // 抽样数
+    private Integer samples;
     // 不合格数量
     private Integer unqualified;
     // 不合格描述
@@ -32,14 +32,6 @@ public class InspectApplyGoodsInfo {
         this.id = id;
     }
 
-
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
-    }
 
     public Long getPurchGoodsId() {
         return purchGoodsId;
@@ -71,6 +63,14 @@ public class InspectApplyGoodsInfo {
 
     public void setLwh(String lwh) {
         this.lwh = lwh;
+    }
+
+    public Integer getSamples() {
+        return samples;
+    }
+
+    public void setSamples(Integer samples) {
+        this.samples = samples;
     }
 
     public Integer getUnqualified() {

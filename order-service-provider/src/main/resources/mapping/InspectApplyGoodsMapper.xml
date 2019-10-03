@@ -5,7 +5,6 @@
     <id column="id" property="id" jdbcType="BIGINT" />
     <result column="inspect_apply_id" property="inspectApplyId" jdbcType="BIGINT" />
     <result column="inspect_report_id" property="inspectReportId" jdbcType="BIGINT" />
-    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
     <result column="purch_goods_id" property="purchGoodsId" jdbcType="BIGINT" />
     <result column="purchase_num" property="purchaseNum" jdbcType="INTEGER" />
     <result column="inspect_num" property="inspectNum" jdbcType="INTEGER" />
@@ -84,10 +83,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, inspect_apply_id, inspect_report_id, order_goods_id, purch_goods_id, purchase_num, 
-    inspect_num, height, lwh, remarks, samples, unqualified, unqualified_desc, instock_num, 
-    unqualified_type, quality_inspect_type, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, delete_time
+    id, inspect_apply_id, inspect_report_id, purch_goods_id, purchase_num, inspect_num, 
+    height, lwh, remarks, samples, unqualified, unqualified_desc, instock_num, unqualified_type, 
+    quality_inspect_type, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.InspectApplyGoodsExample" >
     select
@@ -119,23 +118,23 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.InspectApplyGoods" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.InspectApplyGoods" >
     insert into inspect_apply_goods (id, inspect_apply_id, inspect_report_id, 
-      order_goods_id, purch_goods_id, purchase_num, 
-      inspect_num, height, lwh, 
-      remarks, samples, unqualified, 
-      unqualified_desc, instock_num, unqualified_type, 
-      quality_inspect_type, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      delete_time)
+      purch_goods_id, purchase_num, inspect_num, 
+      height, lwh, remarks, 
+      samples, unqualified, unqualified_desc, 
+      instock_num, unqualified_type, quality_inspect_type, 
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
     values (#{id,jdbcType=BIGINT}, #{inspectApplyId,jdbcType=BIGINT}, #{inspectReportId,jdbcType=BIGINT}, 
-      #{orderGoodsId,jdbcType=BIGINT}, #{purchGoodsId,jdbcType=BIGINT}, #{purchaseNum,jdbcType=INTEGER}, 
-      #{inspectNum,jdbcType=INTEGER}, #{height,jdbcType=VARCHAR}, #{lwh,jdbcType=VARCHAR}, 
-      #{remarks,jdbcType=VARCHAR}, #{samples,jdbcType=INTEGER}, #{unqualified,jdbcType=INTEGER}, 
-      #{unqualifiedDesc,jdbcType=VARCHAR}, #{instockNum,jdbcType=INTEGER}, #{unqualifiedType,jdbcType=SMALLINT}, 
-      #{qualityInspectType,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+      #{purchGoodsId,jdbcType=BIGINT}, #{purchaseNum,jdbcType=INTEGER}, #{inspectNum,jdbcType=INTEGER}, 
+      #{height,jdbcType=VARCHAR}, #{lwh,jdbcType=VARCHAR}, #{remarks,jdbcType=VARCHAR}, 
+      #{samples,jdbcType=INTEGER}, #{unqualified,jdbcType=INTEGER}, #{unqualifiedDesc,jdbcType=VARCHAR}, 
+      #{instockNum,jdbcType=INTEGER}, #{unqualifiedType,jdbcType=SMALLINT}, #{qualityInspectType,jdbcType=CHAR}, 
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.InspectApplyGoods" >
     insert into inspect_apply_goods
@@ -148,9 +147,6 @@
       </if>
       <if test="inspectReportId != null" >
         inspect_report_id,
-      </if>
-      <if test="orderGoodsId != null" >
-        order_goods_id,
       </if>
       <if test="purchGoodsId != null" >
         purch_goods_id,
@@ -216,9 +212,6 @@
       </if>
       <if test="inspectReportId != null" >
         #{inspectReportId,jdbcType=BIGINT},
-      </if>
-      <if test="orderGoodsId != null" >
-        #{orderGoodsId,jdbcType=BIGINT},
       </if>
       <if test="purchGoodsId != null" >
         #{purchGoodsId,jdbcType=BIGINT},
@@ -294,9 +287,6 @@
       <if test="record.inspectReportId != null" >
         inspect_report_id = #{record.inspectReportId,jdbcType=BIGINT},
       </if>
-      <if test="record.orderGoodsId != null" >
-        order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
-      </if>
       <if test="record.purchGoodsId != null" >
         purch_goods_id = #{record.purchGoodsId,jdbcType=BIGINT},
       </if>
@@ -361,7 +351,6 @@
     set id = #{record.id,jdbcType=BIGINT},
       inspect_apply_id = #{record.inspectApplyId,jdbcType=BIGINT},
       inspect_report_id = #{record.inspectReportId,jdbcType=BIGINT},
-      order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
       purch_goods_id = #{record.purchGoodsId,jdbcType=BIGINT},
       purchase_num = #{record.purchaseNum,jdbcType=INTEGER},
       inspect_num = #{record.inspectNum,jdbcType=INTEGER},
@@ -392,9 +381,6 @@
       </if>
       <if test="inspectReportId != null" >
         inspect_report_id = #{inspectReportId,jdbcType=BIGINT},
-      </if>
-      <if test="orderGoodsId != null" >
-        order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
       </if>
       <if test="purchGoodsId != null" >
         purch_goods_id = #{purchGoodsId,jdbcType=BIGINT},
@@ -457,7 +443,6 @@
     update inspect_apply_goods
     set inspect_apply_id = #{inspectApplyId,jdbcType=BIGINT},
       inspect_report_id = #{inspectReportId,jdbcType=BIGINT},
-      order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
       purch_goods_id = #{purchGoodsId,jdbcType=BIGINT},
       purchase_num = #{purchaseNum,jdbcType=INTEGER},
       inspect_num = #{inspectNum,jdbcType=INTEGER},

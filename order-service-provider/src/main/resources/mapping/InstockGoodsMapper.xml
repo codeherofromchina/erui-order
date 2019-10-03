@@ -3,7 +3,6 @@
 <mapper namespace="com.erui.order.mapper.InstockGoodsMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.InstockGoods" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="order_goods_id" property="orderGoodsId" jdbcType="BIGINT" />
     <result column="instock_id" property="instockId" jdbcType="BIGINT" />
     <result column="inspect_apply_goods_id" property="inspectApplyGoodsId" jdbcType="BIGINT" />
     <result column="instock_num" property="instockNum" jdbcType="INTEGER" />
@@ -74,8 +73,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, order_goods_id, instock_id, inspect_apply_goods_id, instock_num, instock_stock, 
-    create_user_id, create_time, update_user_id, update_time, delete_flag, delete_time
+    id, instock_id, inspect_apply_goods_id, instock_num, instock_stock, create_user_id, 
+    create_time, update_user_id, update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.InstockGoodsExample" >
     select
@@ -107,26 +106,21 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.InstockGoods" >
-    insert into instock_goods (id, order_goods_id, instock_id, 
-      inspect_apply_goods_id, instock_num, instock_stock, 
-      create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, delete_time
-      )
-    values (#{id,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT}, #{instockId,jdbcType=BIGINT}, 
-      #{inspectApplyGoodsId,jdbcType=BIGINT}, #{instockNum,jdbcType=INTEGER}, #{instockStock,jdbcType=VARCHAR}, 
-      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+  <insert id="insert" parameterType="com.erui.order.model.entity.InstockGoods" >
+    insert into instock_goods (id, instock_id, inspect_apply_goods_id, 
+      instock_num, instock_stock, create_user_id, 
+      create_time, update_user_id, update_time, 
+      delete_flag, delete_time)
+    values (#{id,jdbcType=BIGINT}, #{instockId,jdbcType=BIGINT}, #{inspectApplyGoodsId,jdbcType=BIGINT}, 
+      #{instockNum,jdbcType=INTEGER}, #{instockStock,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.InstockGoods" >
     insert into instock_goods
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         id,
-      </if>
-      <if test="orderGoodsId != null" >
-        order_goods_id,
       </if>
       <if test="instockId != null" >
         instock_id,
@@ -162,9 +156,6 @@
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
-      </if>
-      <if test="orderGoodsId != null" >
-        #{orderGoodsId,jdbcType=BIGINT},
       </if>
       <if test="instockId != null" >
         #{instockId,jdbcType=BIGINT},
@@ -210,9 +201,6 @@
       <if test="record.id != null" >
         id = #{record.id,jdbcType=BIGINT},
       </if>
-      <if test="record.orderGoodsId != null" >
-        order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
-      </if>
       <if test="record.instockId != null" >
         instock_id = #{record.instockId,jdbcType=BIGINT},
       </if>
@@ -251,7 +239,6 @@
   <update id="updateByExample" parameterType="map" >
     update instock_goods
     set id = #{record.id,jdbcType=BIGINT},
-      order_goods_id = #{record.orderGoodsId,jdbcType=BIGINT},
       instock_id = #{record.instockId,jdbcType=BIGINT},
       inspect_apply_goods_id = #{record.inspectApplyGoodsId,jdbcType=BIGINT},
       instock_num = #{record.instockNum,jdbcType=INTEGER},
@@ -269,9 +256,6 @@
   <update id="updateByPrimaryKeySelective" parameterType="com.erui.order.model.entity.InstockGoods" >
     update instock_goods
     <set >
-      <if test="orderGoodsId != null" >
-        order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
-      </if>
       <if test="instockId != null" >
         instock_id = #{instockId,jdbcType=BIGINT},
       </if>
@@ -307,8 +291,7 @@
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.InstockGoods" >
     update instock_goods
-    set order_goods_id = #{orderGoodsId,jdbcType=BIGINT},
-      instock_id = #{instockId,jdbcType=BIGINT},
+    set instock_id = #{instockId,jdbcType=BIGINT},
       inspect_apply_goods_id = #{inspectApplyGoodsId,jdbcType=BIGINT},
       instock_num = #{instockNum,jdbcType=INTEGER},
       instock_stock = #{instockStock,jdbcType=VARCHAR},

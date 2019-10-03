@@ -69,7 +69,6 @@ public class InstockGoodsServiceImpl implements InstockGoodsService {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         InstockGoods instockGoods = new InstockGoods();
         instockGoods.setInstockId(instockId);
-        instockGoods.setOrderGoodsId(inspectApplyGoodsInfo.getOrderGoodsId());
         instockGoods.setInspectApplyGoodsId(inspectApplyGoodsInfo.getId());
         instockGoods.setInstockNum(inspectApplyGoodsInfo.getInspectNum() - inspectApplyGoodsInfo.getUnqualified()); // 入库数量
         instockGoods.setCreateTime(new Date());

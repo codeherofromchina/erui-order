@@ -9,8 +9,6 @@ public class InspectApplyGoods {
 
     private Long inspectReportId;
 
-    private Long orderGoodsId;
-
     private Long purchGoodsId;
 
     private Integer purchaseNum;
@@ -69,14 +67,6 @@ public class InspectApplyGoods {
 
     public void setInspectReportId(Long inspectReportId) {
         this.inspectReportId = inspectReportId;
-    }
-
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
     }
 
     public Long getPurchGoodsId() {

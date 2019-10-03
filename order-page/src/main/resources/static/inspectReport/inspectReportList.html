@@ -70,26 +70,19 @@
                 {field:'supplierName',title:'供应商名称'},
                 {field:'inspectDate',title:'报检日期'},
                 {field:'checkTimes',title:'报检次数'},
-                {field:'process',title:'质检状态',
-                    formatter:function(code,row,index){
-                        if(code) {
-                            return "未完成";
-                        } else {
-                            return "已完成";
+                {field:'inspectReportStatusName',title:'质检状态'},
+                {field:'_operation',title:'操作',
+                    formatter:function(value,row,index){
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="inspectReportInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.inspectReportStatus == 1 || row.inspectReportStatus == 2) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectReportInfoPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
                         }
-                    }
-                },
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/inspectReport/list',
+            url: LOCAL_URL + '/order/inspectReport/list',
             onBeforeLoad:function(param){
-                var rows = param.rows;
-                delete param.rows;
-                param.rows = rows;
                 var data = $('#inspect_report_list_table_toolbar_form').serializeJson();
                 if (data) {
                     for(var attr in data){
@@ -101,14 +94,7 @@
                 var opts = $(this).datagrid("options");
                 return tokenAjaxLoader(opts,param,success,error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         // 搜索按钮
         $("#inspect_report_list_table_toolbar_form_search_btn").click(function (){
@@ -121,4 +107,33 @@
             $("#inspect_report_list_table").datagrid("reload");
         });
     });
+
+
+    function inspectReportInfoPage(inspectReportId) {
+        var tabTitle = "查看报检单-" + inspectReportId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "inspectReportId=" + inspectReportId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'inspectReport/inspectReportInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveInspectReportInfoPage(inspectReportId) {
+        var tabTitle = "保存报检单-" + inspectReportId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "inspectReportId=" + inspectReportId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'inspectReport/saveInspectReport.html',
+                closable: true
+            });
+        }
+    }
 </script>

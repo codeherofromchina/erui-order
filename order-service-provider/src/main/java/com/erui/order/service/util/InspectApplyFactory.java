@@ -23,8 +23,9 @@ public class InspectApplyFactory {
         inspectApply.setEnterEruiWarehouse(saveRequest.getEnterEruiWarehouse());
         inspectApply.setRemark(saveRequest.getRemark());
         inspectApply.setInspectApplyStatus(saveRequest.getInspectApplyStatus());
+        inspectApply.setPubStatus(saveRequest.getInspectApplyStatus());
         inspectApply.setpId(saveRequest.getpId());
-        if (saveRequest.getpId() != null) {
+        if (saveRequest.getpId() == null) {
             inspectApply.setMasteer(Boolean.TRUE);
         } else {
             inspectApply.setMasteer(Boolean.FALSE);

@@ -17,7 +17,6 @@ public class InspectApplyGoodsFactory {
         }
         InspectApplyGoods inspectApplyGoods = new InspectApplyGoods();
         inspectApplyGoods.setId(inspectApplyGoodsInfo.getId());
-        inspectApplyGoods.setOrderGoodsId(inspectApplyGoodsInfo.getOrderGoodsId());
         inspectApplyGoods.setPurchGoodsId(inspectApplyGoodsInfo.getPurchGoodsId());
         inspectApplyGoods.setInspectNum(inspectApplyGoodsInfo.getInspectNum());
         inspectApplyGoods.setHeight(inspectApplyGoodsInfo.getHeight());
@@ -44,11 +43,11 @@ public class InspectApplyGoodsFactory {
         }
         InspectApplyGoodsInfo inspectApplyGoodsInfo = new InspectApplyGoodsInfo();
         inspectApplyGoodsInfo.setId(inspectApplyGoods.getId());
-        inspectApplyGoodsInfo.setOrderGoodsId(inspectApplyGoods.getOrderGoodsId());
         inspectApplyGoodsInfo.setPurchGoodsId(inspectApplyGoods.getPurchGoodsId());
         inspectApplyGoodsInfo.setInspectNum(inspectApplyGoods.getInspectNum());
         inspectApplyGoodsInfo.setHeight(inspectApplyGoods.getHeight());
         inspectApplyGoodsInfo.setLwh(inspectApplyGoods.getLwh());
+        inspectApplyGoodsInfo.setSamples(inspectApplyGoods.getSamples());
         inspectApplyGoodsInfo.setUnqualified(inspectApplyGoods.getUnqualified());
         inspectApplyGoodsInfo.setUnqualifiedDesc(inspectApplyGoods.getUnqualifiedDesc());
         inspectApplyGoodsInfo.setUnqualifiedType(inspectApplyGoods.getUnqualifiedType());

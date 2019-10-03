@@ -5,8 +5,6 @@ import java.util.Date;
 public class InstockGoods {
     private Long id;
 
-    private Long orderGoodsId;
-
     private Long instockId;
 
     private Long inspectApplyGoodsId;
@@ -33,14 +31,6 @@ public class InstockGoods {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
     }
 
     public Long getInstockId() {

@@ -59,6 +59,7 @@ public class InstockServiceImpl implements InstockService {
         }
 
         Instock instock = new Instock();
+        instock.setUid(10L); // TODO 这里需要确定是谁，这里先写死
         instock.setInspectReportId(inspectReportId);
         instock.setInspectApplyNo(inspectReport.getInspectApplyNo()); // 报检单号
         instock.setSupplierName(inspectReport.getSupplierName()); // 供应商

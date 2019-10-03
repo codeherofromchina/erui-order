@@ -16,7 +16,6 @@ public class InstockGoodsFactory {
             return null;
         }
         InstockGoods instockGoods = new InstockGoods();
-        instockGoods.setOrderGoodsId(instockGoodsInfo.getOrderGoodsId());
         instockGoods.setInspectApplyGoodsId(instockGoodsInfo.getInspectApplyGoodsId());
         instockGoods.setInstockNum(instockGoodsInfo.getInstockNum());
         instockGoods.setInstockStock(instockGoodsInfo.getInstockStock());
@@ -42,7 +41,6 @@ public class InstockGoodsFactory {
         }
         InstockGoodsInfo instockGoodsInfo = new InstockGoodsInfo();
         instockGoodsInfo.setId(instockGoods.getId());
-        instockGoodsInfo.setOrderGoodsId(instockGoods.getOrderGoodsId());
         instockGoodsInfo.setInspectApplyGoodsId(instockGoods.getInspectApplyGoodsId());
         instockGoodsInfo.setInstockNum(instockGoods.getInstockNum());
         instockGoodsInfo.setInstockStock(instockGoods.getInstockStock());

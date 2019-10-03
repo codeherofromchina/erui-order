@@ -7,8 +7,6 @@ package com.erui.order.common.pojo;
 public class InstockGoodsInfo {
     // 主键
     private Long id;
-    // 订单商品ID
-    private Long orderGoodsId;
     // 报检单商品ID
     private Long inspectApplyGoodsId;
     // 入库数量
@@ -24,13 +22,6 @@ public class InstockGoodsInfo {
         this.id = id;
     }
 
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
-    }
 
     public Long getInspectApplyGoodsId() {
         return inspectApplyGoodsId;

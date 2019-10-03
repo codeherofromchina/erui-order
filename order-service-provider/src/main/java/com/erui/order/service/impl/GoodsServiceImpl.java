@@ -174,6 +174,7 @@ public class GoodsServiceImpl implements GoodsService {
         goodsInfo.setInspectNum(inspectApplyGoodsInfo.getInspectNum());
         goodsInfo.setHeight(inspectApplyGoodsInfo.getHeight());
         goodsInfo.setLwh(inspectApplyGoodsInfo.getLwh());
+        goodsInfo.setSamples(inspectApplyGoodsInfo.getSamples());
         goodsInfo.setUnqualified(inspectApplyGoodsInfo.getUnqualified());
         goodsInfo.setUnqualifiedDesc(inspectApplyGoodsInfo.getUnqualifiedDesc());
         goodsInfo.setUnqualifiedType(inspectApplyGoodsInfo.getUnqualifiedType());
@@ -190,10 +191,15 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsInfo goodsInfoByPurchGoods(PurchGoodsInfo purchGoodsInfo) {
         PurchContractGoodsInfo purchContractGoodsInfo = purchContractGoodsService.findById(purchGoodsInfo.getPurchContractGoodsId());
         GoodsInfo goodsInfo = goodsInfoByPurchContractGoods(purchContractGoodsInfo);
+        // 采购商品ID
+        goodsInfo.setPurchGoodsId(purchGoodsInfo.getId());
         // 本次采购数量
         goodsInfo.setPurchasedNum(purchGoodsInfo.getPurchaseNum());
         // 本次采购单价
         goodsInfo.setPurchasedPrice(purchGoodsInfo.getPurchasePrice());
+        // 预报检数量
+        goodsInfo.setPreInspectNum(purchGoodsInfo.getPreInspectNum());
+        // 采购备注
         goodsInfo.setPurchasedRemark(purchGoodsInfo.getPurchaseRemark());
         return goodsInfo;
     }

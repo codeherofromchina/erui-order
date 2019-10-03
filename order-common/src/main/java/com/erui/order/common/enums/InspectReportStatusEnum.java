@@ -1,11 +1,12 @@
 package com.erui.order.common.enums;
 
 /**
+ * 质检报告状态 1:未编辑 2:进行中可办理 3:质检完成 4:进行中不可办理
  * @Auther 王晓丹
  * @Date 2019/9/10 下午10:45
  */
 public enum InspectReportStatusEnum {
-    INIT(1, "未编辑"), SAVED(2, "已保存"), SUBMITED(3, "已提交"), DONE(4, "已完成"), DELETE(5, "已删除");
+    INIT(1, "未编辑"), SAVED(2, "质检中"), SUBMITED(3, "质检完成"), DONE(4, "进行中");
 
     private short code;
     private String name;

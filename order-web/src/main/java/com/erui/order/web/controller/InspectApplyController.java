@@ -88,6 +88,32 @@ public class InspectApplyController {
         return result;
     }
 
+
+    /**
+     * 根据报检单ID查询InspectApply列表内容
+     *
+     * @return
+     */
+    @RequestMapping(value = "listByInspectReportId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<List<InspectApplyListResponse>> listByInspectReportId(@RequestBody PrimaryKey inspectReportId) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), inspectReportId.getId());
+        Result<List<InspectApplyListResponse>> result = new Result<>();
+        try {
+            List<InspectApplyListResponse> list = inspectApplyService.listByInspectReportId(inspectReportId.getId());
+            for (InspectApplyListResponse vo : list) {
+                vo.setInspectReportId(inspectReportId.getId());
+            }
+            result.setData(list);
+            LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(list));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("list异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(inspectReportId), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
     /**
      * 获取InspectApply详情
      *

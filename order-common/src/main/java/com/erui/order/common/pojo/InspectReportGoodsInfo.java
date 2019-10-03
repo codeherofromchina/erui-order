@@ -6,8 +6,6 @@ package com.erui.order.common.pojo;
  */
 public class InspectReportGoodsInfo {
     private Long id;
-    // 订单商品数量
-    private Long orderGoodsId;
     // 抽样数量
     private Integer samples;
     // 不合格数量
@@ -16,14 +14,6 @@ public class InspectReportGoodsInfo {
     private String unqualifiedDesc;
     // 不合格类型
     private Short unqualifiedType;
-
-    public Long getOrderGoodsId() {
-        return orderGoodsId;
-    }
-
-    public void setOrderGoodsId(Long orderGoodsId) {
-        this.orderGoodsId = orderGoodsId;
-    }
 
     public Long getId() {
         return id;

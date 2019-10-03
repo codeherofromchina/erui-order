@@ -1,0 +1,356 @@
+<script type="text/javascript">
+    var saveInspectReportParams = getQueryStringFromGlobalParams();
+    var save_inspect_report_form_data = {};
+    var save_inspect_report_form_goods_table = [];
+    var save_inspect_report_form_attachment_table = [];
+    if (saveInspectReportParams.inspectReportId) {
+        var inspectReportInfo = syncAjaxJson({"url": LOCAL_URL + "/order/inspectReport/info"}, {"id": saveInspectReportParams.inspectReportId});
+        if (inspectReportInfo.code == 0) {
+            save_inspect_report_form_data = inspectReportInfo.data;
+            // 商品内容
+            save_inspect_report_form_goods_table = save_inspect_report_form_data.goodsInfos;
+            delete  save_inspect_report_form_data.goodsInfos;
+            // 附件内容
+            save_inspect_report_form_attachment_table = save_inspect_report_form_data.attachments;
+            delete  save_inspect_report_form_data.attachments;
+        }
+    }
+</script>
+<div id="save_inspect_report_list_panel" class="easyui-panel" title="检验记录"
+     style="padding:0;background:#fafafa;margin-bottom:10px;"
+     data-options="collapsible:true">
+    <table style="background:#fafafa;" id="save_inspect_report_list_panel_table">
+        <thead>
+        <tr>
+            <th field="purchNo" width="120px">采购合同号</th>
+            <th field="inspectReportNo" width="120px">到货报检单号</th>
+            <th field="department" width="120px">下发部门</th>
+            <th field="purchaseName" width="100px">采购经办人</th>
+            <th field="supplierName" width="120px">供应商名称</th>
+            <th field="inspectDate" width="120px">报检日期</th>
+            <th field="_operate" width="120px" data-options="formatter:saveInspectReportListPanelTableFormatOper">操作
+            </th>
+        </tr>
+        </thead>
+    </table>
+</div>
+
+<form id="save_inspect_report_form">
+    <input type="hidden" v-model="id" value="" name="id"/>
+    <div class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>质检员：</label>
+            <div class="input-div">{{checkUserName}}</div>
+            <label>质检部门：</label>
+            <div class="input-div">{{checkDeptName}}</div>
+            <label>NCR编号：</label>
+            <div class="input-div">{{ncrNo}}</div>
+        </div>
+        <div class="fitem">
+            <label>检验日期：</label>
+            <input class="easyui-datebox" ediable="false" name="checkDate" style="width: 150px;"/>
+            <label>检验完成日期：</label>
+            <input class="easyui-datebox" ediable="false" name="doneDate" style="width: 150px;"/>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table id="save_inspect_report_panel_goods_table"></table>
+    </div>
+
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">备注：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="reportRemarks"/>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:120px;">
+            <div data-options="region:'west',split:false,border:false" style="width:180px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">采购执行部</span>
+                    </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(1,'save_inspect_report_form_attachment_table');"
+                                                       plain="true">上传附件</a></div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:save_inspect_report_form_attachment_table"
+                       fit="true"
+                       singleSelect="true"
+                       id="save_inspect_report_form_attachment_table"
+                       fitColumn="true">
+                    <thead>
+                    <th field="title" width="200">附件名称</th>
+                    <th field="createUserName" width="120">创建人</th>
+                    <th field="attachType" width="100" data-options="
+                                formatter:function(value){
+                                    return '附件';
+                                }
+                                ">类型
+                    </th>
+                    <th field="createTime" width="170">日期</th>
+                    <th field="_operate" width="80" data-options="formatter:saveInspectReportAttachmentFormatOper">
+                        操作
+                    </th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_inspect_report_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_inspect_report_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#save_inspect_report_form',
+        data: save_inspect_report_form_data
+    });
+
+    $(function () {
+        setTimeout(function () {
+            $("#save_inspect_report_form").form('load', save_inspect_report_form_data);
+        }, 500);
+        // 报检单列表
+        $("#save_inspect_report_list_panel_table").datagrid({
+            fitColumn: true,
+            striped: true,
+            rownumbers: true,
+            singleSelect: true,
+            idField: 'id',
+            url: LOCAL_URL + '/order/inspectApply/listByInspectReportId',
+            onBeforeLoad: function (param) {
+                param.id = saveInspectReportParams.inspectReportId;
+            },
+            loader: function (param, success, error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts, param, success, error);
+            },
+            loadFilter: tableLoadFilter
+        });
+        // 商品
+        $("#save_inspect_report_panel_goods_table").datagrid({
+            border: false,
+            striped: true,
+            idField: 'inspectApplyGoodsId',
+            columns: [[
+                {field: 'contractNo', width: 120, title: '销售合同号'},
+                {field: 'projectNo', width: 120, title: '项目号'},
+                {field: 'purchNo', width: 120, title: '采购合同号'},
+                {field: 'sku', width: 120, title: '平台SKU'},
+                {field: 'nameEn', width: 100, title: '外文品名'},
+                {field: 'nameZh', width: 100, title: '中文品名'},
+                {field: 'inspectNum', width: 100, title: '报检数量'},
+                {
+                    field: 'samples', width: 100, title: '抽样数',
+                    editor: {
+                        type: "numberbox"
+                    }
+                },
+                {
+                    field: 'unqualified', width: 120, title: '不合格数量',
+                    editor: {
+                        type: "numberbox"
+                    }
+                },
+                {
+                    field: 'unqualifiedDesc', width: 80, title: '不合格描述',
+                    editor: {
+                        type: "textbox"
+                    }
+                },
+                {field: 'unqualifiedType', width: 100, title: '不合格类别',
+                    editor: {
+                        type: "combobox",
+                        options: {
+                            valueField: "code",
+                            textField: "text",
+                            editable: false,
+                            data: [
+                                {"text": "不合格类别", "code": ""},
+                                {"text": "性能失效", "code": "1"},
+                                {"text": "材料问题", "code": "2"},
+                                {"text": "零配件缺失", "code": "3"},
+                                {"text": "工序遗漏", "code": "4"},
+                                {"text": "特殊工艺", "code": "5"},
+                                {"text": "尺寸问题", "code": "6"},
+                                {"text": "表面缺陷", "code": "7"},
+                                {"text": "标识问题", "code": "8"},
+                                {"text": "资料问题", "code": "9"}
+                            ]
+                        }
+                    }
+                }
+            ]],
+            onLoadSuccess: function (data) {
+                // 控制表格可以编辑
+                for (var num = 0; num < data.total; ++num) {
+                    $(this).datagrid('beginEdit', num);
+                }
+            },
+            data: save_inspect_report_form_goods_table
+        });
+
+
+        // 保存
+        $("#save_inspect_report_form_save_btn").click(function (e) {
+            e.preventDefault();
+            var isValid = $("#save_inspect_report_form").form('validate');
+            if (!isValid) {
+                $.messager.alert('提示', '请完整填写表单');	// hide progress bar while the form is invalid
+                return;
+            }
+            var formData = assemblyInspectReportData();
+            formData.inspectReportStatus = '2'; // 保存报检单
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectReport/saveInspectReport"}, formData);
+
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存报检单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+
+        // 提交
+        $("#save_inspect_report_form_submit_btn").click(function (e) {
+            e.preventDefault();
+            var isValid = $("#save_inspect_report_form").form('validate');
+            if (!isValid) {
+                $.messager.alert('提示', '请完整填写表单');	// hide progress bar while the form is invalid
+                return;
+            }
+            var formData = assemblyInspectReportData();
+            formData.inspectReportStatus = '3'; // 提交报检单
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectReport/saveInspectReport"}, formData);
+
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交报检单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+    });
+
+    function saveInspectReportAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectReportDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function saveInspectReportDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_inspect_report_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_inspect_report_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+
+
+    // 组装报检单数据
+    function assemblyInspectReportData() {
+        var formData = $("#save_inspect_report_form").serializeJson();
+
+        // 商品内容
+        formData.inspectReportGoodsInfos = [];
+
+        var datagridRows = $("#save_inspect_report_panel_goods_table").datagrid("getRows");
+        $.each(datagridRows, function (index, value) {
+            var edSamples = $('#save_inspect_report_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'samples'
+            });
+            var samples = $(edSamples.target).numberbox('getValue');
+            var edUnqualified = $('#save_inspect_report_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'unqualified'
+            });
+            var unqualified = $(edUnqualified.target).numberbox('getValue');
+            var edUnqualifiedDesc = $('#save_inspect_report_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'unqualifiedDesc'
+            });
+            var unqualifiedDesc = $(edUnqualifiedDesc.target).textbox('getValue');
+            var edUnqualifiedType = $('#save_inspect_report_panel_goods_table').datagrid('getEditor', {index: index, field: 'unqualifiedType'});
+            var unqualifiedType = $(edUnqualifiedType.target).combobox('getValue');
+            formData.inspectReportGoodsInfos.push({
+                id: value.inspectApplyGoodsId,
+                samples: samples,
+                unqualified: unqualified,
+                unqualifiedDesc: unqualifiedDesc,
+                unqualifiedType: unqualifiedType
+            });
+        });
+
+        // 附件内容
+        var attachmentRows = $("#save_inspect_report_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+        return formData;
+    }
+
+    // 报检单列表中的操作
+    function saveInspectReportListPanelTableFormatOper(val, row, index) {
+        if (row.inspectReportStatus == 3) {
+            return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectReportListPanelTableHandle(\'' + row.inspectReportId + '\')">办理</a>&nbsp;&nbsp;&nbsp;';
+        } else {
+            return "查看";
+        }
+    }
+
+    // 报检单列表的办理
+    function saveInspectReportListPanelTableHandle(inspectReportId) {
+        // 拉取数据，然后重新填充表单、商品和附件
+        var inspectReportInfo = syncAjaxJson({"url": LOCAL_URL + "/order/inspectReport/info"}, {"id": inspectReportId});
+        if (inspectReportInfo.code == 0) {
+            save_inspect_report_form_data = inspectReportInfo.data;
+            // 商品内容
+            save_inspect_report_form_goods_table = save_inspect_report_form_data.goodsInfos;
+            delete save_inspect_report_form_data.goodsInfos;
+            $("#save_inspect_report_panel_goods_table").datagrid("loadData", save_inspect_report_form_goods_table);
+            // 附件内容
+            var attachments = save_inspect_report_form_data.attachments;
+            delete  save_inspect_report_form_data.attachments;
+            $("#save_inspect_report_form_attachment_table").datagrid("loadData", attachments);
+
+
+            $("#save_inspect_report_form").form('load', save_inspect_report_form_data);
+        } else {
+            $.messager.alert("提示", "获取报检单信息错误");
+        }
+    }
+
+</script>

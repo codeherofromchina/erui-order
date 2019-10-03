@@ -246,9 +246,10 @@ public class InspectReportServiceImpl implements InspectReportService {
     private Long findProjectQualityUidByInspectApplyId(Long inspectApplyId) {
         InspectApplyGoodsExample inspectApplyGoodsExample = new InspectApplyGoodsExample();
         inspectApplyGoodsExample.createCriteria().andInspectApplyIdEqualTo(inspectApplyId);
-        List<InspectApplyGoods> inspectApplyGoods = inspectApplyGoodsMapper.selectByExample(inspectApplyGoodsExample);
+        List<InspectApplyGoodsInfo> inspectApplyGoodsInfos = inspectApplyGoodsService.listByInspectApplyId(inspectApplyId);
+        List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByInspectApplyGoods(inspectApplyGoodsInfos);
 
-        List<Long> orderGoodsIdList = inspectApplyGoods.stream().map(InspectApplyGoods::getOrderGoodsId).collect(Collectors.toList());
+        List<Long> orderGoodsIdList = goodsInfoList.stream().map(GoodsInfo::getOrderGoodsId).collect(Collectors.toList());
         if (orderGoodsIdList.size() == 0) {
             return null;
         }

@@ -50,6 +50,8 @@ public class GoodsInfo {
     private Integer prePurchasedNum;
     // 采购数量
     private Integer purchasedNum;
+    // 预报检数量
+    private Integer preInspectNum;
     // 单位
     private String unit;
     private String unitName;
@@ -79,6 +81,8 @@ public class GoodsInfo {
     private String height;
     // 长宽高
     private String lwh;
+    // 抽样数
+    private Integer samples;
     // 不合格数量
     private Integer unqualified;
     // 不合格描述
@@ -301,6 +305,14 @@ public class GoodsInfo {
         this.prePurchasedNum = prePurchasedNum;
     }
 
+    public Integer getPreInspectNum() {
+        return preInspectNum;
+    }
+
+    public void setPreInspectNum(Integer preInspectNum) {
+        this.preInspectNum = preInspectNum;
+    }
+
     public Integer getPurchasedNum() {
         return purchasedNum;
     }
@@ -389,6 +401,14 @@ public class GoodsInfo {
 
     public void setLwh(String lwh) {
         this.lwh = lwh;
+    }
+
+    public Integer getSamples() {
+        return samples;
+    }
+
+    public void setSamples(Integer samples) {
+        this.samples = samples;
     }
 
     public Integer getUnqualified() {
