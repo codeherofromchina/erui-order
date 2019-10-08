@@ -12,6 +12,7 @@ import java.util.List;
  */
 public class PurchPayApplicationDetailResponse {
     private Long id;
+    //
     private String payNo;
     private Long purchId;
     private String purchContractNo;

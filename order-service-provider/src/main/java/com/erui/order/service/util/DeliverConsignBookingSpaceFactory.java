@@ -61,7 +61,6 @@ public class DeliverConsignBookingSpaceFactory {
         deliverConsignBookingSpaceInfo.setAddress(deliverConsignBookingSpace.getAddress());
         deliverConsignBookingSpaceInfo.setContacts(deliverConsignBookingSpace.getContacts());
         deliverConsignBookingSpaceInfo.setContactInformation(deliverConsignBookingSpace.getContactInformation());
-        deliverConsignBookingSpaceInfo.setTenant(deliverConsignBookingSpace.getTenant());
         deliverConsignBookingSpaceInfo.setDutyParagraph(deliverConsignBookingSpace.getDutyParagraph());
         deliverConsignBookingSpaceInfo.setZipCode(deliverConsignBookingSpace.getZipCode());
 

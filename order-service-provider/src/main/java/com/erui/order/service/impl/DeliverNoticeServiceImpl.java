@@ -28,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 
 @Service
 @Transactional
@@ -52,6 +53,7 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
         DeliverNotice deliverNotice = DeliverNoticeFactory.deliverNotice(insertRequest);
+        deliverNotice.setDeliverNoticeNo(UUID.randomUUID().toString());
         deliverNotice.setCreateTime(new Date());
         deliverNotice.setCreateUserId(userInfo.getId());
         deliverNotice.setDeleteFlag(Boolean.FALSE);
@@ -67,7 +69,7 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
             int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.DELIVER_NOTICE, deliverNoticeId, attachments);
             if (attachments.size() != attachmentInsertNum) {
                 LOGGER.info("attachmentInsertNum : {} - {}", attachmentInsertNum, JSON.toJSONString(insertRequest));
-                throw new Exception("订单附件数据操作失败");
+                throw new Exception("看货通知单附件数据操作失败");
             }
         }
 
@@ -184,12 +186,27 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         // 查询商品的采购数量是否都已经和预报检数量数量相同，如果相同，返回null，否则返回预显示内容
         List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverConsignId);
         List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);
-        // 组装数据
-        DeliverNoticeDetailResponse detailResponse = new DeliverNoticeDetailResponse();
-        detailResponse.setDeliverConsignId(deliverConsignId);
+        DeliverNoticeDetailResponse detailResponse = null;
+        Short deliverNoticeStatus = deliverConsign.getDeliverNoticeStatus();
+        if (deliverNoticeStatus == 0) {
+            // 组装数据
+            detailResponse = new DeliverNoticeDetailResponse();
+            detailResponse.setDeliverConsignId(deliverConsignId);
+        } else {
+            DeliverNoticeExample example = new DeliverNoticeExample();
+            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andDeliverConsignIdEqualTo(deliverConsignId);
+            List<DeliverNotice> deliverNotices = deliverNoticeMapper.selectByExample(example);
+            if (deliverNotices != null && deliverNotices.size() == 1) {
+                detailResponse = DeliverNoticeFactory.deliverNoticeDetailResponse(deliverNotices.get(0));
+                // 附件
+                List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.DELIVER_NOTICE, detailResponse.getId());
+                detailResponse.setAttachments(attachmentInfos);
+            } else {
+                throw new Exception("看货通知单信息错误");
+            }
+        }
         // 商品
         detailResponse.setGoodsInfos(goodsInfoList);
-
         return detailResponse;
     }
 }

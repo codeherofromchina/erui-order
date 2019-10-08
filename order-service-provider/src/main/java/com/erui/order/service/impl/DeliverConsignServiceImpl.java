@@ -8,14 +8,12 @@ import com.erui.order.common.pojo.request.DeliverConsignQueryRequest;
 import com.erui.order.common.pojo.request.DeliverConsignSaveRequest;
 import com.erui.order.common.pojo.response.DeliverConsignDetailResponse;
 import com.erui.order.common.pojo.response.DeliverConsignListResponse;
-import com.erui.order.common.pojo.response.InspectApplyDetailResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.DeliverConsignMapper;
 import com.erui.order.mapper.OrderMapper;
 import com.erui.order.model.entity.DeliverConsign;
 import com.erui.order.model.entity.DeliverConsignExample;
 import com.erui.order.model.entity.Order;
-import com.erui.order.model.entity.Purch;
 import com.erui.order.service.*;
 import com.erui.order.service.util.DeliverConsignFactory;
 import com.github.pagehelper.Page;
@@ -30,6 +28,7 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,14 +59,16 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
-        DeliverConsign DeliverConsign = DeliverConsignFactory.deliverConsign(insertRequest);
-        DeliverConsign.setCreateTime(new Date());
-        DeliverConsign.setCreateUserId(userInfo.getId());
-        int insertNum = deliverConsignMapper.insert(DeliverConsign);
+        DeliverConsign deliverConsign = DeliverConsignFactory.deliverConsign(insertRequest);
+        deliverConsign.setDeliverConsignNo(UUID.randomUUID().toString().substring(0,14));
+        deliverConsign.setCreateTime(new Date());
+        deliverConsign.setCreateUserId(userInfo.getId());
+        deliverConsign.setDeleteFlag(Boolean.FALSE);
+        int insertNum = deliverConsignMapper.insert(deliverConsign);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
         }
-        Long DeliverConsignId = DeliverConsign.getId();
+        Long DeliverConsignId = deliverConsign.getId();
 
         // 对象附件操作
         List<AttachmentInfo> attachments = insertRequest.getAttachments();
@@ -197,7 +198,7 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
         // 组织数据
         DeliverConsignDetailResponse detail = DeliverConsignFactory.deliverConsignDetailResponse(deliverConsign);
         detail.setAttachments(attachmentInfos);
-        detail.setGoodsInfoList(goodsInfoList);
+        detail.setGoodsInfos(goodsInfoList);
         detail.setDeliverConsignBookingSpaceInfo(deliverConsignBookingSpaceInfo);
 
         return detail;
@@ -235,7 +236,7 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
         detailResponse.setToPort(order.getToPort());
         detailResponse.setTotalPriceUsd(order.getTotalPriceUsd());
         // 商品
-        detailResponse.setGoodsInfoList(goodsInfoList);
+        detailResponse.setGoodsInfos(goodsInfoList);
 
         return detailResponse;
 

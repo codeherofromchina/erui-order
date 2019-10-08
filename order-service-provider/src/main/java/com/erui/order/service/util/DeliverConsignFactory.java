@@ -131,6 +131,7 @@ public class DeliverConsignFactory {
         if (statusEnum != null) {
             deliverConsignListResponse.setDeliverConsignStatusName(statusEnum.getName());
         }
+        deliverConsignListResponse.setDeliverNoticeStatus(deliverConsign.getDeliverNoticeStatus());
 
         return deliverConsignListResponse;
     }

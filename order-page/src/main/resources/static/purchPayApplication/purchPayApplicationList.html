@@ -16,130 +16,130 @@
                     <input type="text" class="easyui-textbox" name="supplierName"/>
                 </li>
                 <li>
-                    <label>审核状态：</label>
-                    <select class="easyui-combobox" panelHeight="100px" editable="false" name="auditingStatus">
-                        <option code="">请选择</option>
-                        <option code="1">未审核</option>
-                        <option code="2">审核中</option>
-                        <option code="4">已完成</option>
-                    </select>
-                </li>
-                <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="purch_pay_application_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="purch_pay_application_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="purch_pay_application_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="purch_pay_application_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
         </form>
     </div>
     <div class="ctrl-div">
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="purch_pay_application_list_table_toolbar_add_btn">新建付款</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+           id="purch_pay_application_list_table_toolbar_add_btn">新建付款</a>
     </div>
 </div>
 <!-- /数据表工具栏 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#purch_pay_application_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'deliverDetailNo',title:'付款单号'},
-                {field:'purchContractNo',title:'采购合同号'},
-                {field:'supplierName',title:'供应商名称'},
-                {field:'orderStatus',title:'付款状态',
-                    formatter:function (code, row, index) {
-                        switch (code) {
-                            case 1:return '未付款';
-                            case 2:return '已付款';
-                            default :return code;
-                        }
-                    }
-                },
-                {field:'contractAmount',title:'采购总金额',
-                    formatter:function(code,row,index){
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'deliverDetailNo', title: '付款单号'},
+                {field: 'purchContractNo', title: '采购合同号'},
+                {field: 'supplierName', title: '供应商名称'},
+                {field: 'payStatusName', title: '付款状态'},
+                {
+                    field: 'contractAmount', title: '采购总金额',
+                    formatter: function (code, row, index) {
                         if (!code) {
                             code = 0;
                         }
                         code = code.toFixed(2);
                         if (row.currencyBn) {
-                            code =  row.currencyBn + " " + code;
+                            code = row.currencyBn + " " + code;
                         }
                         return code;
                     }
                 },
-                {field:'applicantAmount',title:'申请金额',
-                    formatter:function(code,row,index){
+                {
+                    field: 'applicantAmount', title: '申请金额',
+                    formatter: function (code, row, index) {
                         if (!code) {
                             code = 0;
                         }
                         code = code.toFixed(2);
                         if (row.currencyBn) {
-                            code =  row.currencyBn + " " + code;
+                            code = row.currencyBn + " " + code;
                         }
                         return code;
                     }
                 },
-                {field:'auditingProcess',title:'审核进度'},
-                {field:'auditingStatus',title:'审核状态',
-                    formatter:function(code,row,index){
-                        if(code == 1) {
-                            return "未审核";
-                        } else if(code == 2){
-                            return "审核中";
-                        } else if (code == 3) {
-                            return "驳回";
-                        } else if (code == 4) {
-                            return "已完成";
-                        } else {
-                            return code;
+                {
+                    field: 'operation', title: '操作',
+                    formatter: function (value, row, index) {
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchPayApplicationInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.inspectReportStatus == 1 || row.inspectReportStatus == 2) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="savePurchPayApplicationInfoPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
                         }
-                    }
-                },
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/purchPayApplication/list',
-            onBeforeLoad:function(param){
+            url: LOCAL_URL + '/order/purchPayApplication/list',
+            onBeforeLoad: function (param) {
                 var data = $('#purch_pay_application_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         // 搜索按钮
-        $("#purch_pay_application_list_table_toolbar_form_search_btn").click(function (){
+        $("#purch_pay_application_list_table_toolbar_form_search_btn").click(function () {
             $("#purch_pay_application_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#purch_pay_application_list_table_toolbar_form_clear_btn").click(function (){
+        $("#purch_pay_application_list_table_toolbar_form_clear_btn").click(function () {
             $('#purch_pay_application_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#purch_pay_application_list_table");
             $("#purch_pay_application_list_table").datagrid("reload");
         });
     });
+
+
+    function savePurchPayApplicationInfoPage(purchPayApplicationId) {
+        var tabTitle = "保存收款-" + instocpurchPayApplicationIdkId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "purchPayApplicationId=" + purchPayApplicationId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchPayApplication/savePurchPayApplicationId.html',
+                closable: true
+            });
+        }
+
+    }
+
+    function purchPayApplicationInfoPage(purchPayApplicationId) {
+        var tabTitle = "查看收款-" + purchPayApplicationId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "purchPayApplicationId=" + purchPayApplicationId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchPayApplication/purchPayApplicationInfo.html',
+                closable: true
+            });
+        }
+    }
 </script>

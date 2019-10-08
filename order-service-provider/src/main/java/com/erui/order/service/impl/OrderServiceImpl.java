@@ -26,6 +26,7 @@ import org.springframework.stereotype.Service;
 import com.erui.order.mapper.OrderMapper;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -70,6 +71,10 @@ public class OrderServiceImpl implements OrderService {
         order.setPayStatus(OrderPayStatusEnum.UNPAID.code); // 设置支付状态
         // 设置流程进度
         order.setProcessProgress(ProcessProgressEnum.SUBMIT.getCode());
+        // 设置收款金额
+        order.setAlreadyGatheringMoney(BigDecimal.ZERO);
+        // 设置发货金额
+        order.setShipmentsMoney(BigDecimal.ZERO);
 
         order.setCreateTime(new Date());
         order.setCreateUserId(userInfo.getId());

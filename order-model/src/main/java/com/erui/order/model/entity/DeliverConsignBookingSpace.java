@@ -49,8 +49,6 @@ public class DeliverConsignBookingSpace {
 
     private String contactInformation;
 
-    private String tenant;
-
     private String dutyParagraph;
 
     private String zipCode;
@@ -251,13 +249,6 @@ public class DeliverConsignBookingSpace {
         this.contactInformation = contactInformation;
     }
 
-    public String getTenant() {
-        return tenant;
-    }
-
-    public void setTenant(String tenant) {
-        this.tenant = tenant;
-    }
 
     public String getDutyParagraph() {
         return dutyParagraph;

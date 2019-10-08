@@ -1,23 +1,3 @@
-<script type="text/javascript">
-var deliver_consign_list_auditing_process_nodes = {};
-var deliver_consign_list_auditing_process_node_arr = [];
-!function(){
-    var data = syncAjaxJson({"url":"http://java.eruidev.com:85/order/orderManage/nodes"},{
-        "tenant":"erui",
-        "category":"order",
-        "subCategory":"booking_order"
-    });
-    if (data.code == 200) {
-        $.each(data.data,function(index,node) {
-            deliver_consign_list_auditing_process_node_arr.push({"actId":node.actId,"actName":node.actName});
-            deliver_consign_list_auditing_process_nodes[node.actId] = node.actName;
-        });
-        deliver_consign_list_auditing_process_node_arr.push({"actId":"999","actName":"已完成"});
-        deliver_consign_list_auditing_process_node_arr.unshift({"actId":"","actName":"全部"});
-    }
-    deliver_consign_list_auditing_process_nodes["999"] = "已完成";
-}();
-</script>
 <!-- 订舱数据表 -->
 <table id="deliver_consign_list_table" toolbar="#deliver_consign_list_table_toolbar"></table>
 <!-- /数据表 -->
@@ -36,15 +16,6 @@ var deliver_consign_list_auditing_process_node_arr = [];
                     <input type="text" class="easyui-textbox" name="crmCodeOrName"/>
                 </li>
                 <li>
-                    <label>审核状态：</label>
-                    <select class="easyui-combobox" editable="false" name="auditingStatus">
-                        <option code="">全部</option>
-                        <option code="1">未审核</option>
-                        <option code="2">审核中</option>
-                        <option code="4">已完成</option>
-                    </select>
-                </li>
-                <li>
                     <label>销售合同号：</label>
                     <input type="text" class="easyui-textbox" name="contractNo"/>
                 </li>
@@ -52,10 +23,6 @@ var deliver_consign_list_auditing_process_node_arr = [];
                     <label>发货申请部门：</label>
                     <input type="text" id="deliver_consign_list_table_toolbar_form_dept_id_field" class="easyui-textbox" editable="false" name="deptId" buttonText="请选择"
                            data-options="onClickButton:function(){$('#deliver_consign_list_dept_dialog').dialog('open');$('#deliver_consign_list_dept_dialog').dialog('refresh', 'common/deptDialog.html');}"  />
-                </li>
-                <li>
-                    <label>审核进度：</label>
-                    <select  class="easyui-combobox" data-options="editable:false,valueField: 'actId',textField: 'actName',data:deliver_consign_list_auditing_process_node_arr" name="auditingProcess"></select>
                 </li>
                 <li>
                     <label>订舱提交日期：</label>
@@ -116,53 +83,19 @@ var deliver_consign_list_auditing_process_node_arr = [];
                         return code;
                     }
                 },
-                {field:'auditingProcess',title:'审核进度',
-                    formatter:function(code,row,index) {
-                        if (code) {
-                            var splitArr = code.split(",");
-                            var resultV = [];
-                            $.each(splitArr, function (index, a) {
-                                var d = deliver_consign_list_auditing_process_nodes[a];
-                                if (d) {
-                                    resultV.push(d);
-                                } else {
-                                    resultV.push(a);
-                                }
-                            });
-                            return resultV.join(",");
-                        }
-                        return "";
-                    }
-                },
-                {field:'auditingStatus',title:'审核状态',
-                    formatter:function(code,row,index){
-                        var respStr;
-                        switch (code) {
-                            case 1:
-                            respStr = "未审核";
-                            break;
-                            case 2:
-                                respStr = "审核中";
-                                break;
-                            case 3:
-                                respStr = "驳回";
-                                break;
-                            case 4:
-                                respStr = "已完成";
-                                break;
-                            default:
-                                respStr = code;
-                        }
-                        return respStr;
-                    }
-                },
                 {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+                    formatter:function(value,row,index){
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverConsignInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.deliverConsignStatus == 1 || row.deliverConsignStatus == 2) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverConsignPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+                        } else if (row.deliverConsignStatus == 3 && (row.deliverNoticeStatus == 0 || row.deliverNoticeStatus == 1)) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverNoticePage(' + row.id + ')">生成看货通知单</a>&nbsp;&nbsp;&nbsp;';
+                        }
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/deliverConsign/deliverConsignManage',
+            url: LOCAL_URL + '/order/deliverConsign/list',
             onBeforeLoad:function(param){
                 var data = $('#deliver_consign_list_table_toolbar_form').serializeJson();
                 if (data) {
@@ -175,14 +108,7 @@ var deliver_consign_list_auditing_process_node_arr = [];
                 var opts = $(this).datagrid("options");
                 return tokenAjaxLoader(opts,param,success,error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         $("#deliver_consign_list_dept_dialog").dialog({
             title:'发货申请部门',
@@ -221,4 +147,46 @@ var deliver_consign_list_auditing_process_node_arr = [];
             $("#deliver_consign_list_table").datagrid("reload");
         });
     });
+
+    function deliverConsignInfoPage(deliverConsignId) {
+        var tabTitle = "查看出口通知单-" + deliverConsignId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverConsign/deliverConsignInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveDeliverConsignPage(deliverConsignId) {
+        var tabTitle = "保存出口通知单-" + deliverConsignId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverConsign/saveDeliverConsign.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveDeliverNoticePage(deliverConsignId) {
+        var tabTitle = "保存看货通知单-" + deliverConsignId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverNotice/saveDeliverNotice.html',
+                closable: true
+            });
+        }
+    }
 </script>

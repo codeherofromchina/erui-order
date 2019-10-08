@@ -1,8 +1,12 @@
 package com.erui.order.service.util;
 
+import com.erui.order.common.pojo.OrderAccountInfo;
 import com.erui.order.common.pojo.request.OrderAccountSaveRequest;
 import com.erui.order.common.pojo.response.OrderAccountDetailResponse;
 import com.erui.order.model.entity.OrderAccount;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Auther 王晓丹
@@ -28,23 +32,32 @@ public class OrderAccountFactory {
         return orderAccount;
     }
 
-    public static OrderAccountDetailResponse orderAccountDetailResponse(OrderAccount orderAccount) {
+    public static List<OrderAccountInfo> orderAccountInfo(List<OrderAccount> orderAccounts) {
+        if (orderAccounts == null) {
+            return null;
+        }
+        List<OrderAccountInfo> result = new ArrayList<>();
+        for (OrderAccount orderAccount : orderAccounts) {
+            result.add(orderAccountInfo(orderAccount));
+        }
+        return result;
+    }
+
+    public static OrderAccountInfo orderAccountInfo(OrderAccount orderAccount) {
         if (orderAccount == null) {
             return null;
         }
-
-        OrderAccountDetailResponse orderAccountDetailResponse = new OrderAccountDetailResponse();
-        orderAccountDetailResponse.setId(orderAccount.getId());
-        orderAccountDetailResponse.setOrderId(orderAccount.getOrderId());
-        orderAccountDetailResponse.setAccountType(orderAccount.getAccountType());
-        orderAccountDetailResponse.setAccDesc(orderAccount.getAccDesc());
-        orderAccountDetailResponse.setMoney(orderAccount.getMoney());
-        orderAccountDetailResponse.setDiscount(orderAccount.getDiscount());
-        orderAccountDetailResponse.setPaymentDate(orderAccount.getPaymentDate());
-        orderAccountDetailResponse.setGoodsPrice(orderAccount.getGoodsPrice());
-        orderAccountDetailResponse.setDeliverDate(orderAccount.getDeliverDate());
-
-        return orderAccountDetailResponse;
+        OrderAccountInfo orderAccountInfo = new OrderAccountInfo();
+        orderAccountInfo.setId(orderAccount.getId());
+        orderAccountInfo.setOrderId(orderAccount.getOrderId());
+        orderAccountInfo.setAccountType(orderAccount.getAccountType());
+        orderAccountInfo.setAccDesc(orderAccount.getAccDesc());
+        orderAccountInfo.setMoney(orderAccount.getMoney());
+        orderAccountInfo.setDiscount(orderAccount.getDiscount());
+        orderAccountInfo.setPaymentDate(orderAccount.getPaymentDate());
+        orderAccountInfo.setGoodsPrice(orderAccount.getGoodsPrice());
+        orderAccountInfo.setDeliverDate(orderAccount.getDeliverDate());
+        return orderAccountInfo;
     }
 
 }

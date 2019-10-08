@@ -27,6 +27,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 /**
+ * 出口发货通知单表控制器
  * @Auther 王晓丹
  * @Date 2019/7/21 下午5:26
  */
@@ -92,7 +93,7 @@ public class DeliverConsignController {
 
 
     /**
-     * 分页查询DeliverConsign列表内容
+     * 查询DeliverConsign列表内容
      *
      * @param orderId
      * @return

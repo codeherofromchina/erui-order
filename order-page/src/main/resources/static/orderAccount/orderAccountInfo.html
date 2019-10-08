@@ -1,0 +1,101 @@
+<script type="text/javascript">
+    var orderAccountInfoParams = getQueryStringFromGlobalParams();
+    var order_account_info_vue_data = {};
+    var order_account_info_send_table = [];
+    var order_account_info_receivables_table = [];
+    if (orderAccountInfoParams.orderId) {
+        var orderAccountInfo = syncAjaxJson({"url": LOCAL_URL + "/order/orderAccount/info"}, {"id": orderAccountInfoParams.orderId});
+        if (orderAccountInfo.code == 0) {
+            order_account_info_vue_data = orderAccountInfo.data;
+            // 发货信息
+            order_account_info_send_table = order_account_info_vue_data.sendInfos;
+            delete order_account_info_vue_data.sendInfos;
+            // 收款信息
+            order_account_info_receivables_table = order_account_info_vue_data.receiveInfos;
+            delete order_account_info_vue_data.receiveInfos;
+        }
+    }
+</script>
+<div id="order_account_info_div">
+    <div class="easyui-panel" title="订单信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem" style="margin-top:10px;">
+            <label>销售合同号：</label>
+            <div class="input-div">{{contractNo}}</div>
+            <label>订单签约日期：</label>
+            <div class="input-div">{{signingDate}}</div>
+            <label>客户签约主体公司：</label>
+            <div class="input-div">{{signingCoName}}</div>
+        </div>
+        <div class="fitem">
+            <label>市场经办人：</label>
+            <div class="input-div">{{agentUserName}}</div>
+            <label>CRM客户代码：</label>
+            <div class="input-div">{{crmCode}}</div>
+            <label>订单状态：</label>
+            <div class="input-div">{{orderStatusName}}</div>
+        </div>
+        <div class="fitem">
+            <label>收款状态：</label>
+            <div class="input-div">{{payStatusName}}</div>
+            <label>订单结算币种：</label>
+            <div class="input-div">{{currencyBn}}</div>
+            <label>客户合同金额：</label>
+            <div class="input-div">{{totalPrice}}</div>
+        </div>
+        <div class="fitem">
+            <label>已发货总金额：</label>
+            <div class="input-div">{{shipmentsMoney}}</div>
+            <label>已收款总金额：</label>
+            <div class="input-div">{{alreadyGatheringMoney}}</div>
+            <label>应收账款余额：</label>
+            <div class="input-div">{{receivableBalance}}</div>
+        </div>
+        <div class="fitem">
+            <label>汇率：</label>
+            <div class="input-div">{{exchangeRate}}</div>
+            <label style="width:135px;margin-left:0;">已收款总金额（USD）：</label>
+            <div class="input-div">{{alreadyGatheringMoneyUsd}}</div>
+        </div>
+    </div>
+    <div class="easyui-panel" title="发货信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table class="easyui-datagrid"
+               data-options="idField:'id',data:order_account_info_send_table"
+               singleSelect="true"
+               rownumbers="true"
+               fitColumn="true">
+            <thead>
+            <th field="accDesc" width="200">描述</th>
+            <th field="goodsPrice" width="120">发货金额</th>
+            <th field="deliverDate" width="170">发货日期</th>
+            </thead>
+        </table>
+    </div>
+    <div class="easyui-panel" title="收款信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table class="easyui-datagrid"
+               data-options="idField:'id',data:order_account_info_receivables_table"
+               singleSelect="true"
+               rownumbers="true"
+               fitColumn="true">
+            <thead>
+            <th field="accDesc" width="200">描述</th>
+            <th field="goodsPrice" width="120">收款金额</th>
+            <th field="deliverDate" width="120">其他扣款金额</th>
+            <th field="deliverDate" width="170">收款日期</th>
+            </thead>
+        </table>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#order_account_info_div',
+        data: order_account_info_vue_data
+    });
+</script>

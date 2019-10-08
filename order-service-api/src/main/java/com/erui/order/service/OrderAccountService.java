@@ -1,9 +1,11 @@
 package com.erui.order.service;
 
 
+import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.request.OrderAccountQueryRequest;
 import com.erui.order.common.pojo.request.OrderAccountSaveRequest;
 import com.erui.order.common.pojo.response.OrderAccountDetailResponse;
+import com.erui.order.common.pojo.response.OrderAccountListResponse;
 
 import java.util.List;
 
@@ -29,15 +31,15 @@ public interface OrderAccountService {
      * @param queryRequest
      * @return
      */
-    List<OrderAccountDetailResponse> list(OrderAccountQueryRequest queryRequest);
+    Pager<OrderAccountListResponse> list(OrderAccountQueryRequest queryRequest);
 
     /**
      * 查询详情
      *
-     * @param id
+     * @param orderId
      * @return
      */
-    OrderAccountDetailResponse detail(Long id) throws Exception;
+    OrderAccountDetailResponse detail(Long orderId) throws Exception;
 
     /**
      * 删除收款或发货
@@ -46,5 +48,11 @@ public interface OrderAccountService {
      * @return
      */
     void delete(Long id) throws Exception;
+
+    /**
+     * 订单收款完成
+     * @param orderId
+     */
+    void done(Long orderId) throws Exception;
 }
 

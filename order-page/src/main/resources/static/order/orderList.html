@@ -319,12 +319,27 @@
         }
     }
 
+    function genDeliverConsignInfoPage(orderId) {
+        var tabTitle = "生成出口通知单-" + orderId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "orderId=" + orderId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverConsign/addDeliverConsign.html',
+                closable: true
+            });
+        }
+    }
 
     function orderListFormatOper(val, row, index) {
         var str = '';
         if (row.orderStatus == 1) {
             // 可办理
             str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handleOrderPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+        } else if (row.orderStatus == 3) {
+            str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="genDeliverConsignInfoPage(' + row.id + ')">生成出口通知单</a>&nbsp;&nbsp;&nbsp;';
         }
         str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="orderInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
         return str;

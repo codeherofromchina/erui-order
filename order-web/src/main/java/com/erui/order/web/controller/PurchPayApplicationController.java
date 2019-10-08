@@ -30,7 +30,7 @@ import javax.validation.Valid;
  * @Date 2019/7/21 下午5:26
  */
 @RestController
-@RequestMapping("order/PurchPayApplication")
+@RequestMapping("order/purchPayApplication")
 @Validated
 public class PurchPayApplicationController {
     private static final Logger LOGGER = LoggerFactory.getLogger(PurchPayApplicationController.class);

@@ -1,29 +1,52 @@
 package com.erui.order.common.pojo.request;
 
+import com.erui.order.common.PagingRequest;
+
 /**
  * @Auther 王晓丹
  * @Date 2019/9/7 下午5:30
  */
-public class OrderAccountQueryRequest {
-    private Long orderId;
-    // 1 ： 收款  2：发货
-    private Short accountType;
+public class OrderAccountQueryRequest extends PagingRequest {
+    // 销售合同号
+    private String contractNo;
+    // 订单状态
+    private Short orderStatus;
+    // 收款状态
+    private Short payStatus;
+    // crm客户
+    private Long buyerId;
 
 
-    public Long getOrderId() {
-        return orderId;
+    public String getContractNo() {
+        return contractNo;
     }
 
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
     }
 
-    public Short getAccountType() {
-        return accountType;
+    public Short getOrderStatus() {
+        return orderStatus;
     }
 
-    public void setAccountType(Short accountType) {
-        this.accountType = accountType;
+    public void setOrderStatus(Short orderStatus) {
+        this.orderStatus = orderStatus;
+    }
+
+    public Short getPayStatus() {
+        return payStatus;
+    }
+
+    public void setPayStatus(Short payStatus) {
+        this.payStatus = payStatus;
+    }
+
+    public Long getBuyerId() {
+        return buyerId;
+    }
+
+    public void setBuyerId(Long buyerId) {
+        this.buyerId = buyerId;
     }
 }
 

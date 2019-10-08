@@ -9,30 +9,53 @@ import java.util.Date;
 public class DeliverConsignBookingSpaceInfo {
     private Long id;
     private Long deliverConsignId;
+    // 货物备好日期
     private Date readyDate;
+    // 要求运抵目的地日期
     private Date arrivalDate;
+    // 订单紧急程度 1:一般（成本优先） 2:紧急 3:异常紧急（交期优先）
     private Integer orderEmergency;
+    // 船舶要求以及合同是否有规定延期到货的罚金规定
     private String penaltyProvision;
+    // 所需单据，逗号分隔多个 1:提单 2:箱单 3:发票 4:原产地证
     private String requiredDoc;
+    // 提单-正
     private Integer billOfPositive;
+    // 提单-副
     private Integer billOfVice;
+    // 箱单-正
     private Integer boxListPositive;
+    // 箱单-副
     private Integer boxListVice;
+    // 发票-正
     private Integer invoicePositive;
+    // 发票-副
     private Integer invoiceVice;
+    // 原产地证 1:完全中国原产 2:含进口成分
     private Integer primaryOrigin;
+    // 其他单证
     private String otherDoc;
+    // 单证具体要求
     private String specificRequire;
+    // 提单货描（英文）
     private String billOfLading;
+    //唛头
     private String shippingMarks;
+    //包装、箱贴要求
     private String packageRequire;
+    //公司名称
     private String corporateName;
+    //地址
     private String address;
+    // 联系人
     private String contacts;
+    // 联系方式
     private String contactInformation;
-    private String tenant;
+    // 税号
     private String dutyParagraph;
+    // 邮编
     private String zipCode;
+
 
 
     public Long getId() {
@@ -217,14 +240,6 @@ public class DeliverConsignBookingSpaceInfo {
 
     public void setContactInformation(String contactInformation) {
         this.contactInformation = contactInformation;
-    }
-
-    public String getTenant() {
-        return tenant;
-    }
-
-    public void setTenant(String tenant) {
-        this.tenant = tenant;
     }
 
     public String getDutyParagraph() {

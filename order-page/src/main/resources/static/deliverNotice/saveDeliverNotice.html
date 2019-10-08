@@ -1,0 +1,228 @@
+<script type="text/javascript">
+    var saveDeliverNoticeParams = getQueryStringFromGlobalParams();
+    var save_deliver_notice_form_data = {};
+    var save_deliver_notice_form_goods_table = [];
+    var save_deliver_notice_form_attachment_table = [];
+    if (saveDeliverNoticeParams.deliverConsignId) {
+        var saveDeliverNoticeInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverNotice/detailByDeliverConsignId"}, {"id": saveDeliverNoticeParams.deliverConsignId});
+        if (saveDeliverNoticeInfo.code == 0) {
+            save_deliver_notice_form_data = saveDeliverNoticeInfo.data;
+            // 商品内容
+            save_deliver_notice_form_goods_table = save_deliver_notice_form_data.goodsInfos;
+            delete save_deliver_notice_form_data.goodsInfos;
+            // 附件内容
+            save_deliver_notice_form_attachment_table = save_deliver_notice_form_data.attachments;
+            delete save_deliver_notice_form_data.attachments;
+        }
+    } else if (saveDeliverNoticeParams.id) {
+        var saveDeliverNoticeInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverNotice/info"}, {"id": saveDeliverNoticeParams.id});
+        if (saveDeliverNoticeInfo.code == 0) {
+            save_deliver_notice_form_data = saveDeliverNoticeInfo.data;
+            // 商品内容
+            save_deliver_notice_form_goods_table = save_deliver_notice_form_data.goodsInfos;
+            delete save_deliver_notice_form_data.goodsInfos;
+            // 附件内容
+            save_deliver_notice_form_attachment_table = save_deliver_notice_form_data.attachments;
+            delete save_deliver_notice_form_data.attachments;
+        }
+    }
+</script>
+<form id="save_deliver_notice_form">
+    <input type="hidden" v-model="deliverConsignId" name="deliverConsignId" value=""/>
+    <input type="hidden" v-model="id"  name="id" value=""/>
+    <div class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>下单人：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>项目号：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>单证操作：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+        </div>
+        <div class="fitem">
+            <label>下单日期：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>货名：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>货物存放地：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+        </div>
+        <div class="fitem">
+            <label>贸易术语/目的国：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>产品件数：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>事业部项目负责人：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+        </div>
+        <div class="fitem">
+            <label>运输方式：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>项目要求交付日期：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>紧急程度：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+        </div>
+    </div>
+    <div class="easyui-panel" title="商品信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table style="background:#fafafa;" id="save_deliver_notice_goods_info_table">
+        </table>
+    </div>
+
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">其他：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="otherReq"/>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">包装要求：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="packageReq"/>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">备货要求：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="prepareReq"/>
+        </div>
+    </div>
+
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:120px;">
+            <div data-options="region:'west',split:false,border:false" style="width:180px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">仓储物流部</span>
+                    </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(1,'save_deliver_notice_form_attachment_table');"
+                                                       plain="true">上传箱单</a></div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:save_deliver_notice_form_attachment_table"
+                       fit="true"
+                       singleSelect="true"
+                       id="save_deliver_notice_form_attachment_table"
+                       fitColumn="true">
+                    <thead>
+                    <th field="title" width="200">附件名称</th>
+                    <th field="createUserName" width="120">创建人</th>
+                    <th field="attachType" width="100" data-options="
+                                formatter:function(value){
+                                    switch(value){
+                                        case 1: return '箱单';
+                                    }
+                                    return value;
+                                }
+                                ">类型
+                    </th>
+                    <th field="createTime" width="170">日期</th>
+                    <th field="_operate" width="80" data-options="formatter:saveDeliverNoticeAttachmentFormatOper">
+                        操作
+                    </th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_deliver_notice_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_deliver_notice_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;提交立项&nbsp;&nbsp;</a>
+</div>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#save_deliver_notice_form',
+        data: save_deliver_notice_form_data
+    });
+
+    $(function(){
+        // 出库通知单商品
+        $("#save_deliver_notice_goods_info_table").datagrid({
+            border: false,
+            striped: true,
+            idField: 'id',
+            columns: [[
+                {field: 'sku', width: 120, title: '平台SKU'},
+                {field: 'nameEn', width: 100, title: '外文品名'},
+                {field: 'nameZh', width: 100, title: '中文品名'},
+                {field: 'purchaseNum', width: 100, title: '合同数量'},
+                {field: 'unit', width: 100, title: '单位'},
+                {field: 'brand', width: 100, title: '品牌'},
+                {field: 'sendNum', width: 100, title: '本次发货数量'}
+            ]],
+            data: save_deliver_notice_form_goods_table
+        });
+
+        $("#save_deliver_notice_form_save_btn").click(function(e){
+            e.preventDefault();
+            var formData = assemblySaveDeliverNoticeData();
+            formData.deliverNoticeStatus = 2; // 保存看货通知单
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/deliverNotice/saveDeliverNotice"}, formData);
+
+            console.info("保存看货通知单结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存看货通知单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+
+    });
+
+
+    function saveDeliverNoticeAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverNoticeDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function saveDeliverNoticeDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_deliver_notice_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_deliver_notice_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+
+
+    function assemblySaveDeliverNoticeData() {
+        var formData = $("#save_deliver_notice_form").serializeJson();
+
+        // 附件内容
+        var attachmentRows = $("#save_deliver_notice_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+        return formData;
+    }
+</script>

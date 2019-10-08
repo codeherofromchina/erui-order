@@ -1,0 +1,171 @@
+<script type="text/javascript">
+    var savePurchPayApplicationParams = getQueryStringFromGlobalParams();
+    var save_purch_pay_application_form_data = {};
+    var save_purch_pay_application_form_attachment_table = [];
+    if (savePurchPayApplicationParams.InstockId) {
+        var purchPayApplicationInfo = syncAjaxJson({"url": LOCAL_URL + "/order/purchPayApplication/info"}, {"id": savePurchPayApplicationParams.purchPayApplicationId});
+        if (purchPayApplicationInfo.code == 0) {
+            save_purch_pay_application_form_data = purchPayApplicationInfo.data;
+            // 附件内容
+            save_purch_pay_application_form_attachment_table = save_purch_pay_application_form_data.attachments;
+            delete  save_purch_pay_application_form_data.attachments;
+        }
+    }
+</script>
+<form id="save_purch_pay_application_form">
+    <input type="hidden" v-model="id" value="" name="id"/>
+    <input type="hidden" v-model="purchId" value="" name="purchId"/>
+
+    <div class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>声请人：</label>
+            <input class="easyui-textbox" name="applicantId"/>
+            <label>申请人部门：</label>
+            <input class="easyui-textbox" name="applicant_dept_id"/>
+            <label>申请日期：</label>
+            <input class="easyui-datebox" name="applicant_date"/>
+        </div>
+
+    </div>
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">付款方式：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="pay_mode"/>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">备注：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
+                   name="remark"/>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:120px;">
+            <div data-options="region:'west',split:false,border:false" style="width:180px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">仓储物流部</span>
+                    </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(1,'save_purch_pay_application_form_attachment_table');"
+                                                       plain="true">上传附件</a></div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:save_purch_pay_application_form_attachment_table"
+                       fit="true"
+                       singleSelect="true"
+                       id="save_purch_pay_application_form_attachment_table"
+                       fitColumn="true">
+                    <thead>
+                    <th field="title" width="200">附件名称</th>
+                    <th field="createUserName" width="120">创建人</th>
+                    <th field="attachType" width="100" data-options="
+                                formatter:function(value){
+                                    return '附件';
+                                }
+                                ">类型
+                    </th>
+                    <th field="createTime" width="170">日期</th>
+                    <th field="_operate" width="80" data-options="formatter:savePurchPayApplicationAttachmentFormatOper">
+                        操作
+                    </th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_purch_pay_application_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_purch_pay_application_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+
+<script type="text/javascript">
+    $(function(){
+        // 保存
+        $("#save_purch_pay_application_form_save_btn").click(function (e) {
+            e.preventDefault();
+            var isValid = $("#save_purch_pay_application_form").form('validate');
+            if (!isValid) {
+                $.messager.alert('提示', '请完整填写表单');	// hide progress bar while the form is invalid
+                return;
+            }
+            var formData = assemblyPurchPayApplicationData();
+            formData.payStatus = '2'; // 保存付款
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchPayApplication/savePurchPayApplication"}, formData);
+
+            if (resp.code == 0) {
+                $.messager.alert("成功", "保存付款成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+
+        // 提交
+        $("#save_purch_pay_application_form_save_btn").click(function (e) {
+            e.preventDefault();
+            var isValid = $("#save_purch_pay_application_form").form('validate');
+            if (!isValid) {
+                $.messager.alert('提示', '请完整填写表单');	// hide progress bar while the form is invalid
+                return;
+            }
+            var formData = assemblyPurchPayApplicationData();
+            formData.payStatus = '3'; // 提交付款
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/purchPayApplication/savePurchPayApplication"}, formData);
+
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交付款成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+        });
+    });
+
+    function assemblyPurchPayApplicationData() {
+        var formData = $("#save_purch_pay_application_form").serializeJson();
+        // 附件内容
+        var attachmentRows = $("#save_purch_pay_application_form_attachment_table").datagrid('getRows');
+        formData.attachments = [];
+        if (attachmentRows) {
+            $.each(attachmentRows, function (index, value) {
+                formData.attachments.push({
+                    id: value.id,
+                    attachGroup: value.attachGroup,
+                    title: value.title,
+                    url: value.url,
+                    attachType: value.attachType
+                });
+            });
+        }
+        return formData;
+    }
+
+    function savePurchPayApplicationAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="savePurchPayApplicationDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+    // 删除附件的行
+    function savePurchPayApplicationDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_purch_pay_application_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_purch_pay_application_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+</script>

@@ -12,30 +12,49 @@ import java.util.List;
  */
 public class PurchPayApplicationSaveRequest {
     private Long id;
+    // 付款单号
     private String payNo;
+    // 采购订单id
     private Long purchId;
+    // 采购合同号
     private String purchContractNo;
+    // 采购状态
     private Short payStatus;
+    // 申请人
     private Long applicantId;
+    // 申请人部门
     private String applicantDeptId;
     private String applicantDeptName;
+    // 申请日期
     private Date applicantDate;
+    // 供应商
     private Long supplierId;
     private String supplierName;
+    // 开户行
     private String openingBank;
+    // 开户账号
     private String accountNum;
+    // 项目内容
     private String projectComment;
+    // 货币类型（币种）
     private String currencyBn;
+    // 汇率
     private BigDecimal exchangeRate;
+    // 采购合同金额
     private BigDecimal contractAmount;
+    // 申请金额
     private BigDecimal applicantAmount;
+    // 手续费
     private BigDecimal handlingFee;
+    // 付款人
     private Long payerId;
     private String payerName;
+    // 付款日期
     private Date payDate;
+    // 付款方式
     private String payMode;
+    // 备注
     private String remark;
-
     // 附件内容
     private List<AttachmentInfo> attachments;
 

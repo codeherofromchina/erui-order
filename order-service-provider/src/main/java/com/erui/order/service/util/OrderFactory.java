@@ -2,9 +2,14 @@ package com.erui.order.service.util;
 
 import com.erui.order.common.enums.*;
 import com.erui.order.common.pojo.request.OrderSaveRequest;
+import com.erui.order.common.pojo.response.OrderAccountDetailResponse;
+import com.erui.order.common.pojo.response.OrderAccountListResponse;
 import com.erui.order.common.pojo.response.OrderDetailResponse;
 import com.erui.order.common.pojo.response.OrderListResponse;
 import com.erui.order.model.entity.Order;
+
+import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @Auther 王晓丹
@@ -200,5 +205,66 @@ public class OrderFactory {
         order.setEruiTotalPrice(orderSaveRequest.getEruiTotalPrice());
 
         return order;
+    }
+
+    public static OrderAccountListResponse orderAccountListResponse(Order order) {
+        if (order == null) {
+            return null;
+        }
+        OrderAccountListResponse orderAccountListResponse = new OrderAccountListResponse();
+        orderAccountListResponse.setId(order.getId());
+        orderAccountListResponse.setContractNo(order.getContractNo());
+        orderAccountListResponse.setCrmCode(order.getCrmCode());
+        orderAccountListResponse.setSigningDate(order.getSigningDate());
+        orderAccountListResponse.setOrderStatus(order.getOrderStatus());
+        OrderStatusEnum orderStatusEnum = OrderStatusEnum.valueOf(order.getOrderStatus());
+        if (orderStatusEnum != null) {
+            orderAccountListResponse.setOrderStatusName(orderStatusEnum.getName());
+        }
+        orderAccountListResponse.setPayStatus(order.getPayStatus());
+        OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getOrderStatus());
+        if (orderPayStatusEnum != null) {
+            orderAccountListResponse.setPayStatusName(orderPayStatusEnum.getName());
+        }
+        return orderAccountListResponse;
+    }
+
+    public static OrderAccountDetailResponse orderAccountDetailResponse(Order order) {
+        if (order == null) {
+            return null;
+        }
+        OrderAccountDetailResponse orderAccountDetailResponse = new OrderAccountDetailResponse();
+        orderAccountDetailResponse.setId(order.getId());
+        orderAccountDetailResponse.setContractNo(order.getContractNo());
+        orderAccountDetailResponse.setCrmCode(order.getCrmCode());
+        orderAccountDetailResponse.setSigningDate(order.getSigningDate());
+        orderAccountDetailResponse.setSigningCo(order.getSigningCo());
+        CompanyEnum companyEnum = CompanyEnum.fromCode(order.getSigningCo());
+        if (companyEnum != null) {
+            orderAccountDetailResponse.setSigningCoName(companyEnum.getName());
+        }
+        orderAccountDetailResponse.setAgentUserId(order.getAgentId());
+        orderAccountDetailResponse.setCrmCode(order.getCrmCode());
+
+        orderAccountDetailResponse.setOrderStatus(order.getOrderStatus());
+        OrderStatusEnum orderStatusEnum = OrderStatusEnum.valueOf(order.getOrderStatus());
+        if (orderStatusEnum != null) {
+            orderAccountDetailResponse.setOrderStatusName(orderStatusEnum.getName());
+        }
+        orderAccountDetailResponse.setPayStatus(order.getPayStatus());
+        OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getOrderStatus());
+        if (orderPayStatusEnum != null) {
+            orderAccountDetailResponse.setPayStatusName(orderPayStatusEnum.getName());
+        }
+        orderAccountDetailResponse.setCurrencyBn(order.getCurrencyBn());
+        orderAccountDetailResponse.setTotalPrice(order.getTotalPrice());
+        orderAccountDetailResponse.setShipmentsMoney(order.getShipmentsMoney());
+        orderAccountDetailResponse.setAlreadyGatheringMoney(order.getAlreadyGatheringMoney());
+        orderAccountDetailResponse.setExchangeRate(order.getExchangeRate());
+        orderAccountDetailResponse.setReceivableBalance(order.getTotalPrice().subtract(order.getAlreadyGatheringMoney()).setScale(2));
+        orderAccountDetailResponse.setAlreadyGatheringMoneyUsd(order.getAlreadyGatheringMoney().multiply(order.getExchangeRate()).setScale(2));
+
+
+        return orderAccountDetailResponse;
     }
 }

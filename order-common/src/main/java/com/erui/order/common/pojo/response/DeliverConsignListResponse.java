@@ -24,6 +24,8 @@ public class DeliverConsignListResponse {
     // 状态
     private Short deliverConsignStatus;
     private String deliverConsignStatusName;
+    // 看货通知单状态 0:未创建看货通知单 1：已保存看货通知单 2：已提交看货通知单
+    private Short deliverNoticeStatus;
 
 
     public Long getId() {
@@ -38,8 +40,8 @@ public class DeliverConsignListResponse {
         return deliverConsignStatus;
     }
 
-    public void setDeliverConsignStatus(Short DeliverConsignStatus) {
-        this.deliverConsignStatus = DeliverConsignStatus;
+    public void setDeliverConsignStatus(Short deliverConsignStatus) {
+        this.deliverConsignStatus = deliverConsignStatus;
     }
 
     public String getDeliverConsignStatusName() {
@@ -105,6 +107,14 @@ public class DeliverConsignListResponse {
 
     public void setExecCoName(String execCoName) {
         this.execCoName = execCoName;
+    }
+
+    public Short getDeliverNoticeStatus() {
+        return deliverNoticeStatus;
+    }
+
+    public void setDeliverNoticeStatus(Short deliverNoticeStatus) {
+        this.deliverNoticeStatus = deliverNoticeStatus;
     }
 }
 

@@ -11,6 +11,7 @@ public class PurchPayApplicationQueryRequest extends PagingRequest {
     private String supplierName;
     // 状态
     private Short payStatus;
+    private Short payStatusName;
 
     public String getPurchContractNo() {
         return purchContractNo;

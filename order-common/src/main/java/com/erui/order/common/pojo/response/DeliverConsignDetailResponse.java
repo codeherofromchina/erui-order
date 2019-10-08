@@ -30,7 +30,7 @@ public class DeliverConsignDetailResponse {
     // 报关主体
     private String coId;
     // 提报人
-
+    private String createUserName;
     //填表日期
     private Date writeDate;
     // 销售合同号
@@ -105,7 +105,7 @@ public class DeliverConsignDetailResponse {
     // 收款信息
     private List<DeliverConsignPaymentInfo> deliverConsignPaymentInfoList;
     // 商品信息
-    private List<GoodsInfo> goodsInfoList;
+    private List<GoodsInfo> goodsInfos;
     // 附件内容
     private List<AttachmentInfo> attachments;
 
@@ -134,6 +134,14 @@ public class DeliverConsignDetailResponse {
 
     public void setExecCoName(String execCoName) {
         this.execCoName = execCoName;
+    }
+
+    public String getCreateUserName() {
+        return createUserName;
+    }
+
+    public void setCreateUserName(String createUserName) {
+        this.createUserName = createUserName;
     }
 
     public String getCoId() {
@@ -440,12 +448,12 @@ public class DeliverConsignDetailResponse {
         this.deliverConsignBookingSpaceInfo = deliverConsignBookingSpaceInfo;
     }
 
-    public List<GoodsInfo> getGoodsInfoList() {
-        return goodsInfoList;
+    public List<GoodsInfo> getGoodsInfos() {
+        return goodsInfos;
     }
 
-    public void setGoodsInfoList(List<GoodsInfo> goodsInfoList) {
-        this.goodsInfoList = goodsInfoList;
+    public void setGoodsInfos(List<GoodsInfo> goodsInfos) {
+        this.goodsInfos = goodsInfos;
     }
 
     public List<DeliverConsignPaymentInfo> getDeliverConsignPaymentInfoList() {

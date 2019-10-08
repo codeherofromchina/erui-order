@@ -3,11 +3,13 @@ package com.erui.order.web.controller;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.Result;
 import com.erui.order.common.ResultStatus;
+import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.pojo.request.OrderAccountQueryRequest;
 import com.erui.order.common.pojo.request.OrderAccountSaveRequest;
 import com.erui.order.common.pojo.response.OrderAccountDetailResponse;
+import com.erui.order.common.pojo.response.OrderAccountListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.service.OrderAccountService;
 import org.slf4j.Logger;
@@ -44,10 +46,10 @@ public class OrderAccountController {
      * @return
      */
     @RequestMapping(value = "saveOrderAccount", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<Void> saveOrderAccount(@RequestBody @Valid OrderAccountSaveRequest saveRequest, BindingResult bindingResult) {
+    public Result<Long> saveOrderAccount(@RequestBody @Valid OrderAccountSaveRequest saveRequest, BindingResult bindingResult) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         LOGGER.info("saveOrderAccount - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
-        Result<Void> result = new Result<>();
+        Result<Long> result = new Result<>();
         try {
             Long id = saveRequest.getId();
             if (id != null) {
@@ -55,6 +57,7 @@ public class OrderAccountController {
             } else {
                 id = orderAccountService.insert(saveRequest);
             }
+            result.setData(id);
             LOGGER.info("saveOrderAccount成功 - {} - {}", JSON.toJSONString(userInfo), id);
         } catch (Exception e) {
             e.printStackTrace();
@@ -72,12 +75,12 @@ public class OrderAccountController {
      * @return
      */
     @RequestMapping(value = "list", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<List<OrderAccountDetailResponse>> list(@RequestBody OrderAccountQueryRequest queryRequest) {
+    public Result<Pager<OrderAccountListResponse>> list(@RequestBody OrderAccountQueryRequest queryRequest) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         LOGGER.info("list - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
-        Result<List<OrderAccountDetailResponse>> result = new Result<>();
+        Result<Pager<OrderAccountListResponse>> result = new Result<>();
         try {
-            List<OrderAccountDetailResponse> pageInfo = orderAccountService.list(queryRequest);
+            Pager<OrderAccountListResponse> pageInfo = orderAccountService.list(queryRequest);
             result.setData(pageInfo);
             LOGGER.info("list成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
         } catch (Exception e) {
@@ -109,24 +112,45 @@ public class OrderAccountController {
         return result;
     }
 
+
+    /**
+     * 收款完成
+     *
+     * @param orderId
+     * @return
+     */
+    @RequestMapping(value = "done", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> done(@RequestBody PrimaryKey orderId) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        Result<Void> result = new Result<>();
+        try {
+            orderAccountService.done(orderId.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("done异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
     /**
      * 获取OrderAccount详情
      *
-     * @param key
+     * @param orderId
      * @return
      */
     @RequestMapping(value = "info", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
-    public Result<OrderAccountDetailResponse> detail(@RequestBody PrimaryKey key) {
+    public Result<OrderAccountDetailResponse> detail(@RequestBody PrimaryKey orderId) {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
+        LOGGER.info("detail - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId));
         Result<OrderAccountDetailResponse> result = new Result<>();
         try {
-            OrderAccountDetailResponse detail = orderAccountService.detail(key.getId());
+            OrderAccountDetailResponse detail = orderAccountService.detail(orderId.getId());
             result.setData(detail);
-            LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
+            LOGGER.info("detail成功 {} - {} - {}", JSON.toJSONString(userInfo), orderId.getId(), JSON.toJSONString(detail));
         } catch (Exception e) {
             e.printStackTrace();
-            LOGGER.info("detail异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key), e);
+            LOGGER.info("detail异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(orderId), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;

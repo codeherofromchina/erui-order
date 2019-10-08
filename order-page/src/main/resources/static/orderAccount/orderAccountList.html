@@ -14,24 +14,24 @@
                 <li>
                     <label>订单状态：</label>
                     <select class="easyui-combobox" panelHeight="75px" editable="false" name="orderStatus">
-                        <option code="">请选择</option>
-                        <option code="3">执行中</option>
-                        <option code="4">已完成</option>
+                        <option value="">请选择</option>
+                        <option value="3">执行中</option>
+                        <option value="4">已完成</option>
                     </select>
                 </li>
                 <li>
                     <label>收款状态：</label>
                     <select class="easyui-combobox" panelHeight="100px" editable="false" name="payStatus">
-                        <option code="">请选择</option>
-                        <option code="1">未收款</option>
-                        <option code="2">部分收款</option>
-                        <option code="3">收款完成</option>
+                        <option value="">请选择</option>
+                        <option value="1">未收款</option>
+                        <option value="2">部分收款</option>
+                        <option value="3">收款完成</option>
                     </select>
                 </li>
                 <li>
                     <label>CRM客户代码：</label>
                     <input type="text" id="order_account_list_table_toolbar_form_crm_code_field" class="easyui-textbox"
-                           editable="false" name="buyerCode" buttonText="请选择"
+                           editable="false" name="buyerId" buttonText="请选择"
                            data-options="onClickButton:function(){$('#order_account_list_crm_code_dialog').dialog('open');$('#order_account_list_crm_code_dialog').dialog('refresh', 'common/crmCodeDialog.html');}"/>
 
                 </li>
@@ -67,42 +67,23 @@
             idField: 'id',
             columns: [[
                 {field: 'contractNo', title: '销售合同号'},
-                {field: 'buyerCode', title: 'CRM客户代码'},
+                {field: 'crmCode', title: 'CRM客户代码'},
                 {field: 'signingDate', title: '订单签约日期'},
+                {field: 'orderStatusName', title: '订单状态'},
+                {field: 'payStatusName', title: '收款状态'},
                 {
-                    field: 'orderStatus', title: '订单状态',
+                    field: '_operate', title: '操作',
                     formatter: function (code, row, index) {
-                        if (code == 3) {
-                            return "执行中";
-                        } else if (code == 4) {
-                            return "已完成";
-                        } else {
-                            return code;
+                        var str = '';
+                        if (row.payStatus == 1 || row.payStatus == 2) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveOrderAccountPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
                         }
-                    }
-                },
-                {
-                    field: 'payStatus', title: '收款状态',
-                    formatter: function (code, row, index) {
-                        if (code == 1) {
-                            return "未付款";
-                        } else if (code == 2) {
-                            return "部分付款";
-                        } else if (code == 3) {
-                            return "收款完成";
-                        } else {
-                            return code;
-                        }
-                    }
-                },
-                {
-                    field: 'operation', title: '操作',
-                    formatter: function (code, row, index) {
-                        return '查看';
+                        str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="orderAccountInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        return str;
                     }
                 },
             ]],
-            url: ORDER_URL + '/order/financeManage/gatheringManage',
+            url: LOCAL_URL + '/order/orderAccount/list',
             onBeforeLoad: function (param) {
                 var data = $('#order_account_list_table_toolbar_form').serializeJson();
                 if (data) {
@@ -115,14 +96,7 @@
                 var opts = $(this).datagrid("options");
                 return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter: function (data) {
-                var finalData = {"total": 0, "rows": []};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         // CRM客户弹出框
         $("#order_account_list_crm_code_dialog").dialog({
@@ -161,4 +135,31 @@
             $("#order_account_list_table").datagrid("reload");
         });
     });
+
+    function saveOrderAccountPage(orderId) {
+        var tabTitle = "添加收款-" + orderId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "orderId=" + orderId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'orderAccount/saveOrderAccount.html',
+                closable: true
+            });
+        }
+    }
+    function orderAccountInfoPage(orderId) {
+        var tabTitle = "查看收款-" + orderId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "orderId=" + orderId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'orderAccount/orderAccountInfo.html',
+                closable: true
+            });
+        }
+    }
 </script>
