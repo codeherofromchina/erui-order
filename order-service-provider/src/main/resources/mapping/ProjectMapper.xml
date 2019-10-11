@@ -23,7 +23,6 @@
     <result column="process_progress" property="processProgress" jdbcType="VARCHAR" />
     <result column="deliver_consign_has" property="deliverConsignHas" jdbcType="BIT" />
     <result column="quality_inspect_type" property="qualityInspectType" jdbcType="CHAR" />
-    <result column="process_id" property="processId" jdbcType="CHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_user_id" property="updateUserId" jdbcType="BIGINT" />
@@ -93,8 +92,8 @@
     id, order_id, project_no, project_name, start_date, delivery_date, profit, profit_percent, 
     project_status, purch_req_create, purch_done, exe_chg_date, require_purchase_date, 
     quality_uid, business_uid, send_dept_id, remarks, total_price_usd, process_progress, 
-    deliver_consign_has, quality_inspect_type, process_id, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, delete_time
+    deliver_consign_has, quality_inspect_type, create_user_id, create_time, update_user_id, 
+    update_time, delete_flag, delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.ProjectExample" >
     select
@@ -126,7 +125,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" keyProperty="id" keyColumn="id" useGeneratedKeys="true" parameterType="com.erui.order.model.entity.Project" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.Project" >
     insert into project (id, order_id, project_no, 
       project_name, start_date, delivery_date, 
       profit, profit_percent, project_status, 
@@ -134,9 +133,9 @@
       require_purchase_date, quality_uid, business_uid, 
       send_dept_id, remarks, total_price_usd, 
       process_progress, deliver_consign_has, quality_inspect_type, 
-      process_id, create_user_id, create_time, 
-      update_user_id, update_time, delete_flag, 
-      delete_time)
+      create_user_id, create_time, update_user_id, 
+      update_time, delete_flag, delete_time
+      )
     values (#{id,jdbcType=BIGINT}, #{orderId,jdbcType=BIGINT}, #{projectNo,jdbcType=VARCHAR}, 
       #{projectName,jdbcType=VARCHAR}, #{startDate,jdbcType=DATE}, #{deliveryDate,jdbcType=VARCHAR}, 
       #{profit,jdbcType=DECIMAL}, #{profitPercent,jdbcType=DECIMAL}, #{projectStatus,jdbcType=VARCHAR}, 
@@ -144,9 +143,9 @@
       #{requirePurchaseDate,jdbcType=DATE}, #{qualityUid,jdbcType=BIGINT}, #{businessUid,jdbcType=BIGINT}, 
       #{sendDeptId,jdbcType=BIGINT}, #{remarks,jdbcType=VARCHAR}, #{totalPriceUsd,jdbcType=DECIMAL}, 
       #{processProgress,jdbcType=VARCHAR}, #{deliverConsignHas,jdbcType=BIT}, #{qualityInspectType,jdbcType=CHAR}, 
-      #{processId,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
-      #{deleteTime,jdbcType=TIMESTAMP})
+      #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.Project" >
     insert into project
@@ -213,9 +212,6 @@
       </if>
       <if test="qualityInspectType != null" >
         quality_inspect_type,
-      </if>
-      <if test="processId != null" >
-        process_id,
       </if>
       <if test="createUserId != null" >
         create_user_id,
@@ -299,9 +295,6 @@
       </if>
       <if test="qualityInspectType != null" >
         #{qualityInspectType,jdbcType=CHAR},
-      </if>
-      <if test="processId != null" >
-        #{processId,jdbcType=CHAR},
       </if>
       <if test="createUserId != null" >
         #{createUserId,jdbcType=BIGINT},
@@ -395,9 +388,6 @@
       <if test="record.qualityInspectType != null" >
         quality_inspect_type = #{record.qualityInspectType,jdbcType=CHAR},
       </if>
-      <if test="record.processId != null" >
-        process_id = #{record.processId,jdbcType=CHAR},
-      </if>
       <if test="record.createUserId != null" >
         create_user_id = #{record.createUserId,jdbcType=BIGINT},
       </if>
@@ -444,7 +434,6 @@
       process_progress = #{record.processProgress,jdbcType=VARCHAR},
       deliver_consign_has = #{record.deliverConsignHas,jdbcType=BIT},
       quality_inspect_type = #{record.qualityInspectType,jdbcType=CHAR},
-      process_id = #{record.processId,jdbcType=CHAR},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
@@ -518,9 +507,6 @@
       <if test="qualityInspectType != null" >
         quality_inspect_type = #{qualityInspectType,jdbcType=CHAR},
       </if>
-      <if test="processId != null" >
-        process_id = #{processId,jdbcType=CHAR},
-      </if>
       <if test="createUserId != null" >
         create_user_id = #{createUserId,jdbcType=BIGINT},
       </if>
@@ -564,7 +550,6 @@
       process_progress = #{processProgress,jdbcType=VARCHAR},
       deliver_consign_has = #{deliverConsignHas,jdbcType=BIT},
       quality_inspect_type = #{qualityInspectType,jdbcType=CHAR},
-      process_id = #{processId,jdbcType=CHAR},
       create_user_id = #{createUserId,jdbcType=BIGINT},
       create_time = #{createTime,jdbcType=TIMESTAMP},
       update_user_id = #{updateUserId,jdbcType=BIGINT},

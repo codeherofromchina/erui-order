@@ -2,6 +2,7 @@ package com.erui.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
+import com.erui.order.common.enums.OrderStatusEnum;
 import com.erui.order.common.enums.ProcessProgressEnum;
 import com.erui.order.common.enums.ProjectStatusEnum;
 import com.erui.order.common.pojo.AttachmentInfo;
@@ -64,6 +65,7 @@ public class ProjectServiceImpl implements ProjectService {
 
     /**
      * 项目立项
+     *
      * @param orderId
      * @return
      * @throws Exception
@@ -122,7 +124,6 @@ public class ProjectServiceImpl implements ProjectService {
 
     @Override
     public void update(Long id, ProjectUpdateRequest projectUpdateRequest) throws Exception {
-
         Project project = projectMapper.selectByPrimaryKey(id);
         if (project == null) {
             throw new Exception("项目唯一标识错误");
@@ -138,11 +139,10 @@ public class ProjectServiceImpl implements ProjectService {
         if (userInfo != null) {
             projectSelective.setUpdateUserId(userInfo.getId());
         }
-        if (ProjectStatusEnum.fromCode(projectSelective.getProjectStatus()) != ProjectStatusEnum.EXECUTING) {
+        if (ProjectStatusEnum.fromCode(projectSelective.getProjectStatus()) == ProjectStatusEnum.EXECUTING) {
             projectSelective.setStartDate(new Date());
+            projectSelective.setProcessProgress(ProcessProgressEnum.EXECUTING.getCode());
         }
-
-
         projectMapper.updateByPrimaryKeySelective(projectSelective);
 
         // 项目利润
@@ -158,6 +158,15 @@ public class ProjectServiceImpl implements ProjectService {
         if (attachments.size() != attachmentUpdateNum) {
             LOGGER.info("attachmentUpdateNum : {} - {}", attachmentUpdateNum, JSON.toJSONString(projectUpdateRequest));
             throw new Exception("订单附件数据操作失败");
+        }
+
+        if (ProjectStatusEnum.fromCode(projectSelective.getProjectStatus()) == ProjectStatusEnum.EXECUTING) {
+            // 更新订单进度和项目状态
+            Order orderSelective = new Order();
+            orderSelective.setId(project.getOrderId());
+            orderSelective.setProcessProgress(ProcessProgressEnum.EXECUTING.getCode());
+            orderSelective.setOrderStatus(OrderStatusEnum.EXECUTING.getCode());
+            orderMapper.updateByPrimaryKeySelective(orderSelective);
         }
     }
 

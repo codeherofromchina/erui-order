@@ -27,6 +27,8 @@ public class ProjectFactory {
         project.setExeChgDate(projectUpdateRequest.getExeChgDate());
         project.setRemarks(projectUpdateRequest.getRemarks());
         project.setProjectStatus(projectUpdateRequest.getProjectStatus());
+        // 是否生成出口通知单
+        project.setDeliverConsignHas(Boolean.FALSE);
 
         return project;
     }

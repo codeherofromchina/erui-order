@@ -46,8 +46,6 @@ public class Project {
 
     private String qualityInspectType;
 
-    private String processId;
-
     private Long createUserId;
 
     private Date createTime;
@@ -226,14 +224,6 @@ public class Project {
 
     public void setQualityInspectType(String qualityInspectType) {
         this.qualityInspectType = qualityInspectType;
-    }
-
-    public String getProcessId() {
-        return processId;
-    }
-
-    public void setProcessId(String processId) {
-        this.processId = processId;
     }
 
     public Long getCreateUserId() {
