@@ -96,6 +96,8 @@ public class OrderSaveRequest {
     private String deliveryRequires;
     // 客户及项目背景描述
     private String customerContext;
+    // 预收金额
+    private BigDecimal advanceMoney;
     // 订单状态
     private Short orderStatus;
     // 商品内容
@@ -462,5 +464,13 @@ public class OrderSaveRequest {
 
     public void setAttachments(List<AttachmentInfo> attachments) {
         this.attachments = attachments;
+    }
+
+    public BigDecimal getAdvanceMoney() {
+        return advanceMoney;
+    }
+
+    public void setAdvanceMoney(BigDecimal advanceMoney) {
+        this.advanceMoney = advanceMoney;
     }
 }

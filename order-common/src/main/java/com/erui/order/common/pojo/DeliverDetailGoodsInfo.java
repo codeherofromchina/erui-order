@@ -7,8 +7,6 @@ package com.erui.order.common.pojo;
 public class DeliverDetailGoodsInfo {
     // 主键
     private Long id;
-    // 出库ID
-    private Long deliverDetailId;
     // 订舱商品ID
     private Long deliverConsignGoodsId;
     // 出库数量
@@ -24,14 +22,6 @@ public class DeliverDetailGoodsInfo {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Long getDeliverDetailId() {
-        return deliverDetailId;
-    }
-
-    public void setDeliverDetailId(Long deliverDetailId) {
-        this.deliverDetailId = deliverDetailId;
     }
 
     public Long getDeliverConsignGoodsId() {

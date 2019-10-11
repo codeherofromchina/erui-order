@@ -18,7 +18,6 @@ public class DeliverDetailGoodsFactory {
         }
         DeliverDetailGoods deliverDetailGoods = new DeliverDetailGoods();
         deliverDetailGoods.setId(deliverDetailGoodsInfo.getId());
-        deliverDetailGoods.setDeliverDetailId(deliverDetailGoodsInfo.getDeliverDetailId());
         deliverDetailGoods.setDeliverConsignGoodsId(deliverDetailGoodsInfo.getDeliverConsignGoodsId());
         deliverDetailGoods.setOutboundNum(deliverDetailGoodsInfo.getOutboundNum());
         deliverDetailGoods.setStraightNum(deliverDetailGoodsInfo.getStraightNum());
@@ -44,7 +43,6 @@ public class DeliverDetailGoodsFactory {
         }
         DeliverDetailGoodsInfo deliverDetailGoodsInfo = new DeliverDetailGoodsInfo();
         deliverDetailGoodsInfo.setId(deliverDetailGoods.getId());
-        deliverDetailGoodsInfo.setDeliverDetailId(deliverDetailGoods.getDeliverDetailId());
         deliverDetailGoodsInfo.setDeliverConsignGoodsId(deliverDetailGoods.getDeliverConsignGoodsId());
         deliverDetailGoodsInfo.setOutboundNum(deliverDetailGoods.getOutboundNum());
         deliverDetailGoodsInfo.setStraightNum(deliverDetailGoods.getStraightNum());

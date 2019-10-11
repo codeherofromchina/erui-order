@@ -506,6 +506,9 @@ public class OrderDetailResponse {
     }
 
     public BigDecimal getExchangeRate() {
+        if (exchangeRate != null) {
+            return exchangeRate.setScale(4);
+        }
         return exchangeRate;
     }
 

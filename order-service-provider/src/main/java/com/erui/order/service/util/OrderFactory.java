@@ -203,6 +203,24 @@ public class OrderFactory {
         order.setCustomerContext(orderSaveRequest.getCustomerContext());
         order.setOrderStatus(orderSaveRequest.getOrderStatus());
         order.setEruiTotalPrice(orderSaveRequest.getEruiTotalPrice());
+        order.setAdvanceMoney(orderSaveRequest.getAdvanceMoney());
+        // 设置支付状态
+        order.setPayStatus(OrderPayStatusEnum.UNPAID.code);
+        // 设置流程进度
+        order.setProcessProgress(ProcessProgressEnum.SUBMIT.getCode());
+        // 设置收款金额
+        order.setAlreadyGatheringMoney(BigDecimal.ZERO);
+        // 设置发货金额
+        order.setShipmentsMoney(BigDecimal.ZERO);
+        // 订单来源 1门户订单 2门户询单 3线下订单
+        order.setOrderSource((short) 3);
+        // 应收账款余额，新建时和合同金额相同
+        order.setReceivableAccountRemaining(order.getTotalPrice());
+        // 未生成出口通知单
+        order.setDeliverConsignHas(Boolean.FALSE);
+        // 是否已经创建采购申请单 1：false 2:true
+        order.setPurchReqCreate((short) 1);
+        order.setDeleteFlag(Boolean.FALSE);
 
         return order;
     }

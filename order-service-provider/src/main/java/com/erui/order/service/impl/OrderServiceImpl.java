@@ -68,17 +68,9 @@ public class OrderServiceImpl implements OrderService {
         // 生成出口通知单
         String lastContractNo = findLastContractNo();
         order.setContractNo(StringUtil.genContractNo(lastContractNo));
-        order.setPayStatus(OrderPayStatusEnum.UNPAID.code); // 设置支付状态
-        // 设置流程进度
-        order.setProcessProgress(ProcessProgressEnum.SUBMIT.getCode());
-        // 设置收款金额
-        order.setAlreadyGatheringMoney(BigDecimal.ZERO);
-        // 设置发货金额
-        order.setShipmentsMoney(BigDecimal.ZERO);
 
         order.setCreateTime(new Date());
         order.setCreateUserId(userInfo.getId());
-        order.setDeleteFlag(Boolean.FALSE);
         int insertNum = orderMapper.insert(order);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
@@ -179,8 +171,10 @@ public class OrderServiceImpl implements OrderService {
         }
 
         if (OrderStatusEnum.valueOf(orderSelective.getOrderStatus()) == OrderStatusEnum.UNEXECUTED) {
-            orderSelective.setProjectNo(order.getContractNo());
-            orderMapper.updateByPrimaryKeySelective(order);
+            Order orderSelective02 = new Order();
+            orderSelective02.setId(orderId);
+            orderSelective02.setProjectNo(order.getContractNo());
+            orderMapper.updateByPrimaryKeySelective(orderSelective02);
             projectService.insert(orderId);
         }
     }

@@ -1,0 +1,209 @@
+<script type="text/javascript">
+    var save_logistics_data_goods_data = [];
+    var save_ogistics_data_attachment_data = [];
+    var save_logistics_data_table_data = [];
+
+</script>
+<form id="save_logistics_data_form">
+    <div class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>物流经办人：</label>
+            <div class="input-div">王继宾</div>
+            <label>经办日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <label>贸易术语：</label>
+            <div class="input-div">EXW</div>
+        </div>
+        <div class="fitem">
+            <label>货物起运地：</label>
+            <div class="input-div">...</div>
+            <label>起运港：</label>
+            <div class="input-div">...</div>
+            <label>目的国：</label>
+            <div class="input-div">美国</div>
+        </div>
+        <div class="fitem">
+            <label>目的港：</label>
+            <div class="input-div">...</div>
+            <label>目的地：</label>
+            <div class="input-div">...</div>
+            <label style="width: 135px;margin-left: 0;">物流发运金额（USD）：</label>
+            <input class="easyui-numberbox" data-options="min:0,precision:2" value="" style="width:120px;"/>
+        </div>
+        <div class="fitem">
+            <label>物流费用：</label>
+            <input class="easyui-textbox" style="width: 120px;"/>
+            <select class="easyui-combobox" style="width:70px;">
+                <option value="USD">USD</option>
+            </select>
+        </div>
+    </div>
+    <div class="easyui-panel" title="商品信息"
+         style="padding:2px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table id="save_logisitics_data_form_goods_table"></table>
+    </div>
+    <div class="easyui-panel" title="跟踪信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>物流发票号：</label>
+            <input class="easyui-textbox"/>
+        </div>
+        <div class="fitem">
+            <label style="width: 132px; margin-left: 3px;">仓库出具发运箱单日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <label>离厂日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <label>船期或航班：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+        </div>
+        <div class="fitem">
+            <label>报关日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <label>实际离港日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <label>预计抵达日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+        </div>
+        <div class="fitem">
+            <label>备注：</label>
+            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" name="remarks" value=""/>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="动态信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table class="easyui-datagrid"
+               data-options="idField:'id',data:save_logistics_data_table_data"
+               singleSelect="true"
+               rownumbers="true"
+               border="false"
+               toolbar="#save_logistics_data_table_tb"
+               id="save_logistics_data_table"
+               fitColumn="true">
+            <thead>
+            <th field="accDesc" width="200">动态描述</th>
+            <th field="goodsPrice" width="120">港口名称</th>
+            <th field="deliverDate" width="120">离港/到港日期</th>
+            <th field="deliverDate" width="170">附件名称</th>
+            <th field="_operate" width="120" data-options="formatter:save_logistics_data_table_formatter">操作</th>
+            </thead>
+        </table>
+    </div>
+
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:150px;">
+
+            <div data-options="region:'west',split:false,border:false" style="width:150px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">物流部</span></div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true"
+                                                       onclick="openFileDialog(1,'save_logistics_data_form_attachment_table');">上传清关资料</a>
+                    </div>
+                </div>
+            </div>
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid" id="save_logistics_data_form_attachment_table"
+                       data-options="idField:'url',data:save_ogistics_data_attachment_data"
+                       fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value){
+                                switch(value){
+                                    case 1: return '清关资料';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                        <th field="_operate" width="80" data-options="formatter:saveLogisticsDataAttachmentFormatOper">
+                            操作
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="save_logistics_data_form_save_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+    <a href="javascript:void(0);" id="save_logistics_data_form_submit_btn" size="large" class="easyui-linkbutton"
+       style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+
+<div id="save_logistics_data_table_tb">
+    <a href="javascript:void(0);" style="margin:3px 0 3px 10px;" id="save_logistics_data_table_tb_add_btn"
+       class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:false">添加动态</a>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#save_logisitics_data_form_goods_table").datagrid({
+            border: false,
+            singleSelect: true,
+            striped: true,
+            idFiled: 'id',
+            rownumbers: true,
+            columns: [[
+                {field: 'contractNo', width: 110, title: '销售合同号'},
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'sku', width: 125, title: '平台SKU'},
+                {field: 'nameEn', width: 80, title: '外文品名'},
+                {field: 'nameZh', width: 80, title: '中文品名'},
+                {field: 'nameZh', width: 80, title: '本批次发货数量'},
+                {field: 'nameZh', width: 80, title: '出库数量'},
+                {field: 'nameZh', width: 80, title: '厂家直发数量'},
+                {field: 'unitName', width: 40, title: '单位'},
+                {field: 'remarks', width: 40, title: '备注'}
+            ]],
+            data: save_logistics_data_goods_data
+        });
+
+
+        $("#save_logistics_data_table_tb_add_btn").click(function () {
+            $.messager.alert("提示", "添加动态信息");
+        });
+    });
+
+    function saveLogisticsDataAttachmentFormatOper(val, row, index) {
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveLogisticsDataDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    // 删除附件的行
+    function saveLogisticsDataDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#save_logistics_data_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_logistics_data_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
+
+    function save_logistics_data_table_formatter(val, row, index) {
+
+        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="save_logistics_data_table_formattter_edit(\'' + row.id + '\')">编辑</a>&nbsp;&nbsp;&nbsp;';
+    }
+
+    function save_logistics_data_table_formattter_edit(dynamicId) {
+        $.messager.alert("提示", dynamicId);
+
+    }
+</script>

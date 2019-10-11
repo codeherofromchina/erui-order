@@ -172,7 +172,7 @@
                 <th field="unitName">单位</th>
                 <th field="price">客户销售单价</th>
                 <th field="eruiPrice">易瑞销售单价</th>
-                <th field="purchContractBrand">品牌</th>
+                <th field="brand">品牌</th>
                 <th field="totalPrice">金额</th>
             </tr>
             </thead>
@@ -218,13 +218,8 @@
             <span style="width:80px;color:blue;"> 兑美金汇率</span>
 
             <label>客户合同USD金额：</label>
-            <input class="easyui-numberbox" data-options="min:0,precision:4" value="0"
-                   id="add_order_form_total_price_usd_field" name="totalPriceUsd" editable="false"/>
-            <label>质保金：</label>
-            <input class="easyui-numberbox" data-options="min:0,precision:2" value="" name="qualityFunds"
-                   style="width: 150px;"/> <span class="standard_currency" style="color:blue;"> USD</span>
-        </div>
-        <div class="fitem">
+            <input class="easyui-numberbox" data-options="min:0,precision:2" value="0"
+                   id="add_order_form_total_price_usd_field" name="totalPriceUsd" style="width:185px;" editable="false"/>
             <label><span style="color:red;">*</span>收款方式：</label>
             <select class="easyui-combobox" editable="false" name="paymentModeBn">
                 <option value="">请选择</option>
@@ -235,10 +230,12 @@
                 <option value="5">票汇</option>
                 <option value="6">现金</option>
             </select>
+        </div>
+        <div class="fitem">
             <input type="hidden" value="1" name="orderPayments0.paymentType"/>
             <label>预收货款：</label>
             <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments0.money"
-                   style="width: 150px;"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>
+                   style="width: 150px;" value="0"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>
             <label>收款日期：</label>
             <input class="easyui-datebox" value="" name="orderPayments0.receiptDate" ediable="false"
                    style="width: 150px;"/>
