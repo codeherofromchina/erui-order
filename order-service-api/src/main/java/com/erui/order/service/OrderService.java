@@ -47,11 +47,5 @@ public interface OrderService {
      */
     OrderDetailResponse detail(Long id) throws Exception;
 
-    /**
-     * 收款完成
-     *
-     * @param id
-     */
-    void accountDone(Long id, OrderPayStatusEnum orderPayStatusEnum) throws Exception;
 }
 

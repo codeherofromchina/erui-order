@@ -70,6 +70,9 @@ public class OrderAccountSaveRequest {
     }
 
     public BigDecimal getDiscount() {
+        if (this.discount == null) {
+            return BigDecimal.ZERO;
+        }
         return discount;
     }
 

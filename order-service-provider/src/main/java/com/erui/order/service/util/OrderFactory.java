@@ -240,7 +240,7 @@ public class OrderFactory {
             orderAccountListResponse.setOrderStatusName(orderStatusEnum.getName());
         }
         orderAccountListResponse.setPayStatus(order.getPayStatus());
-        OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getOrderStatus());
+        OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getPayStatus());
         if (orderPayStatusEnum != null) {
             orderAccountListResponse.setPayStatusName(orderPayStatusEnum.getName());
         }
@@ -270,7 +270,7 @@ public class OrderFactory {
             orderAccountDetailResponse.setOrderStatusName(orderStatusEnum.getName());
         }
         orderAccountDetailResponse.setPayStatus(order.getPayStatus());
-        OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getOrderStatus());
+        OrderPayStatusEnum orderPayStatusEnum = OrderPayStatusEnum.valueOf(order.getPayStatus());
         if (orderPayStatusEnum != null) {
             orderAccountDetailResponse.setPayStatusName(orderPayStatusEnum.getName());
         }

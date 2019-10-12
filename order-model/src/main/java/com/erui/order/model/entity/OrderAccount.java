@@ -79,7 +79,11 @@ public class OrderAccount {
     }
 
     public void setDiscount(BigDecimal discount) {
-        this.discount = discount;
+        if (discount == null) {
+            this.discount = BigDecimal.ZERO;
+        } else {
+            this.discount = discount;
+        }
     }
 
     public Date getPaymentDate() {

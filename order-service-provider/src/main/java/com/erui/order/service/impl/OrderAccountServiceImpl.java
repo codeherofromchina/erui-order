@@ -30,6 +30,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -78,6 +79,13 @@ public class OrderAccountServiceImpl implements OrderAccountService {
         orderAccountSelective.setUpdateUserId(userInfo.getId());
 
         orderAccountMapper.updateByPrimaryKeySelective(orderAccountSelective);
+
+        if (orderAccount.getAccountType() == 1) {
+            BigDecimal updateBefore = orderAccount.getMoney().add(orderAccount.getDiscount());
+            BigDecimal updateAfter = orderAccountSelective.getMoney().add(orderAccountSelective.getDiscount());
+            // 修正订单的收款金额
+            updateOrderAlreadyGatheringMoney(orderAccount.getOrderId(), updateAfter.subtract(updateBefore));
+        }
     }
 
     @Override
@@ -167,6 +175,12 @@ public class OrderAccountServiceImpl implements OrderAccountService {
         orderAccountSelective.setDeleteTime(new Date());
 
         orderAccountMapper.updateByPrimaryKeySelective(orderAccountSelective);
+
+        if (orderAccount.getAccountType() == 1) {
+            // 修正订单的收款金额
+            updateOrderAlreadyGatheringMoney(orderAccount.getOrderId(), orderAccount.getMoney().add(orderAccount.getDiscount()).negate());
+        }
+
     }
 
     @Override
@@ -180,8 +194,24 @@ public class OrderAccountServiceImpl implements OrderAccountService {
         orderSelective.setId(orderId);
         orderSelective.setPayStatus(OrderPayStatusEnum.PAYMENT_COMPLETION.getCode());
         orderMapper.updateByPrimaryKeySelective(orderSelective);
-
-
     }
+
+
+    /**
+     * 更新订单的已收款总金额
+     *
+     * @param orderId
+     * @param money
+     */
+    private void updateOrderAlreadyGatheringMoney(Long orderId, BigDecimal money) {
+        Order order = orderMapper.selectByPrimaryKey(orderId);
+
+        Order orderSelective = new Order();
+        orderSelective.setId(order.getId());
+        orderSelective.setAlreadyGatheringMoney(order.getAlreadyGatheringMoney().add(money));
+        orderSelective.setReceivableAccountRemaining(order.getReceivableAccountRemaining().subtract(money));
+        orderMapper.updateByPrimaryKeySelective(orderSelective);
+    }
+
 }
 

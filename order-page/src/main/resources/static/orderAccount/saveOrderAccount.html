@@ -92,9 +92,9 @@
                fitColumn="true">
             <thead>
             <th field="accDesc" width="200">描述</th>
-            <th field="goodsPrice" width="120">收款金额</th>
-            <th field="deliverDate" width="120">其他扣款金额</th>
-            <th field="deliverDate" width="170">收款日期</th>
+            <th field="money" width="120">收款金额</th>
+            <th field="discount" width="120">其他扣款金额</th>
+            <th field="paymentDate" width="170">收款日期</th>
             <th field="_operate" width="120" data-options="formatter:save_order_account_receive_table_formatter">操作</th>
             </thead>
         </table>
@@ -152,7 +152,7 @@
 
             <div class="fitem">
                 <label>收款金额：</label>
-                <input id="save_order_account_receive_table_tb_add_dialog_form_goods_price" name="goodsPrice"/>
+                <input id="save_order_account_receive_table_tb_add_dialog_form_money" name="money"/>
             </div>
             <div class="fitem">
                 <label>其他扣款金额：</label>
@@ -160,7 +160,7 @@
             </div>
             <div class="fitem">
                 <label>收款日期：</label>
-                <input id="save_order_account_receive_table_tb_add_dialog_form_deliver_date" name="deliverDate"/>
+                <input id="save_order_account_receive_table_tb_add_dialog_form_payment_date" name="paymentDate"/>
             </div>
         </div>
     </form>
@@ -197,6 +197,10 @@
                         return;
                     }
                     var data = $('#save_order_account_send_table_tb_add_dialog_form').serializeJson();
+                    data.accDesc = $("#save_order_account_send_table_tb_add_dialog_form_desc").textbox("getValue");
+                    data.goodsPrice = $("#save_order_account_send_table_tb_add_dialog_form_goods_price").numberbox("getValue");
+                    data.deliverDate = $("#save_order_account_send_table_tb_add_dialog_form_deliver_date").datebox("getValue");
+
                     var result = syncAjaxJson({"url": LOCAL_URL + "/order/orderAccount/saveOrderAccount"}, data);
                     if (result.code == 0) {
                         // 成功
@@ -270,6 +274,11 @@
                         return;
                     }
                     var data = $('#save_order_account_receive_table_tb_add_dialog_form').serializeJson();
+                    data.accDesc = $("#save_order_account_receive_table_tb_add_dialog_form_desc").textbox('getValue');
+                    data.money = $("#save_order_account_receive_table_tb_add_dialog_form_money").numberbox('getValue');
+                    data.discount = $("#save_order_account_receive_table_tb_add_dialog_form_discount").numberbox('getValue');
+                    data.paymentDate = $("#save_order_account_receive_table_tb_add_dialog_form_payment_date").datebox('getValue');
+
                     console.info("data:" + JSON.stringify(data));
                     var result = syncAjaxJson({"url": LOCAL_URL + "/order/orderAccount/saveOrderAccount"}, data);
                     console.info("result:" + JSON.stringify(result));
@@ -326,7 +335,7 @@
             width: 200,
             height: 25
         });
-        $("#save_order_account_receive_table_tb_add_dialog_form_goods_price").numberbox({
+        $("#save_order_account_receive_table_tb_add_dialog_form_money").numberbox({
             min: 0,
             precision: 2,
             width: 200,
@@ -339,7 +348,7 @@
             width: 200,
             height: 25
         });
-        $("#save_order_account_receive_table_tb_add_dialog_form_deliver_date").datebox({
+        $("#save_order_account_receive_table_tb_add_dialog_form_payment_date").datebox({
             width: 200,
             height: 25,
             required: true
@@ -386,7 +395,7 @@
 
     function save_order_account_receive_table_formattter_edit(orderAccountId) {
         $("#save_order_account_receive_table_tb_add_dialog").dialog("open");
-        $("#save_order_account_receive_table_tb_add_dialog_form").form("clear");
+        $("#save_order_account_receive_table_tb_add_dialog_form").form("reset");
 
         var rowDatas = $("#save_order_account_receive_table").datagrid("getRows");
         var rowIndex = $("#save_order_account_receive_table").datagrid("getRowIndex", orderAccountId);
