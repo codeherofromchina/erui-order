@@ -1,18 +1,34 @@
 <script type="text/javascript">
+    var saveDeliverDetailParams = getQueryStringFromGlobalParams();
+    var save_deliver_detail_form_data = {};
     var save_deliver_detail_goods_data = [];
     var save_deliver_detail_attachment_data = [];
+    if (saveDeliverDetailParams.id) {
+        var saveDeliverDetailInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverDetail/info"}, {"id": saveDeliverDetailParams.id});
+        if (saveDeliverDetailInfo.code == 0) {
+            save_deliver_detail_form_data = saveDeliverDetailInfo.data;
+            // 商品内容
+            save_deliver_detail_goods_data = save_deliver_detail_form_data.goodsInfos;
+            delete save_deliver_detail_form_data.goodsInfos;
+            // 删除附件
+            save_deliver_detail_attachment_data = save_deliver_detail_form_data.attachments;
+            delete save_deliver_detail_form_data.attachments;
+        }
+    }
 </script>
 <form id="save_deliver_detail_form">
     <div id="save_outstock_quality_panel_baseinfo" class="easyui-panel" title="基础信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
+        <input type="hidden" v-model="deliverNoticeId" name="deliverNoticeId" value=""/>
+        <input type="hidden" v-model="id" name="id" value=""/>
         <div class="fitem">
             <label>开单日期：</label>
-            <input class="easyui-datebox" ediable="false" style="width:180px;"/>
+            <input class="easyui-datebox" name="billingDate" ediable="false" style="width:180px;"/>
             <label>贸易术语：</label>
-            <div class="input-div">DDP</div>
+            <div class="input-div">{{tradeTerms}}</div>
             <label>目的港：</label>
-            <div class="input-div">奥兰（机场）</div>
+            <div class="input-div">{{toPortName}}</div>
         </div>
     </div>
 
@@ -23,7 +39,10 @@
     </div>
 
     <div style="overflow: hidden;">
-        <div style="margin:10px 15px;float:right;">总包装件数： <input type="text" class="easyui-numberbox" data-options="min:0,precision:2" style="width:40px;"/> PCS</div>
+        <div style="margin:10px 15px;float:right;">总包装件数： <input type="text" class="easyui-numberbox" name="packTotal"
+                                                                 data-options="min:0,precision:0" style="width:40px;"/>
+            PCS
+        </div>
     </div>
 
     <div class="easyui-panel" title="运输信息"
@@ -31,17 +50,17 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label>承运单位名称：</label>
-            <input class="easyui-textbox"/>
+            <input class="easyui-textbox" name="carrierCo"/>
             <label>司机姓名：</label>
-            <input class="easyui-textbox"/>
+            <input class="easyui-textbox" name="driver"/>
             <label>车牌号码：</label>
-            <input class="easyui-textbox"/>
+            <input class="easyui-textbox" name="plateNo"/>
         </div>
         <div class="fitem">
             <label>提货日期：</label>
-            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <input class="easyui-datebox" name="pickupDate" ediable="false" style="width:185px;"/>
             <label>联系电话：</label>
-            <input class="easyui-textbox"/>
+            <input class="easyui-textbox" name="contactTel"/>
         </div>
     </div>
     <div class="easyui-panel" title="人员信息"
@@ -49,17 +68,17 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label>仓库经办人：</label>
-            <input class="easyui-textbox" editable="false" value="王继宾"/>
+            <input class="easyui-textbox" name="wareHousemanName" editable="false"/>
             <label>经办部门：</label>
-            <input class="easyui-textbox" editable="false" value="仓储配送中心"/>
+            <input class="easyui-textbox" name="handleDepartment" editable="false" value="仓储配送中心"/>
             <label>发运人员：</label>
-            <input class="easyui-textbox"/>
+            <input class="easyui-textbox" name="senderUserName"/>
         </div>
         <div class="fitem">
             <label>发运日期：</label>
-            <input class="easyui-datebox" ediable="false" style="width:185px;"/>
+            <input class="easyui-datebox" ediable="false" style="width:185px;" name="sendDate"/>
             <label>协办/复核人：</label>
-            <input class="easyui-textbox"/>
+            <input class="easyui-textbox" name="reviewerUserName"/>
         </div>
     </div>
 
@@ -72,12 +91,12 @@
                 <div style="text-align:center;">
                     <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">仓储物流部</span></div>
                     <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton" plain="true"
-                                                       onclick="openFileDialog(1,'save_purchase_form_attachment_table');">上传附件</a>
+                                                       onclick="openFileDialog(1,'save_deliver_detail_form_attachment_table');">上传附件</a>
                     </div>
                 </div>
             </div>
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
-                <table class="easyui-datagrid" id="save_purchase_form_attachment_table"
+                <table class="easyui-datagrid" id="save_deliver_detail_form_attachment_table"
                        data-options="idField:'url',data:save_deliver_detail_attachment_data"
                        fit="true" fitColumn="true">
                     <thead>
@@ -114,7 +133,16 @@
 
 
 <script type="text/javascript">
+    new Vue({
+        el: '#save_deliver_detail_form',
+        data: save_deliver_detail_form_data
+    });
+
     $(function () {
+        setTimeout(function () {
+            $("#save_deliver_detail_form").form('load', save_deliver_detail_form_data);
+        }, 500);
+
         $("#save_deliver_detail_form_goods_table").datagrid({
             border: false,
             singleSelect: true,
@@ -127,8 +155,8 @@
                 {field: 'sku', width: 125, title: '平台SKU'},
                 {field: 'nameEn', width: 80, title: '外文品名'},
                 {field: 'nameZh', width: 80, title: '中文品名'},
-                {field: 'nameZh', width: 80, title: '本批次发货数量'},
-                {field: 'nameZh', width: 80, title: '已入库总数'},
+                {field: 'sendNum', width: 80, title: '本批次发货数量'},
+                {field: 'instockedNum', width: 80, title: '已入库总数'},
                 {field: 'nameZh', width: 80, title: '厂家直发总数'},
                 {
                     field: 'outboundNum', width: 100, title: '出库数量',
@@ -170,7 +198,7 @@
         $("#save_deliver_detail_form_save_btn").click(function (e) {
             e.preventDefault();
             var formData = assemblyDeliverDetailData();
-            formData.purchStatus = 2; // 出库保存
+            formData.deliverDetailStatus = 2; // 出库保存
 
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/deliverDetail/saveDeliverDetail"}, formData);
 
@@ -182,10 +210,26 @@
             }
 
         });
+
+        $("#save_deliver_detail_form_submit_btn").click(function (e) {
+            e.preventDefault();
+            var formData = assemblyDeliverDetailData();
+            formData.deliverDetailStatus = 3; // 出库提交
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/deliverDetail/saveDeliverDetail"}, formData);
+
+            if (resp.code == 0) {
+                $.messager.alert("成功", "提交出库信息成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+
+        });
     });
 
 
-    function saveDeliverDetailAttachmentFormatOper() {
+    function saveDeliverDetailAttachmentFormatOper(val, row, index) {
         return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverDetailDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
     }
 
@@ -193,8 +237,8 @@
         if (idField) {
             $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
                 if (r) {
-                    var index = $('#save_purchase_form_attachment_table').datagrid('getRowIndex', idField);
-                    $('#save_purchase_form_attachment_table').datagrid('deleteRow', index);
+                    var index = $('#save_deliver_detail_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#save_deliver_detail_form_attachment_table').datagrid('deleteRow', index);
                 }
             });
         }
@@ -224,8 +268,8 @@
             });
             var detailGoodsRemarks = $(edDetailGoodsRemarks.target).textbox('getValue');
 
-            formData.purchGoodsList.push({
-                id: value.id,
+            formData.deliverDetailGoodsInfos.push({
+                id: value.deliverDetailGoodsId,
                 deliverConsignGoodsId: value.deliverConsignGoodsId,
                 outboundNum: outboundNum,
                 straightNum: straightNum,
@@ -234,7 +278,7 @@
         });
 
         // 附件内容
-        var attachmentRows = $("#save_purchase_form_attachment_table").datagrid('getRows');
+        var attachmentRows = $("#save_deliver_detail_form_attachment_table").datagrid('getRows');
         formData.attachments = [];
         if (attachmentRows) {
             $.each(attachmentRows, function (index, value) {

@@ -32,6 +32,9 @@ public class PortServiceImpl implements PortService {
 
     @Override
     public String findPortNameByBn(String portBn) {
+        if (StringUtils.isBlank(portBn)) {
+            return null;
+        }
         Port port = findByBn(portBn);
         if (port != null) {
             return port.getPortName();

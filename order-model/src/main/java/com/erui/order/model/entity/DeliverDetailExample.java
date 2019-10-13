@@ -2811,6 +2811,146 @@ public class DeliverDetailExample {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
             return (Criteria) this;
         }
+
+        public Criteria andTradeTermsIsNull() {
+            addCriterion("trade_terms is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsIsNotNull() {
+            addCriterion("trade_terms is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsEqualTo(String value) {
+            addCriterion("trade_terms =", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsNotEqualTo(String value) {
+            addCriterion("trade_terms <>", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsGreaterThan(String value) {
+            addCriterion("trade_terms >", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsGreaterThanOrEqualTo(String value) {
+            addCriterion("trade_terms >=", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsLessThan(String value) {
+            addCriterion("trade_terms <", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsLessThanOrEqualTo(String value) {
+            addCriterion("trade_terms <=", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsLike(String value) {
+            addCriterion("trade_terms like", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsNotLike(String value) {
+            addCriterion("trade_terms not like", value, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsIn(List<String> values) {
+            addCriterion("trade_terms in", values, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsNotIn(List<String> values) {
+            addCriterion("trade_terms not in", values, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsBetween(String value1, String value2) {
+            addCriterion("trade_terms between", value1, value2, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andTradeTermsNotBetween(String value1, String value2) {
+            addCriterion("trade_terms not between", value1, value2, "tradeTerms");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortIsNull() {
+            addCriterion("to_port is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortIsNotNull() {
+            addCriterion("to_port is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortEqualTo(String value) {
+            addCriterion("to_port =", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortNotEqualTo(String value) {
+            addCriterion("to_port <>", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortGreaterThan(String value) {
+            addCriterion("to_port >", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortGreaterThanOrEqualTo(String value) {
+            addCriterion("to_port >=", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortLessThan(String value) {
+            addCriterion("to_port <", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortLessThanOrEqualTo(String value) {
+            addCriterion("to_port <=", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortLike(String value) {
+            addCriterion("to_port like", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortNotLike(String value) {
+            addCriterion("to_port not like", value, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortIn(List<String> values) {
+            addCriterion("to_port in", values, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortNotIn(List<String> values) {
+            addCriterion("to_port not in", values, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortBetween(String value1, String value2) {
+            addCriterion("to_port between", value1, value2, "toPort");
+            return (Criteria) this;
+        }
+
+        public Criteria andToPortNotBetween(String value1, String value2) {
+            addCriterion("to_port not between", value1, value2, "toPort");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

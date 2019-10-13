@@ -51,6 +51,8 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
     private GoodsService goodsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private PortService portService;
 
     @Override
     public Long insert(Long inspectNoticeId) throws Exception {
@@ -75,6 +77,8 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         deliverDetail.setDeliverConsignNo(deliverConsign.getDeliverConsignNo());
         deliverDetail.setContractNo(order.getContractNo());
         deliverDetail.setProjectNo(project.getProjectNo());
+        deliverDetail.setTradeTerms(order.getTradeTerms());
+        deliverDetail.setToPort(order.getToPort());
         // TODO 先跳过，需要设置仓库经办人(project.warehourseUid)、物流经办人（project.logisticsuid）
         deliverDetail.setQualityLeaderUserId(project.getQualityUid());
         deliverDetail.setDeliverDetailStatus(DeliverDetailStatusEnum.INIT.getCode());
@@ -134,8 +138,8 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         // 未删除
         criteria.andDeleteFlagEqualTo(Boolean.FALSE);
 
-        if (StringUtils.isNotBlank(queryRequest.getDeliverConsignNo())) {
-            criteria.andDeliverConsignNoLike("%" + queryRequest.getDeliverConsignNo() + "%");
+        if (StringUtils.isNotBlank(queryRequest.getDeliverDetailNo())) {
+            criteria.andDeliverDetailNoLike("%" + queryRequest.getDeliverDetailNo() + "%");
         }
 
         if (StringUtils.isNotBlank(queryRequest.getContractNo())) {
@@ -150,14 +154,24 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
             criteria.andProjectNoLike("%" + queryRequest.getProjectNo() + "%");
         }
 
-        DeliverDetailStatusEnum deliverDetailStatusEnum = DeliverDetailStatusEnum.valueOf(queryRequest.getDeliverDetailStatus());
-        if (deliverDetailStatusEnum != null) {
-            if (deliverDetailStatusEnum == DeliverDetailStatusEnum.SUBMITED_OUTSTOCK) {
-                criteria.andDeliverDetailStatusLessThanOrEqualTo(DeliverDetailStatusEnum.SUBMITED_OUTSTOCK.getCode());
-            } else if (deliverDetailStatusEnum == DeliverDetailStatusEnum.PROCESS_LOGI_PERSON) {
-                criteria.andDeliverDetailStatusGreaterThanOrEqualTo(DeliverDetailStatusEnum.PROCESS_LOGI_PERSON.getCode());
-            } else {
-                criteria.andDeliverDetailStatusEqualTo(deliverDetailStatusEnum.getCode());
+        //前端传入的状态值 1未质检  2 质检中  3 质检完成  4 已出库
+        if (queryRequest.getDeliverDetailStatus() != null) {
+            List<Short> statusList = new ArrayList<>();
+            if (1 == queryRequest.getDeliverDetailStatus()) {
+                statusList.add(DeliverDetailStatusEnum.INIT.getCode());
+                statusList.add(DeliverDetailStatusEnum.SAVED_OUTSTOCK.getCode());
+            } else if (2 == queryRequest.getDeliverDetailStatus()) {
+                statusList.add(DeliverDetailStatusEnum.SUBMITED_OUTSTOCK.getCode());
+                statusList.add(DeliverDetailStatusEnum.SAVED_OUT_INSPECT.getCode());
+            } else if (3 == queryRequest.getDeliverDetailStatus()) {
+                statusList.add(DeliverDetailStatusEnum.SUBMITED_OUT_INSPECT.getCode());
+            } else if (4 == queryRequest.getDeliverDetailStatus()) {
+                statusList.add(DeliverDetailStatusEnum.PROCESS_LOGI_PERSON.getCode());
+                statusList.add(DeliverDetailStatusEnum.PROCESS_LOGI.getCode());
+                statusList.add(DeliverDetailStatusEnum.DONE_PROJECT.getCode());
+            }
+            if (statusList.size() > 0) {
+                criteria.andDeliverDetailStatusIn(statusList);
             }
         }
         List<DeliverDetail> deliverDetails = deliverDetailMapper.selectByExample(example);
@@ -187,9 +201,9 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         List<DeliverDetailGoodsInfo> deliverDetailGoodsInfos = deliverDetailGoodsService.listByDeliverDetailId(id);
         List<GoodsInfo> goodsInfos = goodsService.goodsinfobyDeliverDetailGoods(deliverDetailGoodsInfos);
 
-
         // 组织数据
         DeliverDetailDetailResponse detail = DeliverDetailFactory.deliverDetailDetailResponse(deliverDetail);
+        detail.setToPortName(portService.findPortNameByBn(detail.getToPort()));
         detail.setAttachments(attachmentInfos);
         detail.setGoodsInfos(goodsInfos);
 

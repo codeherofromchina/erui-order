@@ -87,6 +87,10 @@ public class DeliverDetail {
 
     private Date deleteTime;
 
+    private String tradeTerms;
+
+    private String toPort;
+
     public Long getId() {
         return id;
     }
@@ -421,5 +425,21 @@ public class DeliverDetail {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getTradeTerms() {
+        return tradeTerms;
+    }
+
+    public void setTradeTerms(String tradeTerms) {
+        this.tradeTerms = tradeTerms;
+    }
+
+    public String getToPort() {
+        return toPort;
+    }
+
+    public void setToPort(String toPort) {
+        this.toPort = toPort;
     }
 }

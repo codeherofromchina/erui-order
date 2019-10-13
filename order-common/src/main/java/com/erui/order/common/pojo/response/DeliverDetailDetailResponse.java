@@ -18,6 +18,11 @@ public class DeliverDetailDetailResponse {
     private Long deliverNoticeId;
     // 开单日期
     private Date billingDate;
+    // 贸易术语
+    private String tradeTerms;
+    // 目的港
+    private String toPort;
+    private String toPortName;
     // 总包装件数
     private Short packTotal;
     // 承运单位名称
@@ -30,12 +35,18 @@ public class DeliverDetailDetailResponse {
     private String pickupDate;
     // 联系电话
     private String contactTel;
+    // 仓储经办人
+    private String wareHousemanName;
+    // 经办部门
+    private String handleDepartment;
     // 发运人员
     private Long senderUserId;
+    private String senderUserName;
     // 发运日期
     private Date sendDate;
     // 协办/复核人
     private Long reviewerUserId;
+    private String reviewerUserName;
     // 实物检验结论
     private String goodsChkStatus;
     // 资料检验结论
@@ -303,6 +314,30 @@ public class DeliverDetailDetailResponse {
 
     public void setAttachments(List<AttachmentInfo> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getToPort() {
+        return toPort;
+    }
+
+    public String getTradeTerms() {
+        return tradeTerms;
+    }
+
+    public void setTradeTerms(String tradeTerms) {
+        this.tradeTerms = tradeTerms;
+    }
+
+    public void setToPort(String toPort) {
+        this.toPort = toPort;
+    }
+
+    public String getToPortName() {
+        return toPortName;
+    }
+
+    public void setToPortName(String toPortName) {
+        this.toPortName = toPortName;
     }
 }
 

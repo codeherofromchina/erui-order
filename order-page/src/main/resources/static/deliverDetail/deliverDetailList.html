@@ -35,8 +35,10 @@
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_detail_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_detail_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="deliver_detail_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="deliver_detail_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
@@ -46,73 +48,100 @@
 <!-- /数据表工具栏 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#deliver_detail_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'deliverDetailNo',title:'产品放行单号'},
-                {field:'contractNo',title:'销售合同号'},
-                {field:'deliverConsignNo',title:'出口通知单号'},
-                {field:'projectNo',title:'项目号'},
-                {field:'releaseDate',title:'放行日期'},
-                {field:'leaveDate',title:'出库日期'},
-                {field:'orderStatus',title:'出库状态',
-                    formatter:function(code,row,index){
-                        if(code <= 1) {
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'deliverDetailNo', title: '产品放行单号'},
+                {field: 'contractNo', title: '销售合同号'},
+                {field: 'deliverConsignNo', title: '出口通知单号'},
+                {field: 'projectNo', title: '项目号'},
+                {field: 'releaseDate', title: '放行日期'},
+                {field: 'leaveDate', title: '出库日期'},
+                {
+                    field: 'deliverDetailStatus', title: '出库状态',
+                    formatter: function (code, row, index) {
+                        if (code < 3) {
                             return "未质检";
-                        } else if(code == 2){
+                        } else if (code < 5) {
                             return "质检中";
-                        } else if (code == 3) {
+                        } else if (code < 6) {
                             return "质检完成";
                         } else {
                             return "已出库";
                         }
                     }
                 },
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+                {
+                    field: '_operator', title: '操作',
+                    formatter: function (code, row, index) {
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverDetailInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.deliverDetailStatus == 1 || row.deliverDetailStatus == 2) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverDetailPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+                        }
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/storehouseManage/outboundManage',
-            onBeforeLoad:function(param){
+            url: LOCAL_URL + '/order/deliverDetail/list',
+            onBeforeLoad: function (param) {
                 var data = $('#deliver_detail_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         // 搜索按钮
-        $("#deliver_detail_list_table_toolbar_form_search_btn").click(function (){
+        $("#deliver_detail_list_table_toolbar_form_search_btn").click(function () {
             $("#deliver_detail_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#deliver_detail_list_table_toolbar_form_clear_btn").click(function (){
+        $("#deliver_detail_list_table_toolbar_form_clear_btn").click(function () {
             $('#deliver_detail_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#deliver_detail_list_table");
             $("#deliver_detail_list_table").datagrid("reload");
         });
     });
+
+    function deliverDetailInfoPage(deliverDetailId) {
+        var tabTitle = "查看出库-" + deliverDetailId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverDetailId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverDetail/deliverDetailInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveDeliverDetailPage(deliverDetailId) {
+        var tabTitle = "办理出库-" + deliverDetailId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverDetailId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverDetail/saveDeliverDetail.html',
+                closable: true
+            });
+        }
+    }
 </script>

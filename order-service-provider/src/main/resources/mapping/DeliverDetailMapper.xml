@@ -44,6 +44,8 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="trade_terms" property="tradeTerms" jdbcType="CHAR" />
+    <result column="to_port" property="toPort" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -110,7 +112,8 @@
     bills_chk_status, check_user_id, check_dept, check_date, release_date, release_user_id, 
     quality_leader_user_id, applicant_user_id, applicant_date, approver_user_id, approval_date, 
     reason, opinion, leave_date, deliver_detail_status, pack_total, out_check, create_user_id, 
-    create_time, update_user_id, update_time, delete_flag, delete_time
+    create_time, update_user_id, update_time, delete_flag, delete_time, trade_terms, 
+    to_port
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverDetailExample" >
     select
@@ -142,7 +145,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.DeliverDetail" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverDetail" >
     insert into deliver_detail (id, deliver_detail_no, deliver_notice_id, 
       contract_no, deliver_consign_no, project_no, 
       billing_date, carrier_co, driver, 
@@ -156,8 +159,8 @@
       reason, opinion, leave_date, 
       deliver_detail_status, pack_total, out_check, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, delete_time
-      )
+      update_time, delete_flag, delete_time, 
+      trade_terms, to_port)
     values (#{id,jdbcType=BIGINT}, #{deliverDetailNo,jdbcType=VARCHAR}, #{deliverNoticeId,jdbcType=BIGINT}, 
       #{contractNo,jdbcType=VARCHAR}, #{deliverConsignNo,jdbcType=VARCHAR}, #{projectNo,jdbcType=VARCHAR}, 
       #{billingDate,jdbcType=DATE}, #{carrierCo,jdbcType=VARCHAR}, #{driver,jdbcType=VARCHAR}, 
@@ -171,8 +174,8 @@
       #{reason,jdbcType=VARCHAR}, #{opinion,jdbcType=VARCHAR}, #{leaveDate,jdbcType=DATE}, 
       #{deliverDetailStatus,jdbcType=SMALLINT}, #{packTotal,jdbcType=SMALLINT}, #{outCheck,jdbcType=BIT}, 
       #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{tradeTerms,jdbcType=CHAR}, #{toPort,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverDetail" >
     insert into deliver_detail
@@ -303,6 +306,12 @@
       <if test="deleteTime != null" >
         delete_time,
       </if>
+      <if test="tradeTerms != null" >
+        trade_terms,
+      </if>
+      <if test="toPort != null" >
+        to_port,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -430,6 +439,12 @@
       </if>
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="tradeTerms != null" >
+        #{tradeTerms,jdbcType=CHAR},
+      </if>
+      <if test="toPort != null" >
+        #{toPort,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -568,6 +583,12 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.tradeTerms != null" >
+        trade_terms = #{record.tradeTerms,jdbcType=CHAR},
+      </if>
+      <if test="record.toPort != null" >
+        to_port = #{record.toPort,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -616,7 +637,9 @@
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      trade_terms = #{record.tradeTerms,jdbcType=CHAR},
+      to_port = #{record.toPort,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -747,6 +770,12 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="tradeTerms != null" >
+        trade_terms = #{tradeTerms,jdbcType=CHAR},
+      </if>
+      <if test="toPort != null" >
+        to_port = #{toPort,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -792,7 +821,9 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      trade_terms = #{tradeTerms,jdbcType=CHAR},
+      to_port = #{toPort,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

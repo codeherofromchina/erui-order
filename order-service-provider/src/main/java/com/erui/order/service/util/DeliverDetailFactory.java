@@ -52,11 +52,11 @@ public class DeliverDetailFactory {
         if (deliverDetail == null) {
             return null;
         }
-
         DeliverDetailDetailResponse deliverDetailDetailResponse = new DeliverDetailDetailResponse();
-
         deliverDetailDetailResponse.setId(deliverDetail.getId());
         deliverDetailDetailResponse.setDeliverNoticeId(deliverDetail.getDeliverNoticeId());
+        deliverDetailDetailResponse.setTradeTerms(deliverDetail.getTradeTerms());
+        deliverDetailDetailResponse.setToPort(deliverDetail.getToPort());
         deliverDetailDetailResponse.setBillingDate(deliverDetail.getBillingDate());
         deliverDetailDetailResponse.setPackTotal(deliverDetail.getPackTotal());
         deliverDetailDetailResponse.setCarrierCo(deliverDetail.getCarrierCo());

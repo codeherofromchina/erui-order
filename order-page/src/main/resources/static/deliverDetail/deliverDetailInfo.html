@@ -1,0 +1,158 @@
+<script type="text/javascript">
+    var deliverDetailInfoParams = getQueryStringFromGlobalParams();
+    var deliver_detail_info_form_data = {};
+    var deliver_detail_info_goods_data = [];
+    var deliver_detail_info_attachment_data = [];
+    if (deliverDetailInfoParams.id) {
+        var deliverDetailInfoInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverDetail/info"}, {"id": deliverDetailInfoParams.id});
+        if (deliverDetailInfoInfo.code == 0) {
+            deliver_detail_info_form_data = deliverDetailInfoInfo.data;
+            // 商品内容
+            deliver_detail_info_goods_data = deliver_detail_info_form_data.goodsInfos;
+            delete deliver_detail_info_form_data.goodsInfos;
+            // 附件
+            deliver_detail_info_attachment_data = deliver_detail_info_form_data.attachments;
+            delete deliver_detail_info_form_data.attachments;
+        }
+    }
+</script>
+<form id="deliver_detail_info_form">
+    <div id="save_outstock_quality_panel_baseinfo" class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>开单日期：</label>
+            <div class="input-div">{{billingDate}}</div>
+            <label>贸易术语：</label>
+            <div class="input-div">{{tradeTerms}}</div>
+            <label>目的港：</label>
+            <div class="input-div">{{toPortName}}</div>
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="商品信息"
+         style="padding:2px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table id="deliver_detail_info_form_goods_table"></table>
+    </div>
+
+    <div style="overflow: hidden;">
+        <div style="margin:10px 15px;float:right;">总包装件数： <input type="text" class="easyui-numberbox" disabled
+                                                                 name="packTotal"
+                                                                 data-options="min:0,precision:0" style="width:40px;"/>
+            PCS
+        </div>
+    </div>
+
+    <div class="easyui-panel" title="运输信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>承运单位名称：</label>
+            <input class="easyui-textbox" name="carrierCo" disabled/>
+            <label>司机姓名：</label>
+            <input class="easyui-textbox" name="driver" disabled/>
+            <label>车牌号码：</label>
+            <input class="easyui-textbox" name="plateNo" disabled/>
+        </div>
+        <div class="fitem">
+            <label>提货日期：</label>
+            <input class="easyui-datebox" name="pickupDate" ediable="false" style="width:185px;" disabled/>
+            <label>联系电话：</label>
+            <input class="easyui-textbox" name="contactTel" disabled/>
+        </div>
+    </div>
+    <div class="easyui-panel" title="人员信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>仓库经办人：</label>
+            <input class="easyui-textbox" name="wareHousemanName" editable="false"/>
+            <label>经办部门：</label>
+            <input class="easyui-textbox" name="handleDepartment" editable="false" value="仓储配送中心"/>
+            <label>发运人员：</label>
+            <input class="easyui-textbox" name="senderUserName" disabled/>
+        </div>
+        <div class="fitem">
+            <label>发运日期：</label>
+            <input class="easyui-datebox" ediable="false" style="width:185px;" name="sendDate" disabled/>
+            <label>协办/复核人：</label>
+            <input class="easyui-textbox" name="reviewerUserName" disabled/>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:120px;">
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:deliver_detail_info_attachment_data"
+                       fit="true" fitColumn="true">
+                    <thead>
+                    <tr>
+                        <th field="title" width="200">附件名称</th>
+                        <th field="createUserName" width="120">创建人</th>
+                        <th field="attachType" width="100" data-options="
+                            formatter:function(value) {
+                                switch(value){
+                                    case 1: return '仓储附件';
+                                }
+                                return value;
+                            }
+                            ">类型
+                        </th>
+                        <th field="createTime" width="170">日期</th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#deliver_detail_info_form',
+        data: deliver_detail_info_form_data
+    });
+
+    $(function () {
+        setTimeout(function () {
+            $("#deliver_detail_info_form").form('load', deliver_detail_info_form_data);
+        }, 500);
+
+        $("#deliver_detail_info_form_goods_table").datagrid({
+            border: false,
+            singleSelect: true,
+            striped: true,
+            idFiled: 'id',
+            rownumbers: true,
+            columns: [[
+                {field: 'contractNo', width: 110, title: '销售合同号'},
+                {field: 'projectNo', width: 110, title: '项目号'},
+                {field: 'sku', width: 125, title: '平台SKU'},
+                {field: 'nameEn', width: 80, title: '外文品名'},
+                {field: 'nameZh', width: 80, title: '中文品名'},
+                {field: 'sendNum', width: 80, title: '本批次发货数量'},
+                {field: 'instockedNum', width: 80, title: '已入库总数'},
+                {field: 'nameZh', width: 80, title: '厂家直发总数'},
+                {
+                    field: 'outboundNum', width: 100, title: '出库数量'
+                },
+                {
+                    field: 'straightNum', width: 100, title: '厂家直发数量'
+                },
+                {field: 'unitName', width: 40, title: '单位'},
+                {
+                    field: 'detailGoodsRemarks', width: 120, title: '备注'
+                }
+            ]],
+            data: deliver_detail_info_goods_data
+        });
+
+    });
+
+</script>
