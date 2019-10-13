@@ -249,7 +249,6 @@ public class DeliverConsignBookingSpace {
         this.contactInformation = contactInformation;
     }
 
-
     public String getDutyParagraph() {
         return dutyParagraph;
     }

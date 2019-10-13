@@ -1,6 +1,7 @@
 package com.erui.order.service;
 
 
+import com.erui.order.common.pojo.AttachmentInfo;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.request.DeliverConsignQueryRequest;
 import com.erui.order.common.pojo.request.DeliverConsignSaveRequest;
@@ -50,5 +51,12 @@ public interface DeliverConsignService {
      * @return
      */
     DeliverConsignDetailResponse detailByOrderId(Long orderId) throws Exception;
+
+    /**
+     * 上传货物签收单
+     * @param id
+     * @param attachments
+     */
+    void deliverConsignUpload(Long id, List<AttachmentInfo> attachments) throws Exception;
 }
 

@@ -13,7 +13,7 @@
                 </li>
                 <li>
                     <label>客户代码：</label>
-                    <input type="text" class="easyui-textbox" name="crmCodeOrName"/>
+                    <input type="text" class="easyui-textbox" name="crmCode"/>
                 </li>
                 <li>
                     <label>销售合同号：</label>
@@ -21,8 +21,9 @@
                 </li>
                 <li>
                     <label>发货申请部门：</label>
-                    <input type="text" id="deliver_consign_list_table_toolbar_form_dept_id_field" class="easyui-textbox" editable="false" name="deptId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#deliver_consign_list_dept_dialog').dialog('open');$('#deliver_consign_list_dept_dialog').dialog('refresh', 'common/deptDialog.html');}"  />
+                    <input type="text" id="deliver_consign_list_table_toolbar_form_dept_id_field" class="easyui-textbox"
+                           editable="false" name="deptId" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#deliver_consign_list_dept_dialog').dialog('open');$('#deliver_consign_list_dept_dialog').dialog('refresh', 'common/deptDialog.html');}"/>
                 </li>
                 <li>
                     <label>订舱提交日期：</label>
@@ -32,8 +33,10 @@
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_consign_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_consign_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="deliver_consign_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="deliver_consign_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
@@ -48,100 +51,96 @@
 <!-- /发货申请部门弹出框 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#deliver_consign_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'deliverConsignNo',title:'出口通知单号'},
-                {field:'contractNo',title:'销售合同号'},
-                {field:'crmCodeOrName',title:'客户代码'},
-                {field:'declareCustomsMoneyUsd',title:'发货金额',
-                    formatter:function(code,row,index) {
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'deliverConsignNo', title: '出口通知单号'},
+                {field: 'contractNo', title: '销售合同号'},
+                {field: 'crmCode', title: '客户代码'},
+                {
+                    field: 'thisShipmentsMoney', title: '发货金额',
+                    formatter: function (code, row, index) {
                         if (!code) {
                             code = 0;
                         }
                         code = code.toFixed(2);
                         if (row.currencyBn) {
-                            code =  row.currencyBn + " " + code;
+                            code = row.currencyBn + " " + code;
                         }
                         return code;
                     }
                 },
-                {field:'deptName',title:'发货申请部门',
-                    formatter:function(code,row,index) {
-                        var company = COMPANY[code];
-                        if (company) {
-                            return company;
-                        }
-                        return code;
-                    }
-                },
-                {field:'operation',title:'操作',
-                    formatter:function(value,row,index){
+                {field: 'coId', title: '发货申请部门'},
+                {
+                    field: 'operation', title: '操作',
+                    formatter: function (value, row, index) {
                         var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverConsignInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
                         if (row.deliverConsignStatus == 1 || row.deliverConsignStatus == 2) {
                             str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverConsignPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
-                        } else if (row.deliverConsignStatus == 3 && (row.deliverNoticeStatus == 0 || row.deliverNoticeStatus == 1)) {
-                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverNoticePage(' + row.id + ')">生成看货通知单</a>&nbsp;&nbsp;&nbsp;';
+                        } else if (row.deliverConsignStatus == 3) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverConsignUploadPage(' + row.id + ')">上传货物签收单</a>&nbsp;&nbsp;&nbsp;';
+                        } else if (row.deliverConsignStatus == 4 && (row.deliverNoticeStatus == 0)) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="addDeliverNoticePage(' + row.id + ')">生成看货通知单</a>&nbsp;&nbsp;&nbsp;';
                         }
                         return str;
                     }
                 },
             ]],
             url: LOCAL_URL + '/order/deliverConsign/list',
-            onBeforeLoad:function(param){
+            onBeforeLoad: function (param) {
                 var data = $('#deliver_consign_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
             loadFilter: tableLoadFilter
         });
         $("#deliver_consign_list_dept_dialog").dialog({
-            title:'发货申请部门',
-            resizable:true,
-            modal:true,
-            closed:true,
-            buttons:[{
-                text:'确定',
-                iconCls:'icon-ok',
-                handler:function(){
+            title: '发货申请部门',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
                     var deptTableRow = $("#common_dept_dialog_table").datagrid("getSelected");
                     if (deptTableRow) {
-                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setValue",deptTableRow.name);
-                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setText",deptTableRow.name);
+                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setValue", deptTableRow.name);
+                        $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setText", deptTableRow.name);
                     } else {
                         $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("clear");
                     }
                     $("#deliver_consign_list_dept_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                iconCls:'icon-cancel',
-                handler:function(){
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
                     $("#deliver_consign_list_dept_dialog").dialog("close");
                 }
             }]
         });
         // 搜索按钮
-        $("#deliver_consign_list_table_toolbar_form_search_btn").click(function (){
+        $("#deliver_consign_list_table_toolbar_form_search_btn").click(function () {
             $("#deliver_consign_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#deliver_consign_list_table_toolbar_form_clear_btn").click(function (){
+        $("#deliver_consign_list_table_toolbar_form_clear_btn").click(function () {
             $('#deliver_consign_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#deliver_consign_list_table");
             $("#deliver_consign_list_table").datagrid("reload");
@@ -162,8 +161,22 @@
         }
     }
 
+    function deliverConsignUploadPage(deliverConsignId) {
+        var tabTitle = "上传货物签收单-" + deliverConsignId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverConsign/deliverConsignUpload.html',
+                closable: true
+            });
+        }
+    }
+
     function saveDeliverConsignPage(deliverConsignId) {
-        var tabTitle = "保存出口通知单-" + deliverConsignId;
+        var tabTitle = "办理出口通知单-" + deliverConsignId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
@@ -176,15 +189,15 @@
         }
     }
 
-    function saveDeliverNoticePage(deliverConsignId) {
-        var tabTitle = "保存看货通知单-" + deliverConsignId;
+    function addDeliverNoticePage(deliverConsignId) {
+        var tabTitle = "生成看货通知单-" + deliverConsignId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
             GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
             $("#tt").tabs("add", {
                 title: tabTitle,
-                href: 'deliverNotice/saveDeliverNotice.html',
+                href: 'deliverNotice/addDeliverNotice.html',
                 closable: true
             });
         }

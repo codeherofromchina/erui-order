@@ -68,6 +68,30 @@ public class DeliverConsignController {
     }
 
 
+
+    /**
+     * 上传货物签收单
+     *
+     * @param saveRequest
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "deliverConsignUpload", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> deliverConsignUpload(@RequestBody @Valid DeliverConsignSaveRequest saveRequest, BindingResult bindingResult) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("deliverConsignUpload - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
+        Result<Void> result = new Result<>();
+        try {
+            deliverConsignService.deliverConsignUpload(saveRequest.getId(),saveRequest.getAttachments());
+            LOGGER.info("deliverConsignUpload成功 - {} - {}", JSON.toJSONString(userInfo), saveRequest.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("deliverConsignUpload异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
     /**
      * 分页查询DeliverConsign列表内容
      *

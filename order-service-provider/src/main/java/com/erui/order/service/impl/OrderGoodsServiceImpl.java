@@ -82,6 +82,8 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
             orderGoods.setCreateUserId(userInfo.getId());
         }
         orderGoods.setContractNo(order.getContractNo());
+        orderGoods.setPreOutstockedNum((short) 0); // 预发货数量
+        orderGoods.setOutstockedNum((short) 0); // 已发货数量
         orderGoods.setCreateTime(new Date());
         orderGoods.setDeleteFlag(Boolean.FALSE);
         orderGoods.setPrePurchContractNum((short) 0);

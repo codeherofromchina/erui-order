@@ -1,5 +1,7 @@
 package com.erui.order.service.util;
 
+import com.erui.order.common.enums.BusinessNatureTypeEnum;
+import com.erui.order.common.enums.CompanyEnum;
 import com.erui.order.common.enums.DeliverConsignStatusEnum;
 import com.erui.order.common.pojo.request.DeliverConsignSaveRequest;
 import com.erui.order.common.pojo.response.DeliverConsignDetailResponse;
@@ -20,17 +22,9 @@ public class DeliverConsignFactory {
         deliverConsign.setId(saveRequest.getId());
         deliverConsign.setOrderId(saveRequest.getOrderId());
         deliverConsign.setDeliverConsignStatus(saveRequest.getDeliverConsignStatus());
-        deliverConsign.setExecCoName(saveRequest.getExecCoName());
-        deliverConsign.setCoId(saveRequest.getCoId());
         deliverConsign.setWriteDate(saveRequest.getWriteDate());
-        deliverConsign.setContractNo(saveRequest.getContractNo());
-//        deliverConsign.setInvoicerise(saveRequest.getInvoiceRise());
         deliverConsign.setBusinessNature(saveRequest.getBusinessNature());
-//        deliverConsignDetailResponse.setBusinessNatureName(deliverConsign.ge());
-//        deliverConsignDetailResponse.setExchangeRate(deliverConsign.gete());
         deliverConsign.setBusinessSketch(saveRequest.getBusinessSketch());
-//        deliverConsignDetailResponse.setTotalPriceUsd(deliverConsign.gett());
-        deliverConsign.setAdvanceMoney(saveRequest.getAdvanceMoney());
         deliverConsign.setBookingDate(saveRequest.getBookingDate());
         deliverConsign.setThisShipmentsMoney(saveRequest.getThisShipmentsMoney());
         deliverConsign.setDeclareCustomsMoney(saveRequest.getDeclareCustomsMoney());
@@ -41,23 +35,14 @@ public class DeliverConsignFactory {
         deliverConsign.setShippingBatch(saveRequest.getShippingBatch());
         deliverConsign.setPayMethod(saveRequest.getPayMethod());
         deliverConsign.setMoreBatchExplain(saveRequest.getMoreBatchExplain());
-//        deliverConsignDetailResponse.setPerLiableRepayUsername(deliverConsign.getp());
-//        deliverConsign.setIsdangerous(saveRequest.getIsDangerous());
         deliverConsign.setGoodsDepositPlace(saveRequest.getGoodsDepositPlace());
-//        deliverConsignDetailResponse.setTradeTerms(deliverConsign.gettr());
-//        deliverConsignDetailResponse.setTransporttype(deliverConsign.gettr());
         deliverConsign.setHasInsurance(saveRequest.getHasInsurance());
-//        deliverConsignDetailResponse.setFromCountry(deliverConsign.getFromcountry());
-//        deliverConsignDetailResponse.setFromPort(deliverConsign.getFromport());
-//        deliverConsignDetailResponse.setToCountry(deliverConsign.getto);
-//        deliverConsignDetailResponse.setToPort(deliverConsign.getToport());
-//        deliverConsignDetailResponse.setAdvanceMoneyDate(deliverConsign.getad());
-
         deliverConsign.setBookingOfficerId(saveRequest.getBookingOfficerId());
-//        deliverConsignDetailResponse.setBookingOfficerName(deliverConsign.getBookingofficerid());
         deliverConsign.setOperationSpecialistId(saveRequest.getOperationSpecialistId());
-//        deliverConsignDetailResponse.setOperationSpecialistName(deliverConsign.getOperationSpecialistId());
         deliverConsign.setRemarks(saveRequest.getRemarks());
+        deliverConsign.setDeliverYn((short) 1);
+        deliverConsign.setInvoiceRise(saveRequest.getInvoiceRise());
+        deliverConsign.setIsDangerous(saveRequest.getIsDangerous());
 
         return deliverConsign;
     }
@@ -66,20 +51,27 @@ public class DeliverConsignFactory {
         if (deliverConsign == null) {
             return null;
         }
-        // deliverConsignDetailResponse
         DeliverConsignDetailResponse deliverConsignDetailResponse = new DeliverConsignDetailResponse();
-
         deliverConsignDetailResponse.setId(deliverConsign.getId());
-        deliverConsignDetailResponse.setExecCoName(deliverConsign.getExecCoName());
-        deliverConsignDetailResponse.setCoId(deliverConsign.getCoId());
+        deliverConsignDetailResponse.setOrderId(deliverConsign.getOrderId());
+        CompanyEnum execCoNameEnum = CompanyEnum.fromCode(deliverConsign.getExecCoName());
+        if (execCoNameEnum != null) {
+            deliverConsignDetailResponse.setExecCoName(execCoNameEnum.getName());
+        }
+        CompanyEnum coIdEnum = CompanyEnum.fromCode(deliverConsign.getCoId());
+        if (coIdEnum != null) {
+            deliverConsignDetailResponse.setCoId(coIdEnum.getName());
+        }
+        deliverConsignDetailResponse.setCurrencyBn(deliverConsign.getCurrencyBn());
         deliverConsignDetailResponse.setWriteDate(deliverConsign.getWriteDate());
         deliverConsignDetailResponse.setContractNo(deliverConsign.getContractNo());
-        deliverConsignDetailResponse.setInvoicerise(deliverConsign.getInvoiceRise());
+        deliverConsignDetailResponse.setInvoiceRise(deliverConsign.getInvoiceRise());
         deliverConsignDetailResponse.setBusinessNature(deliverConsign.getBusinessNature());
-//        deliverConsignDetailResponse.setBusinessNatureName(deliverConsign.ge());
-//        deliverConsignDetailResponse.setExchangeRate(deliverConsign.gete());
+        BusinessNatureTypeEnum businessNatureTypeEnum = BusinessNatureTypeEnum.valueOf(deliverConsign.getBusinessNature());
+        if (businessNatureTypeEnum != null) {
+            deliverConsignDetailResponse.setBusinessNatureName(businessNatureTypeEnum.getName());
+        }
         deliverConsignDetailResponse.setBusinessSketch(deliverConsign.getBusinessSketch());
-//        deliverConsignDetailResponse.setTotalPriceUsd(deliverConsign.gett());
         deliverConsignDetailResponse.setAdvanceMoney(deliverConsign.getAdvanceMoney());
         deliverConsignDetailResponse.setBookingDate(deliverConsign.getBookingDate());
         deliverConsignDetailResponse.setThisShipmentsMoney(deliverConsign.getThisShipmentsMoney());
@@ -91,24 +83,13 @@ public class DeliverConsignFactory {
         deliverConsignDetailResponse.setShippingBatch(deliverConsign.getShippingBatch());
         deliverConsignDetailResponse.setPayMethod(deliverConsign.getPayMethod());
         deliverConsignDetailResponse.setMoreBatchExplain(deliverConsign.getMoreBatchExplain());
-//        deliverConsignDetailResponse.setPerLiableRepayUsername(deliverConsign.getp());
-        deliverConsignDetailResponse.setIsdangerous(deliverConsign.getIsDangerous());
+        deliverConsignDetailResponse.setIsDangerous(deliverConsign.getIsDangerous());
         deliverConsignDetailResponse.setGoodsDepositPlace(deliverConsign.getGoodsDepositPlace());
-//        deliverConsignDetailResponse.setTradeTerms(deliverConsign.gettr());
-//        deliverConsignDetailResponse.setTransporttype(deliverConsign.gettr());
         deliverConsignDetailResponse.setHasInsurance(deliverConsign.getHasInsurance());
-//        deliverConsignDetailResponse.setFromCountry(deliverConsign.getFromcountry());
-//        deliverConsignDetailResponse.setFromPort(deliverConsign.getFromport());
-//        deliverConsignDetailResponse.setToCountry(deliverConsign.getto);
-//        deliverConsignDetailResponse.setToPort(deliverConsign.getToport());
-//        deliverConsignDetailResponse.setAdvanceMoneyDate(deliverConsign.getad());
 
         deliverConsignDetailResponse.setBookingOfficerId(deliverConsign.getBookingOfficerId());
-//        deliverConsignDetailResponse.setBookingOfficerName(deliverConsign.getBookingofficerid());
         deliverConsignDetailResponse.setOperationSpecialistId(deliverConsign.getOperationSpecialistId());
-//        deliverConsignDetailResponse.setOperationSpecialistName(deliverConsign.getOperationSpecialistId());
         deliverConsignDetailResponse.setRemarks(deliverConsign.getRemarks());
-
 
         return deliverConsignDetailResponse;
     }
@@ -124,14 +105,21 @@ public class DeliverConsignFactory {
         deliverConsignListResponse.setCrmCode(deliverConsign.getCrmCode());
         deliverConsignListResponse.setThisShipmentsMoney(deliverConsign.getThisShipmentsMoney());
         deliverConsignListResponse.setCurrencyBn(deliverConsign.getCurrencyBn());
-        deliverConsignListResponse.setCoId(deliverConsign.getCoId());
-        deliverConsignListResponse.setExecCoName(deliverConsign.getExecCoName());
+        CompanyEnum execCoNameEnum = CompanyEnum.fromCode(deliverConsign.getExecCoName());
+        if (execCoNameEnum != null) {
+            deliverConsignListResponse.setExecCoName(execCoNameEnum.getName());
+        }
+        CompanyEnum coIdEnum = CompanyEnum.fromCode(deliverConsign.getCoId());
+        if (coIdEnum != null) {
+            deliverConsignListResponse.setCoId(coIdEnum.getName());
+        }
         deliverConsignListResponse.setDeliverConsignStatus(deliverConsign.getDeliverConsignStatus());
         DeliverConsignStatusEnum statusEnum = DeliverConsignStatusEnum.valueOf(deliverConsign.getDeliverConsignStatus());
         if (statusEnum != null) {
             deliverConsignListResponse.setDeliverConsignStatusName(statusEnum.getName());
         }
         deliverConsignListResponse.setDeliverNoticeStatus(deliverConsign.getDeliverNoticeStatus());
+
 
         return deliverConsignListResponse;
     }

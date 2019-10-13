@@ -11,13 +11,37 @@ import java.util.List;
  * @Date 2019/9/9 上午12:27
  */
 public class DeliverConsignBookingSpaceFactory {
-    public static DeliverConsignBookingSpace DeliverConsignBookingSpace(DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo) {
-        if (DeliverConsignBookingSpaceInfo == null) {
+    public static DeliverConsignBookingSpace DeliverConsignBookingSpace(DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo) {
+        if (deliverConsignBookingSpaceInfo == null) {
             return null;
         }
-        DeliverConsignBookingSpace DeliverConsignBookingSpace = new DeliverConsignBookingSpace();
+        DeliverConsignBookingSpace deliverConsignBookingSpace = new DeliverConsignBookingSpace();
+        deliverConsignBookingSpace.setDeliverConsignId(deliverConsignBookingSpaceInfo.getDeliverConsignId());
+        deliverConsignBookingSpace.setReadyDate(deliverConsignBookingSpaceInfo.getReadyDate());
+        deliverConsignBookingSpace.setArrivalDate(deliverConsignBookingSpaceInfo.getArrivalDate());
+        deliverConsignBookingSpace.setOrderEmergency(deliverConsignBookingSpaceInfo.getOrderEmergency());
+        deliverConsignBookingSpace.setPenaltyProvision(deliverConsignBookingSpaceInfo.getPenaltyProvision());
+        deliverConsignBookingSpace.setRequiredDoc(deliverConsignBookingSpaceInfo.getRequiredDoc());
+        deliverConsignBookingSpace.setBillOfPositive(deliverConsignBookingSpaceInfo.getBillOfPositive());
+        deliverConsignBookingSpace.setBillOfVice(deliverConsignBookingSpaceInfo.getBillOfVice());
+        deliverConsignBookingSpace.setBoxListPositive(deliverConsignBookingSpaceInfo.getBoxListPositive());
+        deliverConsignBookingSpace.setBoxListVice(deliverConsignBookingSpaceInfo.getBoxListVice());
+        deliverConsignBookingSpace.setInvoicePositive(deliverConsignBookingSpaceInfo.getInvoicePositive());
+        deliverConsignBookingSpace.setInvoiceVice(deliverConsignBookingSpaceInfo.getInvoiceVice());
+        deliverConsignBookingSpace.setPrimaryOrigin(deliverConsignBookingSpaceInfo.getPrimaryOrigin());
+        deliverConsignBookingSpace.setOtherDoc(deliverConsignBookingSpaceInfo.getOtherDoc());
+        deliverConsignBookingSpace.setSpecificRequire(deliverConsignBookingSpaceInfo.getSpecificRequire());
+        deliverConsignBookingSpace.setBillOfLading(deliverConsignBookingSpaceInfo.getBillOfLading());
+        deliverConsignBookingSpace.setShippingMarks(deliverConsignBookingSpaceInfo.getShippingMarks());
+        deliverConsignBookingSpace.setPackageRequire(deliverConsignBookingSpaceInfo.getPackageRequire());
+        deliverConsignBookingSpace.setCorporateName(deliverConsignBookingSpaceInfo.getCorporateName());
+        deliverConsignBookingSpace.setAddress(deliverConsignBookingSpaceInfo.getAddress());
+        deliverConsignBookingSpace.setContacts(deliverConsignBookingSpaceInfo.getContacts());
+        deliverConsignBookingSpace.setContactInformation(deliverConsignBookingSpaceInfo.getContactInformation());
+        deliverConsignBookingSpace.setDutyParagraph(deliverConsignBookingSpaceInfo.getDutyParagraph());
+        deliverConsignBookingSpace.setZipCode(deliverConsignBookingSpaceInfo.getZipCode());
 
-        return DeliverConsignBookingSpace;
+        return deliverConsignBookingSpace;
     }
 
     public static List<DeliverConsignBookingSpaceInfo> deliverConsignBookingSpaceInfo(List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList) {
@@ -38,7 +62,7 @@ public class DeliverConsignBookingSpaceFactory {
             return null;
         }
         DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo = new DeliverConsignBookingSpaceInfo();
-
+        deliverConsignBookingSpaceInfo.setId(deliverConsignBookingSpace.getId());
         deliverConsignBookingSpaceInfo.setDeliverConsignId(deliverConsignBookingSpace.getDeliverConsignId());
         deliverConsignBookingSpaceInfo.setReadyDate(deliverConsignBookingSpace.getReadyDate());
         deliverConsignBookingSpaceInfo.setArrivalDate(deliverConsignBookingSpace.getArrivalDate());

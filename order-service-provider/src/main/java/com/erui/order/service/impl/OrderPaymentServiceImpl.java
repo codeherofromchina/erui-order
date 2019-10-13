@@ -1,13 +1,12 @@
 package com.erui.order.service.impl;
 
+import com.erui.order.common.enums.OrderPaymentTypeEnum;
 import com.erui.order.common.pojo.AttachmentInfo;
 import com.erui.order.common.pojo.OrderPaymentInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
-import com.erui.order.model.entity.Attachment;
-import com.erui.order.model.entity.AttachmentExample;
-import com.erui.order.model.entity.OrderPayment;
-import com.erui.order.model.entity.OrderPaymentExample;
+import com.erui.order.mapper.OrderMapper;
+import com.erui.order.model.entity.*;
 import com.erui.order.service.OrderPaymentService;
 import com.erui.order.service.util.OrderPaymentFactory;
 import org.slf4j.Logger;
@@ -26,6 +25,8 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
     private static Logger LOGGER = LoggerFactory.getLogger(OrderPaymentServiceImpl.class);
     @Autowired
     private OrderPaymentMapper orderPaymentMapper;
+    @Autowired
+    private OrderMapper orderMapper;
 
     @Override
     public int insertOnDuplicateIdUpdate(Long orderId, List<OrderPaymentInfo> orderPaymentInfos) throws Exception {
@@ -73,6 +74,16 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
         }
         orderPayment.setCreateTime(new Date());
         orderPayment.setDeleteFlag(Boolean.FALSE);
+
+        // 如果是预收款，则设置订单的预收款金额
+        OrderPaymentTypeEnum orderPaymentTypeEnum = OrderPaymentTypeEnum.valueOf(orderPayment.getPaymentType());
+        if (orderPaymentTypeEnum == OrderPaymentTypeEnum.ONE) {
+            Order orderSelective = new Order();
+            orderSelective.setId(orderId);
+            orderSelective.setAdvanceMoney(orderPayment.getMoney());
+            orderMapper.updateByPrimaryKeySelective(orderSelective);
+        }
+
         return orderPaymentMapper.insert(orderPayment);
     }
 
@@ -118,6 +129,15 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
         }
         orderPayment.setUpdateTime(new Date());
 
+        // 如果是预收款，则设置订单的预收款金额
+        OrderPaymentTypeEnum orderPaymentTypeEnum = OrderPaymentTypeEnum.valueOf(orderPaymentSelective.getPaymentType());
+        if (orderPaymentTypeEnum == OrderPaymentTypeEnum.ONE) {
+            Order orderSelective = new Order();
+            orderSelective.setId(orderPayment.getOrderId());
+            orderSelective.setAdvanceMoney(orderPaymentSelective.getMoney());
+            orderMapper.updateByPrimaryKeySelective(orderSelective);
+        }
+
         return orderPaymentMapper.updateByPrimaryKeySelective(orderPayment);
     }
 
@@ -135,6 +155,7 @@ public class OrderPaymentServiceImpl implements OrderPaymentService {
 
     private List<OrderPayment> listByOrderId(Long orderId) {
         OrderPaymentExample example = new OrderPaymentExample();
+        example.setOrderByClause("payment_type asc");
         example.createCriteria().andOrderIdEqualTo(orderId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
         List<OrderPayment> orderPayments = orderPaymentMapper.selectByExample(example);

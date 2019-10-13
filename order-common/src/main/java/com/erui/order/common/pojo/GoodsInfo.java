@@ -101,6 +101,8 @@ public class GoodsInfo {
     private Short straightNum;
     // 备注
     private String detailGoodsRemarks;
+    // 预发货数量
+    private Integer preOutstockedNum;
 
 
     public Long getId() {
@@ -481,5 +483,13 @@ public class GoodsInfo {
 
     public void setDetailGoodsRemarks(String detailGoodsRemarks) {
         this.detailGoodsRemarks = detailGoodsRemarks;
+    }
+
+    public Integer getPreOutstockedNum() {
+        return preOutstockedNum;
+    }
+
+    public void setPreOutstockedNum(Integer preOutstockedNum) {
+        this.preOutstockedNum = preOutstockedNum;
     }
 }

@@ -37,6 +37,7 @@ public class OrderGoodsFactory {
         orderGoodsInfo.setNameEn(orderGoods.getNameEn());
         orderGoodsInfo.setNameZh(orderGoods.getNameZh());
         orderGoodsInfo.setContractGoodsNum(orderGoods.getContractGoodsNum());
+        orderGoodsInfo.setPreOutstockedNum(orderGoods.getPreOutstockedNum().intValue());
         orderGoodsInfo.setUnit(orderGoods.getUnit());
         orderGoodsInfo.setPrice(orderGoods.getPrice());
         orderGoodsInfo.setEruiPrice(orderGoods.getEruiPrice());

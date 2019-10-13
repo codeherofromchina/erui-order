@@ -1,9 +1,6 @@
 package com.erui.order.common.pojo.response;
 
-import com.erui.order.common.pojo.AttachmentInfo;
-import com.erui.order.common.pojo.DeliverConsignBookingSpaceInfo;
-import com.erui.order.common.pojo.DeliverConsignPaymentInfo;
-import com.erui.order.common.pojo.GoodsInfo;
+import com.erui.order.common.pojo.*;
 
 import java.math.BigDecimal;
 import java.util.Date;
@@ -17,14 +14,6 @@ public class DeliverConsignDetailResponse {
     private Long id;
     private Long orderId;
 
-    public Long getOrderId() {
-        return orderId;
-    }
-
-    public void setOrderId(Long orderId) {
-        this.orderId = orderId;
-    }
-
     // 发货申请部门
     private String execCoName;
     // 报关主体
@@ -36,7 +25,7 @@ public class DeliverConsignDetailResponse {
     // 销售合同号
     private String contractNo;
     // 费用承担主体及发票抬头
-    private String invoicerise;
+    private String invoiceRise;
     // 业务项目性质
     private short businessNature;
     private String businessNatureName;
@@ -46,8 +35,12 @@ public class DeliverConsignDetailResponse {
     private String businessSketch;
     // 客户合同金额(usd)：
     private BigDecimal totalPriceUsd;
+    private BigDecimal totalPrice;
+    private String currencyBn;
     // 预收金额：
     private BigDecimal advanceMoney;
+    // 可用额度
+    private BigDecimal availableCredit;
     // 市场要求订舱日期：
     private Date bookingDate;
     // 本批次发货金额：
@@ -73,21 +66,22 @@ public class DeliverConsignDetailResponse {
     private long perLiableRepayId;
     private String perLiableRepayUsername;
     // 是否为危险品：
-    private short isdangerous;
+    private Short isDangerous;
     // 货物存放地：
     private String goodsDepositPlace;
     // 贸易术语：
     private String tradeTerms;
     // 运输方式：
-    private String transporttype;
+    private String transportType;
+    private String transportTypeName;
     // 是否投出口信用保险：
     private short hasInsurance;
     // 起运国/港：
-    private String fromCountry;
-    private String fromPort;
+    private String fromCountryName;
+    private String fromPortName;
     // 目的国/港：
-    private String toCountry;
-    private String toPort;
+    private String toCountryName;
+    private String toPortName;
 
     // 预收货款时间
     private Date advanceMoneyDate;
@@ -99,11 +93,12 @@ public class DeliverConsignDetailResponse {
     // 备注
     private String remarks;
 
-
     // 订舱信息
     private DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo;
-    // 收款信息
+    // 出口通知单收款信息
     private List<DeliverConsignPaymentInfo> deliverConsignPaymentInfoList;
+    // 订单收款信息
+    private List<OrderPaymentInfo> orderPaymentInfos;
     // 商品信息
     private List<GoodsInfo> goodsInfos;
     // 附件内容
@@ -127,6 +122,13 @@ public class DeliverConsignDetailResponse {
         this.attachments = attachments;
     }
 
+    public Long getOrderId() {
+        return orderId;
+    }
+
+    public void setOrderId(Long orderId) {
+        this.orderId = orderId;
+    }
 
     public String getExecCoName() {
         return execCoName;
@@ -168,12 +170,12 @@ public class DeliverConsignDetailResponse {
         this.contractNo = contractNo;
     }
 
-    public String getInvoicerise() {
-        return invoicerise;
+    public String getInvoiceRise() {
+        return invoiceRise;
     }
 
-    public void setInvoicerise(String invoicerise) {
-        this.invoicerise = invoicerise;
+    public void setInvoiceRise(String invoiceRise) {
+        this.invoiceRise = invoiceRise;
     }
 
     public short getBusinessNature() {
@@ -214,6 +216,22 @@ public class DeliverConsignDetailResponse {
 
     public void setTotalPriceUsd(BigDecimal totalPriceUsd) {
         this.totalPriceUsd = totalPriceUsd;
+    }
+
+    public BigDecimal getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(BigDecimal totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public String getCurrencyBn() {
+        return currencyBn;
+    }
+
+    public void setCurrencyBn(String currencyBn) {
+        this.currencyBn = currencyBn;
     }
 
     public BigDecimal getAdvanceMoney() {
@@ -320,12 +338,12 @@ public class DeliverConsignDetailResponse {
         this.perLiableRepayUsername = perLiableRepayUsername;
     }
 
-    public short getIsdangerous() {
-        return isdangerous;
+    public Short getIsDangerous() {
+        return isDangerous;
     }
 
-    public void setIsdangerous(short isdangerous) {
-        this.isdangerous = isdangerous;
+    public void setIsDangerous(Short isDangerous) {
+        this.isDangerous = isDangerous;
     }
 
     public String getGoodsDepositPlace() {
@@ -344,12 +362,20 @@ public class DeliverConsignDetailResponse {
         this.tradeTerms = tradeTerms;
     }
 
-    public String getTransporttype() {
-        return transporttype;
+    public String getTransportType() {
+        return transportType;
     }
 
-    public void setTransporttype(String transporttype) {
-        this.transporttype = transporttype;
+    public void setTransportType(String transportType) {
+        this.transportType = transportType;
+    }
+
+    public String getTransportTypeName() {
+        return transportTypeName;
+    }
+
+    public void setTransportTypeName(String transportTypeName) {
+        this.transportTypeName = transportTypeName;
     }
 
     public short getHasInsurance() {
@@ -360,36 +386,36 @@ public class DeliverConsignDetailResponse {
         this.hasInsurance = hasInsurance;
     }
 
-    public String getFromCountry() {
-        return fromCountry;
+    public String getFromCountryName() {
+        return fromCountryName;
     }
 
-    public void setFromCountry(String fromCountry) {
-        this.fromCountry = fromCountry;
+    public void setFromCountryName(String fromCountryName) {
+        this.fromCountryName = fromCountryName;
     }
 
-    public String getFromPort() {
-        return fromPort;
+    public String getFromPortName() {
+        return fromPortName;
     }
 
-    public void setFromPort(String fromPort) {
-        this.fromPort = fromPort;
+    public void setFromPortName(String fromPortName) {
+        this.fromPortName = fromPortName;
     }
 
-    public String getToCountry() {
-        return toCountry;
+    public String getToCountryName() {
+        return toCountryName;
     }
 
-    public void setToCountry(String toCountry) {
-        this.toCountry = toCountry;
+    public void setToCountryName(String toCountryName) {
+        this.toCountryName = toCountryName;
     }
 
-    public String getToPort() {
-        return toPort;
+    public String getToPortName() {
+        return toPortName;
     }
 
-    public void setToPort(String toPort) {
-        this.toPort = toPort;
+    public void setToPortName(String toPortName) {
+        this.toPortName = toPortName;
     }
 
     public Date getAdvanceMoneyDate() {
@@ -462,6 +488,22 @@ public class DeliverConsignDetailResponse {
 
     public void setDeliverConsignPaymentInfoList(List<DeliverConsignPaymentInfo> deliverConsignPaymentInfoList) {
         this.deliverConsignPaymentInfoList = deliverConsignPaymentInfoList;
+    }
+
+    public List<OrderPaymentInfo> getOrderPaymentInfos() {
+        return orderPaymentInfos;
+    }
+
+    public void setOrderPaymentInfos(List<OrderPaymentInfo> orderPaymentInfos) {
+        this.orderPaymentInfos = orderPaymentInfos;
+    }
+
+    public BigDecimal getAvailableCredit() {
+        return availableCredit;
+    }
+
+    public void setAvailableCredit(BigDecimal availableCredit) {
+        this.availableCredit = availableCredit;
     }
 }
 

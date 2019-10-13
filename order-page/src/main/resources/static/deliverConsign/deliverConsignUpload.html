@@ -1,30 +1,31 @@
 <script type="text/javascript">
-    var deliverConsignInfoParams = getQueryStringFromGlobalParams();
-    var deliver_consign_info_form_data = {};
-    var deliver_consign_info_form_goods_table = [];
-    var deliver_consign_info_attachment_data = [];
-    if (deliverConsignInfoParams.deliverConsignId) {
-        var deliverConsignInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverConsign/info"}, {"id": deliverConsignInfoParams.deliverConsignId});
-        if (deliverConsignInfo.code == 0) {
-            deliver_consign_info_form_data = deliverConsignInfo.data;
+    var deliverConsignUploadParams = getQueryStringFromGlobalParams();
+    var deliver_consign_upload_form_data = {};
+    var deliver_consign_upload_form_goods_table = [];
+    var deliver_consign_upload_attachment_data = [];
+    if (deliverConsignUploadParams.deliverConsignId) {
+        var deliverConsignUpload = syncAjaxJson({"url": LOCAL_URL + "/order/deliverConsign/info"}, {"id": deliverConsignUploadParams.deliverConsignId});
+        if (deliverConsignUpload.code == 0) {
+            deliver_consign_upload_form_data = deliverConsignUpload.data;
             // 商品内容
-            deliver_consign_info_form_goods_table = deliver_consign_info_form_data.goodsInfos;
-            delete deliver_consign_info_form_data.goodsInfos;
+            deliver_consign_upload_form_goods_table = deliver_consign_upload_form_data.goodsInfos;
+            delete deliver_consign_upload_form_data.goodsInfos;
             // 订舱信息
-            Object.keys(deliver_consign_info_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
-                deliver_consign_info_form_data["deliverConsignBookingSpace." + key] = deliver_consign_info_form_data.deliverConsignBookingSpaceInfo[key];
+            Object.keys(deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
+                deliver_consign_upload_form_data["deliverConsignBookingSpace." + key] = deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo[key];
             });
-            delete deliver_consign_info_form_data.deliverConsignBookingSpaceInfo;
+            delete deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo;
             // 附件内容
-            deliver_consign_info_attachment_data = deliver_consign_info_form_data.attachments;
-            delete deliver_consign_info_form_data.attachments;
+            deliver_consign_upload_attachment_data = deliver_consign_upload_form_data.attachments;
+            delete deliver_consign_upload_form_data.attachments;
         }
     }
 </script>
-<form id="deliver_consign_info_form">
+<form id="deliver_consign_upload_form">
     <div class="easyui-panel" title="基础信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
+        <input type="hidden" id="deliver_consign_upload_primary_key" value="" name="id"/>
         <div class="fitem">
             <label>发货申请部门：</label>
             <div class="input-div">{{execCoName}}</div>
@@ -72,7 +73,8 @@
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>报关金额：</label>
-            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value="" name="declareCustomsMoney"
+            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value=""
+                   name="declareCustomsMoney"
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>清关金额：</label>
@@ -87,11 +89,13 @@
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>直接转口金额：</label>
-            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value="" name="directTransferMoney"
+            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value=""
+                   name="directTransferMoney"
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>间接转口金额：</label>
-            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value="" name="indirectTransferMoney"
+            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value=""
+                   name="indirectTransferMoney"
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
         </div>
@@ -103,16 +107,19 @@
         </div>
         <div class="fitem">
             <label>付款方式：</label>
-            <input disabled class="easyui-radio" type="radio" name="payMethod" id="deliver_consign_info_form_pay_method_01"
+            <input disabled class="easyui-radio" type="radio" name="payMethod"
+                   id="deliver_consign_upload_form_pay_method_01"
                    value="1" checked>
             <label style="margin-left:0;width:36px;text-align: left;"
-                   for="deliver_consign_info_form_pay_method_01">T/T</label></input>
-            <input disabled class="easyui-radio" type="radio" name="payMethod" id="deliver_consign_info_form_pay_method_02"
+                   for="deliver_consign_upload_form_pay_method_01">T/T</label></input>
+            <input disabled class="easyui-radio" type="radio" name="payMethod"
+                   id="deliver_consign_upload_form_pay_method_02"
                    value="2"> <label style="margin-left:0;width:36px;text-align: left;"
-                                     for="deliver_consign_info_form_pay_method_02">L/T</label></input>
-            <input disabled class="easyui-radio" type="radio" name="payMethod" id="deliver_consign_info_form_pay_method_03"
+                                     for="deliver_consign_upload_form_pay_method_02">L/T</label></input>
+            <input disabled class="easyui-radio" type="radio" name="payMethod"
+                   id="deliver_consign_upload_form_pay_method_03"
                    value="3"> <label style="margin-left:0;width:36px;text-align: left;"
-                                     for="deliver_consign_info_form_pay_method_03">其他</label></input>
+                                     for="deliver_consign_upload_form_pay_method_03">其他</label></input>
 
             <label>应收账款金额：</label>
             <div class="input-div">{{totalPrice}} {{currencyBn}}</div>
@@ -121,13 +128,15 @@
         </div>
         <div class="fitem">
             <label>是否为危险品：</label>
-            <input disabled class="easyui-radio" type="radio" name="isDangerous" id="deliver_consign_info_form_isdangerous_01"
+            <input disabled class="easyui-radio" type="radio" name="isDangerous"
+                   id="deliver_consign_upload_form_isdangerous_01"
                    value="2" checked>
             <label style="margin-left:0;width:36px;text-align: left;"
-                   for="deliver_consign_info_form_isdangerous_01">是</label></input>
-            <input disabled class="easyui-radio" type="radio" name="isDangerous" id="deliver_consign_info_form_isdangerous_02"
+                   for="deliver_consign_upload_form_isdangerous_01">是</label></input>
+            <input disabled class="easyui-radio" type="radio" name="isDangerous"
+                   id="deliver_consign_upload_form_isdangerous_02"
                    value="1"> <label style="margin-left:0;width:36px;text-align: left;"
-                                     for="deliver_consign_info_form_isdangerous_02">否</label></input>
+                                     for="deliver_consign_upload_form_isdangerous_02">否</label></input>
             <label style="margin-left:82px;">货物存放地：</label>
             <input disabled class="easyui-textbox" name="goodsDepositPlace"/>
             <label>贸易术语：</label>
@@ -137,13 +146,15 @@
             <label>运输方式：</label>
             <div class="input-div">{{transportTypeName}}</div>
             <label>是否投出口信用保险：</label>
-            <input disabled class="easyui-radio" type="radio" name="hasInsurance" id="deliver_consign_info_form_has_insurance_01"
+            <input disabled class="easyui-radio" type="radio" name="hasInsurance"
+                   id="deliver_consign_upload_form_has_insurance_01"
                    value="1" checked>
             <label style="margin-left:0;width:36px;text-align: left;"
-                   for="deliver_consign_info_form_has_insurance_01">是</label></input>
-            <input disabled class="easyui-radio" type="radio" name="hasInsurance" id="deliver_consign_info_form_has_insurance_02"
+                   for="deliver_consign_upload_form_has_insurance_01">是</label></input>
+            <input disabled class="easyui-radio" type="radio" name="hasInsurance"
+                   id="deliver_consign_upload_form_has_insurance_02"
                    value="0"> <label style="margin-left:0;width:36px;text-align: left;"
-                                     for="deliver_consign_info_form_has_insurance_02">否</label></input>
+                                     for="deliver_consign_upload_form_has_insurance_02">否</label></input>
         </div>
         <div class="fitem">
             <label>起运国/港：</label>
@@ -165,18 +176,18 @@
                    style="width:185px;"/>
             <label>订单紧急程度：</label>
             <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.orderEmergency"
-                   id="deliver_consign_info_form_order_emergency_01"
+                   id="deliver_consign_upload_form_order_emergency_01"
                    value="1" checked>
             <label style="margin-left:0;width:30px;text-align: left;"
-                   for="deliver_consign_info_form_order_emergency_01">一般</label></input>
+                   for="deliver_consign_upload_form_order_emergency_01">一般</label></input>
             <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.orderEmergency"
-                   id="deliver_consign_info_form_order_emergency_02"
+                   id="deliver_consign_upload_form_order_emergency_02"
                    value="2"> <label style="margin-left:0;width:30px;text-align: left;"
-                                     for="deliver_consign_info_form_order_emergency_02">紧急</label></input>
+                                     for="deliver_consign_upload_form_order_emergency_02">紧急</label></input>
             <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.orderEmergency"
-                   id="deliver_consign_info_form_order_emergency_03"
+                   id="deliver_consign_upload_form_order_emergency_03"
                    value="3"> <label style="margin-left:0;width:50px;text-align: left;"
-                                     for="deliver_consign_info_form_order_emergency_03">异常紧急</label></input>
+                                     for="deliver_consign_upload_form_order_emergency_03">异常紧急</label></input>
         </div>
         <div class="fitem">
             <label style="width:300px;">船舶要求以及合同是否有规定延期到货的罚金规定：</label>
@@ -189,9 +200,9 @@
                 <label style="vertical-align:top;">所需单据：</label>
                 <div style="display:inline-block;border:1px solid #ddd;padding:15px;width:250px;">
                     <div class="fitem">
-                        <input disabled type="checkbox" value="1" id="deliver_consign_info_form_require_doc_01"><label
+                        <input disabled type="checkbox" value="1" id="deliver_consign_upload_form_require_doc_01"><label
                             style="text-align:left;margin-left:5px;width:65px;"
-                            for="deliver_consign_info_form_require_doc_01">提单</label>
+                            for="deliver_consign_upload_form_require_doc_01">提单</label>
                         <input disabled class="easyui-numberbox" data-options="min:0,precision:0" value=""
                                name="deliverConsignBookingSpace.billOfPositive"
                                style="width:40px;"/>
@@ -203,9 +214,9 @@
                         副
                     </div>
                     <div class="fitem">
-                        <input disabled type="checkbox" value="2" id="deliver_consign_info_form_require_doc_02"><label
+                        <input disabled type="checkbox" value="2" id="deliver_consign_upload_form_require_doc_02"><label
                             style="text-align:left;margin-left:5px;width:65px;"
-                            for="deliver_consign_info_form_require_doc_02">箱单</label>
+                            for="deliver_consign_upload_form_require_doc_02">箱单</label>
                         <input disabled class="easyui-numberbox" data-options="min:0,precision:0" value=""
                                name="deliverConsignBookingSpace.boxListPositive"
                                style="width:40px;"/>
@@ -217,9 +228,9 @@
                         副
                     </div>
                     <div class="fitem">
-                        <input disabled type="checkbox" value="3" id="deliver_consign_info_form_require_doc_03"><label
+                        <input disabled type="checkbox" value="3" id="deliver_consign_upload_form_require_doc_03"><label
                             style="text-align:left;margin-left:5px;width:65px;"
-                            for="deliver_consign_info_form_require_doc_03">发票</label>
+                            for="deliver_consign_upload_form_require_doc_03">发票</label>
                         <input disabled class="easyui-numberbox" data-options="min:0,precision:0" value=""
                                name="deliverConsignBookingSpace.invoicePositive"
                                style="width:40px;"/>
@@ -231,17 +242,19 @@
                         副
                     </div>
                     <div class="fitem">
-                        <input disabled type="checkbox" value="4" id="deliver_consign_info_form_require_doc_04"><label
+                        <input disabled type="checkbox" value="4" id="deliver_consign_upload_form_require_doc_04"><label
                             style="text-align:left;margin-left:5px;width:65px;"
-                            for="deliver_consign_info_form_require_doc_04">原产地证</label>
-                        <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.primaryOrigin" checked
-                               id="deliver_consign_info_form_primary_origin_01"
+                            for="deliver_consign_upload_form_require_doc_04">原产地证</label>
+                        <input disabled class="easyui-radio" type="radio"
+                               name="deliverConsignBookingSpace.primaryOrigin" checked
+                               id="deliver_consign_upload_form_primary_origin_01"
                                value="1"> <label style="margin-left:0;width:50px;text-align: left;"
-                                                 for="deliver_consign_info_form_primary_origin_01">中国原产</label></input>
-                        <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.primaryOrigin"
-                               id="deliver_consign_info_form_primary_origin_02"
+                                                 for="deliver_consign_upload_form_primary_origin_01">中国原产</label></input>
+                        <input disabled class="easyui-radio" type="radio"
+                               name="deliverConsignBookingSpace.primaryOrigin"
+                               id="deliver_consign_upload_form_primary_origin_02"
                                value="2"> <label style="margin-left:0;width:60px;text-align: left;"
-                                                 for="deliver_consign_info_form_primary_origin_02">含进口成分</label></input>
+                                                 for="deliver_consign_upload_form_primary_origin_02">含进口成分</label></input>
                     </div>
                 </div>
             </div>
@@ -260,7 +273,8 @@
                 <div style="display:inline-block;border:1px solid #ddd;padding:15px;width:250px;">
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">公司名称：</label>
-                        <input disabled class="easyui-textbox" value="" name="deliverConsignBookingSpace.corporateName"/>
+                        <input disabled class="easyui-textbox" value=""
+                               name="deliverConsignBookingSpace.corporateName"/>
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">地址：</label>
@@ -272,11 +286,13 @@
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">联系方式：</label>
-                        <input disabled class="easyui-textbox" value="" name="deliverConsignBookingSpace.contactInformation"/>
+                        <input disabled class="easyui-textbox" value=""
+                               name="deliverConsignBookingSpace.contactInformation"/>
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">税号：</label>
-                        <input disabled class="easyui-textbox" value="" name="deliverConsignBookingSpace.dutyParagraph"/>
+                        <input disabled class="easyui-textbox" value=""
+                               name="deliverConsignBookingSpace.dutyParagraph"/>
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">邮编：</label>
@@ -321,7 +337,7 @@
                 <label>收款日期：</label>{{orderPaymentInfo.receiptDate}}
             </span>
         </div>
-        <div id="deliver_consign_info_payment_div">
+        <div id="deliver_consign_upload_payment_div">
         </div>
 
     </div>
@@ -329,7 +345,7 @@
     <div class="easyui-panel" title="商品信息"
          style="padding:0;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
-        <table style="background:#fafafa;" id="deliver_consign_info_goods_info_table">
+        <table style="background:#fafafa;" id="deliver_consign_upload_goods_info_table">
         </table>
     </div>
 
@@ -343,17 +359,27 @@
         </div>
     </div>
 
+
     <div class="easyui-panel"
          title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
          style="background:#fafafa;margin-bottom:30px;"
          data-options="collapsible:true">
-        <div class="easyui-layout" style="width: 100%;height:120px;">
+        <div class="easyui-layout" style="width: 100%;height:160px;">
+            <div data-options="region:'west',split:false,border:false" style="width:180px;">
+                <div style="text-align:center;">
+                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">采购执行部</span>
+                    </div>
+                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
+                                                       onclick="openFileDialog(4,'deliver_consign_upload_form_attachment_table');"
+                                                       plain="true">上传货物签收单</a></div>
+                </div>
+            </div>
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
                 <table class="easyui-datagrid"
-                       data-options="idField:'url',data:deliver_consign_info_attachment_data"
+                       data-options="idField:'url',data:deliver_consign_upload_attachment_data"
                        fit="true"
                        singleSelect="true"
-                       id="deliver_consign_info_form_attachment_table"
+                       id="deliver_consign_upload_form_attachment_table"
                        fitColumn="true">
                     <thead>
                     <th field="title" width="200">附件名称</th>
@@ -371,6 +397,9 @@
                                 ">类型
                     </th>
                     <th field="createTime" width="170">日期</th>
+                    <th field="_operate" width="80" data-options="formatter:deliverConsignUploadAttachmentFormatOper">
+                        操作
+                    </th>
                     </thead>
                 </table>
             </div>
@@ -379,28 +408,53 @@
 </form>
 
 
+<div style="margin-top:20px;text-align: center;">
+    <a href="javascript:void(0);" id="deliver_consign_upload_form_confirm_btn" size="large" class="easyui-linkbutton"
+       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确定&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
+</div>
+
 <script type="text/javascript">
     new Vue({
-        el: '#deliver_consign_info_form',
-        data: deliver_consign_info_form_data
+        el: '#deliver_consign_upload_form',
+        data: deliver_consign_upload_form_data
     });
+
+    function deliverConsignUploadAttachmentFormatOper(val, row, index) {
+        if (row.attachType == 4) {
+            return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverConsignUploadDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
+        } else {
+            return "";
+        }
+    }
+
+    // 删除附件的行
+    function deliverConsignUploadDeleAttachment(idField) {
+        if (idField) {
+            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
+                if (r) {
+                    var index = $('#deliver_consign_upload_form_attachment_table').datagrid('getRowIndex', idField);
+                    $('#deliver_consign_upload_form_attachment_table').datagrid('deleteRow', index);
+                }
+            });
+        }
+    }
 
     $(function () {
         setTimeout(function () {
-            $("#deliver_consign_info_form").form('load', deliver_consign_info_form_data);
-            var requiredDoc = deliver_consign_info_form_data["deliverConsignBookingSpace.requiredDoc"];
+            $("#deliver_consign_upload_form").form('load', deliver_consign_upload_form_data);
+            var requiredDoc = deliver_consign_upload_form_data["deliverConsignBookingSpace.requiredDoc"];
             if (requiredDoc) {
                 var requireDocArr = requiredDoc.split(",");
                 $.each(requireDocArr, function (index, element) {
                     if ("1" == element) {
-                        $("#deliver_consign_info_form_require_doc_01").attr("checked", "checked");
+                        $("#deliver_consign_upload_form_require_doc_01").attr("checked", "checked");
                     }
                 });
             }
         }, 500);
 
         // 出库通知单商品
-        $("#deliver_consign_info_goods_info_table").datagrid({
+        $("#deliver_consign_upload_goods_info_table").datagrid({
             border: false,
             striped: true,
             idField: 'orderGoodsId',
@@ -414,7 +468,46 @@
                 {field: 'preOutstockedNum', width: 100, title: '已发数量'},
                 {field: 'sendNum', width: 100, title: '本次发货数量'}
             ]],
-            data: deliver_consign_info_form_goods_table
+            data: deliver_consign_upload_form_goods_table
+        });
+
+
+        $("#deliver_consign_upload_form_confirm_btn").click(function () {
+            var formData = {};
+            formData.id = $("#deliver_consign_upload_primary_key").val();
+            // 附件内容
+            var attachmentRows = $("#deliver_consign_upload_form_attachment_table").datagrid('getRows');
+            formData.attachments = [];
+            if (attachmentRows) {
+                $.each(attachmentRows, function (index, value) {
+                    if (value.attachType == 4) {
+                        formData.attachments.push({
+                            id: value.id,
+                            attachGroup: value.attachGroup,
+                            title: value.title,
+                            url: value.url,
+                            attachType: value.attachType
+                        });
+                    }
+                });
+            }
+            if (formData.attachments.length == 0) {
+                $.messager.alert("提示","请上传货物签收单");
+                return;
+            }
+
+            console.info(JSON.stringify(formData));
+
+            var resp = syncAjaxJson({url: LOCAL_URL + "/order/deliverConsign/deliverConsignUpload"}, formData);
+
+            console.info("上传货物签收单结果:" + JSON.stringify(resp));
+            if (resp.code == 0) {
+                $.messager.alert("成功", "上传货物签收单成功");
+                closeCurrentTab();
+            } else {
+                $.messager.alert("失败", resp.message);
+            }
+
         });
     });
 </script>

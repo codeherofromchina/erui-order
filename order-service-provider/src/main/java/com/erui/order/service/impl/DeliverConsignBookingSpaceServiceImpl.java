@@ -50,14 +50,15 @@ public class DeliverConsignBookingSpaceServiceImpl implements DeliverConsignBook
 
     @Override
     public int insert(Long purchId, DeliverConsignBookingSpaceInfo DeliverConsignBookingSpaceInfo) {
-        DeliverConsignBookingSpace DeliverConsignBookingSpace = DeliverConsignBookingSpaceFactory.DeliverConsignBookingSpace(DeliverConsignBookingSpaceInfo);
+        DeliverConsignBookingSpace deliverConsignBookingSpace = DeliverConsignBookingSpaceFactory.DeliverConsignBookingSpace(DeliverConsignBookingSpaceInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        DeliverConsignBookingSpace.setDeliverConsignId(purchId);
+        deliverConsignBookingSpace.setDeliverConsignId(purchId);
         if (userInfo != null) {
-            DeliverConsignBookingSpace.setCreateUserId(userInfo.getId());
+            deliverConsignBookingSpace.setCreateUserId(userInfo.getId());
         }
-        DeliverConsignBookingSpace.setCreateTime(new Date());
-        return deliverConsignBookingSpaceMapper.insert(DeliverConsignBookingSpace);
+        deliverConsignBookingSpace.setCreateTime(new Date());
+        deliverConsignBookingSpace.setDeleteFlag(Boolean.FALSE);
+        return deliverConsignBookingSpaceMapper.insert(deliverConsignBookingSpace);
     }
 
 
@@ -115,9 +116,9 @@ public class DeliverConsignBookingSpaceServiceImpl implements DeliverConsignBook
         DeliverConsignBookingSpaceExample example = new DeliverConsignBookingSpaceExample();
         example.createCriteria().andDeliverConsignIdEqualTo(DeliverConsignId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<DeliverConsignBookingSpace> DeliverConsignBookingSpaceList = deliverConsignBookingSpaceMapper.selectByExample(example);
-        if (DeliverConsignBookingSpaceList != null) {
-            return DeliverConsignBookingSpaceList.get(0);
+        List<DeliverConsignBookingSpace> deliverConsignBookingSpaces = deliverConsignBookingSpaceMapper.selectByExample(example);
+        if (deliverConsignBookingSpaces != null && deliverConsignBookingSpaces.size() > 0) {
+            return deliverConsignBookingSpaces.get(0);
         }
         return null;
     }

@@ -3,6 +3,7 @@ package com.erui.order.common.pojo.request;
 import com.erui.order.common.pojo.*;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -26,7 +27,7 @@ public class DeliverConsignSaveRequest {
     // 销售合同号
     private String contractNo;
     // 费用承担主体及发票抬头
-    private String invoicerise;
+    private String invoiceRise;
     // 业务项目性质
     private short businessNature;
     private String businessNatureName;
@@ -62,8 +63,8 @@ public class DeliverConsignSaveRequest {
     // 回款责任人：
     private long perLiableRepayId;
     private String perLiableRepayUsername;
-    // 是否为危险品：
-    private short isdangerous;
+    // 是否为危险品：1:否 2：是
+    private short isDangerous;
     // 货物存放地：
     private String goodsDepositPlace;
     // 贸易术语：
@@ -141,12 +142,12 @@ public class DeliverConsignSaveRequest {
         this.contractNo = contractNo;
     }
 
-    public String getInvoicerise() {
-        return invoicerise;
+    public String getInvoiceRise() {
+        return invoiceRise;
     }
 
-    public void setInvoicerise(String invoicerise) {
-        this.invoicerise = invoicerise;
+    public void setInvoiceRise(String invoiceRise) {
+        this.invoiceRise = invoiceRise;
     }
 
     public short getBusinessNature() {
@@ -293,12 +294,12 @@ public class DeliverConsignSaveRequest {
         this.perLiableRepayUsername = perLiableRepayUsername;
     }
 
-    public short getIsdangerous() {
-        return isdangerous;
+    public short getIsDangerous() {
+        return isDangerous;
     }
 
-    public void setIsdangerous(short isdangerous) {
-        this.isdangerous = isdangerous;
+    public void setIsDangerous(short isDangerous) {
+        this.isDangerous = isDangerous;
     }
 
     public String getGoodsDepositPlace() {
@@ -422,6 +423,9 @@ public class DeliverConsignSaveRequest {
     }
 
     public List<DeliverConsignPaymentInfo> getDeliverConsignPaymentInfoList() {
+        if (deliverConsignPaymentInfoList == null) {
+            return new ArrayList<>();
+        }
         return deliverConsignPaymentInfoList;
     }
 

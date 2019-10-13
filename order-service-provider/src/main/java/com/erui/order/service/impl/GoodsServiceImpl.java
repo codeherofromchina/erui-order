@@ -252,6 +252,8 @@ public class GoodsServiceImpl implements GoodsService {
         goodsInfo.setUnitName(standardUnitService.findNameByCode(orderGoodsInfo.getUnit()));
         goodsInfo.setBrand(orderGoodsInfo.getBrand());
         goodsInfo.setContractGoodsNum(orderGoodsInfo.getContractGoodsNum());
+        goodsInfo.setPreOutstockedNum(orderGoodsInfo.getPreOutstockedNum());
+
         return goodsInfo;
     }
 }

@@ -25,7 +25,6 @@
     <result column="address" property="address" jdbcType="VARCHAR" />
     <result column="contacts" property="contacts" jdbcType="VARCHAR" />
     <result column="contact_information" property="contactInformation" jdbcType="VARCHAR" />
-    <result column="tenant" property="tenant" jdbcType="VARCHAR" />
     <result column="duty_paragraph" property="dutyParagraph" jdbcType="VARCHAR" />
     <result column="zip_code" property="zipCode" jdbcType="VARCHAR" />
     <result column="create_user_id" property="createUserId" jdbcType="BIGINT" />
@@ -97,9 +96,9 @@
     id, deliver_consign_id, ready_date, arrival_date, order_emergency, penalty_provision, 
     required_doc, bill_of_positive, bill_of_vice, box_list_positive, box_list_vice, invoice_positive, 
     invoice_vice, primary_origin, other_doc, specific_require, bill_of_lading, shipping_marks, 
-    package_require, corporate_name, address, contacts, contact_information, tenant, 
-    duty_paragraph, zip_code, create_user_id, create_time, update_user_id, update_time, 
-    delete_flag, delete_time
+    package_require, corporate_name, address, contacts, contact_information, duty_paragraph, 
+    zip_code, create_user_id, create_time, update_user_id, update_time, delete_flag, 
+    delete_time
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.DeliverConsignBookingSpaceExample" >
     select
@@ -131,7 +130,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.DeliverConsignBookingSpace" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.DeliverConsignBookingSpace" >
     insert into deliver_consign_booking_space (id, deliver_consign_id, ready_date, 
       arrival_date, order_emergency, penalty_provision, 
       required_doc, bill_of_positive, bill_of_vice, 
@@ -139,10 +138,10 @@
       invoice_vice, primary_origin, other_doc, 
       specific_require, bill_of_lading, shipping_marks, 
       package_require, corporate_name, address, 
-      contacts, contact_information, tenant, 
-      duty_paragraph, zip_code, create_user_id, 
-      create_time, update_user_id, update_time, 
-      delete_flag, delete_time)
+      contacts, contact_information, duty_paragraph, 
+      zip_code, create_user_id, create_time, 
+      update_user_id, update_time, delete_flag, 
+      delete_time)
     values (#{id,jdbcType=BIGINT}, #{deliverConsignId,jdbcType=BIGINT}, #{readyDate,jdbcType=DATE}, 
       #{arrivalDate,jdbcType=DATE}, #{orderEmergency,jdbcType=INTEGER}, #{penaltyProvision,jdbcType=VARCHAR}, 
       #{requiredDoc,jdbcType=VARCHAR}, #{billOfPositive,jdbcType=INTEGER}, #{billOfVice,jdbcType=INTEGER}, 
@@ -150,10 +149,10 @@
       #{invoiceVice,jdbcType=INTEGER}, #{primaryOrigin,jdbcType=INTEGER}, #{otherDoc,jdbcType=VARCHAR}, 
       #{specificRequire,jdbcType=VARCHAR}, #{billOfLading,jdbcType=VARCHAR}, #{shippingMarks,jdbcType=VARCHAR}, 
       #{packageRequire,jdbcType=VARCHAR}, #{corporateName,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, 
-      #{contacts,jdbcType=VARCHAR}, #{contactInformation,jdbcType=VARCHAR}, #{tenant,jdbcType=VARCHAR}, 
-      #{dutyParagraph,jdbcType=VARCHAR}, #{zipCode,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, 
-      #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
+      #{contacts,jdbcType=VARCHAR}, #{contactInformation,jdbcType=VARCHAR}, #{dutyParagraph,jdbcType=VARCHAR}, 
+      #{zipCode,jdbcType=VARCHAR}, #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, 
+      #{deleteTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.DeliverConsignBookingSpace" >
     insert into deliver_consign_booking_space
@@ -226,9 +225,6 @@
       </if>
       <if test="contactInformation != null" >
         contact_information,
-      </if>
-      <if test="tenant != null" >
-        tenant,
       </if>
       <if test="dutyParagraph != null" >
         duty_paragraph,
@@ -324,9 +320,6 @@
       </if>
       <if test="contactInformation != null" >
         #{contactInformation,jdbcType=VARCHAR},
-      </if>
-      <if test="tenant != null" >
-        #{tenant,jdbcType=VARCHAR},
       </if>
       <if test="dutyParagraph != null" >
         #{dutyParagraph,jdbcType=VARCHAR},
@@ -432,9 +425,6 @@
       <if test="record.contactInformation != null" >
         contact_information = #{record.contactInformation,jdbcType=VARCHAR},
       </if>
-      <if test="record.tenant != null" >
-        tenant = #{record.tenant,jdbcType=VARCHAR},
-      </if>
       <if test="record.dutyParagraph != null" >
         duty_paragraph = #{record.dutyParagraph,jdbcType=VARCHAR},
       </if>
@@ -489,7 +479,6 @@
       address = #{record.address,jdbcType=VARCHAR},
       contacts = #{record.contacts,jdbcType=VARCHAR},
       contact_information = #{record.contactInformation,jdbcType=VARCHAR},
-      tenant = #{record.tenant,jdbcType=VARCHAR},
       duty_paragraph = #{record.dutyParagraph,jdbcType=VARCHAR},
       zip_code = #{record.zipCode,jdbcType=VARCHAR},
       create_user_id = #{record.createUserId,jdbcType=BIGINT},
@@ -571,9 +560,6 @@
       <if test="contactInformation != null" >
         contact_information = #{contactInformation,jdbcType=VARCHAR},
       </if>
-      <if test="tenant != null" >
-        tenant = #{tenant,jdbcType=VARCHAR},
-      </if>
       <if test="dutyParagraph != null" >
         duty_paragraph = #{dutyParagraph,jdbcType=VARCHAR},
       </if>
@@ -625,7 +611,6 @@
       address = #{address,jdbcType=VARCHAR},
       contacts = #{contacts,jdbcType=VARCHAR},
       contact_information = #{contactInformation,jdbcType=VARCHAR},
-      tenant = #{tenant,jdbcType=VARCHAR},
       duty_paragraph = #{dutyParagraph,jdbcType=VARCHAR},
       zip_code = #{zipCode,jdbcType=VARCHAR},
       create_user_id = #{createUserId,jdbcType=BIGINT},

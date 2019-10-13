@@ -41,6 +41,8 @@ public class DeliverConsignGoodsFactory {
             return null;
         }
         DeliverConsignGoodsInfo deliverConsignGoodsInfo = new DeliverConsignGoodsInfo();
+        deliverConsignGoodsInfo.setId(deliverConsignGoods.getId());
+        deliverConsignGoodsInfo.setSendNum(deliverConsignGoods.getSendNum());
         deliverConsignGoodsInfo.setOrderGoodsId(deliverConsignGoods.getOrderGoodsId());
 
         return deliverConsignGoodsInfo;

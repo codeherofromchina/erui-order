@@ -31,6 +31,8 @@ public class OrderGoodsInfo {
     private String nameZh;
 
     private Short contractGoodsNum;
+    // 预发货数量
+    private Integer preOutstockedNum;
 
     private String unit;
 
@@ -188,5 +190,13 @@ public class OrderGoodsInfo {
 
     public void setAttrs(String attrs) {
         this.attrs = attrs;
+    }
+
+    public Integer getPreOutstockedNum() {
+        return preOutstockedNum;
+    }
+
+    public void setPreOutstockedNum(Integer preOutstockedNum) {
+        this.preOutstockedNum = preOutstockedNum;
     }
 }
