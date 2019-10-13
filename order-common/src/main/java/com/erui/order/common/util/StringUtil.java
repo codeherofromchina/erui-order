@@ -32,6 +32,7 @@ public class StringUtil {
 
     /**
      * 生成出口通知单号
+     *
      * @param lastDeliverConsignNo
      * @return
      */
@@ -50,7 +51,23 @@ public class StringUtil {
         return prefix + FORMAT_FOUR_ZERO.format(beginNum);
     }
 
+    public static String genDeliverDetailNo(String lastDeliverDetailNo) {
+        // 20190001
+        String prefix = DateFormatUtils.format(new Date(), "yyyy");
+        int beginNum = 1;
+        if (StringUtils.isNotBlank(lastDeliverDetailNo) && lastDeliverDetailNo.length() >= 4 &&
+                (lastDeliverDetailNo.substring(0, 4).equals(prefix))) {
+            String seq = lastDeliverDetailNo.substring(4);
+            if (StringUtils.isNumeric(seq)) {
+                beginNum = Integer.parseInt(seq);
+            }
+            beginNum++;
+        }
+        return prefix + FORMAT_FOUR_ZERO.format(beginNum);
+    }
 
     public static final NumberFormat FORMAT_FOUR_ZERO = new DecimalFormat("0000");
     public static final NumberFormat FORMAT_FOUR_FIVE = new DecimalFormat("00000");
+
+
 }

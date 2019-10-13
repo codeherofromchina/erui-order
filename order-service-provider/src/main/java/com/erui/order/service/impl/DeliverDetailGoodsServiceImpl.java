@@ -60,6 +60,8 @@ public class DeliverDetailGoodsServiceImpl implements DeliverDetailGoodsService 
         DeliverDetailGoods deliverDetailGoods = new DeliverDetailGoods();
         deliverDetailGoods.setDeliverDetailId(deliverDetailId);
         deliverDetailGoods.setDeliverConsignGoodsId(deliverConsignGoodsInfo.getId());
+        deliverDetailGoods.setOutboundNum(deliverConsignGoodsInfo.getSendNum());
+        deliverDetailGoods.setStraightNum((short) 0);
         deliverDetailGoods.setCreateTime(new Date());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         deliverDetailGoods.setCreateUserId(userInfo.getId());

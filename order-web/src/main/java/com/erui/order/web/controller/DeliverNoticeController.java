@@ -6,6 +6,7 @@ import com.erui.order.common.ResultStatus;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.request.DeliverConsignSaveRequest;
 import com.erui.order.common.pojo.request.DeliverNoticeQueryRequest;
 import com.erui.order.common.pojo.request.DeliverNoticeSaveRequest;
 import com.erui.order.common.pojo.response.DeliverNoticeDetailResponse;
@@ -65,6 +66,29 @@ public class DeliverNoticeController {
         return result;
     }
 
+
+    /**
+     * 上传箱单
+     *
+     * @param saveRequest
+     * @param bindingResult
+     * @return
+     */
+    @RequestMapping(value = "deliverNoticeUpload", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> deliverNoticeUpload(@RequestBody @Valid DeliverNoticeSaveRequest saveRequest, BindingResult bindingResult) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("deliverNoticeUpload - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest));
+        Result<Void> result = new Result<>();
+        try {
+            deliverNoticeService.deliverNoticeUpload(saveRequest.getId(), saveRequest.getAttachments());
+            LOGGER.info("deliverNoticeUpload成功 - {} - {}", JSON.toJSONString(userInfo), saveRequest.getId());
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("deliverNoticeUpload异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(saveRequest), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
 
     /**
      * 分页查询DeliverNotice列表内容

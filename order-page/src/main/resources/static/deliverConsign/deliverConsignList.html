@@ -147,12 +147,12 @@
         });
     });
 
-    function deliverConsignInfoPage(deliverConsignId) {
-        var tabTitle = "查看出口通知单-" + deliverConsignId;
+    function deliverConsignInfoPage(deliverNoticeId) {
+        var tabTitle = "查看出口通知单-" + deliverNoticeId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            GLOBAL_PARAMS = "deliverNoticeId=" + deliverNoticeId;
             $("#tt").tabs("add", {
                 title: tabTitle,
                 href: 'deliverConsign/deliverConsignInfo.html',
@@ -161,29 +161,29 @@
         }
     }
 
-    function deliverConsignUploadPage(deliverConsignId) {
-        var tabTitle = "上传货物签收单-" + deliverConsignId;
+    function deliverConsignUploadPage(deliverNoticeId) {
+        var tabTitle = "上传货物签收单-" + deliverNoticeId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            GLOBAL_PARAMS = "deliverNoticeId=" + deliverNoticeId;
             $("#tt").tabs("add", {
                 title: tabTitle,
-                href: 'deliverConsign/deliverConsignUpload.html',
+                href: 'deliverNotice/deliverConsignUpload.html',
                 closable: true
             });
         }
     }
 
-    function saveDeliverConsignPage(deliverConsignId) {
-        var tabTitle = "办理出口通知单-" + deliverConsignId;
+    function saveDeliverConsignPage(deliverNoticeId) {
+        var tabTitle = "办理出口通知单-" + deliverNoticeId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
+            GLOBAL_PARAMS = "deliverNoticeId=" + deliverNoticeId;
             $("#tt").tabs("add", {
                 title: tabTitle,
-                href: 'deliverConsign/saveDeliverConsign.html',
+                href: 'deliverNotice/saveDeliverConsign.html',
                 closable: true
             });
         }

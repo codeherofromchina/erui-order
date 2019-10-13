@@ -1,22 +1,21 @@
 <script type="text/javascript">
-    var saveDeliverNoticeParams = getQueryStringFromGlobalParams();
-    var save_deliver_notice_form_data = {};
-    var save_deliver_notice_form_goods_table = [];
-    if (saveDeliverNoticeParams.id) {
-        var saveDeliverNoticeInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverNotice/info"}, {"id": saveDeliverNoticeParams.id});
-        if (saveDeliverNoticeInfo.code == 0) {
-            save_deliver_notice_form_data = saveDeliverNoticeInfo.data;
+    var addDeliverNoticeParams = getQueryStringFromGlobalParams();
+    var add_deliver_notice_form_data = {};
+    var add_deliver_notice_form_goods_table = [];
+    if (addDeliverNoticeParams.deliverConsignId) {
+        var addDeliverNoticeInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverNotice/detailByDeliverConsignId"}, {"id": addDeliverNoticeParams.deliverConsignId});
+        if (addDeliverNoticeInfo.code == 0) {
+            add_deliver_notice_form_data = addDeliverNoticeInfo.data;
             // 商品内容
-            save_deliver_notice_form_goods_table = save_deliver_notice_form_data.goodsInfos;
-            delete save_deliver_notice_form_data.goodsInfos;
-            // 删除附件
-            delete save_deliver_notice_form_data.attachments;
+            add_deliver_notice_form_goods_table = add_deliver_notice_form_data.goodsInfos;
+            delete add_deliver_notice_form_data.goodsInfos;
+            // 附件内容
+            delete add_deliver_notice_form_data.attachments;
         }
     }
 </script>
-<form id="save_deliver_notice_form">
+<form id="add_deliver_notice_form">
     <input type="hidden" v-model="deliverConsignId" name="deliverConsignId" value=""/>
-    <input type="hidden" v-model="id" name="id" value=""/>
     <div class="easyui-panel" title="基础信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
@@ -56,7 +55,7 @@
     <div class="easyui-panel" title="商品信息"
          style="padding:0;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
-        <table style="background:#fafafa;" id="save_deliver_notice_goods_info_table">
+        <table style="background:#fafafa;" id="add_deliver_notice_goods_info_table">
         </table>
     </div>
 
@@ -82,26 +81,22 @@
 </form>
 
 <div style="margin-top:20px;text-align: center;">
-    <a href="javascript:void(0);" id="save_deliver_notice_form_save_btn" size="large" class="easyui-linkbutton"
+    <a href="javascript:void(0);" id="add_deliver_notice_form_save_btn" size="large" class="easyui-linkbutton"
        style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <a href="javascript:void(0);" id="save_deliver_notice_form_submit_btn" size="large" class="easyui-linkbutton"
+    <a href="javascript:void(0);" id="add_deliver_notice_form_submit_btn" size="large" class="easyui-linkbutton"
        style="margin-left:10px;">&nbsp;&nbsp;提交立项&nbsp;&nbsp;</a>
 </div>
 
 
 <script type="text/javascript">
     new Vue({
-        el: '#save_deliver_notice_form',
-        data: save_deliver_notice_form_data
+        el: '#add_deliver_notice_form',
+        data: add_deliver_notice_form_data
     });
 
     $(function () {
-        setTimeout(function () {
-            $("#save_deliver_notice_form").form('load', save_deliver_notice_form_data);
-        }, 500);
-
         // 出库通知单商品
-        $("#save_deliver_notice_goods_info_table").datagrid({
+        $("#add_deliver_notice_goods_info_table").datagrid({
             border: false,
             striped: true,
             idField: 'id',
@@ -114,14 +109,16 @@
                 {field: 'brand', width: 100, title: '品牌'},
                 {field: 'sendNum', width: 100, title: '本次发货数量'}
             ]],
-            data: save_deliver_notice_form_goods_table
+            data: add_deliver_notice_form_goods_table
         });
 
-        $("#save_deliver_notice_form_save_btn").click(function (e) {
+        $("#add_deliver_notice_form_save_btn").click(function (e) {
             e.preventDefault();
-            var formData = $("#save_deliver_notice_form").serializeJson();
+            var formData = $("#add_deliver_notice_form").serializeJson()
             formData.deliverNoticeStatus = 2; // 保存看货通知单
+
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/deliverNotice/saveDeliverNotice"}, formData);
+
             console.info("保存看货通知单结果:" + JSON.stringify(resp));
             if (resp.code == 0) {
                 $.messager.alert("成功", "保存看货通知单成功");
@@ -131,11 +128,13 @@
             }
         });
 
-        $("#save_deliver_notice_form_submit_btn").click(function (e) {
+        $("#add_deliver_notice_form_submit_btn").click(function (e) {
             e.preventDefault();
-            var formData = $("#save_deliver_notice_form").serializeJson();
+            var formData = $("#add_deliver_notice_form").serializeJson()
             formData.deliverNoticeStatus = 3; // 保存看货通知单
+
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/deliverNotice/saveDeliverNotice"}, formData);
+
             console.info("提交看货通知单结果:" + JSON.stringify(resp));
             if (resp.code == 0) {
                 $.messager.alert("成功", "提交看货通知单成功");
@@ -144,5 +143,6 @@
                 $.messager.alert("失败", resp.message);
             }
         });
+
     });
 </script>

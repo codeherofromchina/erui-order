@@ -13,7 +13,7 @@
                 </li>
                 <li>
                     <label>客户代码：</label>
-                    <input type="text" class="easyui-textbox" name="crmCodeOrName"/>
+                    <input type="text" class="easyui-textbox" name="crmCode"/>
                 </li>
                 <li>
                     <label>看货状态：</label>
@@ -25,8 +25,10 @@
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="deliver_notice_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="deliver_notice_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="deliver_notice_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="deliver_notice_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
@@ -36,78 +38,114 @@
 <!-- /数据表工具栏 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#deliver_notice_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'contractNo',title:'销售合同号'},
-                {field:'crmCodeOrName',title:'客户代码'},
-                {field:'arrivalDate',title:'项目要求交付日期'},
-                {field:'deptName',title:'发货申请部门',
-                    formatter:function(code,row,index) {
-                        var company = COMPANY[code];
-                        if (company) {
-                            return company;
-                        }
-                        return code;
-                    }
-                },
-                {field:'wareHousemanName',title:'仓储经办人'},
-                {field:'operationSpecialist',title:'单证操作'},
-                {field:'handleStatus',title:'看货状态',
-                    formatter:function(code,row,index){
-                        if(code == 1) {
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'contractNo', title: '销售合同号'},
+                {field: 'crmCode', title: '客户代码'},
+                {field: 'deliveryDate', title: '项目要求交付日期'},
+                {field: 'execCoName', title: '发货申请部门'},
+                {field: 'wareHousemanName', title: '仓储经办人'},
+                {field: 'operationSpecialistUserName', title: '单证操作'},
+                {
+                    field: 'handleStatus', title: '看货状态',
+                    formatter: function (code, row, index) {
+                        if (code == 1) {
                             return "未处理";
-                        } else if(code == 2){
+                        } else if (code == 2) {
                             return "已完成";
                         }
                         return code;
                     }
                 },
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+                {
+                    field: '_operator', title: '操作',
+                    formatter: function (code, row, index) {
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverNoticeInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.deliverNoticeStatus == 1 || row.deliverNoticeStatus == 2) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveDeliverNoticePage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+                        } else if (row.deliverNoticeStatus == 3) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="deliverNoticeUploadPage(' + row.id + ')">上传箱单</a>&nbsp;&nbsp;&nbsp;';
+                        }
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/deliverNotice/list',
-            onBeforeLoad:function(param){
+            url: LOCAL_URL + '/order/deliverNotice/list',
+            onBeforeLoad: function (param) {
                 var data = $('#deliver_notice_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         // 搜索按钮
-        $("#deliver_notice_list_table_toolbar_form_search_btn").click(function (){
+        $("#deliver_notice_list_table_toolbar_form_search_btn").click(function () {
             $("#deliver_notice_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#deliver_notice_list_table_toolbar_form_clear_btn").click(function (){
+        $("#deliver_notice_list_table_toolbar_form_clear_btn").click(function () {
             $('#deliver_notice_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#deliver_notice_list_table");
             $("#deliver_notice_list_table").datagrid("reload");
         });
     });
+
+
+    function deliverNoticeInfoPage(deliverNoticeId) {
+        var tabTitle = "查看看货通知单-" + deliverNoticeId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverNoticeId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverNotice/deliverNoticeInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function deliverNoticeUploadPage(deliverNoticeId) {
+        var tabTitle = "上传箱单-" + deliverNoticeId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverNoticeId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverNotice/deliverNoticeUpload.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveDeliverNoticePage(deliverNoticeId) {
+        var tabTitle = "办理看货通知单-" + deliverNoticeId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverNoticeId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'deliverNotice/saveDeliverNotice.html',
+                closable: true
+            });
+        }
+    }
 </script>

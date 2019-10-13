@@ -26,6 +26,8 @@ public class DeliverNoticeListResponse {
     // 看货状态
     private Short deliverNoticeStatus;
     private String deliverNoticeStatusName;
+    // 看货状态
+    private Short handleStatus;
 
     public Long getId() {
         return id;
@@ -106,6 +108,14 @@ public class DeliverNoticeListResponse {
 
     public void setDeliverNoticeStatusName(String deliverNoticeStatusName) {
         this.deliverNoticeStatusName = deliverNoticeStatusName;
+    }
+
+    public Short getHandleStatus() {
+        return handleStatus;
+    }
+
+    public void setHandleStatus(Short handleStatus) {
+        this.handleStatus = handleStatus;
     }
 
     public Long getWareHouseman() {

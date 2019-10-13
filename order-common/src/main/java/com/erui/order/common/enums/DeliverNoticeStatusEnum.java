@@ -5,7 +5,7 @@ package com.erui.order.common.enums;
  * @Date 2019/9/10 下午10:45
  */
 public enum DeliverNoticeStatusEnum {
-    INIT(1, "未编辑"), SAVED(2, "已保存"), SUBMITED(3, "已提交"), DONE(4, "已完成"), DELETE(5, "已删除");
+    INIT(1, "未编辑"), SAVED(2, "已保存"), SUBMITED(3, "已提交"), UPLOAD(4, "已完成");
 
     private short code;
     private String name;

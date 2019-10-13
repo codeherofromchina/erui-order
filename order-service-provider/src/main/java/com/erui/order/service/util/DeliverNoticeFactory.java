@@ -1,10 +1,13 @@
 package com.erui.order.service.util;
 
+import com.erui.order.common.enums.CompanyEnum;
 import com.erui.order.common.enums.DeliverNoticeStatusEnum;
 import com.erui.order.common.pojo.request.DeliverNoticeSaveRequest;
 import com.erui.order.common.pojo.response.DeliverNoticeDetailResponse;
 import com.erui.order.common.pojo.response.DeliverNoticeListResponse;
 import com.erui.order.model.entity.DeliverNotice;
+
+import java.util.Date;
 
 /**
  * @Auther 王晓丹
@@ -22,7 +25,11 @@ public class DeliverNoticeFactory {
         deliverNotice.setOtherReq(saveRequest.getOtherReq());
         deliverNotice.setPackageReq(saveRequest.getPackageReq());
         deliverNotice.setPrepareReq(saveRequest.getPrepareReq());
-
+        deliverNotice.setDeliverNoticeStatus(saveRequest.getDeliverNoticeStatus());
+        DeliverNoticeStatusEnum deliverNoticeStatusEnum = DeliverNoticeStatusEnum.valueOf(saveRequest.getDeliverNoticeStatus());
+        if (deliverNoticeStatusEnum != null && deliverNoticeStatusEnum == DeliverNoticeStatusEnum.SUBMITED) {
+            deliverNotice.setSendDate(new Date());
+        }
         return deliverNotice;
     }
 
@@ -30,13 +37,15 @@ public class DeliverNoticeFactory {
         if (deliverNotice == null) {
             return null;
         }
-
         DeliverNoticeDetailResponse deliverNoticeDetailResponse = new DeliverNoticeDetailResponse();
         deliverNoticeDetailResponse.setId(deliverNotice.getId());
         deliverNoticeDetailResponse.setDeliverConsignId(deliverNotice.getDeliverConsignId());
         deliverNoticeDetailResponse.setOtherReq(deliverNotice.getOtherReq());
         deliverNoticeDetailResponse.setPackageReq(deliverNotice.getPackageReq());
         deliverNoticeDetailResponse.setPrepareReq(deliverNotice.getPrepareReq());
+        deliverNoticeDetailResponse.setNumbers(deliverNotice.getNumbers());
+        deliverNoticeDetailResponse.setDeliveryDate(deliverNotice.getDeliveryDate());
+        deliverNoticeDetailResponse.setSendDate(deliverNotice.getSendDate());
 
         return deliverNoticeDetailResponse;
     }
@@ -53,6 +62,8 @@ public class DeliverNoticeFactory {
         deliverNoticeListResponse.setDeliveryDate(deliverNotice.getDeliveryDate());
         deliverNoticeListResponse.setExecCoName(deliverNotice.getExecCoName());
         deliverNoticeListResponse.setWareHouseman(deliverNotice.getWareHouseman());
+        deliverNoticeListResponse.setExecCoName(deliverNotice.getExecCoName());
+        deliverNoticeListResponse.setHandleStatus(deliverNotice.getHandleStatus());
 
         deliverNoticeListResponse.setOperationSpecialistId(deliverNotice.getOperationSpecialistId());
         deliverNoticeListResponse.setDeliverNoticeStatus(deliverNotice.getDeliverNoticeStatus());

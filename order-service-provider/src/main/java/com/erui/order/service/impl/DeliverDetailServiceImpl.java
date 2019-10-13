@@ -8,12 +8,10 @@ import com.erui.order.common.pojo.request.DeliverDetailQueryRequest;
 import com.erui.order.common.pojo.request.DeliverDetailSaveRequest;
 import com.erui.order.common.pojo.response.DeliverDetailDetailResponse;
 import com.erui.order.common.pojo.response.DeliverDetailListResponse;
+import com.erui.order.common.util.StringUtil;
 import com.erui.order.common.util.ThreadLocalUtil;
-import com.erui.order.mapper.DeliverDetailMapper;
-import com.erui.order.mapper.DeliverNoticeMapper;
-import com.erui.order.model.entity.DeliverDetail;
-import com.erui.order.model.entity.DeliverDetailExample;
-import com.erui.order.model.entity.DeliverNotice;
+import com.erui.order.mapper.*;
+import com.erui.order.model.entity.*;
 import com.erui.order.service.*;
 import com.erui.order.service.util.DeliverDetailFactory;
 import com.github.pagehelper.Page;
@@ -36,6 +34,12 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
     @Autowired
     private DeliverDetailMapper deliverDetailMapper;
     @Autowired
+    private DeliverConsignMapper deliverConsignMapper;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private ProjectMapper projectMapper;
+    @Autowired
     private DeliverNoticeMapper deliverNoticeMapper;
     @Autowired
     private AttachmentService attachmentService;
@@ -54,20 +58,33 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         if (deliverNotice == null) {
             throw new Exception("看货通知不存在");
         }
+        // 出库通知单
+        DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(deliverNotice.getDeliverConsignId());
+        // 订单
+        Order order = orderMapper.selectByPrimaryKey(deliverConsign.getOrderId());
+        // 项目
+        Project project = selectByOrderId(order.getId());
+
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
 
         DeliverDetail deliverDetail = new DeliverDetail();
         deliverDetail.setDeliverNoticeId(inspectNoticeId);
-        deliverDetail.setDeliverDetailNo(deliverNotice.getDeliverNoticeNo());
-        // TODO 先跳过，需要设置仓库经办人(project.warehourseUid)、物流经办人（project.logisticsuid）、品控经办人（project.qualityuid）
+        String lastDeliverDetailNo = findLastDeliverDetailNo();
+        deliverDetail.setDeliverDetailNo(StringUtil.genDeliverDetailNo(lastDeliverDetailNo));
+        deliverDetail.setDeliverConsignNo(deliverConsign.getDeliverConsignNo());
+        deliverDetail.setContractNo(order.getContractNo());
+        deliverDetail.setProjectNo(project.getProjectNo());
+        // TODO 先跳过，需要设置仓库经办人(project.warehourseUid)、物流经办人（project.logisticsuid）
+        deliverDetail.setQualityLeaderUserId(project.getQualityUid());
         deliverDetail.setDeliverDetailStatus(DeliverDetailStatusEnum.INIT.getCode());
         deliverDetail.setCreateTime(new Date());
         deliverDetail.setCreateUserId(userInfo.getId());
+        deliverDetail.setDeleteFlag(Boolean.FALSE);
         deliverDetailMapper.insert(deliverDetail);
         Long deliverDetailId = deliverDetail.getId();
 
-        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(inspectNoticeId);
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverConsign.getId());
         deliverDetailGoodsService.insert(deliverDetailId, deliverConsignGoodsInfos);
         return deliverDetailId;
 
@@ -177,6 +194,29 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         detail.setGoodsInfos(goodsInfos);
 
         return detail;
+    }
+
+
+    private Project selectByOrderId(Long orderId) {
+        ProjectExample projectExample = new ProjectExample();
+        projectExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andOrderIdEqualTo(orderId);
+        List<Project> projects = projectMapper.selectByExample(projectExample);
+        Project project = null;
+        if (projects != null && projects.size() > 0) {
+            project = projects.get(0);
+        }
+        return project;
+    }
+
+    private String findLastDeliverDetailNo() {
+        PageHelper.startPage(1, 1);
+        DeliverDetailExample example = new DeliverDetailExample();
+        example.setOrderByClause("deliver_detail_no desc");
+        List<DeliverDetail> deliverDetailList = deliverDetailMapper.selectByExample(null);
+        if (deliverDetailList != null && deliverDetailList.size() > 0) {
+            return deliverDetailList.get(0).getDeliverDetailNo();
+        }
+        return null;
     }
 }
 

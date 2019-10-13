@@ -21,7 +21,6 @@ public class DeliverNoticeSaveRequest {
     private String prepareReq;
     // 状态
     private Short deliverNoticeStatus;
-
     // 附件内容
     private List<AttachmentInfo> attachments;
 

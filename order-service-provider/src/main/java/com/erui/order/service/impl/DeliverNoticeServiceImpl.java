@@ -1,8 +1,7 @@
 package com.erui.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
-import com.erui.order.common.enums.AttachmentTargetObjEnum;
-import com.erui.order.common.enums.DeliverNoticeStatusEnum;
+import com.erui.order.common.enums.*;
 import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.DeliverNoticeQueryRequest;
 import com.erui.order.common.pojo.request.DeliverNoticeSaveRequest;
@@ -11,9 +10,9 @@ import com.erui.order.common.pojo.response.DeliverNoticeListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.DeliverConsignMapper;
 import com.erui.order.mapper.DeliverNoticeMapper;
-import com.erui.order.model.entity.DeliverConsign;
-import com.erui.order.model.entity.DeliverNotice;
-import com.erui.order.model.entity.DeliverNoticeExample;
+import com.erui.order.mapper.OrderMapper;
+import com.erui.order.mapper.ProjectMapper;
+import com.erui.order.model.entity.*;
 import com.erui.order.service.*;
 import com.erui.order.service.util.DeliverNoticeFactory;
 import com.github.pagehelper.Page;
@@ -29,6 +28,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -36,6 +36,10 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
     private static Logger LOGGER = LoggerFactory.getLogger(DeliverNoticeServiceImpl.class);
     @Autowired
     private DeliverNoticeMapper deliverNoticeMapper;
+    @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
+    private ProjectMapper projectMapper;
     @Autowired
     private DeliverConsignMapper deliverConsignMapper;
     @Autowired
@@ -46,17 +50,45 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
     private GoodsService goodsService;
     @Autowired
     private UserService userService;
+    @Autowired
+    private CountryService countryService;
+    @Autowired
+    private DeliverConsignBookingSpaceService deliverConsignBookingSpaceService;
+    @Autowired
+    private DeliverDetailService deliverDetailService;
 
     @Override
     public Long insert(DeliverNoticeSaveRequest insertRequest) throws Exception {
+        DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(insertRequest.getDeliverConsignId());
+        if (deliverConsign == null) {
+            throw new Exception("对应的出口通知单不存在");
+        }
+        // 查找订单
+        Order order = orderMapper.selectByPrimaryKey(deliverConsign.getOrderId());
+        // 查找项目
+        Project project = selectByOrderId(order.getId());
+        // 获取商品总数量
+        List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverConsign.getId());
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
         DeliverNotice deliverNotice = DeliverNoticeFactory.deliverNotice(insertRequest);
+
         deliverNotice.setDeliverNoticeNo(UUID.randomUUID().toString());
+        deliverNotice.setNumbers(deliverConsignGoodsInfos.stream().mapToInt(vo -> vo.getSendNum()).sum());
+        deliverNotice.setContractNo(order.getContractNo());
+        deliverNotice.setCrmCode(order.getCrmCode());
+        deliverNotice.setDeliveryDate(project.getDeliveryDate());
+        deliverNotice.setHandleStatus((short) 1);
+        deliverNotice.setOperationSpecialistId(deliverConsign.getOperationSpecialistId());
+        deliverNotice.setSenderId(userInfo.getId());
         deliverNotice.setCreateTime(new Date());
         deliverNotice.setCreateUserId(userInfo.getId());
         deliverNotice.setDeleteFlag(Boolean.FALSE);
+        CompanyEnum companyEnum = CompanyEnum.fromCode(order.getExecCoCode());
+        if (companyEnum != null) {
+            deliverNotice.setExecCoName(companyEnum.getName());
+        }
         int insertNum = deliverNoticeMapper.insert(deliverNotice);
         if (insertNum == 0) {
             throw new Exception("数据库操作失败");
@@ -65,13 +97,20 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
 
         // 对象附件操作
         List<AttachmentInfo> attachments = insertRequest.getAttachments();
-        if (attachments != null && attachments.size() > 0) {
-            int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.DELIVER_NOTICE, deliverNoticeId, attachments);
-            if (attachments.size() != attachmentInsertNum) {
-                LOGGER.info("attachmentInsertNum : {} - {}", attachmentInsertNum, JSON.toJSONString(insertRequest));
-                throw new Exception("看货通知单附件数据操作失败");
-            }
+        if (attachments == null) {
+            attachments = new ArrayList<>();
         }
+        int attachmentInsertNum = attachmentService.insert(AttachmentTargetObjEnum.DELIVER_NOTICE, deliverNoticeId, attachments);
+        if (attachments.size() != attachmentInsertNum) {
+            LOGGER.info("attachmentInsertNum : {} - {}", attachmentInsertNum, JSON.toJSONString(insertRequest));
+            throw new Exception("看货通知单附件数据操作失败");
+        }
+
+        // 已经生成看货通知单
+        DeliverConsign deliverConsignSelective = new DeliverConsign();
+        deliverConsignSelective.setId(deliverConsign.getId());
+        deliverConsignSelective.setDeliverNoticeStatus(deliverNotice.getDeliverNoticeStatus());
+        deliverConsignMapper.updateByPrimaryKeySelective(deliverConsignSelective);
 
         return deliverNoticeId;
     }
@@ -97,6 +136,7 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         // 修改基本信息
         DeliverNotice deliverNoticeSelective = DeliverNoticeFactory.deliverNotice(updateRequest);
         deliverNoticeSelective.setId(deliverNoticeId);
+        deliverNoticeSelective.setSenderId(userInfo.getId());
         deliverNoticeSelective.setUpdateTime(new Date());
         deliverNoticeSelective.setUpdateUserId(userInfo.getId());
 
@@ -130,7 +170,7 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
         }
 
         if (StringUtils.isNotBlank(queryRequest.getCrmCode())) {
-            criteria.andCrmCodeLike("%" + queryRequest.getContractNo() + "%");
+            criteria.andCrmCodeLike("%" + queryRequest.getCrmCode() + "%");
         }
 
         DeliverNoticeStatusEnum deliverNoticeStatusEnum = DeliverNoticeStatusEnum.valueOf(queryRequest.getDeliverNoticeStatus());
@@ -156,19 +196,55 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
 
     @Override
     public DeliverNoticeDetailResponse detail(Long id) throws Exception {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 准备数据
         DeliverNotice deliverNotice = deliverNoticeMapper.selectByPrimaryKey(id);
         if (deliverNotice == null) {
             throw new Exception("对象信息不存在");
         }
+        // 出口通知单信息
+        DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(deliverNotice.getDeliverConsignId());
+        DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo = deliverConsignBookingSpaceService.selectByDeliverConsignId(deliverConsign.getId());
+        // 查找订单
+        Order order = orderMapper.selectByPrimaryKey(deliverConsign.getOrderId());
+        // 查找项目
+        Project project = selectByOrderId(order.getId());
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.DELIVER_NOTICE, id);
         // 商品
         List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverNotice.getDeliverConsignId());
         List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);
-
         // 组织数据
         DeliverNoticeDetailResponse detail = DeliverNoticeFactory.deliverNoticeDetailResponse(deliverNotice);
+        Short deliverNoticeStatus = deliverNotice.getDeliverNoticeStatus();
+        if (deliverNoticeStatus > DeliverNoticeStatusEnum.SAVED.getCode()) {
+            detail.setSenderId(deliverNotice.getSenderId());
+        } else {
+            detail.setSenderId(userInfo.getId());
+        }
+        detail.setSenderName(userService.findNameById(detail.getSenderId()));
+        detail.setProjectNo(project.getProjectNo());
+
+        detail.setOperationSpecialistName(userService.findNameById(detail.getOperationSpecialistId()));
+        detail.setBusinessSketch(deliverConsign.getBusinessSketch());
+        detail.setGoodsDepositPlace(deliverConsign.getGoodsDepositPlace());
+        detail.setTradeTerms(order.getTradeTerms());
+        // 目的国、目的地
+        detail.setToCountry(order.getToCountry());
+        detail.setToCountryName(countryService.findCountryNameByBn(order.getToCountry()));
+        detail.setToPlace(order.getToPlace());
+        // 事业部项目负责人
+        detail.setTechnicalId(order.getTechnicalId());
+        detail.setTechnicalUserName(userService.findNameById(order.getTechnicalId()));
+        // 运输方式
+        detail.setTransportType(order.getTransportType());
+        OrderTransportTypeEnum orderTransportTypeEnum = OrderTransportTypeEnum.fromCode(order.getTransportType());
+        if (orderTransportTypeEnum != null) {
+            detail.setTransportTypeName(orderTransportTypeEnum.getName());
+        }
+        // 订单紧急程度 1:一般（成本优先） 2:紧急 3:异常紧急（交期优先）
+        detail.setOrderEmergency(deliverConsignBookingSpaceInfo.getOrderEmergency());
+
         detail.setAttachments(attachmentInfos);
         detail.setGoodsInfos(goodsInfoList);
 
@@ -178,36 +254,92 @@ public class DeliverNoticeServiceImpl implements DeliverNoticeService {
 
     @Override
     public DeliverNoticeDetailResponse detailByDeliverConsignId(Long deliverConsignId) throws Exception {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 准备数据
         DeliverConsign deliverConsign = deliverConsignMapper.selectByPrimaryKey(deliverConsignId);
         if (deliverConsign == null) {
             throw new Exception("订舱信息不存在");
         }
+        // 订舱信息
+        DeliverConsignBookingSpaceInfo deliverConsignBookingSpaceInfo = deliverConsignBookingSpaceService.selectByDeliverConsignId(deliverConsignId);
+        // 查找订单
+        Order order = orderMapper.selectByPrimaryKey(deliverConsign.getOrderId());
+        // 查找项目
+        Project project = selectByOrderId(order.getId());
+
         // 查询商品的采购数量是否都已经和预报检数量数量相同，如果相同，返回null，否则返回预显示内容
         List<DeliverConsignGoodsInfo> deliverConsignGoodsInfos = deliverConsignGoodsService.listByDeliverConsignId(deliverConsignId);
         List<GoodsInfo> goodsInfoList = goodsService.goodsInfoByDeliverConsignGoods(deliverConsignGoodsInfos);
-        DeliverNoticeDetailResponse detailResponse = null;
-        Short deliverNoticeStatus = deliverConsign.getDeliverNoticeStatus();
-        if (deliverNoticeStatus == 0) {
-            // 组装数据
-            detailResponse = new DeliverNoticeDetailResponse();
-            detailResponse.setDeliverConsignId(deliverConsignId);
-        } else {
-            DeliverNoticeExample example = new DeliverNoticeExample();
-            example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andDeliverConsignIdEqualTo(deliverConsignId);
-            List<DeliverNotice> deliverNotices = deliverNoticeMapper.selectByExample(example);
-            if (deliverNotices != null && deliverNotices.size() == 1) {
-                detailResponse = DeliverNoticeFactory.deliverNoticeDetailResponse(deliverNotices.get(0));
-                // 附件
-                List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.DELIVER_NOTICE, detailResponse.getId());
-                detailResponse.setAttachments(attachmentInfos);
-            } else {
-                throw new Exception("看货通知单信息错误");
-            }
+        DeliverNoticeDetailResponse detailResponse = new DeliverNoticeDetailResponse();
+        // 组装数据
+        detailResponse.setDeliverConsignId(deliverConsignId);
+        detailResponse.setSenderId(userInfo.getId());
+        detailResponse.setSenderName(userInfo.getUserName());
+        detailResponse.setProjectNo(project.getProjectNo());
+        detailResponse.setOperationSpecialistId(deliverConsign.getOperationSpecialistId());
+        detailResponse.setOperationSpecialistName(userService.findNameById(deliverConsign.getOperationSpecialistId()));
+        detailResponse.setBusinessSketch(deliverConsign.getBusinessSketch());
+        detailResponse.setGoodsDepositPlace(deliverConsign.getGoodsDepositPlace());
+        detailResponse.setTradeTerms(order.getTradeTerms());
+        // 目的国、目的地
+        detailResponse.setToCountry(order.getToCountry());
+        detailResponse.setToCountryName(countryService.findCountryNameByBn(order.getToCountry()));
+        detailResponse.setToPlace(order.getToPlace());
+        // 产品件数
+        long totalGoodsNum = goodsInfoList.stream().mapToInt(vo -> vo.getSendNum()).sum();
+        detailResponse.setNumbers((int) totalGoodsNum);
+        // 事业部项目负责人
+        detailResponse.setTechnicalId(order.getTechnicalId());
+        detailResponse.setTechnicalUserName(userService.findNameById(order.getTechnicalId()));
+        // 运输方式
+        detailResponse.setTransportType(order.getTransportType());
+        OrderTransportTypeEnum orderTransportTypeEnum = OrderTransportTypeEnum.fromCode(order.getTransportType());
+        if (orderTransportTypeEnum != null) {
+            detailResponse.setTransportTypeName(orderTransportTypeEnum.getName());
         }
+        // 项目约定交付日期
+        detailResponse.setDeliveryDate(project.getDeliveryDate());
+        // 订单紧急程度 1:一般（成本优先） 2:紧急 3:异常紧急（交期优先）
+        detailResponse.setOrderEmergency(deliverConsignBookingSpaceInfo.getOrderEmergency());
+
         // 商品
         detailResponse.setGoodsInfos(goodsInfoList);
         return detailResponse;
     }
-}
 
+
+    @Override
+    public void deliverNoticeUpload(Long id, List<AttachmentInfo> attachments) throws Exception {
+        DeliverNotice deliverNotice = deliverNoticeMapper.selectByPrimaryKey(id);
+        if (deliverNotice == null) {
+            throw new Exception("看货通知单不存在");
+        }
+        if (attachments == null) {
+            throw new Exception("箱单不能为空");
+        }
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.DELIVER_NOTICE, deliverNotice.getId(), attachments);
+        if (attachments.size() != attachmentUpdateNum) {
+            throw new Exception("箱单上传失败");
+        }
+        // 更新状态
+        DeliverNotice deliverNoticeSelective = new DeliverNotice();
+        deliverNoticeSelective.setId(deliverNotice.getId());
+        deliverNoticeSelective.setDeliverNoticeStatus(DeliverNoticeStatusEnum.UPLOAD.getCode());
+        deliverNoticeSelective.setHandleStatus((short) 2);
+        deliverNoticeMapper.updateByPrimaryKeySelective(deliverNoticeSelective);
+
+        // 推送出库信息
+        deliverDetailService.insert(deliverNotice.getId());
+    }
+
+    private Project selectByOrderId(Long orderId) {
+        ProjectExample projectExample = new ProjectExample();
+        projectExample.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andOrderIdEqualTo(orderId);
+        List<Project> projects = projectMapper.selectByExample(projectExample);
+        Project project = null;
+        if (projects != null && projects.size() > 0) {
+            project = projects.get(0);
+        }
+        return project;
+    }
+}

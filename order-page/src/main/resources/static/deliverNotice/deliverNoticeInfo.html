@@ -1,0 +1,140 @@
+<script type="text/javascript">
+    var deliverNoticeInfoParams = getQueryStringFromGlobalParams();
+    var deliver_notice_info_form_data = {};
+    var deliver_notice_info_form_goods_table = [];
+    var deliver_notice_info_form_attchment_table = [];
+    if (deliverNoticeInfoParams.id) {
+        var deliverNoticeInfoResp = syncAjaxJson({"url": LOCAL_URL + "/order/deliverNotice/info"}, {"id": deliverNoticeInfoParams.id});
+        if (deliverNoticeInfoResp.code == 0) {
+            deliver_notice_info_form_data = deliverNoticeInfoResp.data;
+            // 商品内容
+            deliver_notice_info_form_goods_table = deliver_notice_info_form_data.goodsInfos;
+            delete deliver_notice_info_form_data.goodsInfos;
+            // 删除附件
+            deliver_notice_info_form_attchment_table = deliver_notice_info_form_data.attachments;
+            delete deliver_notice_info_form_data.attachments;
+        }
+    }
+</script>
+<form id="deliver_notice_info_form">
+    <div class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>下单人：</label>
+            <div class="input-div">{{senderName}}</div>
+            <label>项目号：</label>
+            <div class="input-div">{{projectNo}}</div>
+            <label>单证操作：</label>
+            <div class="input-div">{{operationSpecialistName}}</div>
+        </div>
+        <div class="fitem">
+            <label>下单日期：</label>
+            <div class="input-div">{{sendDate}}</div>
+            <label>货名：</label>
+            <div class="input-div">{{deliverConsignId}}</div>
+            <label>货物存放地：</label>
+            <div class="input-div">{{goodsDepositPlace}}</div>
+        </div>
+        <div class="fitem">
+            <label style="width: 143px;margin-left:-5px;">贸易术语/目的国/目的地：</label>
+            <div class="input-div">{{tradeTerms}}/{{toCountryName}}/{{toPlace}}</div>
+            <label>产品件数：</label>
+            <div class="input-div">{{numbers}}</div>
+            <label>事业部项目负责人：</label>
+            <div class="input-div">{{technicalUserName}}</div>
+        </div>
+        <div class="fitem">
+            <label>运输方式：</label>
+            <div class="input-div">{{transportTypeName}}</div>
+            <label>项目要求交付日期：</label>
+            <div class="input-div">{{deliveryDate}}</div>
+            <label>紧急程度：</label>
+            <div class="input-div">{{orderEmergency}}</div>
+        </div>
+    </div>
+    <div class="easyui-panel" title="商品信息"
+         style="padding:0;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <table style="background:#fafafa;" id="deliver_notice_info_goods_info_table">
+        </table>
+    </div>
+
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">其他：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{otherReq}}
+            </div>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">包装要求：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{packageReq}}
+            </div>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">备货要求：</label>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{prepareReq}}
+            </div>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:120px;">
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:deliver_notice_info_form_attchment_table"
+                       fit="true"
+                       singleSelect="true"
+                       fitColumn="true">
+                    <thead>
+                    <th field="title" width="200">附件名称</th>
+                    <th field="createUserName" width="120">创建人</th>
+                    <th field="attachType" width="100" data-options="
+                                formatter:function(value){
+                                    switch(value){
+                                        case 1: return '箱单';
+                                    }
+                                    return value;
+                                }
+                                ">类型
+                    </th>
+                    <th field="createTime" width="170">日期</th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#deliver_notice_info_form',
+        data: deliver_notice_info_form_data
+    });
+
+    $(function () {
+        // 出库通知单商品
+        $("#deliver_notice_info_goods_info_table").datagrid({
+            border: false,
+            striped: true,
+            idField: 'id',
+            columns: [[
+                {field: 'sku', width: 120, title: '平台SKU'},
+                {field: 'nameEn', width: 100, title: '外文品名'},
+                {field: 'nameZh', width: 100, title: '中文品名'},
+                {field: 'contractGoodsNum', width: 100, title: '合同数量'},
+                {field: 'unitName', width: 100, title: '单位'},
+                {field: 'brand', width: 100, title: '品牌'},
+                {field: 'sendNum', width: 100, title: '本次发货数量'}
+            ]],
+            data: deliver_notice_info_form_goods_table
+        });
+
+    });
+</script>

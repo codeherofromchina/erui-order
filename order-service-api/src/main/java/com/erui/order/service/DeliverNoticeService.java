@@ -1,11 +1,14 @@
 package com.erui.order.service;
 
 
+import com.erui.order.common.pojo.AttachmentInfo;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.request.DeliverNoticeQueryRequest;
 import com.erui.order.common.pojo.request.DeliverNoticeSaveRequest;
 import com.erui.order.common.pojo.response.DeliverNoticeDetailResponse;
 import com.erui.order.common.pojo.response.DeliverNoticeListResponse;
+
+import java.util.List;
 
 public interface DeliverNoticeService {
     /**
@@ -40,5 +43,12 @@ public interface DeliverNoticeService {
     DeliverNoticeDetailResponse detail(Long id) throws Exception;
 
     DeliverNoticeDetailResponse detailByDeliverConsignId(Long deliverConsignId) throws Exception;
+
+    /**
+     * 上传货物签收单
+     * @param id
+     * @param attachments
+     */
+    void deliverNoticeUpload(Long id, List<AttachmentInfo> attachments) throws Exception;
 }
 
