@@ -1,5 +1,8 @@
 package com.erui.order.common.pojo.request;
 
+import com.erui.order.common.pojo.AttachmentInfo;
+import com.sun.xml.internal.ws.api.message.Attachment;
+
 import java.util.Date;
 
 /**
@@ -9,7 +12,7 @@ import java.util.Date;
 public class LogisticsDataInfoSaveRequest {
     private Long id;
     private Long logisticsDataId;
-    // 动态描述 1:离开起运港 2:到达中转港 3:到达目的港 4:到达目的地 5:其他',
+    // 动态描述 1:离开起运港 2:到达中转港 3:到达目的港 4:到达目的地 5:其他'
     private Short dynamicDescription;
     // '港口名称（英文）'
     private String portName;
@@ -17,8 +20,10 @@ public class LogisticsDataInfoSaveRequest {
     private String portNameZh;
     // 离港/到港日期
     private Date leavePortDate;
-    private Short status;
-
+    // 状态 1：保存/草稿 2:已提交
+    private Short logisticsDataInfoStatus;
+    // 附件
+    private AttachmentInfo attachment;
 
     public Long getId() {
         return id;
@@ -68,11 +73,19 @@ public class LogisticsDataInfoSaveRequest {
         this.leavePortDate = leavePortDate;
     }
 
-    public Short getStatus() {
-        return status;
+    public Short getLogisticsDataInfoStatus() {
+        return logisticsDataInfoStatus;
     }
 
-    public void setStatus(Short status) {
-        this.status = status;
+    public void setLogisticsDataInfoStatus(Short logisticsDataInfoStatus) {
+        this.logisticsDataInfoStatus = logisticsDataInfoStatus;
+    }
+
+    public AttachmentInfo getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(AttachmentInfo attachment) {
+        this.attachment = attachment;
     }
 }

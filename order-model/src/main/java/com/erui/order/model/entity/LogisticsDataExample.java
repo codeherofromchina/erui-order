@@ -1942,6 +1942,66 @@ public class LogisticsDataExample {
             addCriterion("delete_time not between", value1, value2, "deleteTime");
             return (Criteria) this;
         }
+
+        public Criteria andDeliverDetailIdIsNull() {
+            addCriterion("deliver_detail_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdIsNotNull() {
+            addCriterion("deliver_detail_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdEqualTo(Long value) {
+            addCriterion("deliver_detail_id =", value, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdNotEqualTo(Long value) {
+            addCriterion("deliver_detail_id <>", value, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdGreaterThan(Long value) {
+            addCriterion("deliver_detail_id >", value, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdGreaterThanOrEqualTo(Long value) {
+            addCriterion("deliver_detail_id >=", value, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdLessThan(Long value) {
+            addCriterion("deliver_detail_id <", value, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdLessThanOrEqualTo(Long value) {
+            addCriterion("deliver_detail_id <=", value, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdIn(List<Long> values) {
+            addCriterion("deliver_detail_id in", values, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdNotIn(List<Long> values) {
+            addCriterion("deliver_detail_id not in", values, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdBetween(Long value1, Long value2) {
+            addCriterion("deliver_detail_id between", value1, value2, "deliverDetailId");
+            return (Criteria) this;
+        }
+
+        public Criteria andDeliverDetailIdNotBetween(Long value1, Long value2) {
+            addCriterion("deliver_detail_id not between", value1, value2, "deliverDetailId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

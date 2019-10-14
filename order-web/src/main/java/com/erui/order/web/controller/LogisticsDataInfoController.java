@@ -100,5 +100,29 @@ public class LogisticsDataInfoController {
         return result;
     }
 
+
+    /**
+     * 获取LogisticsData详情列表
+     *
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "listByLogisticsDataId", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<List<LogisticsDataInfoDetailResponse>> listByLogisticsDataId(@RequestBody PrimaryKey key) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("listByLogisticsDataId - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
+        Result<List<LogisticsDataInfoDetailResponse>> result = new Result<>();
+        try {
+            List<LogisticsDataInfoDetailResponse> detail = logisticsDataInfoService.listByLogisticsDataId(key.getId());
+            result.setData(detail);
+            LOGGER.info("listByLogisticsDataId成功 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), JSON.toJSONString(detail));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("listByLogisticsDataId异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
 }
 

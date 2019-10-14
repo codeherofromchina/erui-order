@@ -1,5 +1,8 @@
 package com.erui.order.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.erui.order.common.enums.AttachmentTargetObjEnum;
+import com.erui.order.common.pojo.AttachmentInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.pojo.request.LogisticsDataInfoSaveRequest;
 import com.erui.order.common.pojo.response.LogisticsDataInfoDetailResponse;
@@ -7,7 +10,9 @@ import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.LogisticsDataInfoMapper;
 import com.erui.order.model.entity.LogisticsDataInfo;
 import com.erui.order.model.entity.LogisticsDataInfoExample;
+import com.erui.order.service.AttachmentService;
 import com.erui.order.service.LogisticsDataInfoService;
+import com.erui.order.service.PortService;
 import com.erui.order.service.util.LogisticsDataInfoFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,6 +29,10 @@ public class LogisticsDataInfoServiceImpl implements LogisticsDataInfoService {
     private static Logger LOGGER = LoggerFactory.getLogger(LogisticsDataInfoServiceImpl.class);
     @Autowired
     private LogisticsDataInfoMapper logisticsDataInfoMapper;
+    @Autowired
+    private PortService portService;
+    @Autowired
+    private AttachmentService attachmentService;
 
 
     @Override
@@ -49,8 +58,15 @@ public class LogisticsDataInfoServiceImpl implements LogisticsDataInfoService {
 
 
     @Override
-    public int insert(Long logisticsDataId, LogisticsDataInfoSaveRequest logisticsDataInfoSaveRequest) {
+    public Long insert(Long logisticsDataId, LogisticsDataInfoSaveRequest logisticsDataInfoSaveRequest) throws Exception {
         LogisticsDataInfo logisticsDataInfo = LogisticsDataInfoFactory.logisticsDataInfo(logisticsDataInfoSaveRequest);
+        // 验证描述是否重复
+        Short dynamicDescription = logisticsDataInfo.getDynamicDescription();
+        if (dynamicDescription != null && dynamicDescription != 5 && listByLogisticsDataIdAndDynamicDescription(logisticsDataId, dynamicDescription) != null) {
+            throw new Exception("动态物流描述除其他外不能重复");
+        }
+
+        logisticsDataInfo.setPortNameZh(portService.findPortNameByBn(logisticsDataInfo.getPortName()));
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         logisticsDataInfo.setLogisticsDataId(logisticsDataId);
         if (userInfo != null) {
@@ -58,7 +74,22 @@ public class LogisticsDataInfoServiceImpl implements LogisticsDataInfoService {
         }
         logisticsDataInfo.setCreateTime(new Date());
         logisticsDataInfo.setDeleteFlag(Boolean.FALSE);
-        return logisticsDataInfoMapper.insert(logisticsDataInfo);
+
+        logisticsDataInfoMapper.insert(logisticsDataInfo);
+
+        Long id = logisticsDataInfo.getId();
+
+        // 对象附件
+        List<AttachmentInfo> attachments = new ArrayList<>();
+        AttachmentInfo attachment = logisticsDataInfoSaveRequest.getAttachment();
+        if (attachment != null) {
+            attachments.add(attachment);
+        }
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.LOGISTICS_DATA_INFO, id, attachments);
+        if (attachments.size() != attachmentUpdateNum) {
+            throw new Exception("对象附件数据操作失败");
+        }
+        return id;
     }
 
 
@@ -90,44 +121,97 @@ public class LogisticsDataInfoServiceImpl implements LogisticsDataInfoService {
 
     @Override
     public int updateById(Long logisticsDataInfoId, LogisticsDataInfoSaveRequest logisticsDataInfoSaveRequest) throws Exception {
-        LogisticsDataInfo LogisticsDataInfo = logisticsDataInfoMapper.selectByPrimaryKey(logisticsDataInfoId);
-        if (LogisticsDataInfo == null) {
+        LogisticsDataInfo logisticsDataInfo = logisticsDataInfoMapper.selectByPrimaryKey(logisticsDataInfoId);
+        if (logisticsDataInfo == null) {
             throw new Exception("物流不存在");
         }
 
-        LogisticsDataInfo logisticsDataInfo = LogisticsDataInfoFactory.logisticsDataInfo(logisticsDataInfoSaveRequest);
-        logisticsDataInfo.setId(logisticsDataInfoId);
-        logisticsDataInfo.setUpdateTime(new Date());
-        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
-        if (userInfo != null) {
-            logisticsDataInfo.setUpdateUserId(userInfo.getId());
+        LogisticsDataInfo logisticsDataInfoSelective = LogisticsDataInfoFactory.logisticsDataInfo(logisticsDataInfoSaveRequest);
+
+        if (logisticsDataInfoSelective.getDynamicDescription() != null && logisticsDataInfoSelective.getDynamicDescription() != 5) {
+            // 除其他描述外另外的需要验证重复
+            if (logisticsDataInfo.getDynamicDescription() != null && logisticsDataInfoSelective.getDynamicDescription().shortValue() != logisticsDataInfo.getDynamicDescription()) {
+
+                List<LogisticsDataInfo> logisticsDataInfos = listByLogisticsDataIdAndDynamicDescription(logisticsDataInfo.getLogisticsDataId(), logisticsDataInfoSelective.getDynamicDescription());
+                if (logisticsDataInfos != null) {
+                    throw new Exception("动态物流描述除其他外不能重复");
+                }
+            }
         }
 
-        return logisticsDataInfoMapper.updateByPrimaryKeySelective(logisticsDataInfo);
+        logisticsDataInfoSelective.setId(logisticsDataInfoId);
+        logisticsDataInfoSelective.setUpdateTime(new Date());
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        logisticsDataInfoSelective.setUpdateUserId(userInfo.getId());
+
+        int updateNum = logisticsDataInfoMapper.updateByPrimaryKeySelective(logisticsDataInfoSelective);
+
+        // 对象附件
+        List<AttachmentInfo> attachments = new ArrayList<>();
+        AttachmentInfo attachment = logisticsDataInfoSaveRequest.getAttachment();
+        if (attachment != null) {
+            attachments.add(attachment);
+        }
+        int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.LOGISTICS_DATA_INFO, logisticsDataInfoId, attachments);
+        if (attachments.size() != attachmentUpdateNum) {
+            throw new Exception("对象附件数据操作失败");
+        }
+
+        return updateNum;
     }
 
     @Override
     public List<LogisticsDataInfoDetailResponse> listByLogisticsDataId(Long logisticsDataId) {
-        List<LogisticsDataInfo> LogisticsDataInfoList = listByLogisticsDataId02(logisticsDataId);
-        return LogisticsDataInfoFactory.logisticsDataDetailResponse(LogisticsDataInfoList);
+        List<LogisticsDataInfo> logisticsDataInfos = listByLogisticsDataId02(logisticsDataId);
+        List<LogisticsDataInfoDetailResponse> logisticsDataInfoDetailResponses = LogisticsDataInfoFactory.logisticsDataDetailResponse(logisticsDataInfos);
+        for (LogisticsDataInfoDetailResponse response : logisticsDataInfoDetailResponses) {
+            List<AttachmentInfo> attachmentInfoList = attachmentService.list(AttachmentTargetObjEnum.LOGISTICS_DATA_INFO, response.getId());
+            if (attachmentInfoList != null && attachmentInfoList.size() > 0) {
+                response.setAttachment(attachmentInfoList.get(0));
+            }
+        }
+        return logisticsDataInfoDetailResponses;
     }
 
 
     @Override
     public LogisticsDataInfoDetailResponse detail(Long id) {
         LogisticsDataInfo logisticsDataInfo = logisticsDataInfoMapper.selectByPrimaryKey(id);
-        return LogisticsDataInfoFactory.logisticsDataDetailResponse(logisticsDataInfo);
+        LogisticsDataInfoDetailResponse logisticsDataInfoDetailResponse = LogisticsDataInfoFactory.logisticsDataDetailResponse(logisticsDataInfo);
+        List<AttachmentInfo> attachmentInfoList = attachmentService.list(AttachmentTargetObjEnum.LOGISTICS_DATA_INFO, logisticsDataInfoDetailResponse.getId());
+        if (attachmentInfoList != null && attachmentInfoList.size() > 0) {
+            logisticsDataInfoDetailResponse.setAttachment(attachmentInfoList.get(0));
+        }
+        return logisticsDataInfoDetailResponse;
     }
 
     private List<LogisticsDataInfo> listByLogisticsDataId02(Long logisticsDataId) {
         LogisticsDataInfoExample example = new LogisticsDataInfoExample();
         example.createCriteria().andLogisticsDataIdEqualTo(logisticsDataId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<LogisticsDataInfo> LogisticsDataInfoList = logisticsDataInfoMapper.selectByExample(example);
-        if (LogisticsDataInfoList == null) {
-            LogisticsDataInfoList = new ArrayList<>();
+        List<LogisticsDataInfo> logisticsDataInfoList = logisticsDataInfoMapper.selectByExample(example);
+        if (logisticsDataInfoList == null) {
+            logisticsDataInfoList = new ArrayList<>();
         }
-        return LogisticsDataInfoList;
+        return logisticsDataInfoList;
     }
+
+    /**
+     * 根据描述查找动态物流信息
+     *
+     * @param logisticsDataId
+     * @param dynamicDescription
+     * @return
+     */
+    private List<LogisticsDataInfo> listByLogisticsDataIdAndDynamicDescription(Long logisticsDataId, Short dynamicDescription) {
+        LogisticsDataInfoExample example = new LogisticsDataInfoExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andLogisticsDataIdEqualTo(logisticsDataId).andDynamicDescriptionEqualTo(dynamicDescription);
+        List<LogisticsDataInfo> logisticsDataInfos = logisticsDataInfoMapper.selectByExample(example);
+        if (logisticsDataInfos != null && logisticsDataInfos.size() > 0) {
+            return logisticsDataInfos;
+        }
+        return null;
+    }
+
 }
 

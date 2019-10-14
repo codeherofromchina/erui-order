@@ -19,10 +19,10 @@ public class LogisticsDataInfoFactory {
         LogisticsDataInfo logisticsDataInfo = new LogisticsDataInfo();
         logisticsDataInfo.setId(saveRequest.getId());
         logisticsDataInfo.setLogisticsDataId(saveRequest.getLogisticsDataId());
+        logisticsDataInfo.setDynamicDescription(saveRequest.getDynamicDescription());
         logisticsDataInfo.setPortName(saveRequest.getPortName());
-        logisticsDataInfo.setPortNameZh(saveRequest.getPortNameZh());
         logisticsDataInfo.setLeavePortDate(saveRequest.getLeavePortDate());
-        logisticsDataInfo.setLogisticsDataInfoStatus(saveRequest.getStatus());
+        logisticsDataInfo.setLogisticsDataInfoStatus(saveRequest.getLogisticsDataInfoStatus());
 
         return logisticsDataInfo;
     }
@@ -46,10 +46,11 @@ public class LogisticsDataInfoFactory {
         LogisticsDataInfoDetailResponse logisticsDataInfoDetailResponse = new LogisticsDataInfoDetailResponse();
         logisticsDataInfoDetailResponse.setId(logisticsDataInfo.getId());
         logisticsDataInfoDetailResponse.setLogisticsDataId(logisticsDataInfo.getLogisticsDataId());
+        logisticsDataInfoDetailResponse.setDynamicDescription(logisticsDataInfo.getDynamicDescription());
         logisticsDataInfoDetailResponse.setPortName(logisticsDataInfo.getPortName());
         logisticsDataInfoDetailResponse.setPortNameZh(logisticsDataInfo.getPortNameZh());
         logisticsDataInfoDetailResponse.setLeavePortDate(logisticsDataInfo.getLeavePortDate());
-        logisticsDataInfoDetailResponse.setStatus(logisticsDataInfo.getLogisticsDataInfoStatus());
+        logisticsDataInfoDetailResponse.setLogisticsDataInfoStatus(logisticsDataInfo.getLogisticsDataInfoStatus());
 
         return logisticsDataInfoDetailResponse;
     }

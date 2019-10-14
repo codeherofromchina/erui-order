@@ -62,6 +62,8 @@ public class LogisticsData {
 
     private Date deleteTime;
 
+    private Long deliverDetailId;
+
     public Long getId() {
         return id;
     }
@@ -292,5 +294,13 @@ public class LogisticsData {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public Long getDeliverDetailId() {
+        return deliverDetailId;
+    }
+
+    public void setDeliverDetailId(Long deliverDetailId) {
+        this.deliverDetailId = deliverDetailId;
     }
 }

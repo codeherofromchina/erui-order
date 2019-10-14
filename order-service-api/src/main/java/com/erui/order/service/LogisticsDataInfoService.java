@@ -18,7 +18,7 @@ public interface LogisticsDataInfoService {
     void insertOnDuplicateIdUpdate(Long logisticsDataId, LogisticsDataInfoSaveRequest logisticsDataInfoSaveRequest) throws Exception;
 
 
-    int insert(Long logisticsDataId, LogisticsDataInfoSaveRequest logisticsDataInfoSaveRequest);
+    Long insert(Long logisticsDataId, LogisticsDataInfoSaveRequest logisticsDataInfoSaveRequest) throws Exception;
 
     void delete(Long... ids);
 

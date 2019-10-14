@@ -3,7 +3,7 @@
 <mapper namespace="com.erui.order.mapper.LogisticsDataMapper" >
   <resultMap id="BaseResultMap" type="com.erui.order.model.entity.LogisticsData" >
     <id column="id" property="id" jdbcType="BIGINT" />
-    <result column="the_awb_no" property="theAwbNo" jdbcType="CHAR" />
+    <result column="the_awb_no" property="theAwbNo" jdbcType="VARCHAR" />
     <result column="contract_no" property="contractNo" jdbcType="CHAR" />
     <result column="deliver_detail_no" property="deliverDetailNo" jdbcType="CHAR" />
     <result column="release_date" property="releaseDate" jdbcType="DATE" />
@@ -31,6 +31,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="deliver_detail_id" property="deliverDetailId" jdbcType="BIGINT" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -96,7 +97,7 @@
     customs_clearance, leave_port_time, arrival_port_time, accomplish_date, logistics_logs, 
     remarks, logistics_data_status, submenu_id, logistics_price_usd, logistics_cost, 
     logistics_cost_type, create_user_id, create_time, update_user_id, update_time, delete_flag, 
-    delete_time
+    delete_time, deliver_detail_id
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.LogisticsDataExample" >
     select
@@ -128,7 +129,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.LogisticsData" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.LogisticsData" >
     insert into logistics_data (id, the_awb_no, contract_no, 
       deliver_detail_no, release_date, logistics_user_id, 
       logistics_date, booking_time, logi_invoice_no, 
@@ -138,8 +139,9 @@
       logistics_data_status, submenu_id, logistics_price_usd, 
       logistics_cost, logistics_cost_type, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, delete_time)
-    values (#{id,jdbcType=BIGINT}, #{theAwbNo,jdbcType=CHAR}, #{contractNo,jdbcType=CHAR}, 
+      delete_flag, delete_time, deliver_detail_id
+      )
+    values (#{id,jdbcType=BIGINT}, #{theAwbNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=CHAR}, 
       #{deliverDetailNo,jdbcType=CHAR}, #{releaseDate,jdbcType=DATE}, #{logisticsUserId,jdbcType=BIGINT}, 
       #{logisticsDate,jdbcType=DATE}, #{bookingTime,jdbcType=DATE}, #{logiInvoiceNo,jdbcType=VARCHAR}, 
       #{packingTime,jdbcType=DATE}, #{leaveFactory,jdbcType=DATE}, #{sailingDate,jdbcType=DATE}, 
@@ -148,7 +150,8 @@
       #{logisticsDataStatus,jdbcType=SMALLINT}, #{submenuId,jdbcType=SMALLINT}, #{logisticsPriceUsd,jdbcType=DECIMAL}, 
       #{logisticsCost,jdbcType=DECIMAL}, #{logisticsCostType,jdbcType=CHAR}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, #{deliverDetailId,jdbcType=BIGINT}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.LogisticsData" >
     insert into logistics_data
@@ -240,13 +243,16 @@
       <if test="deleteTime != null" >
         delete_time,
       </if>
+      <if test="deliverDetailId != null" >
+        deliver_detail_id,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
         #{id,jdbcType=BIGINT},
       </if>
       <if test="theAwbNo != null" >
-        #{theAwbNo,jdbcType=CHAR},
+        #{theAwbNo,jdbcType=VARCHAR},
       </if>
       <if test="contractNo != null" >
         #{contractNo,jdbcType=CHAR},
@@ -329,6 +335,9 @@
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="deliverDetailId != null" >
+        #{deliverDetailId,jdbcType=BIGINT},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.erui.order.model.entity.LogisticsDataExample" resultType="java.lang.Integer" >
@@ -344,7 +353,7 @@
         id = #{record.id,jdbcType=BIGINT},
       </if>
       <if test="record.theAwbNo != null" >
-        the_awb_no = #{record.theAwbNo,jdbcType=CHAR},
+        the_awb_no = #{record.theAwbNo,jdbcType=VARCHAR},
       </if>
       <if test="record.contractNo != null" >
         contract_no = #{record.contractNo,jdbcType=CHAR},
@@ -427,6 +436,9 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.deliverDetailId != null" >
+        deliver_detail_id = #{record.deliverDetailId,jdbcType=BIGINT},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -435,7 +447,7 @@
   <update id="updateByExample" parameterType="map" >
     update logistics_data
     set id = #{record.id,jdbcType=BIGINT},
-      the_awb_no = #{record.theAwbNo,jdbcType=CHAR},
+      the_awb_no = #{record.theAwbNo,jdbcType=VARCHAR},
       contract_no = #{record.contractNo,jdbcType=CHAR},
       deliver_detail_no = #{record.deliverDetailNo,jdbcType=CHAR},
       release_date = #{record.releaseDate,jdbcType=DATE},
@@ -462,7 +474,8 @@
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      deliver_detail_id = #{record.deliverDetailId,jdbcType=BIGINT}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -471,7 +484,7 @@
     update logistics_data
     <set >
       <if test="theAwbNo != null" >
-        the_awb_no = #{theAwbNo,jdbcType=CHAR},
+        the_awb_no = #{theAwbNo,jdbcType=VARCHAR},
       </if>
       <if test="contractNo != null" >
         contract_no = #{contractNo,jdbcType=CHAR},
@@ -554,12 +567,15 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="deliverDetailId != null" >
+        deliver_detail_id = #{deliverDetailId,jdbcType=BIGINT},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.erui.order.model.entity.LogisticsData" >
     update logistics_data
-    set the_awb_no = #{theAwbNo,jdbcType=CHAR},
+    set the_awb_no = #{theAwbNo,jdbcType=VARCHAR},
       contract_no = #{contractNo,jdbcType=CHAR},
       deliver_detail_no = #{deliverDetailNo,jdbcType=CHAR},
       release_date = #{releaseDate,jdbcType=DATE},
@@ -586,7 +602,8 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      deliver_detail_id = #{deliverDetailId,jdbcType=BIGINT}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

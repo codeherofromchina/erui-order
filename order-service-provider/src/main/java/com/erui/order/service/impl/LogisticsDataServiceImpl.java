@@ -3,9 +3,7 @@ package com.erui.order.service.impl;
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
 import com.erui.order.common.enums.DeliverDetailStatusEnum;
-import com.erui.order.common.pojo.AttachmentInfo;
-import com.erui.order.common.pojo.Pager;
-import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.LogisticsDataQueryRequest;
 import com.erui.order.common.pojo.request.LogisticsDataSaveRequest;
 import com.erui.order.common.pojo.response.LogisticsDataDetailResponse;
@@ -14,10 +12,9 @@ import com.erui.order.common.pojo.response.LogisticsDataListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.DeliverDetailMapper;
 import com.erui.order.mapper.LogisticsDataMapper;
+import com.erui.order.mapper.OrderMapper;
 import com.erui.order.model.entity.*;
-import com.erui.order.service.AttachmentService;
-import com.erui.order.service.LogisticsDataInfoService;
-import com.erui.order.service.LogisticsDataService;
+import com.erui.order.service.*;
 import com.erui.order.service.util.LogisticsDataFactory;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
@@ -42,9 +39,20 @@ public class LogisticsDataServiceImpl implements LogisticsDataService {
     @Autowired
     private DeliverDetailMapper deliverDetailMapper;
     @Autowired
+    private OrderMapper orderMapper;
+    @Autowired
     private AttachmentService attachmentService;
     @Autowired
     private LogisticsDataInfoService logisticsDataInfoService;
+    @Autowired
+    private DeliverDetailGoodsService deliverDetailGoodsService;
+    @Autowired
+    private GoodsService goodsService;
+    @Autowired
+    private PortService portService;
+    @Autowired
+    private CountryService countryService;
+
 
     @Override
     public Long insert(Long deliverDetailId) throws Exception {
@@ -59,7 +67,8 @@ public class LogisticsDataServiceImpl implements LogisticsDataService {
         logisticsData.setContractNo(deliverDetail.getContractNo());
         logisticsData.setDeliverDetailNo(deliverDetail.getDeliverDetailNo());
         logisticsData.setTheAwbNo(genLogisticsDataTheAwbNo());
-        logisticsData.setLogisticsDataStatus(DeliverDetailStatusEnum.PROCESS_LOGI.getCode());
+        logisticsData.setReleaseDate(deliverDetail.getReleaseDate());
+        logisticsData.setLogisticsDataStatus(DeliverDetailStatusEnum.PROCESS_LOGI_PERSON.getCode());
 
         logisticsData.setCreateTime(new Date());
         logisticsData.setCreateUserId(userInfo.getId());
@@ -83,7 +92,7 @@ public class LogisticsDataServiceImpl implements LogisticsDataService {
         }
 
         DeliverDetailStatusEnum statusEnum = DeliverDetailStatusEnum.valueOf(logisticsData.getLogisticsDataStatus());
-        if (statusEnum != DeliverDetailStatusEnum.PROCESS_LOGI) {
+        if (statusEnum != DeliverDetailStatusEnum.PROCESS_LOGI && statusEnum != DeliverDetailStatusEnum.PROCESS_LOGI_PERSON) {
             throw new Exception("对象当前状态错误");
         }
 
@@ -155,17 +164,47 @@ public class LogisticsDataServiceImpl implements LogisticsDataService {
         if (logisticsData == null) {
             throw new Exception("对象信息不存在");
         }
+        //订单
+        Order order = findOrderByContractNo(logisticsData.getContractNo());
         // 附件
         List<AttachmentInfo> attachmentInfos = attachmentService.list(AttachmentTargetObjEnum.LOGISTICS_DATA, id);
+        // 动态物流
         List<LogisticsDataInfoDetailResponse> logisticsDataInfoDetailResponses = logisticsDataInfoService.listByLogisticsDataId(id);
+        // 商品
+        List<DeliverDetailGoodsInfo> deliverDetailGoodsInfos = deliverDetailGoodsService.listByDeliverDetailId(logisticsData.getDeliverDetailId());
+        List<GoodsInfo> goodsInfoList = goodsService.goodsinfobyDeliverDetailGoods(deliverDetailGoodsInfos);
 
 
         // 组织数据
         LogisticsDataDetailResponse detail = LogisticsDataFactory.LogisticsDataDetailResponse(logisticsData);
+        // 贸易术语
+        detail.setTradeTerms(order.getTradeTerms());
+        // 货物起运地
+        detail.setFromPlace(order.getFromPlace());
+        // 起运港
+        detail.setFromPortName(portService.findPortNameByBn(order.getFromPort()));
+        // 目的国
+        detail.setToCountryName(countryService.findCountryNameByBn(order.getToCountry()));
+        // 目的港
+        detail.setToPortName(portService.findPortNameByBn(order.getToPort()));
+        // 目的地
+        detail.setToPlace(order.getToPlace());
+
         detail.setAttachments(attachmentInfos);
         detail.setLogisticsDataInfoList(logisticsDataInfoDetailResponses);
+        detail.setGoodsInfos(goodsInfoList);
 
         return detail;
+    }
+
+    private Order findOrderByContractNo(String contractNo) {
+        OrderExample example = new OrderExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andContractNoEqualTo(contractNo);
+        List<Order> orders = orderMapper.selectByExample(example);
+        if (orders != null && orders.size() > 0) {
+            return orders.get(0);
+        }
+        return null;
     }
 
 

@@ -14,8 +14,23 @@ import java.util.List;
 public class LogisticsDataDetailResponse {
     // 主键
     private Long id;
+    // 物流经办人
+    private Long logisticsUserId;
+    private String logisticsUserName;
     // 经办日期
     private Date logisticsDate;
+    // 贸易术语
+    private String tradeTerms;
+    // 货物起运地
+    private String fromPlace;
+    // 起运港
+    private String fromPortName;
+    // 目的国
+    private String toCountryName;
+    // 目的港
+    private String toPortName;
+    // 目的地
+    private String toPlace;
     // 物流发运金额（usd）
     private BigDecimal logisticsPriceUsd;
     // 物流费用
@@ -183,6 +198,70 @@ public class LogisticsDataDetailResponse {
 
     public void setLogisticsDataInfoList(List<LogisticsDataInfoDetailResponse> logisticsDataInfoList) {
         this.logisticsDataInfoList = logisticsDataInfoList;
+    }
+
+    public Long getLogisticsUserId() {
+        return logisticsUserId;
+    }
+
+    public void setLogisticsUserId(Long logisticsUserId) {
+        this.logisticsUserId = logisticsUserId;
+    }
+
+    public String getLogisticsUserName() {
+        return logisticsUserName;
+    }
+
+    public void setLogisticsUserName(String logisticsUserName) {
+        this.logisticsUserName = logisticsUserName;
+    }
+
+    public String getTradeTerms() {
+        return tradeTerms;
+    }
+
+    public void setTradeTerms(String tradeTerms) {
+        this.tradeTerms = tradeTerms;
+    }
+
+    public String getFromPlace() {
+        return fromPlace;
+    }
+
+    public void setFromPlace(String fromPlace) {
+        this.fromPlace = fromPlace;
+    }
+
+    public String getFromPortName() {
+        return fromPortName;
+    }
+
+    public void setFromPortName(String fromPortName) {
+        this.fromPortName = fromPortName;
+    }
+
+    public String getToCountryName() {
+        return toCountryName;
+    }
+
+    public void setToCountryName(String toCountryName) {
+        this.toCountryName = toCountryName;
+    }
+
+    public String getToPortName() {
+        return toPortName;
+    }
+
+    public void setToPortName(String toPortName) {
+        this.toPortName = toPortName;
+    }
+
+    public String getToPlace() {
+        return toPlace;
+    }
+
+    public void setToPlace(String toPlace) {
+        this.toPlace = toPlace;
     }
 }
 

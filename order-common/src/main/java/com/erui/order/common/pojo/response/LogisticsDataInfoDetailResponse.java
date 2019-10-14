@@ -1,5 +1,7 @@
 package com.erui.order.common.pojo.response;
 
+import com.erui.order.common.pojo.AttachmentInfo;
+
 import java.util.Date;
 
 /**
@@ -13,11 +15,14 @@ public class LogisticsDataInfoDetailResponse {
     private Short dynamicDescription;
     // '港口名称（英文）'
     private String portName;
-    //    '港口名称(中文)'
+    // '港口名称(中文)'
     private String portNameZh;
     // 离港/到港日期
     private Date leavePortDate;
-    private Short status;
+    // 状态 1：保存/草稿 2:已提交
+    private Short logisticsDataInfoStatus;
+    // 附件
+    private AttachmentInfo attachment;
 
 
     public Long getId() {
@@ -68,11 +73,19 @@ public class LogisticsDataInfoDetailResponse {
         this.leavePortDate = leavePortDate;
     }
 
-    public Short getStatus() {
-        return status;
+    public Short getLogisticsDataInfoStatus() {
+        return logisticsDataInfoStatus;
     }
 
-    public void setStatus(Short status) {
-        this.status = status;
+    public void setLogisticsDataInfoStatus(Short logisticsDataInfoStatus) {
+        this.logisticsDataInfoStatus = logisticsDataInfoStatus;
+    }
+
+    public AttachmentInfo getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(AttachmentInfo attachment) {
+        this.attachment = attachment;
     }
 }
