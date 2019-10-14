@@ -53,6 +53,8 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
     private UserService userService;
     @Autowired
     private PortService portService;
+    @Autowired
+    private LogisticsDataService logisticsDataService;
 
     @Override
     public Long insert(Long inspectNoticeId) throws Exception {
@@ -113,7 +115,9 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
 
         // 商品信息
         List<DeliverDetailGoodsInfo> deliverDetailGoodsInfos = updateRequest.getDeliverDetailGoodsInfos();
-        deliverDetailGoodsService.update(deliverDetailId, deliverDetailGoodsInfos);
+        if (deliverDetailGoodsInfos != null) {
+            deliverDetailGoodsService.update(deliverDetailId, deliverDetailGoodsInfos);
+        }
 
         // 对象附件
         List<AttachmentInfo> attachments = updateRequest.getAttachments();
@@ -174,6 +178,16 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
                 criteria.andDeliverDetailStatusIn(statusList);
             }
         }
+
+        if (queryRequest.getDeliverDetailType() != null) {
+            if (queryRequest.getDeliverDetailType() == 2) {
+                criteria.andDeliverDetailStatusGreaterThanOrEqualTo(DeliverDetailStatusEnum.SUBMITED_OUTSTOCK.getCode());
+            } else if (queryRequest.getDeliverDetailType() == 3) {
+                criteria.andDeliverDetailStatusGreaterThanOrEqualTo(DeliverDetailStatusEnum.SUBMITED_OUT_INSPECT.getCode());
+            }
+        }
+
+
         List<DeliverDetail> deliverDetails = deliverDetailMapper.selectByExample(example);
 
         List<DeliverDetailListResponse> deliverDetailListResponses = new ArrayList<>();
@@ -210,6 +224,26 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
         return detail;
     }
 
+    @Override
+    public void confirmOutStock(Long id) throws Exception {
+        DeliverDetail deliverDetail = deliverDetailMapper.selectByPrimaryKey(id);
+        if (deliverDetail == null) {
+            throw new Exception("出库信息不存在");
+        }
+
+        DeliverDetailStatusEnum deliverDetailStatusEnum = DeliverDetailStatusEnum.valueOf(deliverDetail.getDeliverDetailStatus());
+        if (deliverDetailStatusEnum != DeliverDetailStatusEnum.SUBMITED_OUT_INSPECT) {
+            throw new Exception("出库信息状态不正确");
+        }
+
+        DeliverDetail deliverDetail1Selective = new DeliverDetail();
+        deliverDetail1Selective.setId(id);
+        deliverDetail1Selective.setDeliverDetailStatus(DeliverDetailStatusEnum.PROCESS_LOGI_PERSON.getCode());
+        deliverDetailMapper.updateByPrimaryKeySelective(deliverDetail1Selective);
+
+        // 推送物流跟踪信息
+        logisticsDataService.insert(id);
+    }
 
     private Project selectByOrderId(Long orderId) {
         ProjectExample projectExample = new ProjectExample();

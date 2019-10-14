@@ -1,23 +1,23 @@
 <script type="text/javascript">
-    var outstockQualityInfoParams = getQueryStringFromGlobalParams();
-    var outstock_quality_info_form_data = {};
-    var outstock_quality_info_goods_data = [];
-    var outstock_quality_info_attachment_data = [];
-    if (outstockQualityInfoParams.id) {
-        var outstockQualityInfoInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverDetail/info"}, {"id": outstockQualityInfoParams.id});
-        if (outstockQualityInfoInfo.code == 0) {
-            outstock_quality_info_form_data = outstockQualityInfoInfo.data;
+    var iogisticsInfoParams = getQueryStringFromGlobalParams();
+    var iogistics_info_form_data = {};
+    var iogistics_info_goods_data = [];
+    var iogistics_info_attachment_data = [];
+    if (iogisticsInfoParams.id) {
+        var iogisticsInfoInfo = syncAjaxJson({"url": LOCAL_URL + "/order/deliverDetail/info"}, {"id": iogisticsInfoParams.id});
+        if (iogisticsInfoInfo.code == 0) {
+            iogistics_info_form_data = iogisticsInfoInfo.data;
             // 商品内容
-            outstock_quality_info_goods_data = outstock_quality_info_form_data.goodsInfos;
-            delete outstock_quality_info_form_data.goodsInfos;
+            iogistics_info_goods_data = iogistics_info_form_data.goodsInfos;
+            delete iogistics_info_form_data.goodsInfos;
             // 附件
-            outstock_quality_info_attachment_data = outstock_quality_info_form_data.attachments;
-            delete outstock_quality_info_form_data.attachments;
+            iogistics_info_attachment_data = iogistics_info_form_data.attachments;
+            delete iogistics_info_form_data.attachments;
         }
     }
 </script>
-<form id="outstock_quality_info_form">
-    <div id="outstock_quality_info_panel_baseinfo" class="easyui-panel" title="基础信息"
+<form id="iogistics_info_form">
+    <div class="easyui-panel" title="基础信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
@@ -33,7 +33,7 @@
     <div class="easyui-panel" title="商品信息"
          style="padding:2px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
-        <table id="outstock_quality_info_panel_goods_table" class="easyui-datagrid" border="false">
+        <table id="iogistics_info_panel_goods_table" class="easyui-datagrid" border="false">
         </table>
     </div>
 
@@ -146,7 +146,7 @@
         <div class="easyui-layout" style="width: 100%;height:150px;">
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
                 <table class="easyui-datagrid"
-                       data-options="idField:'url',data:outstock_quality_info_attachment_data"
+                       data-options="idField:'url',data:iogistics_info_attachment_data"
                        fit="true" fitColumn="true">
                     <thead>
                     <tr>
@@ -175,16 +175,16 @@
 
 <script type="text/javascript">
     new Vue({
-        el: '#outstock_quality_info_form',
-        data: outstock_quality_info_form_data
+        el: '#iogistics_info_form',
+        data: iogistics_info_form_data
     });
 
     $(function () {
         setTimeout(function () {
-            $("#outstock_quality_info_form").form('load', outstock_quality_info_form_data);
+            $("#iogistics_info_form").form('load', iogistics_info_form_data);
         }, 500);
 
-        $("#outstock_quality_info_panel_goods_table").datagrid({
+        $("#iogistics_info_panel_goods_table").datagrid({
             border: false,
             singleSelect: true,
             striped: true,
@@ -210,11 +210,7 @@
                     field: 'detailGoodsRemarks', width: 120, title: '备注'
                 }
             ]],
-            data: outstock_quality_info_goods_data
+            data: iogistics_info_goods_data
         });
-
-
     });
-
-
 </script>

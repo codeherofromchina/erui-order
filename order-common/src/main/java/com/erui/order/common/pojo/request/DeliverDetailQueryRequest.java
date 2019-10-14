@@ -19,6 +19,8 @@ public class DeliverDetailQueryRequest extends PagingRequest {
     private String projectNo;
     //  出库状态
     private Short deliverDetailStatus;
+    // 出库类型 2：质检 3：出库信息管理
+    private Short deliverDetailType;
 
     public String getDeliverDetailNo() {
         return deliverDetailNo;
@@ -54,6 +56,14 @@ public class DeliverDetailQueryRequest extends PagingRequest {
 
     public Short getDeliverDetailStatus() {
         return deliverDetailStatus;
+    }
+
+    public Short getDeliverDetailType() {
+        return deliverDetailType;
+    }
+
+    public void setDeliverDetailType(Short deliverDetailType) {
+        this.deliverDetailType = deliverDetailType;
     }
 
     public void setDeliverDetailStatus(Short deliverDetailStatus) {

@@ -339,5 +339,38 @@ public class DeliverDetailDetailResponse {
     public void setToPortName(String toPortName) {
         this.toPortName = toPortName;
     }
+
+
+    public String getWareHousemanName() {
+        return wareHousemanName;
+    }
+
+    public void setWareHousemanName(String wareHousemanName) {
+        this.wareHousemanName = wareHousemanName;
+    }
+
+    public String getHandleDepartment() {
+        return handleDepartment;
+    }
+
+    public void setHandleDepartment(String handleDepartment) {
+        this.handleDepartment = handleDepartment;
+    }
+
+    public String getSenderUserName() {
+        return senderUserName;
+    }
+
+    public void setSenderUserName(String senderUserName) {
+        this.senderUserName = senderUserName;
+    }
+
+    public String getReviewerUserName() {
+        return reviewerUserName;
+    }
+
+    public void setReviewerUserName(String reviewerUserName) {
+        this.reviewerUserName = reviewerUserName;
+    }
 }
 

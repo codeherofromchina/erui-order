@@ -6,6 +6,7 @@
 <div class="toolbar" id="iogistics_list_table_toolbar">
     <div class="search-div">
         <form id="iogistics_list_table_toolbar_form">
+            <input type="hidden" name="deliverDetailType" value="3">
             <ul>
                 <li>
                     <label>产品放行单号：</label>
@@ -33,22 +34,27 @@
                 </li>
                 <li>
                     <label>仓库经办人：</label>
-                    <input type="text" id="iogistics_list_table_toolbar_form_ware_houseman_field" class="easyui-textbox" editable="false" name="wareHouseman" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#iogistics_list_ware_houseman_dialog').dialog('open');$('#iogistics_list_ware_houseman_dialog').dialog('refresh', 'common/userDialog.html');}"  />
+                    <input type="text" id="iogistics_list_table_toolbar_form_ware_houseman_field" class="easyui-textbox"
+                           editable="false" name="wareHouseman" buttonText="请选择"
+                           data-options="onClickButton:function(){$('#iogistics_list_ware_houseman_dialog').dialog('open');$('#iogistics_list_ware_houseman_dialog').dialog('refresh', 'common/userDialog.html');}"/>
 
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="iogistics_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="iogistics_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="iogistics_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="iogistics_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
         </form>
     </div>
     <div class="ctrl-div">
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true" id="iogistics_list_table_toolbar_change_user_btn">转交经办人</a>
-        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true" id="iogistics_list_table_toolbar_handle_btn">办理</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-add" plain="true"
+           id="iogistics_list_table_toolbar_change_user_btn">转交经办人</a>
+        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-edit" plain="true"
+           id="iogistics_list_table_toolbar_handle_btn">办理</a>
     </div>
 </div>
 <!-- /数据表工具栏 -->
@@ -60,102 +66,129 @@
 <!-- /仓库经办人弹出框 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#iogistics_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'deliverDetailNo',title:'产品放行单号'},
-                {field:'contractNo',title:'销售合同号'},
-                {field:'deliverConsignNo',title:'出口通知单号'},
-                {field:'projectNo',title:'项目号'},
-                {field:'projectNo',title:'经办部门'},
-                {field:'projectNo',title:'开单日期'},
-                {field:'releaseDate',title:'放行日期'},
-                {field:'leaveDate',title:'出库日期'},
-                {field:'leaveDate',title:'仓库经办人'},
-                {field:'orderStatus',title:'是否厂家直接发货',
-                    formatter:function(code,row,index){
-                        if(code <= 1) {
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'deliverDetailNo', width: 120, title: '产品放行单号'},
+                {field: 'contractNo', width: 120, title: '销售合同号'},
+                {field: 'deliverConsignNo', width: 120, title: '出口通知单号'},
+                {field: 'projectNo', width: 120, title: '项目号'},
+                {field: 'handleDepartment', width: 120, title: '经办部门'},
+                {field: 'billingDate', width: 120, title: '开单日期'},
+                {field: 'releaseDate', width: 120, title: '放行日期'},
+                {field: 'leaveDate', width: 120, title: '出库日期'},
+                {field: 'wareHousemanName', width: 120, title: '仓库经办人'},
+                {
+                    field: 'deliverDetailStatus', width: 120, title: '状态',
+                    formatter: function (code, row, index) {
+                        if (code < 3) {
                             return "未质检";
-                        } else if(code == 2){
+                        } else if (code < 5) {
                             return "质检中";
-                        } else if (code == 3) {
+                        } else if (code < 6) {
                             return "质检完成";
                         } else {
                             return "已出库";
                         }
                     }
                 },
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+                {
+                    field: '_operate', width: 120, title: '操作',
+                    formatter: function (code, row, index) {
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="iogisticsInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.deliverDetailStatus == 5) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveIogisticsPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
+                        }
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/iogistics/list',
-            onBeforeLoad:function(param){
+            url: LOCAL_URL + '/order/deliverDetail/list',
+            onBeforeLoad: function (param) {
                 var data = $('#iogistics_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         $("#iogistics_list_ware_houseman_dialog").dialog({
-            title:'选择仓库经办人',
-            resizable:true,
-            modal:true,
-            closed:true,
-            buttons:[{
-                text:'确定',
-                iconCls:'icon-ok',
-                handler:function(){
+            title: '选择仓库经办人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
                     var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
-                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setValue",selectedTableRow.id);
-                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setText",selectedTableRow.userName);
+                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setValue", selectedTableRow.id);
+                        $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setText", selectedTableRow.userName);
                     } else {
                         $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("clear");
                     }
                     $("#iogistics_list_ware_houseman_dialog").dialog("close");
                 }
-            },{
-                text:'取消',
-                iconCls:'icon-cancel',
-                handler:function(){
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
                     $("#iogistics_list_ware_houseman_dialog").dialog("close");
                 }
             }]
         });
         // 搜索按钮
-        $("#iogistics_list_table_toolbar_form_search_btn").click(function (){
+        $("#iogistics_list_table_toolbar_form_search_btn").click(function () {
             $("#iogistics_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#iogistics_list_table_toolbar_form_clear_btn").click(function (){
+        $("#iogistics_list_table_toolbar_form_clear_btn").click(function () {
             $('#iogistics_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#iogistics_list_table");
             $("#iogistics_list_table").datagrid("reload");
         });
     });
+
+    function iogisticsInfoPage(deliverDetailId) {
+        var tabTitle = "查看出库信息-" + deliverDetailId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverDetailId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'iogistics/iogisticsInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveIogisticsPage(deliverDetailId) {
+        var tabTitle = "确认出库-" + deliverDetailId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverDetailId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'iogistics/saveIogistics.html',
+                closable: true
+            });
+        }
+    }
 </script>

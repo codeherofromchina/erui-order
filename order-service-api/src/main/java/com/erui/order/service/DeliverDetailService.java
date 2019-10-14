@@ -38,5 +38,11 @@ public interface DeliverDetailService {
      * @return
      */
     DeliverDetailDetailResponse detail(Long id) throws Exception;
+
+    /**
+     * 确认出库
+     * @param id
+     */
+    void confirmOutStock(Long id) throws Exception;
 }
 

@@ -61,6 +61,29 @@ public class DeliverDetailController {
         return result;
     }
 
+    /**
+     * 确认出库
+     *
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "confirmOutStock", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> confirmOutStock(@RequestBody @Valid PrimaryKey key) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("confirmOutStock - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key));
+        Result<Void> result = new Result<>();
+        try {
+            Long id = key.getId();
+            deliverDetailService.confirmOutStock(id);
+            LOGGER.info("confirmOutStock成功 - {} - {}", JSON.toJSONString(userInfo), id);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("confirmOutStock异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
 
     /**
      * 分页查询DeliverDetail列表内容

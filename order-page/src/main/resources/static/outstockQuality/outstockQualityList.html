@@ -6,6 +6,7 @@
 <div class="toolbar" id="outstock_quality_list_table_toolbar">
     <div class="search-div">
         <form id="outstock_quality_list_table_toolbar_form">
+            <input type="hidden" name="deliverDetailType" value="2">
             <ul>
                 <li>
                     <label>产品放行单号：</label>
@@ -25,8 +26,10 @@
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="outstock_quality_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="outstock_quality_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="outstock_quality_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="outstock_quality_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
@@ -36,60 +39,86 @@
 <!-- /数据表工具栏 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#outstock_quality_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'deliverDetailNo',title:'产品放行单号'},
-                {field:'contractNos',title:'销售合同号'},
-                {field:'projectNos',title:'项目号'},
-                {field:'checkDept',title:'质检部门'},
-                {field:'checkerName',title:'检验员'},
-                {field:'checkDate',title:'质检日期'},
-                {field:'operation',title:'操作',
-                    formatter:function(code,row,index){
-                        return '查看';
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'deliverDetailNo', title: '产品放行单号'},
+                {field: 'contractNo', title: '销售合同号'},
+                {field: 'projectNo', title: '项目号'},
+                {field: 'checkDept', title: '质检部门'},
+                {field: 'checkUserName', title: '检验员'},
+                {field: 'checkDate', title: '质检日期'},
+                {
+                    field: '_operator', title: '操作',
+                    formatter: function (code, row, index) {
+                        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="outstockQualityPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+                        if (row.deliverDetailStatus == 3 || row.deliverDetailStatus == 4) {
+                            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveOutstockQualityPage(' + row.id + ')">质检</a>&nbsp;&nbsp;&nbsp;';
+                        }
+                        return str;
                     }
                 },
             ]],
-            url:ORDER_URL + '/order/deliverDetail/listQuality',
-            onBeforeLoad:function(param){
+            url: LOCAL_URL + '/order/deliverDetail/list',
+            onBeforeLoad: function (param) {
                 var data = $('#outstock_quality_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
-            loadFilter:function(data) {
-                var finalData = {"total":0,"rows":[]};
-                if (data.code == 200) {
-                    finalData.total = data.data.totalElements;
-                    finalData.rows = data.data.content;
-                }
-                return finalData;
-            }
+            loadFilter: tableLoadFilter
         });
         // 搜索按钮
-        $("#outstock_quality_list_table_toolbar_form_search_btn").click(function (){
+        $("#outstock_quality_list_table_toolbar_form_search_btn").click(function () {
             $("#outstock_quality_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#outstock_quality_list_table_toolbar_form_clear_btn").click(function (){
+        $("#outstock_quality_list_table_toolbar_form_clear_btn").click(function () {
             $('#outstock_quality_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#outstock_quality_list_table");
             $("#outstock_quality_list_table").datagrid("reload");
         });
     });
+
+    function outstockQualityPage(deliverDetailId) {
+        var tabTitle = "查看出库质检-" + deliverDetailId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverDetailId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'outstockQuality/outstockQualityInfo.html',
+                closable: true
+            });
+        }
+    }
+
+    function saveOutstockQualityPage(deliverDetailId) {
+        var tabTitle = "办理出库质检-" + deliverDetailId;
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            GLOBAL_PARAMS = "id=" + deliverDetailId;
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'outstockQuality/saveOutstockQuality.html',
+                closable: true
+            });
+        }
+    }
 </script>
