@@ -55,7 +55,7 @@
         <div class="fitem">
             <label>物流费用：</label>
             <input class="easyui-textbox" name="logisticsCost" style="width: 120px;"/>
-            <select class="easyui-combobox" name="logisticsCostType" style="width:70px;">
+            <select class="easyui-combobox" editable="false" name="logisticsCostType" style="width:70px;">
                 <option value="USD">USD</option>
                 <option value="JPY">JPY</option>
             </select>
@@ -185,7 +185,7 @@
              style="padding:10px;background:#fafafa;margin-bottom:10px;">
             <div class="fitem">
                 <label>动态描述：</label>
-                <select id="save_logistics_data_table_dialog_form_dynamic_description" name="dynamicDescription">
+                <select id="save_logistics_data_table_dialog_form_dynamic_description" editable="false" name="dynamicDescription">
                     <option value="">请选择</option>
                     <option value="1">离开起运港</option>
                     <option value="2">到达中转港</option>
