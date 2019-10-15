@@ -79,13 +79,13 @@
                     <label>执行事业部：</label>
                     <input type="text" id="project_list_table_toolbar_form_send_dept_id_field" class="easyui-textbox"
                            editable="false" name="sendDeptId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#project_list_send_dept_id_dialog').dialog('open');$('#project_list_send_dept_id_dialog').dialog('refresh', 'common/businessUnitDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#project_list_send_dept_id_dialog').dialog('open');$('#project_list_send_dept_id_dialog').dialog('refresh', 'common/projectListBusinessUnitDialog.html');}"/>
                 </li>
                 <li>
                     <label>事业部项目负责人：</label>
                     <input type="text" id="project_list_table_toolbar_form_business_uid_field" class="easyui-textbox"
                            editable="false" name="businessUid" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#project_list_business_uid_dialog').dialog('open');$('#project_list_business_uid_dialog').dialog('refresh', 'common/userDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#project_list_business_uid_dialog').dialog('open');$('#project_list_business_uid_dialog').dialog('refresh', 'common/projectListUserDialog.html');}"/>
                 </li>
                 <li>
                     <label>项目创建日期：</label>
@@ -167,7 +167,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_business_unit_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_project_list_business_unit_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#project_list_table_toolbar_form_send_dept_id_field").textbox("setValue", selectedTableRow.id);
                         $("#project_list_table_toolbar_form_send_dept_id_field").textbox("setText", selectedTableRow.orgName);
@@ -193,7 +193,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_project_list_user_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#project_list_table_toolbar_form_business_uid_field").textbox("setValue", selectedTableRow.id);
                         $("#project_list_table_toolbar_form_business_uid_field").textbox("setText", selectedTableRow.userName);

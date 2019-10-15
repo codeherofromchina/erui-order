@@ -367,7 +367,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var userTableRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    var userTableRow = $("#common_add_order_user_dialog_table").datagrid("getSelected");
                     if (userTableRow && add_order_form_active_user_field) {
                         $("#" + add_order_form_active_user_field).textbox("setValue", userTableRow.id);
                         $("#" + add_order_form_active_user_field).textbox("setText", userTableRow.userName);
@@ -393,7 +393,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var userTableRow = $("#common_business_unit_dialog_table").datagrid("getSelected");
+                    var userTableRow = $("#common_add_order_business_unit_dialog_table").datagrid("getSelected");
                     if (userTableRow && add_order_form_active_business_unit_field) {
                         $("#" + add_order_form_active_business_unit_field).textbox("setValue", userTableRow.id);
                         $("#" + add_order_form_active_business_unit_field).textbox("setText", userTableRow.orgName);
@@ -419,7 +419,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var crmTableRow = $("#common_crm_code_dialog_table").datagrid("getSelected");
+                    var crmTableRow = $("#common_add_order_crm_code_dialog_table").datagrid("getSelected");
                     if (crmTableRow) {
                         $("#add_order_form_crm_code_field").textbox("setValue", crmTableRow.id);
                         $("#add_order_form_crm_code_field").textbox("setText", crmTableRow.buyerCode);
@@ -497,7 +497,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var portTableRow = $("#common_port_dialog_table").datagrid("getSelected");
+                    var portTableRow = $("#common_add_order_port_dialog_table").datagrid("getSelected");
                     if (portTableRow) {
                         $("#" + add_order_form_active_port_field).textbox("setValue", portTableRow.bn);
                         $("#" + add_order_form_active_port_field).textbox("setText", portTableRow.portName);
@@ -703,7 +703,7 @@
         add_order_form_active_user_field = 'add_order_form_agent_id_field';
         $("#add_order_user_dialog").dialog("setTitle", "市场经办人");
         $("#add_order_user_dialog").dialog("open");
-        $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
+        $('#add_order_user_dialog').dialog('refresh', 'common/addOrderUserDialog.html');
     }
 
     // 获取人点击事件
@@ -711,7 +711,7 @@
         add_order_form_active_user_field = 'add_order_form_acquire_id_field';
         $("#add_order_user_dialog").dialog("setTitle", "获取人");
         $("#add_order_user_dialog").dialog("open");
-        $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
+        $('#add_order_user_dialog').dialog('refresh', 'common/addOrderUserDialog.html');
     }
 
     // 执行事业部点击选择事件
@@ -719,13 +719,13 @@
         add_order_form_active_business_unit_field = 'add_order_form_business_unit_id_field';
         $("#add_order_business_unit_dialog").dialog("setTitle", "执行事业部");
         $("#add_order_business_unit_dialog").dialog("open");
-        $('#add_order_business_unit_dialog').dialog('refresh', 'common/businessUnitDialog.html');
+        $('#add_order_business_unit_dialog').dialog('refresh', 'common/addOrderBusinessUnitDialog.html');
     }
 
     // CRM客户点击选择事件
     function addOrderFormCrmCodeFun() {
         $("#add_order_crm_code_dialog").dialog("open");
-        $('#add_order_crm_code_dialog').dialog('refresh', 'common/crmCodeDialog.html');
+        $('#add_order_crm_code_dialog').dialog('refresh', 'common/addOrderCrmCodeDialog.html');
     }
 
     // 回款负责人选择事件
@@ -733,7 +733,7 @@
         add_order_form_active_user_field = 'add_order_form_per_liable_repay_id_field';
         $("#add_order_user_dialog").dialog("setTitle", "回款负责人");
         $("#add_order_user_dialog").dialog("open");
-        $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
+        $('#add_order_user_dialog').dialog('refresh', 'common/addOrderUserDialog.html');
     }
 
     // 事业部负责人选择事件
@@ -741,7 +741,7 @@
         add_order_form_active_user_field = 'add_order_form_technical_id_field';
         $("#add_order_user_dialog").dialog("setTitle", "事业部项目负责人");
         $("#add_order_user_dialog").dialog("open");
-        $('#add_order_user_dialog').dialog('refresh', 'common/userDialog.html');
+        $('#add_order_user_dialog').dialog('refresh', 'common/addOrderUserDialog.html');
     }
 
     // 起运港选择事件
@@ -754,7 +754,7 @@
         }
         $("#add_order_port_dialog").dialog("setTitle", "起运港");
         $("#add_order_port_dialog").dialog("open");
-        $('#add_order_port_dialog').dialog('refresh', 'common/portDialog.html');
+        $('#add_order_port_dialog').dialog('refresh', 'common/addOrderPortDialog.html');
     }
 
     // 目的港选择事件
@@ -767,7 +767,7 @@
         }
         $("#add_order_port_dialog").dialog("setTitle", "目的港");
         $("#add_order_port_dialog").dialog("open");
-        $('#add_order_port_dialog').dialog('refresh', 'common/portDialog.html');
+        $('#add_order_port_dialog').dialog('refresh', 'common/addOrderPortDialog.html');
     }
 
     function formatOper(val, row, index) {

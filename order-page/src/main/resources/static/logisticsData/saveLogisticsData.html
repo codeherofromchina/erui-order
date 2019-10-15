@@ -389,7 +389,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var portTableRow = $("#common_port_dialog_table").datagrid("getSelected");
+                    var portTableRow = $("#common_save_logistics_data_port_dialog_table").datagrid("getSelected");
                     if (portTableRow) {
                         $("#save_logistics_data_table_dialog_form_port_name").textbox("setValue", portTableRow.bn);
                         $("#save_logistics_data_table_dialog_form_port_name").textbox("setText", portTableRow.portName);
@@ -418,7 +418,7 @@
             onClickButton: function () {
                 GLOBAL_PARAMS = "";
                 $("#save_logistics_data_port_dialog").dialog("open");
-                $('#save_logistics_data_port_dialog').dialog('refresh', 'common/portDialog.html');
+                $('#save_logistics_data_port_dialog').dialog('refresh', 'common/saveLogisticsDataPortDialog.html');
             }
         });
         $("#save_logistics_data_table_dialog_form_leave_port_date").datebox({

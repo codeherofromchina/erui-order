@@ -23,7 +23,7 @@
                     <label>供应商名称：</label>
                     <input type="text" id="purchase_list_table_toolbar_form_supplier_id_field" class="easyui-textbox"
                            editable="false" name="supplierId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#purchase_list_supplier_id_dialog').dialog('open');$('#purchase_list_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#purchase_list_supplier_id_dialog').dialog('open');$('#purchase_list_supplier_id_dialog').dialog('refresh', 'common/purchaseListSupplierDialog.html');}"/>
                 </li>
                 <li>
                     <label>采购状态：</label>
@@ -121,7 +121,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_purchase_list_supplier_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setValue", selectedTableRow.id);
                         $("#purchase_list_table_toolbar_form_supplier_id_field").textbox("setText", selectedTableRow.supplierName);

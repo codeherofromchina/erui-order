@@ -32,7 +32,7 @@
                     <label>CRM客户代码：</label>
                     <input type="text" id="order_account_list_table_toolbar_form_crm_code_field" class="easyui-textbox"
                            editable="false" name="buyerId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#order_account_list_crm_code_dialog').dialog('open');$('#order_account_list_crm_code_dialog').dialog('refresh', 'common/crmCodeDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#order_account_list_crm_code_dialog').dialog('open');$('#order_account_list_crm_code_dialog').dialog('refresh', 'common/orderAccountListCrmCodeDialog.html');}"/>
 
                 </li>
                 <li>
@@ -108,7 +108,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var crmTableRow = $("#common_crm_code_dialog_table").datagrid("getSelected");
+                    var crmTableRow = $("#common_order_account_list_crm_code_dialog_table").datagrid("getSelected");
                     if (crmTableRow) {
                         $("#order_account_list_table_toolbar_form_crm_code_field").textbox("setValue", crmTableRow.id);
                         $("#order_account_list_table_toolbar_form_crm_code_field").textbox("setText", crmTableRow.buyerCode);

@@ -1,0 +1,81 @@
+<script type="text/javascript">
+    var supplierDialogParams = getQueryStringFromGlobalParams();
+</script>
+<!-- 供应商弹出框 -->
+<table id="common_purchase_list_supplier_dialog_table" toolbar="#common_purchase_list_supplier_dialog_table_toolbar">
+    <thead>
+    <tr>
+        <th field="supplierNo" width="25%">供应商编码</th>
+        <th field="supplierTypeName" width="25%">供应商类型</th>
+        <th field="supplierName" width="45%">供应商名称</th>
+    </tr>
+    </thead>
+</table>
+
+<div class="toolbar" id="common_purchase_list_supplier_dialog_table_toolbar">
+    <div class="search-div">
+        <form id="common_purchase_list_supplier_dialog_table_toolbar_form">
+            <label>供应商编码：</label>
+            <input name="supplierNo" type="text" class="easyui-textbox"/>
+            <label>供应商类型：</label>
+            <select class="easyui-combobox" editable="false" name="supplierType">
+                <option code="">请选择</option>
+                <option code="MANUFACTURER">制造商</option>
+                <option code="AGENCY">代理商</option>
+                <option code="DISTRIBUTOR">经销商</option>
+                <option code="SERVICE_PROVIDER">服务商</option>
+                <option code="LOGISTICS_PROVIDER">物流商</option>
+            </select>
+            <label>供应商名称：</label>
+            <input name="supplierName" type="text" class="easyui-textbox"/>
+
+            <a href="javascript:void(0);" id="common_purchase_list_supplier_dialog_toolbar_form_search" class="easyui-linkbutton"
+               iconCls="icon-search">搜索</a>
+            <a href="javascript:void(0);" id="common_purchase_list_supplier_dialog_toolbar_form_clear" class="easyui-linkbutton"
+               iconCls="icon-clear">清空</a>
+        </form>
+    </div>
+</div>
+
+
+<script type="text/javascript">
+    $(function () {
+        $("#common_purchase_list_supplier_dialog_table").datagrid({
+            fitColumns: true,
+            border: false,
+            fit: true,
+            singleSelect: true,
+            method: 'post',
+            rownumbers: true,
+            striped: true,
+            pagination: true,
+            url: LOCAL_URL + '/order/common/supplierList',
+            onBeforeLoad: function (param) {
+                if (supplierDialogParams) {
+                    for (var attr in supplierDialogParams) {
+                        param[attr] = supplierDialogParams[attr];
+                    }
+                }
+                var data = $('#common_purchase_list_supplier_dialog_table_toolbar_form').serializeJson();
+                if (data) {
+                    for (var attr in data) {
+                        param[attr] = data[attr];
+                    }
+                }
+            },
+            loader: function (param, success, error) {
+                var opts = $(this).datagrid("options");
+                return tokenAjaxLoader(opts, param, success, error);
+            },
+            loadFilter: tableLoadFilter
+        });
+        $("#common_purchase_list_supplier_dialog_toolbar_form_search").click(function () {
+            $("#common_purchase_list_supplier_dialog_table").datagrid("reload");
+        });
+        $("#common_purchase_list_supplier_dialog_toolbar_form_clear").click(function () {
+            $("#common_purchase_list_supplier_dialog_table_toolbar_form").form("clear");
+            $("#common_purchase_list_supplier_dialog_table").datagrid("reload");
+        });
+    })
+
+</script>

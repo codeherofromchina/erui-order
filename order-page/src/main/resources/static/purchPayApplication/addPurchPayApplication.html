@@ -130,7 +130,7 @@
             width: 185,
             onClickButton: function () {
                 $('#add_purch_pay_application_payable_purch_dialog').dialog('open');
-                $('#add_purch_pay_application_payable_purch_dialog').dialog('refresh', 'common/payablePurchDialog.html');
+                $('#add_purch_pay_application_payable_purch_dialog').dialog('refresh', 'common/addPurchPayApplicationPayablePurchDialog.html');
             }
         });
 
@@ -143,7 +143,7 @@
             buttons: [{
                 text: '确定',
                 handler: function () {
-                    var selectedTableRow = $("#common_payable_purch_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_add_purch_pay_application_payable_purch_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         // 采购合同号
                         $("#add_purch_pay_application_form_purch_id_field").textbox("setValue", selectedTableRow.purchId);

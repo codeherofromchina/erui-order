@@ -49,7 +49,7 @@
             <label>供应商名称：</label>
             <input type="text" id="save_purch_contract_simple_form_supplier_id_field"
                    class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
-                   data-options="onClickButton:function(){$('#save_purch_contract_simple_supplier_id_dialog').dialog('open');$('#save_purch_contract_simple_supplier_id_dialog').dialog('refresh', 'common/supplierDialog.html');}"/>
+                   data-options="onClickButton:function(){$('#save_purch_contract_simple_supplier_id_dialog').dialog('open');$('#save_purch_contract_simple_supplier_id_dialog').dialog('refresh', 'common/savePurchContractSimpleSupplierDialog.html');}"/>
             <label><span style="color:red;">*</span>合同签订地点：</label>
             <input class="easyui-textbox" required="true" name="signingPlace"/>
         </div>
@@ -57,7 +57,7 @@
             <label>采购经办人：</label>
             <input type="text" id="save_purch_contract_simple_form_agent_id_field" class="easyui-textbox"
                    editable="false" name="agentId" buttonText="请选择"
-                   data-options="onClickButton:function(){$('#save_purch_contract_simple_agent_id_dialog').dialog('open');$('#save_purch_contract_simple_agent_id_dialog').dialog('refresh', 'common/userDialog.html');}"/>
+                   data-options="onClickButton:function(){$('#save_purch_contract_simple_agent_id_dialog').dialog('open');$('#save_purch_contract_simple_agent_id_dialog').dialog('refresh', 'common/savePurchContractSimpleUserDialog.html');}"/>
         </div>
     </div>
 
@@ -69,7 +69,7 @@
             <input type="text" id="save_purch_contract_simple_form_project_id_field" name="projectNo"
                    class="easyui-textbox"
                    editable="false" name="agentId" buttonText="请选择"
-                   data-options="onClickButton:function(){$('#save_purch_contract_simple_project_id_dialog').dialog('open');$('#save_purch_contract_simple_project_id_dialog').dialog('refresh', 'common/projectDialog.html');}"/>
+                   data-options="onClickButton:function(){$('#save_purch_contract_simple_project_id_dialog').dialog('open');$('#save_purch_contract_simple_project_id_dialog').dialog('refresh', 'common/savePurchContractSimpleProjectDialog.html');}"/>
             <label><span style="color:red;">*</span>税点%：</label>
             <input class="easyui-numberbox" precision="0" name="taxPoint"/>
             <label style="width:130px;"><span style="color:red;">*</span>采购总金额（大写）：</label>

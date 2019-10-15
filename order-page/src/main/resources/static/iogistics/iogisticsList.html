@@ -36,7 +36,7 @@
                     <label>仓库经办人：</label>
                     <input type="text" id="iogistics_list_table_toolbar_form_ware_houseman_field" class="easyui-textbox"
                            editable="false" name="wareHouseman" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#iogistics_list_ware_houseman_dialog').dialog('open');$('#iogistics_list_ware_houseman_dialog').dialog('refresh', 'common/userDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#iogistics_list_ware_houseman_dialog').dialog('open');$('#iogistics_list_ware_houseman_dialog').dialog('refresh', 'common/iogisticsListUserDialog.html');}"/>
 
                 </li>
                 <li>
@@ -135,7 +135,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_iogistics_list_user_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setValue", selectedTableRow.id);
                         $("#iogistics_list_table_toolbar_form_ware_houseman_field").textbox("setText", selectedTableRow.userName);

@@ -53,8 +53,7 @@
                     <label>CRM客户代码：</label>
                     <input type="text" id="order_list_table_toolbar_form_crm_code_field" class="easyui-textbox"
                            editable="false" name="buyerCode" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#order_list_crm_code_dialog').dialog('open');$('#order_list_crm_code_dialog').dialog('refresh', 'common/crmCodeDialog.html');}"/>
-
+                           data-options="onClickButton:function(){$('#order_list_crm_code_dialog').dialog('open');$('#order_list_crm_code_dialog').dialog('refresh', 'common/orderListCrmCodeDialog.html');}"/>
                 </li>
                 <li>
                     <label>收款状态：</label>
@@ -73,8 +72,6 @@
                         <option value="2">未执行</option>
                         <option value="3">执行中</option>
                         <option value="4">已完成</option>
-                        <option value="5">已变更</option>
-                        <option value="0">已取消</option>
                     </select>
                 </li>
                 <li>
@@ -96,13 +93,13 @@
                     <label>事业部负责人：</label>
                     <input type="text" id="order_list_table_toolbar_form_technical_id_field" class="easyui-textbox"
                            editable="false" name="technicalId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#order_list_technical_id_dialog').dialog('open');$('#order_list_technical_id_dialog').dialog('refresh', 'common/userDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#order_list_technical_id_dialog').dialog('open');$('#order_list_technical_id_dialog').dialog('refresh', 'common/orderListUserDialog.html');}"/>
                 </li>
                 <li>
                     <label>执行事业部：</label>
                     <input type="text" id="order_list_table_toolbar_form_business_unit_id_field" class="easyui-textbox"
                            editable="false" name="businessUnitId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#order_list_business_unit_id_dialog').dialog('open');$('#order_list_business_unit_id_dialog').dialog('refresh', 'common/businessUnitDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#order_list_business_unit_id_dialog').dialog('open');$('#order_list_business_unit_id_dialog').dialog('refresh', 'common/orderListBusinessUnitDialog.html');}"/>
 
                 </li>
                 <li>
@@ -176,7 +173,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var crmCodeTableRow = $("#common_crm_code_dialog_table").datagrid("getSelected");
+                    var crmCodeTableRow = $("#common_order_list_crm_code_dialog_table").datagrid("getSelected");
                     if (crmCodeTableRow) {
                         $("#order_list_table_toolbar_form_crm_code_field").textbox("setValue", crmCodeTableRow.id);
                         $("#order_list_table_toolbar_form_crm_code_field").textbox("setText", crmCodeTableRow.buyerCode);
@@ -203,7 +200,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var tableSelectedRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    var tableSelectedRow = $("#common_order_list_user_dialog_table").datagrid("getSelected");
                     if (tableSelectedRow) {
                         $("#order_list_table_toolbar_form_technical_id_field").textbox("setValue", tableSelectedRow.id);
                         $("#order_list_table_toolbar_form_technical_id_field").textbox("setText", tableSelectedRow.userName);
@@ -230,7 +227,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var tableSelectedRow = $("#common_business_unit_dialog_table").datagrid("getSelected");
+                    var tableSelectedRow = $("#common_order_list_business_unit_dialog_table").datagrid("getSelected");
                     if (tableSelectedRow) {
                         $("#order_list_table_toolbar_form_business_unit_id_field").textbox("setValue", tableSelectedRow.id);
                         $("#order_list_table_toolbar_form_business_unit_id_field").textbox("setText", tableSelectedRow.orgName);

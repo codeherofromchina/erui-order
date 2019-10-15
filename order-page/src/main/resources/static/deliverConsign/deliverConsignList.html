@@ -23,7 +23,7 @@
                     <label>发货申请部门：</label>
                     <input type="text" id="deliver_consign_list_table_toolbar_form_dept_id_field" class="easyui-textbox"
                            editable="false" name="deptId" buttonText="请选择"
-                           data-options="onClickButton:function(){$('#deliver_consign_list_dept_dialog').dialog('open');$('#deliver_consign_list_dept_dialog').dialog('refresh', 'common/deptDialog.html');}"/>
+                           data-options="onClickButton:function(){$('#deliver_consign_list_dept_dialog').dialog('open');$('#deliver_consign_list_dept_dialog').dialog('refresh', 'common/deliverConsignListDeptDialog.html');}"/>
                 </li>
                 <li>
                     <label>订舱提交日期：</label>
@@ -118,7 +118,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var deptTableRow = $("#common_dept_dialog_table").datagrid("getSelected");
+                    var deptTableRow = $("#common_deliver_consign_list_dept_dialog_table").datagrid("getSelected");
                     if (deptTableRow) {
                         $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setValue", deptTableRow.name);
                         $("#deliver_consign_list_table_toolbar_form_dept_id_field").textbox("setText", deptTableRow.name);
