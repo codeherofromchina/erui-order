@@ -125,7 +125,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" parameterType="com.erui.order.model.entity.Project" >
+  <insert id="insert" keyProperty="id" keyColumn="id" useGeneratedKeys="true" parameterType="com.erui.order.model.entity.Project" >
     insert into project (id, order_id, project_no, 
       project_name, start_date, delivery_date, 
       profit, profit_percent, project_status, 

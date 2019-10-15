@@ -100,7 +100,7 @@ public class ProjectServiceImpl implements ProjectService {
         project.setDeleteFlag(Boolean.FALSE);
         project.setCreateTime(new Date());
 
-        int insertNum = projectMapper.insert(project);
+        projectMapper.insert(project);
 
 
         Long projectId = project.getId();
