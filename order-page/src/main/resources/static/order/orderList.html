@@ -258,6 +258,7 @@
             if ($("#tt").tabs("exists", newOrderTitle)) { // 判断该Tab页是否已经存在
                 $("#tt").tabs("select", newOrderTitle);
             } else {
+                GLOBAL_PARAMS = "";
                 $("#tt").tabs("add", {
                     title: newOrderTitle,
                     href: 'order/addOrder.html',

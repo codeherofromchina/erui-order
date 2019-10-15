@@ -26,9 +26,9 @@
                 <li>
                     <label>质检状态：</label>
                     <select class="easyui-combobox" editable="false" name="process">
-                        <option code="">请选择</option>
-                        <option code="true">未完成</option>
-                        <option code="false">已完成</option>
+                        <option value="">请选择</option>
+                        <option value="true">未完成</option>
+                        <option value="false">已完成</option>
                     </select>
                 </li>
                 <li>
@@ -37,7 +37,7 @@
                 </li>
                 <li>
                     <label>报检日期：</label>
-                    <input type="text" editable="false" class="easyui-datebox" name="inspectDate">
+                    <input data-options="editable:false,buttons:d_buttons" class="easyui-datebox" name="inspectDate">
                 </li>
                 <li>
                     <span class="search-btn">

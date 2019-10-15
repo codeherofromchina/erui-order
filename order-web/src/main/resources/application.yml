@@ -4,8 +4,7 @@ server:
     uri-encoding: UTF-8
 spring:
   jackson:
-    date-format[0]: yyyy-MM-dd HH:mm:ss
-    date-format[1]: yyyy-MM-dd
+    date-format: yyyy-MM-dd
     time-zone: GMT+8
   devtools:
     remote:

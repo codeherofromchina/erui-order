@@ -127,9 +127,9 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label>客户合同金额：</label>
-            <div class="input-div">{{totalPrice}} ({{currencyBn}})</div>
+            <div class="input-div">{{totalPrice | numFilter}} ({{currencyBn}})</div>
             <label>易瑞合同金额：</label>
-            <div class="input-div">{{eruiTotalPrice}} ({{currencyBn}})</div>
+            <div class="input-div">{{eruiTotalPrice|numFilter}} ({{currencyBn}})</div>
             <label><span style="color:red;">*</span>是否含税：</label>
             <div class="input-div">{{taxBearingName}}</div>
         </div>

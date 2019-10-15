@@ -35,7 +35,7 @@
         </div>
         <div class="fitem">
             <label>填表日期：</label>
-            <input disabled class="easyui-datebox" ediable="false" name="writeDate" style="width:185px;"/>
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="writeDate" style="width:185px;"/>
             <label>销售合同号：</label>
             <div class="input-div">{{contractNo}}</div>
             <label style="width: 145px;margin-left:-10px;">费用承担主体及发票抬头：</label>
@@ -64,7 +64,7 @@
             <label>预收金额({{currencyBn}})：</label>
             <div class="input-div">{{advanceMoney}}</div>
             <label>市场要求订舱日期：</label>
-            <input disabled class="easyui-datebox" ediable="false" name="bookingDate" style="width:185px;"/>
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="bookingDate" style="width:185px;"/>
         </div>
         <div class="fitem">
             <label>本批次发货金额：</label>
@@ -158,10 +158,10 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label>货物备好日期：</label>
-            <input disabled class="easyui-datebox" ediable="false" name="deliverConsignBookingSpace.readyDate"
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="deliverConsignBookingSpace.readyDate"
                    style="width:185px;"/>
             <label>要求运抵目的地日期：</label>
-            <input disabled class="easyui-datebox" ediable="false" name="deliverConsignBookingSpace.arrivalDate"
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="deliverConsignBookingSpace.arrivalDate"
                    style="width:185px;"/>
             <label>订单紧急程度：</label>
             <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.orderEmergency"

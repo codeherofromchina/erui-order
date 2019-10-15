@@ -219,7 +219,8 @@
 
             <label>客户合同USD金额：</label>
             <input class="easyui-numberbox" data-options="min:0,precision:2" value="0"
-                   id="add_order_form_total_price_usd_field" name="totalPriceUsd" style="width:185px;" editable="false"/>
+                   id="add_order_form_total_price_usd_field" name="totalPriceUsd" style="width:185px;"
+                   editable="false"/>
             <label><span style="color:red;">*</span>收款方式：</label>
             <select class="easyui-combobox" editable="false" name="paymentModeBn">
                 <option value="">请选择</option>
@@ -237,12 +238,11 @@
             <input class="easyui-numberbox" data-options="min:0,precision:2" name="orderPayments0.money"
                    style="width: 150px;" value="0"/> <span class="standard_currency" style="width: 30px;color:blue;"> USD</span>
             <label>收款日期：</label>
-            <input class="easyui-datebox" value="" name="orderPayments0.receiptDate" ediable="false"
-                   style="width: 150px;"/>
+            <input class="easyui-datebox" name="orderPayments0.receiptDate"
+                   data-options="editable:false,buttons:d_buttons" style="width:150px;"/>
         </div>
         <div id="add_order_order_payment_div">
         </div>
-
 
         <div id="add_order_panel_contract_info_add_btn_div">
             <a href="javascript:void(0);" id="add_order_panel_contract_info_add_btn" class="easyui-linkbutton">添加收款</a>

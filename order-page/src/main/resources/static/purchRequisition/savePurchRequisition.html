@@ -33,7 +33,7 @@
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>下发日期：</label>
-            <input type="text" class="easyui-datebox" data-options="required:true,editable:false" style="width:185px;"
+            <input class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false" style="width:185px;"
                    name="submitDate"/>
             <label>项目类型：</label>
             <div class="input-div">{{tradeMethodName}}</div>
@@ -68,7 +68,7 @@
                 <label>采购需用日期：</label>
                 <input type="text" class="easyui-datebox"
                        id="save_purch_requistion_panel_goods_table_toolbar_require_purchase_date"
-                       data-options="editable:false"/>
+                       data-options="editable:false,buttons:d_buttons"/>
                 <label>质检类型：</label>
                 <select class="easyui-combobox" editable="false" panelHeight="75px;"
                         id="save_purch_requistion_panel_goods_table_toolbar_chech_type" style="width:75px;">

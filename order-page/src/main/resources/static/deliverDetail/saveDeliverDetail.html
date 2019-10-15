@@ -24,7 +24,7 @@
         <input type="hidden" v-model="id" name="id" value=""/>
         <div class="fitem">
             <label>开单日期：</label>
-            <input class="easyui-datebox" name="billingDate" ediable="false" style="width:180px;"/>
+            <input class="easyui-datebox" name="billingDate" data-options="editable:false,buttons:d_buttons" style="width:180px;"/>
             <label>贸易术语：</label>
             <div class="input-div">{{tradeTerms}}</div>
             <label>目的港：</label>
@@ -58,7 +58,7 @@
         </div>
         <div class="fitem">
             <label>提货日期：</label>
-            <input class="easyui-datebox" name="pickupDate" ediable="false" style="width:185px;"/>
+            <input class="easyui-datebox" name="pickupDate" data-options="editable:false,buttons:d_buttons" style="width:185px;"/>
             <label>联系电话：</label>
             <input class="easyui-textbox" name="contactTel"/>
         </div>
@@ -76,7 +76,7 @@
         </div>
         <div class="fitem">
             <label>发运日期：</label>
-            <input class="easyui-datebox" ediable="false" style="width:185px;" name="sendDate"/>
+            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" style="width:185px;" name="sendDate"/>
             <label>协办/复核人：</label>
             <input class="easyui-textbox" name="reviewerUserName"/>
         </div>

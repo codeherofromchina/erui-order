@@ -225,12 +225,26 @@ var COMPANY = {
 };
 
 
-String.prototype.startWith=function(str){
-    var reg=new RegExp("^"+str);
+String.prototype.startWith = function (str) {
+    var reg = new RegExp("^" + str);
     return reg.test(this);
 }
 
-String.prototype.endWith=function(str){
-    var reg=new RegExp(str+"$");
+String.prototype.endWith = function (str) {
+    var reg = new RegExp(str + "$");
     return reg.test(this);
 }
+
+// 定义一个 Vue 全局的保留两位小数过滤器
+Vue.filter('numFilter', function (value) {
+    // 截取当前数据到小数点后两位
+    var realVal = parseFloat(value).toFixed(2);
+    return realVal
+})
+var d_buttons = $.extend([], $.fn.datebox.defaults.buttons);
+d_buttons.splice(1, 0, {
+    text: '清空',
+    handler: function (target) {
+        $(target).datebox('setValue', '');
+    }
+});

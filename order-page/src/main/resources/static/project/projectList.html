@@ -41,38 +41,36 @@
                 </li>
                 <li>
                     <label>项目开始日期：</label>
-                    <input type="text" editable="false" class="easyui-datebox" name="startDate">
+                    <input data-options="editable:false,buttons:d_buttons" class="easyui-datebox" name="startDate">
                 </li>
                 <li>
                     <label>项目状态：</label>
                     <select class="easyui-combobox" editable="false" name="projectStatus">
-                        <option code="">全部</option>
-                        <option code="SUBMIT">未执行</option>
-                        <option code="EXECUTING">正常执行</option>
-                        <option code="DONE">正常完成</option>
-                        <option code="DELAYED_EXECUTION">延期执行</option>
-                        <option code="DELAYED_COMPLETE">延期完成</option>
-                        <option code="UNSHIPPED">正常待发运</option>
-                        <option code="DELAYED_UNSHIPPED">延期待发运</option>
-                        <option code="PAUSE">项目暂停</option>
-                        <option code="CANCEL">项目取消</option>
-                        <option code="ORDERCANCEL">订单取消</option>
-                        <option code="CHANGE">已变更</option>
+                        <option value="">全部</option>
+                        <option value="SUBMIT">未执行</option>
+                        <option value="EXECUTING">正常执行</option>
+                        <option value="DONE">正常完成</option>
+                        <option value="DELAYED_EXECUTION">延期执行</option>
+                        <option value="DELAYED_COMPLETE">延期完成</option>
+                        <option value="UNSHIPPED">正常待发运</option>
+                        <option value="DELAYED_UNSHIPPED">延期待发运</option>
+                        <option value="PAUSE">项目暂停</option>
+                        <option value="CANCEL">项目取消</option>
                     </select>
                 </li>
                 <li>
                     <label>流程进度：</label>
                     <select class="easyui-combobox" editable="false" name="processProgress">
-                        <option code="">全部</option>
-                        <option code="SUBMIT">未执行</option>
-                        <option code="EXECUTING">正常执行</option>
-                        <option code="BUYING">已采购</option>
-                        <option code="DONE">已报检</option>
-                        <option code="CHECKING">已入库质检</option>
-                        <option code="IN_STORAGE">已入库</option>
-                        <option code="QUALITY_INSPECTION">已出库质检</option>
-                        <option code="DELAYED_UNSHIPPED">已出库</option>
-                        <option code="SHIPED">已发运</option>
+                        <option value="">全部</option>
+                        <option value="SUBMIT">未执行</option>
+                        <option value="EXECUTING">正常执行</option>
+                        <option value="BUYING">已采购</option>
+                        <option value="DONE">已报检</option>
+                        <option value="CHECKING">已入库质检</option>
+                        <option value="IN_STORAGE">已入库</option>
+                        <option value="QUALITY_INSPECTION">已出库质检</option>
+                        <option value="DELAYED_UNSHIPPED">已出库</option>
+                        <option value="SHIPED">已发运</option>
                     </select>
                 </li>
                 <li>
@@ -89,10 +87,10 @@
                 </li>
                 <li>
                     <label>项目创建日期：</label>
-                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox"
+                    <input type="text" style="width:100px;" data-options="editable:false,buttons:d_buttons" class="easyui-datebox"
                            name="createTimeStart">
                     <span>-</span>
-                    <input type="text" style="width:100px;" editable="false" class="easyui-datebox"
+                    <input type="text" style="width:100px;" data-options="editable:false,buttons:d_buttons" class="easyui-datebox"
                            name="createTimeEnd">
                 </li>
                 <li>

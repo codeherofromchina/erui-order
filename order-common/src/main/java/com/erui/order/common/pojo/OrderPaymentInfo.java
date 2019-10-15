@@ -1,5 +1,6 @@
 package com.erui.order.common.pojo;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
@@ -15,6 +16,7 @@ public class OrderPaymentInfo {
     private Short paymentType;
     private String paymentTypeName;
     private BigDecimal money;
+    //@JsonFormat(pattern = "yyyy年MM月dd日 HH时mm分ss秒", timezone = "GMT+8")
     private Date receiptDate;
     private Short receiptDays;
 

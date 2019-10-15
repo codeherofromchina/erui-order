@@ -44,7 +44,7 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label><span style="color:red;">*</span>合同签订日期：</label>
-            <input class="easyui-datebox" name="signingDate" data-options="editable:false" style="width:180px;"/>
+            <input class="easyui-datebox" name="signingDate" data-options="editable:false,buttons:d_buttons" style="width:180px;"/>
             <label>供应商名称：</label>
             <input type="text" id="save_purch_contract_standard_form_supplier_id_field"
                    class="easyui-textbox" editable="false" name="supplierId" buttonText="请选择"
@@ -161,7 +161,7 @@
             <div>1.出卖人负责运输并承担运费。</div>
             <div>
                 2.出卖人负责于
-                <input type="text" style="width: 110px;" class="easyui-datebox" name="standard.deliveryDate"/>
+                <input data-options="editable:false,buttons:d_buttons" style="width: 110px;" class="easyui-datebox" name="standard.deliveryDate"/>
                 （前）将货物全部交付给买受人。交货地点：
                 <input type="text" style="width: 400px;" name="standard.deliveryPlace"/>
             </div>
