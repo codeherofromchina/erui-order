@@ -68,6 +68,8 @@ public class Purch {
 
     private Date deleteTime;
 
+    private String supplierName;
+
     public Long getId() {
         return id;
     }
@@ -322,5 +324,13 @@ public class Purch {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
     }
 }

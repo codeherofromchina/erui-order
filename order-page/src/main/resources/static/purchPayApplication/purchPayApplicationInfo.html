@@ -1,0 +1,114 @@
+<script type="text/javascript">
+    var purchPayApplicationInfoParams = getQueryStringFromGlobalParams();
+    var purch_pay_application_info_form_data = {};
+    var purch_pay_application_info_form_attachment_table = [];
+    if (purchPayApplicationInfoParams.purchPayApplicationId) {
+        var purchPayApplicationInfoInfo = syncAjaxJson({"url": LOCAL_URL + "/order/purchPayApplication/info"}, {"id": purchPayApplicationInfoParams.purchPayApplicationId});
+        if (purchPayApplicationInfoInfo.code == 0) {
+            purch_pay_application_info_form_data = purchPayApplicationInfoInfo.data;
+            // 附件内容
+            purch_pay_application_info_form_attachment_table = purch_pay_application_info_form_data.attachments;
+            delete purch_pay_application_info_form_data.attachments;
+        }
+    }
+</script>
+<form id="purch_pay_application_info_form">
+    <div class="easyui-panel" title="基础信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label>申请人：</label>
+            <div class="input-div">{{applicantDeptName}}</div>
+            <label>申请人部门：</label>
+            <div class="input-div">{{applicantDeptName}}</div>
+            <label>申请日期：</label>
+            <div class="input-div">{{applicantDate}}</div>
+        </div>
+        <div class="fitem">
+            <label>采购合同号：</label>
+            <div class="input-div">{{purchContractNo}}</div>
+            <label>供应商名称：</label>
+            <div class="input-div">{{supplierName}}</div>
+            <label>开户行：</label>
+            <div class="input-div">{{openingBank}}</div>
+        </div>
+        <div class="fitem">
+            <label>账号：</label>
+            <div class="input-div">{{accountNum}}</div>
+            <label>项目内容：</label>
+            <div class="input-div">{{projectComment}}</div>
+            <label>币种：</label>
+            <div class="input-div">{{currencyBn}}</div>
+        </div>
+        <div class="fitem">
+            <label>汇率：</label>
+            <div class="input-div">{{exchangeRate}}</div>
+            <label>合同金额：</label>
+            <div class="input-div">{{contractAmount}}</div>
+            <label>申请金额：</label>
+            <div class="input-div">{{applicantAmount}}</div>
+        </div>
+        <div class="fitem">
+            <label>手续费：</label>
+            <div class="input-div">{{handlingFee}}</div>
+            <label>付款人：</label>
+            <div class="input-div">{{payerName}}</div>
+            <label>付款日期：</label>
+            <div class="input-div">{{payDate}}</div>
+        </div>
+    </div>
+    <div class="easyui-panel" title="其他信息"
+         style="padding:10px;background:#fafafa;margin-bottom:10px;"
+         data-options="collapsible:true">
+        <div class="fitem">
+            <label style="width:120px;">付款方式：</label>
+            <input class="easyui-textbox" editable="false" multiline="true" style="width:560px;height:60px;" value=""
+                   name="payMode"/>
+        </div>
+        <div class="fitem">
+            <label style="width:120px;">备注：</label>
+            <input class="easyui-textbox" editable="false" multiline="true" style="width:560px;height:60px;" value=""
+                   name="remark"/>
+        </div>
+    </div>
+
+    <div class="easyui-panel"
+         title="附件（支持格式jpg、jpeg、png、gif、doc、docx、xls、xlsx、ppt、pptx、pdf、支持批量上传，单个附件不超过10M。）"
+         style="background:#fafafa;margin-bottom:30px;"
+         data-options="collapsible:true">
+        <div class="easyui-layout" style="width: 100%;height:120px;">
+            <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
+                <table class="easyui-datagrid"
+                       data-options="idField:'url',data:purch_pay_application_info_form_attachment_table"
+                       fit="true"
+                       singleSelect="true"
+                       fitColumn="true">
+                    <thead>
+                    <th field="title" width="200">附件名称</th>
+                    <th field="createUserName" width="120">创建人</th>
+                    <th field="attachType" width="100" data-options="
+                                formatter:function(value){
+                                    return '附件';
+                                }
+                                ">类型
+                    </th>
+                    <th field="createTime" width="170">日期</th>
+                    </thead>
+                </table>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+<script type="text/javascript">
+    new Vue({
+        el: '#purch_pay_application_info_form',
+        data: purch_pay_application_info_form_data
+    });
+    $(function () {
+        setTimeout(function () {
+            $("#purch_pay_application_info_form").form('load', purch_pay_application_info_form_data);
+        }, 500);
+    });
+</script>

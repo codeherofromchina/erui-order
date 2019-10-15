@@ -80,7 +80,7 @@
                     field: '_operation', title: '操作',
                     formatter: function (value, row, index) {
                         var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="instockInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
-                        if (row.inspectReportStatus == 1 || row.inspectReportStatus == 2) {
+                        if (row.instockStatus == 1 || row.instockStatus == 2) {
                             str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInstockInfoPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
                         }
                         return str;
@@ -115,7 +115,7 @@
     });
 
     function saveInstockInfoPage(instockId) {
-        var tabTitle = "保存入库单-" + instockId;
+        var tabTitle = "办理入库-" + instockId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
@@ -126,11 +126,10 @@
                 closable: true
             });
         }
-
     }
 
     function instockInfoPage(instockId) {
-        var tabTitle = "查看入库单-" + instockId;
+        var tabTitle = "查看入库-" + instockId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {

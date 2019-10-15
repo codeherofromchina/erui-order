@@ -6,8 +6,10 @@ import com.erui.order.common.ResultStatus;
 import com.erui.order.common.pojo.Pager;
 import com.erui.order.common.pojo.PrimaryKey;
 import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.pojo.request.PayAblePurchQueryRequest;
 import com.erui.order.common.pojo.request.PurchPayApplicationQueryRequest;
 import com.erui.order.common.pojo.request.PurchPayApplicationSaveRequest;
+import com.erui.order.common.pojo.response.PayAblePurchListResponse;
 import com.erui.order.common.pojo.response.PurchPayApplicationDetailResponse;
 import com.erui.order.common.pojo.response.PurchPayApplicationListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
@@ -107,6 +109,24 @@ public class PurchPayApplicationController {
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.info("detail异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(key), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    @RequestMapping(value = "payAblePurchList", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Pager<PayAblePurchListResponse>> payAblePurchList(@RequestBody PayAblePurchQueryRequest queryRequest) {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        LOGGER.info("payAblePurchList - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest));
+        Result<Pager<PayAblePurchListResponse>> result = new Result<>();
+        try {
+            Pager<PayAblePurchListResponse> pageInfo = purchPayApplicationService.payAblePurchList(queryRequest);
+            result.setData(pageInfo);
+            LOGGER.info("payAblePurchList成功 - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(pageInfo));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("payAblePurchList异常 - {} - {} - {}", JSON.toJSONString(userInfo), JSON.toJSONString(queryRequest), e);
             result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
         }
         return result;

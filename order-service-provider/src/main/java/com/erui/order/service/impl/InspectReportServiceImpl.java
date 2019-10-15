@@ -110,7 +110,7 @@ public class InspectReportServiceImpl implements InspectReportService {
             throw new Exception("对象唯一标识错误");
         }
         InspectReportStatusEnum requestStatusEnum = InspectReportStatusEnum.valueOf(updateRequest.getInspectReportStatus());
-        if (requestStatusEnum != InspectReportStatusEnum.SAVED && requestStatusEnum != InspectReportStatusEnum.SUBMITED ) {
+        if (requestStatusEnum != InspectReportStatusEnum.SAVED && requestStatusEnum != InspectReportStatusEnum.SUBMITED) {
             throw new Exception("请求对象的状态错误");
         }
 
@@ -264,7 +264,13 @@ public class InspectReportServiceImpl implements InspectReportService {
         ProjectExample projectExample = new ProjectExample();
         projectExample.createCriteria().andOrderIdIn(orderIds);
         List<Project> projects = projectMapper.selectByExample(projectExample);
-        Project project = projects.stream().filter(vo -> vo.getQualityUid() != null).findFirst().get();
+        Project project = null;
+        for (Project p : projects) {
+            if (p.getQualityUid() != null) {
+                project = p;
+                break;
+            }
+        }
         if (project == null) {
             return null;
         }

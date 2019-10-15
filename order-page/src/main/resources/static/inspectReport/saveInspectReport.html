@@ -179,7 +179,8 @@
                         type: "textbox"
                     }
                 },
-                {field: 'unqualifiedType', width: 100, title: '不合格类别',
+                {
+                    field: 'unqualifiedType', width: 100, title: '不合格类别',
                     editor: {
                         type: "combobox",
                         options: {
@@ -225,7 +226,7 @@
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectReport/saveInspectReport"}, formData);
 
             if (resp.code == 0) {
-                $.messager.alert("成功", "保存报检单成功");
+                $.messager.alert("成功", "保存质检单成功");
                 closeCurrentTab();
             } else {
                 $.messager.alert("失败", resp.message);
@@ -245,7 +246,7 @@
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectReport/saveInspectReport"}, formData);
 
             if (resp.code == 0) {
-                $.messager.alert("成功", "提交报检单成功");
+                $.messager.alert("成功", "提交质检单成功");
                 closeCurrentTab();
             } else {
                 $.messager.alert("失败", resp.message);
@@ -294,7 +295,10 @@
                 field: 'unqualifiedDesc'
             });
             var unqualifiedDesc = $(edUnqualifiedDesc.target).textbox('getValue');
-            var edUnqualifiedType = $('#save_inspect_report_panel_goods_table').datagrid('getEditor', {index: index, field: 'unqualifiedType'});
+            var edUnqualifiedType = $('#save_inspect_report_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'unqualifiedType'
+            });
             var unqualifiedType = $(edUnqualifiedType.target).combobox('getValue');
             formData.inspectReportGoodsInfos.push({
                 id: value.inspectApplyGoodsId,

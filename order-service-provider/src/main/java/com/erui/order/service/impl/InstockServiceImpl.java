@@ -86,7 +86,7 @@ public class InstockServiceImpl implements InstockService {
             throw new Exception("入库信息不存在");
         }
         InstockStatusEnum requestStatusEnum = InstockStatusEnum.valueOf(updateRequest.getInstockStatus());
-        if (requestStatusEnum != InstockStatusEnum.INIT && requestStatusEnum != InstockStatusEnum.SAVED) {
+        if (requestStatusEnum != InstockStatusEnum.SUBMITED && requestStatusEnum != InstockStatusEnum.SAVED) {
             throw new Exception("请求对象的状态错误");
         }
 

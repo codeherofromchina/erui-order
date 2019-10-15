@@ -9,7 +9,7 @@
             <ul>
                 <li>
                     <label>采购合同号：</label>
-                    <input type="text" class="easyui-textbox" name="purchContractNo"/>
+                    <input type="text" class="easyui-textbox" name="purchNo"/>
                 </li>
                 <li>
                     <label>供应商名称：</label>
@@ -45,7 +45,7 @@
             singleSelect: true,
             idField: 'id',
             columns: [[
-                {field: 'deliverDetailNo', title: '付款单号'},
+                {field: 'payNo', title: '付款单号'},
                 {field: 'purchContractNo', title: '采购合同号'},
                 {field: 'supplierName', title: '供应商名称'},
                 {field: 'payStatusName', title: '付款状态'},
@@ -76,10 +76,10 @@
                     }
                 },
                 {
-                    field: 'operation', title: '操作',
+                    field: '_operate', title: '操作',
                     formatter: function (value, row, index) {
                         var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchPayApplicationInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
-                        if (row.inspectReportStatus == 1 || row.inspectReportStatus == 2) {
+                        if (row.payStatus == 2) {
                             str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="savePurchPayApplicationInfoPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
                         }
                         return str;
@@ -111,22 +111,37 @@
             setDatagridToFirstPage("#purch_pay_application_list_table");
             $("#purch_pay_application_list_table").datagrid("reload");
         });
+        $("#purch_pay_application_list_table_toolbar_add_btn").click(function () {
+            addPurchPayApplicationInfoPage();
+        });
     });
 
 
     function savePurchPayApplicationInfoPage(purchPayApplicationId) {
-        var tabTitle = "保存收款-" + instocpurchPayApplicationIdkId;
+        var tabTitle = "办理收款-" + purchPayApplicationId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
             GLOBAL_PARAMS = "purchPayApplicationId=" + purchPayApplicationId;
             $("#tt").tabs("add", {
                 title: tabTitle,
-                href: 'purchPayApplication/savePurchPayApplicationId.html',
+                href: 'purchPayApplication/savePurchPayApplication.html',
                 closable: true
             });
         }
+    }
 
+    function addPurchPayApplicationInfoPage() {
+        var tabTitle = "新建收款";
+        if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
+            $("#tt").tabs("select", tabTitle);
+        } else {
+            $("#tt").tabs("add", {
+                title: tabTitle,
+                href: 'purchPayApplication/addPurchPayApplication.html',
+                closable: true
+            });
+        }
     }
 
     function purchPayApplicationInfoPage(purchPayApplicationId) {

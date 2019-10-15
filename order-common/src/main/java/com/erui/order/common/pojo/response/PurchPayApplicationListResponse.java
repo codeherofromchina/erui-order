@@ -19,6 +19,7 @@ public class PurchPayApplicationListResponse {
     private BigDecimal contractAmount;
     // 申请金额
     private BigDecimal applicantAmount;
+    private String currencyBn;
     // 状态
     private Short payStatus;
     private String payStatusName;
@@ -94,6 +95,14 @@ public class PurchPayApplicationListResponse {
 
     public void setApplicantAmount(BigDecimal applicantAmount) {
         this.applicantAmount = applicantAmount;
+    }
+
+    public String getCurrencyBn() {
+        return currencyBn;
+    }
+
+    public void setCurrencyBn(String currencyBn) {
+        this.currencyBn = currencyBn;
     }
 }
 

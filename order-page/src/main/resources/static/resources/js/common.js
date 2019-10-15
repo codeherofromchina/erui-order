@@ -1,7 +1,7 @@
 var ORDER_URL = "http://java.eruidev.com:85";
 var LOCAL_URL = "http://wxd.eruidev.com:8090";
 var BPM_URL = "http://bpm.eruidev.com";
-var ERUITOKEN = "f4189a5ca3a543bd00aea759a46a21f8_018410";
+var ERUITOKEN = "c70c1c3e0b227dbd756aababffdc925c_018410";
 var GLOBAL_PARAMS = null;
 var ATTACHMENT_FILE_TYPE = 1; // 附件的类型
 var ATTACHMENT_FILE_TABLE_ID = null; // 附件的表格ID

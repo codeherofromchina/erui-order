@@ -34,6 +34,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="supplier_name" property="supplierName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -98,7 +99,7 @@
     arrival_date, pur_chg_date, supplier_id, total_price, currency_bn, remarks, purch_status, 
     inspected, supply_area, goal_cost, save_amount, save_mode, price_mode, profit_percent, 
     contract_tag, tax_bearing, exchange_rate, pay_status, create_user_id, create_time, 
-    update_user_id, update_time, delete_flag, delete_time
+    update_user_id, update_time, delete_flag, delete_time, supplier_name
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchExample" >
     select
@@ -130,7 +131,7 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id"  parameterType="com.erui.order.model.entity.Purch" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.Purch" >
     insert into purch (id, purch_no, contract_no, 
       project_no, purch_contract_id, agent_id, 
       department, signing_date, arrival_date, 
@@ -141,7 +142,8 @@
       profit_percent, contract_tag, tax_bearing, 
       exchange_rate, pay_status, create_user_id, 
       create_time, update_user_id, update_time, 
-      delete_flag, delete_time)
+      delete_flag, delete_time, supplier_name
+      )
     values (#{id,jdbcType=BIGINT}, #{purchNo,jdbcType=VARCHAR}, #{contractNo,jdbcType=VARCHAR}, 
       #{projectNo,jdbcType=VARCHAR}, #{purchContractId,jdbcType=BIGINT}, #{agentId,jdbcType=BIGINT}, 
       #{department,jdbcType=VARCHAR}, #{signingDate,jdbcType=DATE}, #{arrivalDate,jdbcType=DATE}, 
@@ -152,7 +154,8 @@
       #{profitPercent,jdbcType=DECIMAL}, #{contractTag,jdbcType=VARCHAR}, #{taxBearing,jdbcType=BIT}, 
       #{exchangeRate,jdbcType=DECIMAL}, #{payStatus,jdbcType=SMALLINT}, #{createUserId,jdbcType=BIGINT}, 
       #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, #{updateTime,jdbcType=TIMESTAMP}, 
-      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP})
+      #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, #{supplierName,jdbcType=VARCHAR}
+      )
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.Purch" >
     insert into purch
@@ -253,6 +256,9 @@
       <if test="deleteTime != null" >
         delete_time,
       </if>
+      <if test="supplierName != null" >
+        supplier_name,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -350,6 +356,9 @@
       </if>
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierName != null" >
+        #{supplierName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -458,6 +467,9 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.supplierName != null" >
+        supplier_name = #{record.supplierName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -496,7 +508,8 @@
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      supplier_name = #{record.supplierName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -597,6 +610,9 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="supplierName != null" >
+        supplier_name = #{supplierName,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -632,7 +648,8 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      supplier_name = #{supplierName,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

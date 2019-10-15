@@ -70,6 +70,7 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         PurchGoods purchGoods = PurchGoodsFactory.purchGoods(PurchGoodsInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         purchGoods.setPurchId(purchId);
+        purchGoods.setPreInspectNum(0);
         if (userInfo != null) {
             purchGoods.setCreateUserId(userInfo.getId());
         }

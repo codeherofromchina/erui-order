@@ -3,7 +3,7 @@
     var save_instock_form_data = {};
     var save_instock_form_goods_table = [];
     var save_instock_form_attachment_table = [];
-    if (saveInstockParams.InstockId) {
+    if (saveInstockParams.instockId) {
         var instockInfo = syncAjaxJson({"url": LOCAL_URL + "/order/instock/info"}, {"id": saveInstockParams.instockId});
         if (instockInfo.code == 0) {
             save_instock_form_data = instockInfo.data;
@@ -188,11 +188,11 @@
             });
             // 货物存放地
             var instockStock = $(edInstockStock.target).textbox('getValue');
-            formData.inspectReportGoodsInfos.push({
-                id: value.id,
+            formData.instockGoodsInfos.push({
+                id: value.instockGoodsId,
                 instockStock: instockStock,
-                instockNum: instockNum,
-                inspectApplyGoodsId: inspectApplyGoodsId
+                instockNum: value.instockNum,
+                inspectApplyGoodsId: value.inspectApplyGoodsId
             });
         });
 
@@ -218,7 +218,7 @@
     }
 
     // 删除附件的行
-    function saveInspectReportDeleAttachment(idField) {
+    function saveInstockDeleAttachment(idField) {
         if (idField) {
             $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
                 if (r) {

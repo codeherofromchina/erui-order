@@ -2,8 +2,10 @@ package com.erui.order.service;
 
 
 import com.erui.order.common.pojo.Pager;
+import com.erui.order.common.pojo.request.PayAblePurchQueryRequest;
 import com.erui.order.common.pojo.request.PurchPayApplicationQueryRequest;
 import com.erui.order.common.pojo.request.PurchPayApplicationSaveRequest;
+import com.erui.order.common.pojo.response.PayAblePurchListResponse;
 import com.erui.order.common.pojo.response.PurchPayApplicationDetailResponse;
 import com.erui.order.common.pojo.response.PurchPayApplicationListResponse;
 
@@ -38,5 +40,7 @@ public interface PurchPayApplicationService {
      * @return
      */
     PurchPayApplicationDetailResponse detail(Long id) throws Exception;
+
+    Pager<PayAblePurchListResponse> payAblePurchList(PayAblePurchQueryRequest queryRequest);
 }
 

@@ -18,6 +18,7 @@ public class PurchPayApplicationDetailResponse {
     private String purchContractNo;
     private Short payStatus;
     private Long applicantId;
+    private String applicantUserName;
     private String applicantDeptId;
     private String applicantDeptName;
     private Date applicantDate;
@@ -38,7 +39,6 @@ public class PurchPayApplicationDetailResponse {
     private String remark;
     // 附件内容
     private List<AttachmentInfo> attachments;
-
 
     public Long getId() {
         return id;
@@ -86,6 +86,14 @@ public class PurchPayApplicationDetailResponse {
 
     public void setApplicantId(Long applicantId) {
         this.applicantId = applicantId;
+    }
+
+    public String getApplicantUserName() {
+        return applicantUserName;
+    }
+
+    public void setApplicantUserName(String applicantUserName) {
+        this.applicantUserName = applicantUserName;
     }
 
     public String getApplicantDeptId() {
