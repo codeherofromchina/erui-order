@@ -17,6 +17,7 @@
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
     <result column="delete_flag" property="deleteFlag" jdbcType="BIT" />
     <result column="delete_time" property="deleteTime" jdbcType="TIMESTAMP" />
+    <result column="project_no" property="projectNo" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -79,7 +80,7 @@
   <sql id="Base_Column_List" >
     id, purch_requisition_id, order_goods_id, require_purchase_date, tech_require, check_type, 
     check_method, certificate, tech_audit, create_user_id, create_time, update_user_id, 
-    update_time, delete_flag, delete_time
+    update_time, delete_flag, delete_time, project_no
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.erui.order.model.entity.PurchRequisitionGoodsExample" >
     select
@@ -111,19 +112,19 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <insert id="insert" useGeneratedKeys="true" keyColumn="id" keyProperty="id" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
+  <insert id="insert" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
     insert into purch_requisition_goods (id, purch_requisition_id, order_goods_id, 
       require_purchase_date, tech_require, check_type, 
       check_method, certificate, tech_audit, 
       create_user_id, create_time, update_user_id, 
-      update_time, delete_flag, delete_time
-      )
+      update_time, delete_flag, delete_time, 
+      project_no)
     values (#{id,jdbcType=BIGINT}, #{purchRequisitionId,jdbcType=BIGINT}, #{orderGoodsId,jdbcType=BIGINT}, 
       #{requirePurchaseDate,jdbcType=DATE}, #{techRequire,jdbcType=VARCHAR}, #{checkType,jdbcType=CHAR}, 
       #{checkMethod,jdbcType=CHAR}, #{certificate,jdbcType=VARCHAR}, #{techAudit,jdbcType=VARCHAR}, 
       #{createUserId,jdbcType=BIGINT}, #{createTime,jdbcType=TIMESTAMP}, #{updateUserId,jdbcType=BIGINT}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}
-      )
+      #{updateTime,jdbcType=TIMESTAMP}, #{deleteFlag,jdbcType=BIT}, #{deleteTime,jdbcType=TIMESTAMP}, 
+      #{projectNo,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="com.erui.order.model.entity.PurchRequisitionGoods" >
     insert into purch_requisition_goods
@@ -173,6 +174,9 @@
       <if test="deleteTime != null" >
         delete_time,
       </if>
+      <if test="projectNo != null" >
+        project_no,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -219,6 +223,9 @@
       </if>
       <if test="deleteTime != null" >
         #{deleteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="projectNo != null" >
+        #{projectNo,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -276,6 +283,9 @@
       <if test="record.deleteTime != null" >
         delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.projectNo != null" >
+        project_no = #{record.projectNo,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -297,7 +307,8 @@
       update_user_id = #{record.updateUserId,jdbcType=BIGINT},
       update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{record.deleteFlag,jdbcType=BIT},
-      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{record.deleteTime,jdbcType=TIMESTAMP},
+      project_no = #{record.projectNo,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -347,6 +358,9 @@
       <if test="deleteTime != null" >
         delete_time = #{deleteTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="projectNo != null" >
+        project_no = #{projectNo,jdbcType=VARCHAR},
+      </if>
     </set>
     where id = #{id,jdbcType=BIGINT}
   </update>
@@ -365,7 +379,8 @@
       update_user_id = #{updateUserId,jdbcType=BIGINT},
       update_time = #{updateTime,jdbcType=TIMESTAMP},
       delete_flag = #{deleteFlag,jdbcType=BIT},
-      delete_time = #{deleteTime,jdbcType=TIMESTAMP}
+      delete_time = #{deleteTime,jdbcType=TIMESTAMP},
+      project_no = #{projectNo,jdbcType=VARCHAR}
     where id = #{id,jdbcType=BIGINT}
   </update>
 </mapper>

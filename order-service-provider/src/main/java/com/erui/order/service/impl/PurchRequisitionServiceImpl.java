@@ -122,7 +122,7 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
 
         // 组织采购申请数据
         PurchRequisition purchRequisition = PurchRequisitionFactory.purchRequisition(insertRequest);
-
+        purchRequisition.setContractNo(order.getContractNo());
         purchRequisition.setProjectNo(project.getProjectNo());
         purchRequisition.setProjectName(project.getProjectName());
         purchRequisition.setProjectStartDate(project.getStartDate());
@@ -182,33 +182,33 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         // 未删除,且已提交
         criteria.andDeleteFlagEqualTo(Boolean.FALSE).andPurchRequisitionStatusEqualTo(PurchRequisitionStatusEnum.SUBMIT.getCode());
         // 未分单的采购申请
-        criteria.andPurchaseUidIsNull();
+//        criteria.andPurchaseUidIsNull();
 
         // 销售合同号
+        if (StringUtils.isNotBlank(queryRequest.getContractNo())) {
+            criteria.andContractNoLike("%" + queryRequest.getContractNo() + "%");
+        }
         // 项目号
+        if (StringUtils.isNotBlank(queryRequest.getProjectNo())) {
+            criteria.andProjectNoLike("%" + queryRequest.getProjectNo() + "%");
+        }
         // 标的物
-        // 要求采购到货日期
-        List<Long> projectIds = null;
-        if (!StringUtils.isAllBlank(queryRequest.getContractNo(), queryRequest.getProjectNo(), queryRequest.getProjectName()) || queryRequest.getRequirePurchaseDate() != null) {
-            ProjectQueryRequest projectQueryRequest = new ProjectQueryRequest();
-            projectQueryRequest.setContractNo(queryRequest.getContractNo());
-            projectQueryRequest.setProjectNo(queryRequest.getProjectNo());
-            projectQueryRequest.setProjectName(queryRequest.getProjectName());
-            projectQueryRequest.setRequirePurchaseDate(queryRequest.getRequirePurchaseDate());
-            projectIds = projectService.projectIds(projectQueryRequest);
+        if (StringUtils.isNotBlank(queryRequest.getProjectName())) {
+            criteria.andProjectNameLike("%" + queryRequest.getProjectName() + "%");
         }
 
-        if (projectIds != null) {
-            if (projectIds.size() == 0) {
-                criteria.andIdEqualTo(-1L);
-            } else {
-                criteria.andProjectIdIn(projectIds);
-            }
+        // 要求采购到货日期
+        if (queryRequest.getRequirePurchaseDate() != null) {
+            criteria.andRequirePurchaseDateEqualTo(queryRequest.getRequirePurchaseDate());
         }
 
         // 下发日期
         if (queryRequest.getSubmitDate() != null) {
             criteria.andSubmitDateEqualTo(queryRequest.getSubmitDate());
+        }
+
+        if (queryRequest.getPurchStatus() != null) {
+            criteria.andPurchStatusEqualTo(queryRequest.getPurchStatus());
         }
 
         List<PurchRequisition> purchRequisitions = purchRequisitionMapper.selectByExample(example);
@@ -313,4 +313,21 @@ public class PurchRequisitionServiceImpl implements PurchRequisitionService {
         return purchRequisitions.stream().map(PurchRequisition::getProjectId).collect(Collectors.toList());
     }
 
+    @Override
+    public void handOver(Long id, Long purchaseUid) throws Exception {
+        UserInfo userInfo = ThreadLocalUtil.getUserInfo();
+        PurchRequisition purchRequisition = purchRequisitionMapper.selectByPrimaryKey(id);
+        if (purchRequisition == null) {
+            throw new Exception("项目采购申请单不存在");
+        }
+        // 更新
+        PurchRequisition purchRequisitionSelective = new PurchRequisition();
+        purchRequisitionSelective.setId(id);
+        purchRequisitionSelective.setPurchaseUid(purchaseUid);
+        purchRequisitionSelective.setSinglePersonId(userInfo.getId());
+        purchRequisitionSelective.setUpdateTime(new Date());
+        purchRequisitionSelective.setUpdateUserId(userInfo.getId());
+
+        purchRequisitionMapper.updateByPrimaryKeySelective(purchRequisitionSelective);
+    }
 }

@@ -24,13 +24,13 @@
             <label style="margin-left:5px;width: 130px;"><span style="color:red;">*</span>执行单约定交付日期：</label>
             <div class="input-div">{{deliveryDate}}</div>
             <label>客户合同金额：</label>
-            <div class="input-div">{{totalPriceUsd}} USD</div>
+            <div class="input-div">{{totalPriceUsd| numFilter}} USD</div>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>初步利润(%)：</label>
             <div class="input-div">{{profitPercent}}</div>
             <label>利润额：</label>
-            <div class="input-div">{{profit}} USD</div>
+            <div class="input-div">{{profit| numFilter}} USD</div>
             <label>执行单变更后日期：</label>
             <div class="input-div">{{exeChgDate}}</div>
         </div>
@@ -60,20 +60,20 @@
 
         <div class="fitem">
             <label style="margin-left:0;width:135px;">客户合同金额：</label>
-            <div class="input-div" style="width:122px;">{{projectProfit.contractAmountUsd}} USD</div>
+            <div class="input-div" style="width:122px;">{{projectProfit.contractAmountUsd| numFilter}} USD</div>
             <label>汇率：</label>
             <div class="input-div">{{projectProfit.exchangeRate}}</div>
             <label>客户合同金额：</label>
-            <div class="input-div">{{projectProfit.contractAmount}} CNY</div>
+            <div class="input-div">{{projectProfit.contractAmount| numFilter}} CNY</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
             项目主营成本
         </div>
         <div class="fitem">
             <label>采购成本-国内：</label>
-            <div class="input-div">{{projectProfit.purchasingCostsD}}</div>
+            <div class="input-div">{{projectProfit.purchasingCostsD| numFilter}}</div>
             <label>采购成本-国外：</label>
-            <div class="input-div">{{projectProfit.purchasingCostsF}}</div>
+            <div class="input-div">{{projectProfit.purchasingCostsF| numFilter}}</div>
         </div>
 
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
@@ -88,17 +88,17 @@
         </div>
         <div class="fitem">
             <label>陆运费：</label>
-            <div class="input-div">{{projectProfit.landFreight}}</div>
+            <div class="input-div">{{projectProfit.landFreight| numFilter}}</div>
             <label>陆运险：</label>
-            <div class="input-div">{{projectProfit.landInsurance}}</div>
+            <div class="input-div">{{projectProfit.landInsurance| numFilter}}</div>
             <label>港杂费：</label>
-            <div class="input-div">{{projectProfit.portCharges}}</div>
+            <div class="input-div">{{projectProfit.portCharges| numFilter}}</div>
         </div>
         <div class="fitem">
             <label>商检费：</label>
-            <div class="input-div">{{projectProfit.inspectionFee}}</div>
+            <div class="input-div">{{projectProfit.inspectionFee| numFilter}}</div>
             <label>国际运输：</label>
-            <div class="input-div">{{projectProfit.internationalTransport}}</div>
+            <div class="input-div">{{projectProfit.internationalTransport| numFilter}}</div>
             <label>关税：</label>
             <div class="input-div">{{projectProfit.tariff}}</div>
         </div>
@@ -108,7 +108,7 @@
             <label>清关杂税：</label>
             <div class="input-div">{{projectProfit.customsClearFee}}</div>
             <label>清关代理费：</label>
-            <div class="input-div">{{projectProfit.customsAgentFee}}</div>
+            <div class="input-div">{{projectProfit.customsAgentFee| numFilter}}</div>
         </div>
         <div class="fitem">
             <label>货物运输保险：</label>
@@ -141,37 +141,37 @@
         </div>
         <div class="fitem">
             <label>项目佣金：</label>
-            <div class="input-div">{{projectProfit.agentFee}}</div>
+            <div class="input-div">{{projectProfit.agentFee| numFilter}}</div>
             <label>提点费用：</label>
-            <div class="input-div">{{projectProfit.raiseFee}}</div>
+            <div class="input-div">{{projectProfit.raiseFee| numFilter}}</div>
             <label>平台代理费用：</label>
-            <div class="input-div">{{projectProfit.platformAgentCost}}</div>
+            <div class="input-div">{{projectProfit.platformAgentCost| numFilter}}</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
             市场费用
         </div>
         <div class="fitem">
             <label>信用证、保函费用：</label>
-            <div class="input-div">{{projectProfit.guaranceFee}}</div>
+            <div class="input-div">{{projectProfit.guaranceFee| numFilter}}</div>
             <label>融资利息：</label>
-            <div class="input-div">{{projectProfit.financingInterest}}</div>
+            <div class="input-div">{{projectProfit.financingInterest| numFilter}}</div>
             <label>国内税费：</label>
-            <div class="input-div">{{projectProfit.domesticTaxs}}</div>
+            <div class="input-div">{{projectProfit.domesticTaxs| numFilter}}</div>
         </div>
         <div class="fitem">
             <label>国外税费：</label>
-            <div class="input-div">{{projectProfit.foreignTaxes}}</div>
+            <div class="input-div">{{projectProfit.foreignTaxes| numFilter}}</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
             其它
         </div>
         <div class="fitem">
             <label>管理费用+销售费用：</label>
-            <div class="input-div">{{projectProfit.manageFee}}</div>
+            <div class="input-div">{{projectProfit.manageFee| numFilter}}</div>
             <label>市场提点后报价利润：</label>
-            <div class="input-div">{{projectProfit.afterProfit}}</div>
+            <div class="input-div">{{projectProfit.afterProfit| numFilter}}</div>
             <label>市场提点前报价利润：</label>
-            <div class="input-div">{{projectProfit.beforeProfit}}</div>
+            <div class="input-div">{{projectProfit.beforeProfit| numFilter}}</div>
         </div>
         <div class="fitem">
             <label>提点比例：</label>
@@ -179,7 +179,7 @@
             <label>报价利润率：</label>
             <div class="input-div">{{projectProfit.quotationProfit}}</div>
             <label>后方提点费用：</label>
-            <div class="input-div">{{projectProfit.rearFee}}</div>
+            <div class="input-div">{{projectProfit.rearFee| numFilter}}</div>
         </div>
     </div>
 

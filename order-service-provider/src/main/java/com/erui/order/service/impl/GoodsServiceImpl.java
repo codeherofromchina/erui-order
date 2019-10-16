@@ -233,6 +233,7 @@ public class GoodsServiceImpl implements GoodsService {
         GoodsInfo goodsInfo = goodsInfoByOrderGoods(orderGoodsInfo);
         goodsInfo.setPurchRequisitionGoodsId(purchRequisitionGoodsInfo.getId());
         goodsInfo.setRequirePurchaseDate(purchRequisitionGoodsInfo.getRequirePurchaseDate());
+        goodsInfo.setProjectNo(purchRequisitionGoodsInfo.getProjectNo());
         return goodsInfo;
     }
 
@@ -253,6 +254,7 @@ public class GoodsServiceImpl implements GoodsService {
         goodsInfo.setBrand(orderGoodsInfo.getBrand());
         goodsInfo.setContractGoodsNum(orderGoodsInfo.getContractGoodsNum());
         goodsInfo.setPreOutstockedNum(orderGoodsInfo.getPreOutstockedNum());
+        goodsInfo.setPrePurchContractNum(orderGoodsInfo.getPrePurchContractNum());
 
         return goodsInfo;
     }

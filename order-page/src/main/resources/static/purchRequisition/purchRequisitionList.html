@@ -25,7 +25,8 @@
                 </li>
                 <li>
                     <label>要求采购到货日期：</label>
-                    <input data-options="editable:false,buttons:d_buttons" class="easyui-datebox" name="requirePurchaseDate">
+                    <input data-options="editable:false,buttons:d_buttons" class="easyui-datebox"
+                           name="requirePurchaseDate">
                 </li>
                 <li>
                     <label>采购状态：</label>
@@ -33,7 +34,6 @@
                         <option value="">全部状态</option>
                         <option value="1">未进行</option>
                         <option value="2">进行中</option>
-                        <option value="5">已变更</option>
                     </select>
                 </li>
                 <li>
@@ -47,12 +47,20 @@
             </ul>
         </form>
     </div>
+    <!--
     <div class="ctrl-div">
         <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-man" plain="true"
            id="purch_requisition_list_table_toolbar_form_add_btn">转交经办人</a>
     </div>
+    -->
 </div>
 <!-- /数据表工具栏 -->
+
+
+<!-- 事业部负责人弹出框 -->
+<div id="purch_requisition_list_purchase_user_dialog" style="width:600px;height:350px;">
+</div>
+<!-- /事业部负责人弹出框 -->
 
 <script type="text/javascript">
     $(function () {
@@ -69,12 +77,12 @@
                 {field: 'contractNo', title: '销售合同号'},
                 {field: 'projectNo', title: '项目号'},
                 {field: 'projectName', title: '合同标的'},
-                {field: 'pmUserName', title: '事业部项目负责人'},
-                {field: 'startDate', title: '项目开始日期'},
+                {field: 'businessUserName', title: '事业部项目负责人'},
+                {field: 'projectStartDate', title: '项目开始日期'},
                 {field: 'submitDate', title: '下发采购日期'},
                 {field: 'requirePurchaseDate', title: '要求采购到货日期'},
                 {field: 'purchStatusName', title: '采购状态'},
-                {field: '_operate', title: '操作', formatter: purchRequisitionListFormatOper},
+                {field: '_operate', width: 150, title: '操作', formatter: purchRequisitionListFormatOper},
             ]],
             url: LOCAL_URL + '/order/purchRequisition/list',
             onBeforeLoad: function (param) {
@@ -101,6 +109,34 @@
             setDatagridToFirstPage("#purch_requisition_list_table");
             $("#purch_requisition_list_table").datagrid("reload");
         });
+
+        $("#purch_requisition_list_purchase_user_dialog").dialog({
+            title: '转交经办人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_purch_requisition_list_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        var resp = syncAjaxJson({"url": LOCAL_URL + "/order/purchRequisition/handOver/" + tableSelectedRow.id}, {"id": purchRequisitionListHandOverDialogObjectId});
+                        if (resp.code == 0) {
+                            $.messager.alert("提示", "转交经办人成功");
+                            $("#purch_requisition_list_table").datagrid("reload");
+                        }
+                    }
+                    $("#purch_requisition_list_purchase_user_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#purch_requisition_list_purchase_user_dialog").dialog("close");
+                }
+            }]
+        });
     });
 
 
@@ -119,7 +155,18 @@
     }
 
     function purchRequisitionListFormatOper(val, row, index) {
-        var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchRequisitionInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+        var str = '<a href="javascript:void(0)" onclick="purchRequisitionInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
+        if (row.purchaseUid == null) {
+            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchRequisitionListHandOverDialog(' + row.id + ')">转交经办人</a>&nbsp;&nbsp;&nbsp;';
+        }
         return str;
+    }
+
+    var purchRequisitionListHandOverDialogObjectId = null;
+
+    function purchRequisitionListHandOverDialog(id) {
+        purchRequisitionListHandOverDialogObjectId = id;
+        $('#purch_requisition_list_purchase_user_dialog').dialog('open');
+        $('#purch_requisition_list_purchase_user_dialog').dialog('refresh', 'common/purchRequisitionListUserDialog.html');
     }
 </script>

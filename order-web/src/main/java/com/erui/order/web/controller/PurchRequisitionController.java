@@ -18,10 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
@@ -80,8 +77,6 @@ public class PurchRequisitionController {
     }
 
 
-
-
     /**
      * 通过项目ID获取采购申请的详情
      *
@@ -106,7 +101,6 @@ public class PurchRequisitionController {
     }
 
 
-
     /**
      * 获取采购申请的详情
      *
@@ -124,6 +118,27 @@ public class PurchRequisitionController {
         } catch (Exception e) {
             e.printStackTrace();
             LOGGER.error("查询采购申请详情异常 {} - {} - {}", JSON.toJSONString(userInfo), key.getId(), e);
+            result.setStatus(ResultStatus.FAIL);
+            result.setMessage(e.getMessage());
+        }
+        return result;
+    }
+
+
+    /**
+     * 采购审核转交采购经办人
+     *
+     * @param key
+     * @return
+     */
+    @RequestMapping(value = "handOver/{purchaseUid}", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> handOver(@PathVariable Long purchaseUid, @RequestBody PrimaryKey key) {
+        Result<Void> result = new Result<>();
+        try {
+            purchRequisitionService.handOver(key.getId(), purchaseUid);
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.error("采购审核转交采购经办人 {} - {} - {}", purchaseUid, key.getId(), e);
             result.setStatus(ResultStatus.FAIL);
             result.setMessage(e.getMessage());
         }

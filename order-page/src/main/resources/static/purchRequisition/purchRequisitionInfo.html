@@ -114,13 +114,9 @@
                 {field: 'nameZh', width: 100, title: '中文品名'},
                 {field: 'contractGoodsNum', width: 80, title: '数量'},
                 {field: 'unitName', width: 80, title: '单位'},
-                {field: 'purchContractBrand', width: 100, title: '品牌'},
-                {
-                    field: 'requirePurchaseDate', width: 100, title: '采购需用日期'
-                },
-                {
-                    field: 'techRequire', width: 120, title: '技术要求和使用条件'
-                },
+                {field: 'brand', width: 100, title: '品牌'},
+                {field: 'requirePurchaseDate', width: 100, title: '采购需用日期'},
+                {field: 'techRequire', width: 120, title: '技术要求和使用条件'},
                 {
                     field: 'checkType', width: 80, title: '质检类型',
                     formatter: function (value) {
@@ -147,12 +143,8 @@
                         return value;
                     }
                 },
-                {
-                    field: 'certificate', width: 120, title: '合格证'
-                },
-                {
-                    field: 'techAudit', width: 120, title: '技术审核'
-                }
+                {field: 'certificate', width: 120, title: '合格证'},
+                {field: 'techAudit', width: 120, title: '技术审核'}
             ]],
             data: purch_requisition_info_form_goods_table
         });

@@ -31,4 +31,10 @@ public interface PurchRequisitionService {
      */
     List<Long> projectIdsByCurrentUser();
 
+    /**
+     * 转交采购经办人
+     * @param id
+     * @param purchaseUid
+     */
+    void handOver(Long id, Long purchaseUid) throws Exception;
 }

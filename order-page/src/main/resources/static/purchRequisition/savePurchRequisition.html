@@ -33,7 +33,8 @@
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>下发日期：</label>
-            <input class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false" style="width:185px;"
+            <input class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false"
+                   style="width:185px;"
                    name="submitDate"/>
             <label>项目类型：</label>
             <div class="input-div">{{tradeMethodName}}</div>
@@ -182,11 +183,12 @@
                 {field: 'nameZh', width: 100, title: '中文品名'},
                 {field: 'contractGoodsNum', width: 80, title: '数量'},
                 {field: 'unit', width: 80, title: '单位'},
-                {field: 'purchContractBrand', width: 100, title: '品牌'},
+                {field: 'brand', width: 100, title: '品牌'},
                 {
                     field: 'requirePurchaseDate', width: 100, title: '采购需用日期',
                     editor: {
-                        type: "datebox"
+                        type: "datebox",
+                        editable: false
                     }
                 },
                 {
@@ -252,8 +254,8 @@
         $("#save_purch_requisition_form_save_btn").click(function (e) {
             e.preventDefault();
             var isValid = $("#save_purch_requisition_form").form('validate');
-            if (!isValid){
-                $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
+            if (!isValid) {
+                $.messager.alert('提示', '请完整填写表单');	// hide progress bar while the form is invalid
                 return;
             }
             var formData = assemblyPurchRequisitionData();
@@ -273,8 +275,8 @@
         $("#save_purch_requisition_form_submit_btn").click(function (e) {
             e.preventDefault();
             var isValid = $("#save_purch_requisition_form").form('validate');
-            if (!isValid){
-                $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
+            if (!isValid) {
+                $.messager.alert('提示', '请完整填写表单');	// hide progress bar while the form is invalid
                 return;
             }
             var formData = assemblyPurchRequisitionData();
@@ -291,29 +293,35 @@
             }
         });
 
-            // 批量采购需用日期
+        // 批量采购需用日期
         $("#save_purch_requistion_panel_goods_table_toolbar_require_purchase_date").datebox({
-            onChange:function (newValue, oldValue) {
+            onChange: function (newValue, oldValue) {
                 var checkedRows = $("#save_purch_requistion_panel_goods_table").datagrid("getChecked");
                 if (checkedRows) {
-                    $.each(checkedRows,function(index, checkedRow) {
-                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex",checkedRow.orderGoodsId);
-                        var edRequirePurchaseDate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index02, field: 'requirePurchaseDate'});
-                        $(edRequirePurchaseDate.target).datebox('setValue',newValue);
+                    $.each(checkedRows, function (index, checkedRow) {
+                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex", checkedRow.orderGoodsId);
+                        var edRequirePurchaseDate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                            index: index02,
+                            field: 'requirePurchaseDate'
+                        });
+                        $(edRequirePurchaseDate.target).datebox('setValue', newValue);
                     });
                 }
             }
         });
         // 批量质检类型
         $("#save_purch_requistion_panel_goods_table_toolbar_chech_type").combobox({
-            onChange:function (newValue, oldValue) {
+            onChange: function (newValue, oldValue) {
                 var checkedRows = $("#save_purch_requistion_panel_goods_table").datagrid("getChecked");
                 if (checkedRows) {
-                    $.each(checkedRows,function(index, checkedRow) {
-                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex",checkedRow.orderGoodsId);
-                        var edCheckType = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index02, field: 'checkType'});
+                    $.each(checkedRows, function (index, checkedRow) {
+                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex", checkedRow.orderGoodsId);
+                        var edCheckType = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                            index: index02,
+                            field: 'checkType'
+                        });
 
-                        $(edCheckType.target).combobox('setValue',newValue);
+                        $(edCheckType.target).combobox('setValue', newValue);
                     });
                 }
 
@@ -321,13 +329,16 @@
         });
         // 批量质检方法
         $("#save_purch_requistion_panel_goods_table_toolbar_chech_method").combobox({
-            onChange:function (newValue, oldValue) {
+            onChange: function (newValue, oldValue) {
                 var checkedRows = $("#save_purch_requistion_panel_goods_table").datagrid("getChecked");
                 if (checkedRows) {
-                    $.each(checkedRows,function(index, checkedRow) {
-                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex",checkedRow.orderGoodsId);
-                        var edCheckMethod = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index02, field: 'checkMethod'});
-                        $(edCheckMethod.target).combobox('setValue',newValue);
+                    $.each(checkedRows, function (index, checkedRow) {
+                        var index02 = $("#save_purch_requistion_panel_goods_table").datagrid("getRowIndex", checkedRow.orderGoodsId);
+                        var edCheckMethod = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                            index: index02,
+                            field: 'checkMethod'
+                        });
+                        $(edCheckMethod.target).combobox('setValue', newValue);
                     });
                 }
             }
@@ -362,28 +373,46 @@
 
         var datagridRows = $("#save_purch_requistion_panel_goods_table").datagrid("getRows");
         $.each(datagridRows, function (index, value) {
-            var edRequirePurchaseDate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'requirePurchaseDate'});
+            var edRequirePurchaseDate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'requirePurchaseDate'
+            });
             var requirePurchaseDate = $(edRequirePurchaseDate.target).datebox('getValue');
 
-            var edTechRequire = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'techRequire'});
+            var edTechRequire = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'techRequire'
+            });
             var techRequire = $(edTechRequire.target).textbox('getValue');
-            var edCheckType = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'checkType'});
+            var edCheckType = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'checkType'
+            });
             var checkType = $(edCheckType.target).combobox('getValue');
-            var edCheckMethod = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'checkMethod'});
+            var edCheckMethod = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'checkMethod'
+            });
             var checkMethod = $(edCheckMethod.target).combobox('getValue');
-            var edCertificate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'certificate'});
+            var edCertificate = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'certificate'
+            });
             var certificate = $(edCertificate.target).textbox('getValue');
-            var edTechAudit = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {index: index, field: 'techAudit'});
+            var edTechAudit = $('#save_purch_requistion_panel_goods_table').datagrid('getEditor', {
+                index: index,
+                field: 'techAudit'
+            });
             var techAudit = $(edTechAudit.target).textbox('getValue');
             formData.purchRequisitionGoods.push({
                 id: value.id,
                 orderGoodsId: value.orderGoodsId,
-                requirePurchaseDate:requirePurchaseDate,
-                techRequire:techRequire,
-                checkType:checkType,
-                checkMethod:checkMethod,
-                certificate:certificate,
-                techAudit:techAudit
+                requirePurchaseDate: requirePurchaseDate,
+                techRequire: techRequire,
+                checkType: checkType,
+                checkMethod: checkMethod,
+                certificate: certificate,
+                techAudit: techAudit
             });
         });
 

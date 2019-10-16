@@ -105,7 +105,7 @@
         <table id="order_info_panel_goods_info_table" style="background:#fafafa;">
             <thead>
             <tr>
-                <th field="sku" width="80">平台SKU</th>
+                <th field="sku" width="140">平台SKU</th>
                 <th field="meteTypeName" width="120"><span style="color:red;">*</span>物料分类</th>
                 <th field="tplName" width="80"><span style="color:red;">*</span>模板名称</th>
                 <th field="departmentName" width="120"><span style="color:red;">*</span>商品所属事业部</th>
@@ -138,24 +138,24 @@
             <div class="input-div">{{exchangeRate}} (兑美金汇率)</div>
 
             <label>客户合同USD金额：</label>
-            <div class="input-div">{{totalPriceUsd}}</div>
+            <div class="input-div">{{totalPriceUsd|numFilter}}</div>
             <label>质保金：</label>
-            <div class="input-div">{{qualityFunds}} ({{currencyBn}})</div>
+            <div class="input-div">{{qualityFunds|numFilter}} ({{currencyBn}})</div>
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>收款方式：</label>
             <div class="input-div">{{paymentModeBnName}}</div>
             <label>预收货款：</label>
-            <div class="input-div">{{orderPayments[0].money}} {{currencyBn}}</div>
+            <div class="input-div">{{orderPayments[0].money | numFilter}} {{currencyBn}}</div>
             <label>收款日期：</label>
             <div class="input-div">{{orderPayments[0].receiptDate}}</div>
         </div>
         <div class="fitem" v-for="(payment, index) in orderPayments">
-            <label  v-if="index > 0"><span style="color:red;">*</span>收款：</label>
+            <label v-if="index > 0"><span style="color:red;">*</span>收款：</label>
             <div v-if="index > 0" class="input-div" style="width:80px;">{{payment.paymentTypeName}}</div>
             <div v-if="index > 0" class="input-div" style="width:40px;">{{payment.receiptDays}}</div>
             <label v-if="index > 0">天：</label>
-            <div v-if="index > 0" class="input-div">{{payment.money}} （{{currencyBn}}）</div>
+            <div v-if="index > 0" class="input-div">{{payment.money| numFilter}} （{{currencyBn}}）</div>
         </div>
     </div>
 
@@ -165,11 +165,15 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label style="width:120px;">交货要求描述：</label>
-            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{deliveryRequires}}</div>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">
+                {{deliveryRequires}}
+            </div>
         </div>
         <div class="fitem">
             <label style="width:120px;">客户及项目背景描述：</label>
-            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{customerContext}}</div>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">
+                {{customerContext}}
+            </div>
         </div>
     </div>
 

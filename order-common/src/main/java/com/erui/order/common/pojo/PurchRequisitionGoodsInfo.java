@@ -10,6 +10,8 @@ public class PurchRequisitionGoodsInfo {
     private Long id;
     private Long orderGoodsId;
 
+    private String projectNo;
+
     private Date requirePurchaseDate;
 
     private String techRequire;
@@ -35,9 +37,15 @@ public class PurchRequisitionGoodsInfo {
     }
 
     public void setOrderGoodsId(Long orderGoodsId) {
-
-
         this.orderGoodsId = orderGoodsId;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 
     public Date getRequirePurchaseDate() {

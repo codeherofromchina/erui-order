@@ -31,6 +31,8 @@ public class OrderGoodsInfo {
     private String nameZh;
 
     private Short contractGoodsNum;
+    // 预备采购数量
+    private Short prePurchContractNum;
     // 预发货数量
     private Integer preOutstockedNum;
 
@@ -134,6 +136,15 @@ public class OrderGoodsInfo {
 
     public void setContractGoodsNum(Short contractGoodsNum) {
         this.contractGoodsNum = contractGoodsNum;
+    }
+
+
+    public Short getPrePurchContractNum() {
+        return prePurchContractNum;
+    }
+
+    public void setPrePurchContractNum(Short prePurchContractNum) {
+        this.prePurchContractNum = prePurchContractNum;
     }
 
     public String getUnit() {

@@ -1,17 +1,21 @@
 package com.erui.order.service.impl;
 
+import com.erui.order.common.enums.OrderStatusEnum;
 import com.erui.order.common.pojo.OrderGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
+import com.erui.order.common.util.StringUtil;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.OrderGoodsMapper;
 import com.erui.order.mapper.OrderMapper;
 import com.erui.order.model.entity.Order;
+import com.erui.order.model.entity.OrderExample;
 import com.erui.order.model.entity.OrderGoods;
 import com.erui.order.model.entity.OrderGoodsExample;
 import com.erui.order.service.OrderGoodsService;
 import com.erui.order.service.OrgService;
 import com.erui.order.service.StandardUnitService;
 import com.erui.order.service.util.OrderGoodsFactory;
+import com.github.pagehelper.PageHelper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +85,11 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         if (userInfo != null) {
             orderGoods.setCreateUserId(userInfo.getId());
         }
+
+        // 生成SKU
+        String sku = findLastGoodsSku();
+        StringUtil.genSKU(orderGoods.getMeteType(), sku);
+
         orderGoods.setContractNo(order.getContractNo());
         orderGoods.setPreOutstockedNum((short) 0); // 预发货数量
         orderGoods.setOutstockedNum((short) 0); // 已发货数量
@@ -88,6 +97,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
         orderGoods.setDeleteFlag(Boolean.FALSE);
         orderGoods.setPrePurchContractNum((short) 0);
         orderGoods.setPurchContractNum((short) 0);
+        orderGoods.setInstockedNum((short) 0);
 
         return orderGoodsMapper.insert(orderGoods);
     }
@@ -178,5 +188,17 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
             orderGoodsList = new ArrayList<>();
         }
         return orderGoodsList;
+    }
+
+    private String findLastGoodsSku() {
+        PageHelper.startPage(1, 1);
+        OrderGoodsExample example = new OrderGoodsExample();
+        example.setOrderByClause("id desc");
+        OrderGoodsExample.Criteria criteria = example.createCriteria();
+        List<OrderGoods> orderGoodsList = orderGoodsMapper.selectByExample(example);
+        if (orderGoodsList != null && orderGoodsList.size() > 0) {
+            return orderGoodsList.get(0).getSku();
+        }
+        return null;
     }
 }

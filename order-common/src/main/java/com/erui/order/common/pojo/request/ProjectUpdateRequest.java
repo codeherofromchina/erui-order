@@ -24,6 +24,8 @@ public class ProjectUpdateRequest {
     private BigDecimal profit;
     // 执行单变更后日期
     private Date exeChgDate;
+    // 要求采购到货日期
+    private Date requirePurchaseDate;
     // 项目备注
     private String remarks;
     // 项目状态
@@ -113,6 +115,14 @@ public class ProjectUpdateRequest {
 
     public void setExeChgDate(Date exeChgDate) {
         this.exeChgDate = exeChgDate;
+    }
+
+    public Date getRequirePurchaseDate() {
+        return requirePurchaseDate;
+    }
+
+    public void setRequirePurchaseDate(Date requirePurchaseDate) {
+        this.requirePurchaseDate = requirePurchaseDate;
     }
 
     public String getRemarks() {

@@ -21,6 +21,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -80,6 +81,10 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
 
     @Override
     public int insert(Long purchContractId, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception {
+        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purchContractId);
+        if (purchContract == null) {
+            throw new Exception("采购合同不存在");
+        }
         PurchContractGoods purchContractGoods = PurchContractGoodsFactory.purchContractGoods(purchContractGoodsInfo);
 
         purchContractGoods.setPurchContractId(purchContractId);
@@ -88,16 +93,15 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
         if (userInfo != null) {
             purchContractGoods.setCreateUserId(userInfo.getId());
         }
+        purchContractGoods.setNonTaxPrice(purchContractGoods.getPurchasePrice().multiply(new BigDecimal(1 - purchContract.getTaxPoint()).setScale(2)));
+        purchContractGoods.setPrePurchasedNum(0);
+        purchContractGoods.setPurchasedNum(0);
         purchContractGoods.setCreateTime(new Date());
         purchContractGoods.setDeleteFlag(Boolean.FALSE);
         int insertNum = purchContractGoodsMapper.insert(purchContractGoods);
 
         // 设置订单商品的采购合同数量
         // 设置项目是否采购合同完成
-        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purchContractId);
-        if (purchContract == null) {
-            throw new Exception("采购合同不存在");
-        }
         PurchContractStatusEnum purchContractStatusEnum = PurchContractStatusEnum.valueOf(purchContract.getPurchContractStatus());
         if (purchContractStatusEnum == null) {
             throw new Exception("采购合同状态错误");

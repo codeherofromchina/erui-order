@@ -30,6 +30,22 @@ public class StringUtil {
         return prefix + beginNumStr;
     }
 
+
+    // 生成商品SKU
+    public static String genSKU(String meteType, String lastSku) {
+        String prefix = meteType + "D";
+        int beginNum = 1;
+        int flagIndex = -1;
+        if (StringUtils.isNotBlank(lastSku) && (flagIndex = lastSku.indexOf("D")) != -1) {
+            String seqStr = lastSku.substring(flagIndex);
+            if (StringUtils.isNumeric(seqStr)) {
+                beginNum = Integer.parseInt(seqStr);
+            }
+            beginNum++;
+        }
+        return prefix + FORMAT_NINE_ZERO.format(beginNum);
+    }
+
     /**
      * 生成出口通知单号
      *
@@ -68,6 +84,7 @@ public class StringUtil {
 
     public static final NumberFormat FORMAT_FOUR_ZERO = new DecimalFormat("0000");
     public static final NumberFormat FORMAT_FOUR_FIVE = new DecimalFormat("00000");
+    public static final NumberFormat FORMAT_NINE_ZERO = new DecimalFormat("000000000");
 
 
 }

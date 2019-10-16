@@ -43,6 +43,7 @@ public class PurchRequisitionFactory {
         response.setSubmitDate(purchRequisition.getSubmitDate());
         response.setRequirePurchaseDate(purchRequisition.getRequirePurchaseDate());
         response.setPurchStatus(purchRequisition.getPurchStatus());
+        response.setPurchaseUid(purchRequisition.getPurchaseUid());
         PurchStatusEnum purchStatusEnum = PurchStatusEnum.valueOf(purchRequisition.getPurchStatus());
         if (purchStatusEnum != null) {
             response.setPurchStatusName(purchStatusEnum.getName());

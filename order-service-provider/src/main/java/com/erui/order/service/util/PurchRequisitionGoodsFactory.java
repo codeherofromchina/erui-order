@@ -26,9 +26,9 @@ public class PurchRequisitionGoodsFactory {
         if (purchRequisitionGoods == null) {
             return null;
         }
-
         PurchRequisitionGoodsInfo goodsInfo = new PurchRequisitionGoodsInfo();
         goodsInfo.setId(purchRequisitionGoods.getId());
+        goodsInfo.setProjectNo(purchRequisitionGoods.getProjectNo());
         goodsInfo.setOrderGoodsId(purchRequisitionGoods.getOrderGoodsId());
         goodsInfo.setRequirePurchaseDate(purchRequisitionGoods.getRequirePurchaseDate());
         goodsInfo.setTechRequire(purchRequisitionGoods.getTechRequire());
@@ -38,7 +38,6 @@ public class PurchRequisitionGoodsFactory {
         goodsInfo.setTechAudit(purchRequisitionGoods.getTechAudit());
 
         return goodsInfo;
-
     }
 
     public static PurchRequisitionGoods purchRequisitionGoods(PurchRequisitionGoodsInfo purchRequisitionGoodsInfo) {

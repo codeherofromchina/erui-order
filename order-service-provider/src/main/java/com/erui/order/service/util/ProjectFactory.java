@@ -25,6 +25,7 @@ public class ProjectFactory {
         project.setProfitPercent(projectUpdateRequest.getProfitPercent());
         project.setProfit(projectUpdateRequest.getProfit());
         project.setExeChgDate(projectUpdateRequest.getExeChgDate());
+        project.setRequirePurchaseDate(projectUpdateRequest.getRequirePurchaseDate());
         project.setRemarks(projectUpdateRequest.getRemarks());
         project.setProjectStatus(projectUpdateRequest.getProjectStatus());
         // 是否生成出口通知单

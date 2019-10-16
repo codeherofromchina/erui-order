@@ -532,12 +532,13 @@
             singleSelect: true,
             striped: true,
             rownumbers: true,
+            idField:'purchRequisitionGoodsId',
             columns: [[
                 {field: 'projectNo', width: 110, title: '项目号'},
                 {field: 'sku', width: 125, title: '平台SKU'},
                 {field: 'nameZh', width: 80, title: '中文品名'},
                 {field: 'unitName', width: 40, title: '单位'},
-                {field: 'purchContractBrand', width: 80, title: '品牌'},
+                {field: 'brand', width: 80, title: '品牌'},
                 {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
                 {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
                 {
@@ -580,7 +581,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_supplier_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_save_purch_contract_standard_supplier_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#save_purch_contract_standard_form_supplier_id_field").textbox("setValue", selectedTableRow.id);
                         $("#save_purch_contract_standard_form_supplier_id_field").textbox("setText", selectedTableRow.supplierName);
@@ -607,7 +608,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_user_dialog_table").datagrid("getSelected");
+                    var selectedTableRow = $("#common_save_purch_contract_standard_user_dialog_table").datagrid("getSelected");
                     if (selectedTableRow) {
                         $("#save_purch_contract_standard_form_agent_id_field").textbox("setValue", selectedTableRow.id);
                         $("#save_purch_contract_standard_form_agent_id_field").textbox("setText", selectedTableRow.userName);
@@ -635,7 +636,7 @@
                 text: '确定',
                 iconCls: 'icon-ok',
                 handler: function () {
-                    var selectedTableRow = $("#common_project_dialog_table").datagrid("getSelections");
+                    var selectedTableRow = $("#common_save_purch_contract_standard_project_dialog_table").datagrid("getSelections");
                     var goodsData = [];
                     // 重新加载商品内容
                     if (selectedTableRow) {

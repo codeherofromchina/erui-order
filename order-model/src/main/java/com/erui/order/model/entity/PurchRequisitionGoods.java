@@ -33,6 +33,8 @@ public class PurchRequisitionGoods {
 
     private Date deleteTime;
 
+    private String projectNo;
+
     public Long getId() {
         return id;
     }
@@ -151,5 +153,13 @@ public class PurchRequisitionGoods {
 
     public void setDeleteTime(Date deleteTime) {
         this.deleteTime = deleteTime;
+    }
+
+    public String getProjectNo() {
+        return projectNo;
+    }
+
+    public void setProjectNo(String projectNo) {
+        this.projectNo = projectNo;
     }
 }

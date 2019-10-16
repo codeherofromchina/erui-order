@@ -28,6 +28,8 @@ public class PurchRequisitionListResponse {
     // 采购状态
     private Short purchStatus;
     private String purchStatusName;
+    // 采购经办人
+    private Long purchaseUid;
 
     public Long getId() {
         return id;
@@ -123,5 +125,13 @@ public class PurchRequisitionListResponse {
 
     public void setPurchStatusName(String purchStatusName) {
         this.purchStatusName = purchStatusName;
+    }
+
+    public Long getPurchaseUid() {
+        return purchaseUid;
+    }
+
+    public void setPurchaseUid(Long purchaseUid) {
+        this.purchaseUid = purchaseUid;
     }
 }
