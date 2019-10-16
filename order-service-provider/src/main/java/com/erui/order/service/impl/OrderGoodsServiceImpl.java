@@ -1,6 +1,5 @@
 package com.erui.order.service.impl;
 
-import com.erui.order.common.enums.OrderStatusEnum;
 import com.erui.order.common.pojo.OrderGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.StringUtil;
@@ -8,7 +7,6 @@ import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.OrderGoodsMapper;
 import com.erui.order.mapper.OrderMapper;
 import com.erui.order.model.entity.Order;
-import com.erui.order.model.entity.OrderExample;
 import com.erui.order.model.entity.OrderGoods;
 import com.erui.order.model.entity.OrderGoodsExample;
 import com.erui.order.service.OrderGoodsService;
@@ -88,8 +86,7 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
 
         // 生成SKU
         String sku = findLastGoodsSku();
-        StringUtil.genSKU(orderGoods.getMeteType(), sku);
-
+        orderGoods.setSku(StringUtil.genSKU(orderGoods.getMeteType(), sku));
         orderGoods.setContractNo(order.getContractNo());
         orderGoods.setPreOutstockedNum((short) 0); // 预发货数量
         orderGoods.setOutstockedNum((short) 0); // 已发货数量
@@ -177,6 +174,17 @@ public class OrderGoodsServiceImpl implements OrderGoodsService {
     public List<OrderGoodsInfo> listByOrderId(Long orderId) {
         List<OrderGoods> orderGoodsList = listByOrderId02(orderId);
         return OrderGoodsFactory.orderGoodsInfos(orderGoodsList);
+    }
+
+
+    @Override
+    public void updateExechgDate(Long orderId, Date exeChgDate) {
+        OrderGoodsExample example = new OrderGoodsExample();
+        example.createCriteria().andDeleteFlagEqualTo(Boolean.FALSE).andOrderIdEqualTo(orderId);
+
+        OrderGoods orderGoodsSelective = new OrderGoods();
+        orderGoodsSelective.setExeChgDate(exeChgDate);
+        orderGoodsMapper.updateByExampleSelective(orderGoodsSelective, example);
     }
 
     private List<OrderGoods> listByOrderId02(Long orderId) {

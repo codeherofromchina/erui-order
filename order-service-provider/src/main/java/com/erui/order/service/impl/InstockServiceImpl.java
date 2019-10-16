@@ -9,8 +9,10 @@ import com.erui.order.common.pojo.request.InstockSaveRequest;
 import com.erui.order.common.pojo.response.InstockDetailResponse;
 import com.erui.order.common.pojo.response.InstockListResponse;
 import com.erui.order.common.util.ThreadLocalUtil;
+import com.erui.order.mapper.InspectApplyMapper;
 import com.erui.order.mapper.InspectReportMapper;
 import com.erui.order.mapper.InstockMapper;
+import com.erui.order.model.entity.InspectApply;
 import com.erui.order.model.entity.InspectReport;
 import com.erui.order.model.entity.Instock;
 import com.erui.order.model.entity.InstockExample;
@@ -40,6 +42,8 @@ public class InstockServiceImpl implements InstockService {
     @Autowired
     private InspectReportMapper inspectReportMapper;
     @Autowired
+    private InspectApplyMapper inspectApplyMapper;
+    @Autowired
     private InspectApplyGoodsService inspectApplyGoodsService;
     @Autowired
     private InstockGoodsService instockGoodsService;
@@ -57,6 +61,7 @@ public class InstockServiceImpl implements InstockService {
         if (inspectReport == null) {
             throw new Exception("质检单不存在");
         }
+        InspectApply inspectApply = inspectApplyMapper.selectByPrimaryKey(inspectReport.getInspectApplyId());
 
         Instock instock = new Instock();
         instock.setUid(10L); // TODO 这里需要确定是谁，这里先写死
@@ -64,6 +69,10 @@ public class InstockServiceImpl implements InstockService {
         instock.setInspectApplyNo(inspectReport.getInspectApplyNo()); // 报检单号
         instock.setSupplierName(inspectReport.getSupplierName()); // 供应商
         instock.setInstockStatus(InstockStatusEnum.INIT.getCode());
+        instock.setContractNo(inspectReport.getContractNo());
+        instock.setProjectNo(inspectReport.getProjectNo());
+        instock.setPurchNo(inspectReport.getPurchNo());
+        instock.setEnterEruiWarehouse(inspectApply.getEnterEruiWarehouse());
 
         instock.setCreateTime(new Date());
         instock.setCreateUserId(userInfo.getId());

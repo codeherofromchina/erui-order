@@ -61,6 +61,8 @@ public class ProjectServiceImpl implements ProjectService {
     private ProjectProfitService projectProfitService;
     @Autowired
     private AttachmentService attachmentService;
+    @Autowired
+    private OrderGoodsService orderGoodsService;
 
 
     /**
@@ -145,6 +147,12 @@ public class ProjectServiceImpl implements ProjectService {
         }
         projectMapper.updateByPrimaryKeySelective(projectSelective);
 
+        // 更新商品的项目变更后日期
+        if (projectSelective.getExeChgDate() != null) {
+            Long orderId = projectSelective.getOrderId();
+            orderGoodsService.updateExechgDate(orderId, projectSelective.getExeChgDate());
+        }
+
         // 项目利润
         ProjectProfitInfo projectProfit = projectUpdateRequest.getProjectProfit();
         projectProfitService.insertOnDuplicateProjectIdUpdate(id, projectProfit);
@@ -168,6 +176,8 @@ public class ProjectServiceImpl implements ProjectService {
             orderSelective.setOrderStatus(OrderStatusEnum.EXECUTING.getCode());
             orderMapper.updateByPrimaryKeySelective(orderSelective);
         }
+
+
     }
 
     /**
@@ -351,6 +361,7 @@ public class ProjectServiceImpl implements ProjectService {
             List<ProjectDialogListResponse> projectListResponses = new ArrayList<>();
             for (Project project : projects) {
                 ProjectDialogListResponse projectDialogListResponse = new ProjectDialogListResponse();
+                projectDialogListResponse.setId(project.getId());
                 projectDialogListResponse.setContractNo(project.getProjectNo());
                 projectDialogListResponse.setProjectNo(project.getProjectNo());
                 projectDialogListResponse.setProjectName(project.getProjectName());

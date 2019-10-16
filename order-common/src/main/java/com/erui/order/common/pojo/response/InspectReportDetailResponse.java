@@ -20,6 +20,8 @@ public class InspectReportDetailResponse {
     private String checkDeptName;
     // NCR编号
     private String ncrNo;
+    // 采购合同号
+    private String purchNo;
     // 检验日期
     private Date checkDate;
     // 检验完成日期
@@ -138,6 +140,14 @@ public class InspectReportDetailResponse {
 
     public void setAttachments(List<AttachmentInfo> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getPurchNo() {
+        return purchNo;
+    }
+
+    public void setPurchNo(String purchNo) {
+        this.purchNo = purchNo;
     }
 }
 

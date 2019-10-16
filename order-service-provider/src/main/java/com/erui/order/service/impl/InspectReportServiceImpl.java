@@ -51,6 +51,8 @@ public class InspectReportServiceImpl implements InspectReportService {
     private UserService userService;
     @Autowired
     private InstockService instockService;
+    @Autowired
+    private PurchMapper purchMapper;
 
     @Override
     public Long insert(Long inspectApplyId) throws Exception {
@@ -58,12 +60,18 @@ public class InspectReportServiceImpl implements InspectReportService {
         if (inspectApply == null) {
             throw new Exception("报检单不存在");
         }
+        Purch purch = purchMapper.selectByPrimaryKey(inspectApply.getPurchId());
+
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织数据
         InspectReport inspectReport = new InspectReport();
+        inspectReport.setContractNo(purch.getContractNo());
+        inspectReport.setProjectNo(purch.getProjectNo());
+        inspectReport.setPurchNo(purch.getPurchNo());
         inspectReport.setInspectApplyId(inspectApplyId);
         inspectReport.setInspectApplyNo(inspectApply.getInspectApplyNo());
+        inspectReport.setCheckDeptName("质量安全环保部");
         inspectReport.setReportFirst(inspectApply.getMasteer());
         inspectReport.setSupplierName(inspectApply.getSupplierName());
         if (inspectApply.getMasteer()) {
@@ -82,6 +90,7 @@ public class InspectReportServiceImpl implements InspectReportService {
             inspectReport.setCheckUserId(parentInspectReport.getCheckUserId());
         }
         inspectReport.setReportProcess(true);
+
         inspectReport.setMsg(inspectApply.getMsg());
         inspectReport.setInspectReportStatus(InspectReportStatusEnum.INIT.getCode());
         inspectReport.setIsShow(Boolean.TRUE);
@@ -144,6 +153,9 @@ public class InspectReportServiceImpl implements InspectReportService {
         }
 
         if (InspectReportStatusEnum.SUBMITED.getCode() == updateRequest.getInspectReportStatus()) {
+            // TODO 是否存在不合格商品，生成NCR编码
+
+
             // 推送消息到入库
             instockService.insert(inspectReportId);
         }

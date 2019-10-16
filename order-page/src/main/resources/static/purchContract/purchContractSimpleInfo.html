@@ -53,7 +53,7 @@
         </div>
         <div class="fitem">
             <label style="width:130px;margin-left:5px;"><span style="color:red;">*</span>采购总金额（小写）：</label>
-            <div class="input-div">{{lowercasePrice}}</div>
+            <div class="input-div">{{lowercasePrice|numFilter}}</div>
             <label><span style="color:red;">*</span>币种：</label>
             <div class="input-div">{{currencyBn}}</div>
         </div>
@@ -288,12 +288,8 @@
                 {field: 'brand', width: 80, title: '品牌'},
                 {field: 'contractGoodsNum', width: 80, title: '销售合同数量'},
                 {field: 'prePurchContractNum', width: 90, title: '已采购数量'},
-                {
-                    field: 'purchaseNum', width: 100, title: '本次采购数量'
-                },
-                {
-                    field: 'purchasePrice', width: 100, title: '单价'
-                }
+                {field: 'purchaseNum', width: 100, title: '本次采购数量'},
+                {field: 'purchasePrice', width: 100, title: '单价', formatter: tableMoneyFormat}
             ]],
             data: save_purch_contract_simple_info_goods_data
         });

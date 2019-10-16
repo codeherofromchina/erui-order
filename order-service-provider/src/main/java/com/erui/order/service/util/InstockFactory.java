@@ -23,16 +23,18 @@ public class InstockFactory {
         return Instock;
     }
 
-    public static InstockDetailResponse instockDetailResponse(Instock Instock) {
-        if (Instock == null) {
+    public static InstockDetailResponse instockDetailResponse(Instock instock) {
+        if (instock == null) {
             return null;
         }
         InstockDetailResponse instockDetailResponse = new InstockDetailResponse();
-        instockDetailResponse.setId(Instock.getId());
-        instockDetailResponse.setuName(Instock.getSupplierName());
-        instockDetailResponse.setInstockDate(Instock.getInstockDate());
-        instockDetailResponse.setInstockStatus(Instock.getInstockStatus());
-        instockDetailResponse.setRemarks(Instock.getRemarks());
+        instockDetailResponse.setId(instock.getId());
+        instockDetailResponse.setPurchNo(instock.getPurchNo());
+//        instockDetailResponse.setuName(Instock.getSupplierName());
+        instockDetailResponse.setuName("王晓丹");
+        instockDetailResponse.setInstockDate(instock.getInstockDate());
+        instockDetailResponse.setInstockStatus(instock.getInstockStatus());
+        instockDetailResponse.setRemarks(instock.getRemarks());
 
         return instockDetailResponse;
     }

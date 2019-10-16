@@ -44,7 +44,7 @@ public class PurchContractFactory {
         }
         PurchContract purchContract = new PurchContract();
         purchContract.setId(saveRequest.getId());
-
+        purchContract.setProjectNo(saveRequest.getProjectNo());
         purchContract.setSigningDate(saveRequest.getSigningDate());
         purchContract.setSigningPlace(saveRequest.getSigningPlace());
         purchContract.setAgentId(saveRequest.getAgentId());

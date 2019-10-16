@@ -67,6 +67,12 @@ public class StringUtil {
         return prefix + FORMAT_FOUR_ZERO.format(beginNum);
     }
 
+    /**
+     * 生成出库单号
+     *
+     * @param lastDeliverDetailNo
+     * @return
+     */
     public static String genDeliverDetailNo(String lastDeliverDetailNo) {
         // 20190001
         String prefix = DateFormatUtils.format(new Date(), "yyyy");
@@ -81,6 +87,27 @@ public class StringUtil {
         }
         return prefix + FORMAT_FOUR_ZERO.format(beginNum);
     }
+
+    /**
+     * 生成采购合同号
+     *
+     * @param lastPurchContractNo et. YRC201900218
+     * @return
+     */
+    public static String genPurchContractNo(String lastPurchContractNo) {
+        String prefix = "YRC" + DateFormatUtils.format(new Date(), "yyyy");
+        int beginNum = 1;
+        if (StringUtils.isNotBlank(lastPurchContractNo) && lastPurchContractNo.length() >= 8 &&
+                (lastPurchContractNo.substring(0, 8).equals(prefix))) {
+            String seq = lastPurchContractNo.substring(8);
+            if (StringUtils.isNumeric(seq)) {
+                beginNum = Integer.parseInt(seq);
+            }
+            beginNum++;
+        }
+        return prefix + FORMAT_FOUR_FIVE.format(beginNum);
+    }
+
 
     public static final NumberFormat FORMAT_FOUR_ZERO = new DecimalFormat("0000");
     public static final NumberFormat FORMAT_FOUR_FIVE = new DecimalFormat("00000");

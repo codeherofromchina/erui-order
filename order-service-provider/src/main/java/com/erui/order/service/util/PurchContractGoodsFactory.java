@@ -49,6 +49,7 @@ public class PurchContractGoodsFactory {
         purchContractGoodsInfo.setNonTaxPrice(purchContractGoods.getNonTaxPrice());
         purchContractGoodsInfo.setPurchasePrice(purchContractGoods.getPurchasePrice());
         purchContractGoodsInfo.setPurchContractBrand(purchContractGoods.getPurchContractBrand());
+        purchContractGoodsInfo.setPrePurchasedNum(purchContractGoods.getPrePurchasedNum());
 
 
         return purchContractGoodsInfo;

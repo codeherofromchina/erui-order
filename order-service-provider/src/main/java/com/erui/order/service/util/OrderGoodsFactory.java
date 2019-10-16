@@ -28,7 +28,9 @@ public class OrderGoodsFactory {
         }
         OrderGoodsInfo orderGoodsInfo = new OrderGoodsInfo();
         orderGoodsInfo.setId(orderGoods.getId());
+        orderGoodsInfo.setExeChgDate(orderGoods.getExeChgDate());
         orderGoodsInfo.setSku(orderGoods.getSku());
+        orderGoodsInfo.setContractNo(orderGoods.getContractNo());
         orderGoodsInfo.setMeteType(orderGoods.getMeteType());
         orderGoodsInfo.setMeteTypeName(orderGoods.getMeteTypeName());
         orderGoodsInfo.setTplNo(orderGoods.getTplNo());

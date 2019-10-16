@@ -4,10 +4,8 @@ import com.erui.order.common.pojo.OrderGoodsInfo;
 import com.erui.order.common.pojo.PurchRequisitionGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
-import com.erui.order.model.entity.OrderGoods;
-import com.erui.order.model.entity.OrderGoodsExample;
-import com.erui.order.model.entity.PurchRequisitionGoods;
-import com.erui.order.model.entity.PurchRequisitionGoodsExample;
+import com.erui.order.mapper.PurchRequisitionMapper;
+import com.erui.order.model.entity.*;
 import com.erui.order.service.PurchRequisitionGoodsService;
 import com.erui.order.service.util.OrderGoodsFactory;
 import com.erui.order.service.util.PurchRequisitionGoodsFactory;
@@ -31,6 +29,8 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
     private static Logger LOGGER = LoggerFactory.getLogger(PurchRequisitionGoodsServiceImpl.class);
     @Autowired
     private PurchRequisitionGoodsMapper purchRequisitionGoodsMapper;
+    @Autowired
+    private PurchRequisitionMapper purchRequisitionMapper;
 
     @Override
     public void update(Long purchRequisitionId, List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos) throws Exception {
@@ -64,7 +64,7 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
     }
 
     @Override
-    public int insert(Long purchRequisitionId, List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos) {
+    public int insert(Long purchRequisitionId, List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos) throws Exception {
         int insertNum = 0;
         for (PurchRequisitionGoodsInfo purchRequisitionGoodsInfo : purchRequisitionGoodsInfos) {
             insertNum += insert(purchRequisitionId, purchRequisitionGoodsInfo);
@@ -73,9 +73,15 @@ public class PurchRequisitionGoodsServiceImpl implements PurchRequisitionGoodsSe
     }
 
     @Override
-    public int insert(Long purchRequisitionId, PurchRequisitionGoodsInfo purchRequisitionGoodsInfo) {
+    public int insert(Long purchRequisitionId, PurchRequisitionGoodsInfo purchRequisitionGoodsInfo) throws Exception {
+        PurchRequisition purchRequisition = purchRequisitionMapper.selectByPrimaryKey(purchRequisitionId);
+        if (purchRequisition == null) {
+            throw new Exception("采购申请不存在");
+        }
+
         PurchRequisitionGoods purchRequisitionGoods = PurchRequisitionGoodsFactory.purchRequisitionGoods(purchRequisitionGoodsInfo);
         purchRequisitionGoods.setPurchRequisitionId(purchRequisitionId);
+        purchRequisitionGoods.setProjectNo(purchRequisition.getProjectNo());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
             purchRequisitionGoods.setCreateUserId(userInfo.getId());

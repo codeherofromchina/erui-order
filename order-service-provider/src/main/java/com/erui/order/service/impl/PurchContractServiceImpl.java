@@ -8,6 +8,7 @@ import com.erui.order.common.pojo.request.PurchContractQueryRequest;
 import com.erui.order.common.pojo.request.PurchContractSaveRequest;
 import com.erui.order.common.pojo.response.PurchContractDetailResponse;
 import com.erui.order.common.pojo.response.PurchContractListResponse;
+import com.erui.order.common.util.StringUtil;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.model.entity.*;
 import com.erui.order.service.*;
@@ -59,7 +60,14 @@ public class PurchContractServiceImpl implements PurchContractService {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织采购合同数据
         PurchContract purchContract = PurchContractFactory.purchContract(insertRequest);
+
+
         purchContract.setPurchContractNo("YRC-" + DateFormatUtils.ISO_8601_EXTENDED_DATE_FORMAT.format(new Date()) + UUID.randomUUID().toString().substring(0, 8)); // TODO
+        // 生成出口通知单
+        String lastPurchContractNo = findLastPurchContractNo();
+        purchContract.setPurchContractNo(StringUtil.genPurchContractNo(lastPurchContractNo));
+
+        purchContract.setSupplierName(supplierService.findNameById(insertRequest.getSupplierId()));
         purchContract.setCreateTime(new Date());
         purchContract.setCreateUserId(userInfo.getId());
         purchContract.setDeleteFlag(Boolean.FALSE);
@@ -319,8 +327,19 @@ public class PurchContractServiceImpl implements PurchContractService {
         } else {
             purchContractIds = new ArrayList<>();
         }
-
-
         return purchContractIds;
+    }
+
+
+    private String findLastPurchContractNo() {
+        PageHelper.startPage(1, 1);
+        PurchContractExample example = new PurchContractExample();
+        example.setOrderByClause("id desc");
+        PurchContractExample.Criteria criteria = example.createCriteria();
+        List<PurchContract> purchContractList = purchContractMapper.selectByExample(example);
+        if (purchContractList != null && purchContractList.size() > 0) {
+            return purchContractList.get(0).getPurchContractNo();
+        }
+        return null;
     }
 }

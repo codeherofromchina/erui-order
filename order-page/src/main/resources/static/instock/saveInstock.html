@@ -26,7 +26,8 @@
             <label>仓库经办人：</label>
             <div class="input-div">{{uName}}</div>
             <label>入库日期：</label>
-            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="instockDate" style="width: 150px;"/>
+            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="instockDate"
+                   style="width: 150px;"/>
         </div>
     </div>
 
@@ -68,7 +69,7 @@
                        id="save_instock_form_attachment_table"
                        fitColumn="true">
                     <thead>
-                    <th field="title" width="200">附件名称</th>
+                    <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                     <th field="createUserName" width="120">创建人</th>
                     <th field="attachType" width="100" data-options="
                                 formatter:function(value){
@@ -101,6 +102,7 @@
         el: '#save_instock_form',
         data: save_instock_form_data
     });
+    console.info(JSON.stringify(save_instock_form_data));
     $(function () {
         setTimeout(function () {
             $("#save_instock_form").form('load', save_instock_form_data);
@@ -109,11 +111,16 @@
         $("#save_instock_panel_goods_table").datagrid({
             border: false,
             striped: true,
-            idField: 'id',
+            idField: 'instockGoodsId',
             columns: [[
                 {field: 'contractNo', width: 120, title: '销售合同号'},
                 {field: 'projectNo', width: 120, title: '项目号'},
-                {field: 'purchNo', width: 120, title: '采购合同号'},
+                {
+                    field: 'purchNo', width: 120, title: '采购合同号',
+                    formatter: function (val, row, index) {
+                        return save_instock_form_data.purchNo;
+                    }
+                },
                 {field: 'sku', width: 120, title: '平台SKU'},
                 {field: 'nameEn', width: 100, title: '外文品名'},
                 {field: 'nameZh', width: 100, title: '中文品名'},

@@ -38,5 +38,11 @@ public interface PurchService {
      * @return
      */
     PurchDetailResponse detail(Long id) throws Exception;
+
+    /**
+     * 设置收款完成
+     * @param id
+     */
+    void payDone(Long id) throws Exception;
 }
 

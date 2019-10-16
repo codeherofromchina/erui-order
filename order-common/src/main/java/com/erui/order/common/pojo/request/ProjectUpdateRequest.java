@@ -30,6 +30,8 @@ public class ProjectUpdateRequest {
     private String remarks;
     // 项目状态
     private String projectStatus;
+    // 品控经办人
+    private Long qualityUid;
 
     ProjectProfitInfo projectProfit;
 
@@ -50,6 +52,14 @@ public class ProjectUpdateRequest {
 
     public void setProjectStatus(String projectStatus) {
         this.projectStatus = projectStatus;
+    }
+
+    public Long getQualityUid() {
+        return qualityUid;
+    }
+
+    public void setQualityUid(Long qualityUid) {
+        this.qualityUid = qualityUid;
     }
 
     public ProjectProfitInfo getProjectProfit() {

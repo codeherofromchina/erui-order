@@ -99,7 +99,7 @@
                        id="save_inspect_apply_form_attachment_table"
                        fitColumn="true">
                     <thead>
-                    <th field="title" width="200">附件名称</th>
+                    <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                     <th field="createUserName" width="120">创建人</th>
                     <th field="attachType" width="100" data-options="
                                 formatter:function(value){
@@ -206,7 +206,7 @@
                 $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
                 return;
             }
-            var formData = assemblyInspectApplyData();
+            var formData = assemblySaveInspectApplyData();
             formData.inspectApplyStatus = '2'; // 保存报检单
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectApply/saveInspectApply"}, formData);
 
@@ -226,7 +226,7 @@
                 $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
                 return;
             }
-            var formData = assemblyInspectApplyData();
+            var formData = assemblySaveInspectApplyData();
             formData.inspectApplyStatus = '3'; // 提交报检单
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectApply/saveInspectApply"}, formData);
 
@@ -256,7 +256,7 @@
 
 
     // 组装报检单数据
-    function assemblyInspectApplyData() {
+    function assemblySaveInspectApplyData() {
         var formData = $("#save_inspect_apply_form").serializeJson();
 
         // 商品内容

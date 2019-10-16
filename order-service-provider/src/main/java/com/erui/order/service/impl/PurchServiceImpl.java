@@ -2,6 +2,7 @@ package com.erui.order.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.erui.order.common.enums.AttachmentTargetObjEnum;
+import com.erui.order.common.enums.PurchPayStatusEnum;
 import com.erui.order.common.enums.PurchStatusEnum;
 import com.erui.order.common.pojo.*;
 import com.erui.order.common.pojo.request.PurchQueryRequest;
@@ -25,6 +26,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.math.BigDecimal;
+import java.math.MathContext;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -55,18 +58,23 @@ public class PurchServiceImpl implements PurchService {
 
     @Override
     public Long insert(PurchSaveRequest insertRequest) throws Exception {
+        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(insertRequest.getPurchContractId());
+        if (purchContract == null) {
+            throw new Exception("采购合同不存在");
+        }
+
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
         Purch purch = PurchFactory.purch(insertRequest);
-        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purch.getPurchContractId());
-        if (purchContract == null) {
-            throw new Exception("采购合同不存在");
-        }
+
         purch.setSigningDate(purchContract.getSigningDate());
         purch.setCurrencyBn(purchContract.getCurrencyBn());
         purch.setPurchNo(purchContract.getPurchContractNo());
+        purch.setContractNo(purchContract.getProjectNo()); // TODO 销售合同号
+        purch.setProjectNo(purchContract.getProjectNo());
         purch.setSupplierId(purchContract.getSupplierId());
+        purch.setPayStatus(PurchPayStatusEnum.UNPAID.getCode());
         purch.setCreateTime(new Date());
         purch.setInspected(Boolean.FALSE);
         purch.setCreateUserId(userInfo.getId());
@@ -79,6 +87,15 @@ public class PurchServiceImpl implements PurchService {
 
         // 商品信息
         List<PurchGoodsInfo> purchGoodsList = insertRequest.getPurchGoodsList();
+        // 设置商品的无税价格
+        if (purchGoodsList != null && purchGoodsList.size() > 0 && purchContract.getTaxPoint() != null) {
+            for (PurchGoodsInfo purchGoodsInfo : purchGoodsList) {
+                BigDecimal purchasePrice = purchGoodsInfo.getPurchasePrice();
+                if (purchasePrice != null) {
+                    purchGoodsInfo.setNonTaxPrice(purchasePrice.multiply(new BigDecimal(100 - purchContract.getTaxPoint())).divide(new BigDecimal("100"), new MathContext(2)));
+                }
+            }
+        }
         purchGoodsService.insert(purchId, purchGoodsList);
 
 
@@ -91,7 +108,6 @@ public class PurchServiceImpl implements PurchService {
                 throw new Exception("采购单付款信息数据操作失败");
             }
         }
-
 
         // 对象附件操作
         List<AttachmentInfo> attachments = insertRequest.getAttachments();
@@ -108,6 +124,12 @@ public class PurchServiceImpl implements PurchService {
 
     @Override
     public void update(Long id, PurchSaveRequest updateRequest) throws Exception {
+        Long purchContractId = updateRequest.getPurchContractId();
+        PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purchContractId);
+        if (purchContract == null) {
+            throw new Exception("采购合同不存在");
+        }
+
         // 获取当前用户
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         Purch Purch = purchMapper.selectByPrimaryKey(id);
@@ -128,6 +150,8 @@ public class PurchServiceImpl implements PurchService {
         // 修改基本信息
         Purch PurchSelective = PurchFactory.purch(updateRequest);
         PurchSelective.setId(purchId);
+        PurchSelective.setProjectNo(purchContract.getProjectNo());
+        PurchSelective.setContractNo(purchContract.getProjectNo());
         PurchSelective.setUpdateTime(new Date());
         PurchSelective.setUpdateUserId(userInfo.getId());
 
@@ -135,6 +159,15 @@ public class PurchServiceImpl implements PurchService {
 
         // 商品信息
         List<PurchGoodsInfo> purchGoodsList = updateRequest.getPurchGoodsList();
+        // 设置商品的无税价格
+        if (purchGoodsList != null && purchGoodsList.size() > 0 && purchContract.getTaxPoint() != null) {
+            for (PurchGoodsInfo purchGoodsInfo : purchGoodsList) {
+                BigDecimal purchasePrice = purchGoodsInfo.getPurchasePrice();
+                if (purchasePrice != null) {
+                    purchGoodsInfo.setNonTaxPrice(purchasePrice.multiply(new BigDecimal(100 - purchContract.getTaxPoint())).divide(new BigDecimal("100"), new MathContext(2)));
+                }
+            }
+        }
         purchGoodsService.insertOnDuplicateIdUpdate(purchId, purchGoodsList);
 
 
@@ -202,7 +235,7 @@ public class PurchServiceImpl implements PurchService {
 
         List<PurchListResponse> purchListResponses = new ArrayList<>();
         for (Purch purch : purches) {
-            PurchListResponse purchListResponse = PurchFactory.PurchListResponse(purch);
+            PurchListResponse purchListResponse = PurchFactory.purchListResponse(purch);
             PurchContract purchContract = purchContractMapper.selectByPrimaryKey(purch.getPurchContractId());
             purchContract.setSupplierName(supplierService.findNameById(purchListResponse.getSupplierId()));
             purchListResponse.setSupplierName(supplierService.findNameById(purch.getSupplierId()));
@@ -244,8 +277,20 @@ public class PurchServiceImpl implements PurchService {
         detail.setAttachments(attachmentInfos);
         detail.setPurchPayments(purchPaymentInfos);
         detail.setPurchGoodsList(goodsInfoList);
-
         return detail;
+    }
+
+
+    @Override
+    public void payDone(Long id) throws Exception {
+        Purch purch = purchMapper.selectByPrimaryKey(id);
+        if (purch == null) {
+            throw new Exception("采购信息不存在");
+        }
+        Purch purchSelective = new Purch();
+        purchSelective.setId(purch.getId());
+        purchSelective.setPayStatus(PurchPayStatusEnum.PAYMENT_COMPLETION.getCode());
+        purchMapper.updateByPrimaryKeySelective(purchSelective);
     }
 }
 

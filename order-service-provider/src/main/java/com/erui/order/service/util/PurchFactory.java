@@ -1,8 +1,6 @@
 package com.erui.order.service.util;
 
-import com.erui.order.common.enums.OrderPayStatusEnum;
-import com.erui.order.common.enums.PurchPayStatusEnum;
-import com.erui.order.common.enums.PurchStatusEnum;
+import com.erui.order.common.enums.*;
 import com.erui.order.common.pojo.request.PurchSaveRequest;
 import com.erui.order.common.pojo.response.PurchDetailResponse;
 import com.erui.order.common.pojo.response.PurchListResponse;
@@ -57,13 +55,24 @@ public class PurchFactory {
         purchDetailResponse.setPurChgDate(purch.getPurChgDate());
         purchDetailResponse.setGoalCost(purch.getGoalCost());
         purchDetailResponse.setSaveAmount(purch.getSaveAmount());
-        purchDetailResponse.setSaveNode(purch.getSaveMode());
+        purchDetailResponse.setSaveMode(purch.getSaveMode());
+        PurchSaveModeEnum purchSaveModeEnum = PurchSaveModeEnum.valueOf(purch.getSaveMode());
+        if (purchSaveModeEnum != null) {
+            purchDetailResponse.setSaveModeName(purchSaveModeEnum.getName());
+        }
+
         purchDetailResponse.setPriceMode(purch.getPriceMode());
+        PurchPriceModeEnum purchPriceModeEnum = PurchPriceModeEnum.valueOf(purch.getPriceMode());
+        if (purchPriceModeEnum != null) {
+            purchDetailResponse.setPriceModeName(purchPriceModeEnum.getName());
+        }
         purchDetailResponse.setAgentId(purch.getAgentId());
         purchDetailResponse.setDepartment(purch.getDepartment());
         purchDetailResponse.setTotalPrice(purch.getTotalPrice());
-//        purchDetailResponse.setTotalPriceUsd(Purch.totdddddd);
         purchDetailResponse.setTaxBearing(purch.getTaxBearing());
+        if (purch.getTotalPrice() != null && purch.getExchangeRate() != null) {
+            purchDetailResponse.setTotalPriceUsd(purch.getTotalPrice().multiply(purch.getExchangeRate()));
+        }
         purchDetailResponse.setExchangeRate(purch.getExchangeRate());
         purchDetailResponse.setProfitPercent(purch.getProfitPercent());
         purchDetailResponse.setRemarks(purch.getRemarks());
@@ -72,7 +81,7 @@ public class PurchFactory {
         return purchDetailResponse;
     }
 
-    public static PurchListResponse PurchListResponse(Purch purch) {
+    public static PurchListResponse purchListResponse(Purch purch) {
         if (purch == null) {
             return null;
         }
@@ -90,8 +99,8 @@ public class PurchFactory {
         response.setPayStatus(purch.getPayStatus());
         response.setInspected(purch.getInspected());
         response.setPurchStatus(purch.getPurchStatus());
-        response.setPayStatus(purch.getPurchStatus());
-        PurchPayStatusEnum purchPayStatusEnum = PurchPayStatusEnum.valueOf(purch.getPurchStatus());
+        response.setPayStatus(purch.getPayStatus());
+        PurchPayStatusEnum purchPayStatusEnum = PurchPayStatusEnum.valueOf(purch.getPayStatus());
         if (purchPayStatusEnum != null) {
             response.setPayStatusName(purchPayStatusEnum.getName());
         }

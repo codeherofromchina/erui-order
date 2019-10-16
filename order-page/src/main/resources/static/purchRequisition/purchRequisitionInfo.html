@@ -30,7 +30,7 @@
             <div class="input-div">{{departmentName}}</div>
         </div>
         <div class="fitem">
-            <label><span style="color:red;">*</span>下发日期：</label>
+            <label>下发日期：</label>
             <div class="input-div">{{submitDate}}</div>
             <label>项目类型：</label>
             <div class="input-div">{{tradeMethodName}}</div>
@@ -38,12 +38,12 @@
             <div class="input-div">{{transModeBn}}</div>
         </div>
         <div class="fitem">
-            <label><span style="color:red;">*</span>是否厂家直接发货：</label>
+            <label>是否厂家直接发货：</label>
             <div class="input-div" v-if="factorySend == 1">是</div>
             <div class="input-div" v-if="factorySend == 0">否</div>
-            <label><span style="color:red;">*</span>交付地点：</label>
+            <label>交付地点：</label>
             <div class="input-div">{{deliveryPlace}}</div>
-            <label><span style="color:red;">*</span>客户文件要求：</label>
+            <label>客户文件要求：</label>
             <div class="input-div">{{requirements}}</div>
         </div>
     </div>
@@ -74,7 +74,7 @@
                        fitColumn="true">
                     <thead>
                     <tr>
-                        <th field="title" width="200">附件名称</th>
+                        <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                         <th field="createUserName" width="120">创建人</th>
                         <th field="attachType" width="100" data-options="
                             formatter:function(value){

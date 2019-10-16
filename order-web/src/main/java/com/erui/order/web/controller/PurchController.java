@@ -89,7 +89,19 @@ public class PurchController {
         return result;
     }
 
-
+    @RequestMapping(value = "payDone", method = RequestMethod.POST, consumes = MediaType.APPLICATION_JSON_VALUE, produces = {MediaType.APPLICATION_JSON_UTF8_VALUE})
+    public Result<Void> payDone(@RequestBody PrimaryKey key) {
+        Result<Void> result = new Result<>();
+        try {
+            purchService.payDone(key.getId());
+            LOGGER.info("payDone成功 - {} ", JSON.toJSONString(key));
+        } catch (Exception e) {
+            e.printStackTrace();
+            LOGGER.info("payDone异常 - {} - {}", JSON.toJSONString(key), e);
+            result.setStatus(ResultStatus.FAIL).setMessage(e.getMessage());
+        }
+        return result;
+    }
 
     /**
      * 获取Purch详情

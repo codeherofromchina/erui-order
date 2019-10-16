@@ -218,6 +218,12 @@ public class GoodsServiceImpl implements GoodsService {
         goodsInfo.setPurchContractGoodsId(purchContractGoodsInfo.getId());
         // 采购合同数量
         goodsInfo.setPurchaseNum(purchContractGoodsInfo.getPurchaseNum());
+        // 价格合同价格
+        goodsInfo.setPurchasePrice(purchContractGoodsInfo.getPurchasePrice());
+        // 预采购数量
+        goodsInfo.setPrePurchasedNum(purchContractGoodsInfo.getPrePurchasedNum());
+        // 采购合同中的品牌
+        goodsInfo.setPurchContractBrand(purchContractGoodsInfo.getPurchContractBrand());
         return goodsInfo;
     }
 
@@ -246,6 +252,8 @@ public class GoodsServiceImpl implements GoodsService {
     public GoodsInfo goodsInfoByOrderGoods(OrderGoodsInfo orderGoodsInfo) {
         GoodsInfo goodsInfo = new GoodsInfo();
         goodsInfo.setOrderGoodsId(orderGoodsInfo.getId());
+        goodsInfo.setContractNo(orderGoodsInfo.getContractNo());
+        goodsInfo.setExeChgDate(orderGoodsInfo.getExeChgDate());
         goodsInfo.setSku(orderGoodsInfo.getSku());
         goodsInfo.setNameEn(orderGoodsInfo.getNameEn());
         goodsInfo.setNameZh(orderGoodsInfo.getNameZh());

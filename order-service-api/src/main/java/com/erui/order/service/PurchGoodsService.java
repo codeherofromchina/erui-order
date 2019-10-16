@@ -24,11 +24,11 @@ public interface PurchGoodsService {
      * @param PurchGoodsList
      * @return
      */
-    int insert(Long purchId, List<PurchGoodsInfo> PurchGoodsList);
+    int insert(Long purchId, List<PurchGoodsInfo> PurchGoodsList) throws Exception;
 
-    int insert(Long purchId, PurchGoodsInfo PurchGoodsInfo);
+    int insert(Long purchId, PurchGoodsInfo PurchGoodsInfo) throws Exception;
 
-    void delete(Long... ids);
+    void delete(Long... ids) throws Exception;
 
     int updateById(Long id, PurchGoodsInfo PurchGoodsInfo) throws Exception;
 

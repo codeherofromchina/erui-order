@@ -34,7 +34,9 @@ public class InspectReportFactory {
         InspectReportDetailResponse inspectReportDetailResponse = new InspectReportDetailResponse();
         inspectReportDetailResponse.setId(inspectReport.getId());
         inspectReportDetailResponse.setCheckUserId(inspectReport.getCheckUserId());
-
+        inspectReportDetailResponse.setCheckDeptName(inspectReport.getCheckDeptName());
+        inspectReportDetailResponse.setCheckDeptId(inspectReport.getCheckDeptId());
+        inspectReportDetailResponse.setPurchNo(inspectReport.getPurchNo());
 
         inspectReportDetailResponse.setNcrNo(inspectReport.getNcrNo());
         inspectReportDetailResponse.setCheckDate(inspectReport.getCheckDate());

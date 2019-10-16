@@ -22,6 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
+import java.math.MathContext;
+import java.math.RoundingMode;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -93,7 +95,10 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
         if (userInfo != null) {
             purchContractGoods.setCreateUserId(userInfo.getId());
         }
-        purchContractGoods.setNonTaxPrice(purchContractGoods.getPurchasePrice().multiply(new BigDecimal(1 - purchContract.getTaxPoint()).setScale(2)));
+        purchContractGoods.setNonTaxPrice(
+                purchContractGoods.getPurchasePrice()
+                        .multiply(new BigDecimal(100 - purchContract.getTaxPoint())
+                                .divide(new BigDecimal("100", new MathContext(2, RoundingMode.HALF_EVEN)))));
         purchContractGoods.setPrePurchasedNum(0);
         purchContractGoods.setPurchasedNum(0);
         purchContractGoods.setCreateTime(new Date());
@@ -185,6 +190,21 @@ public class PurchContractGoodsServiceImpl implements PurchContractGoodsService 
     public PurchContractGoodsInfo findById(Long id) {
         PurchContractGoods purchContractGoods = purchContractGoodsMapper.selectByPrimaryKey(id);
         return PurchContractGoodsFactory.purchContractGoodsInfo(purchContractGoods);
+    }
+
+
+    @Override
+    public void updatePurchasedNum(Long purchContractGoodsId, int preNum, int num) throws Exception {
+        PurchContractGoods purchContractGoods = purchContractGoodsMapper.selectByPrimaryKey(purchContractGoodsId);
+        if (purchContractGoods == null) {
+            throw new Exception("采购合同商品不存在");
+        }
+
+        PurchContractGoods purchContractGoodsSelective = new PurchContractGoods();
+        purchContractGoodsSelective.setId(purchContractGoodsId);
+        purchContractGoodsSelective.setPrePurchasedNum(purchContractGoods.getPrePurchasedNum() + preNum);
+        purchContractGoodsSelective.setPurchasedNum(purchContractGoods.getPurchasedNum() + num);
+        purchContractGoodsMapper.updateByPrimaryKeySelective(purchContractGoodsSelective);
     }
 
     private List<PurchContractGoods> listByPurchContractId02(Long purchContractId) {

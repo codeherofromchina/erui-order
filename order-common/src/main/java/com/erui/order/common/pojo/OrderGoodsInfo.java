@@ -3,6 +3,7 @@ package com.erui.order.common.pojo;
 import com.fasterxml.jackson.annotation.JsonInclude;
 
 import java.math.BigDecimal;
+import java.util.Date;
 
 /**
  * @Auther 王晓丹
@@ -13,6 +14,10 @@ public class OrderGoodsInfo {
     private Long id;
 
     private String sku;
+
+    private String contractNo;
+    // 执行单变更后日期
+    private Date exeChgDate;
 
     private String meteType;
 
@@ -64,6 +69,22 @@ public class OrderGoodsInfo {
 
     public void setSku(String sku) {
         this.sku = sku;
+    }
+
+    public String getContractNo() {
+        return contractNo;
+    }
+
+    public void setContractNo(String contractNo) {
+        this.contractNo = contractNo;
+    }
+
+    public Date getExeChgDate() {
+        return exeChgDate;
+    }
+
+    public void setExeChgDate(Date exeChgDate) {
+        this.exeChgDate = exeChgDate;
     }
 
     public String getMeteType() {

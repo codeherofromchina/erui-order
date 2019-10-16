@@ -57,6 +57,8 @@ public class GoodsInfo {
     private String unitName;
     // 品牌
     private String brand;
+    // 采购中的商品品牌
+    private String purchContractBrand;
     // 采购需用日期
     private Date requirePurchaseDate;
     // 技术要求和使用条件
@@ -191,6 +193,14 @@ public class GoodsInfo {
 
     public void setBrand(String brand) {
         this.brand = brand;
+    }
+
+    public String getPurchContractBrand() {
+        return purchContractBrand;
+    }
+
+    public void setPurchContractBrand(String purchContractBrand) {
+        this.purchContractBrand = purchContractBrand;
     }
 
     public Date getRequirePurchaseDate() {

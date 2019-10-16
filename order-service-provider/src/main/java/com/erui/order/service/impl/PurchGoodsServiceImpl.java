@@ -1,11 +1,15 @@
 package com.erui.order.service.impl;
 
+import com.erui.order.common.enums.PurchStatusEnum;
 import com.erui.order.common.pojo.PurchGoodsInfo;
 import com.erui.order.common.pojo.UserInfo;
 import com.erui.order.common.util.ThreadLocalUtil;
 import com.erui.order.mapper.PurchGoodsMapper;
+import com.erui.order.mapper.PurchMapper;
+import com.erui.order.model.entity.Purch;
 import com.erui.order.model.entity.PurchGoods;
 import com.erui.order.model.entity.PurchGoodsExample;
+import com.erui.order.service.PurchContractGoodsService;
 import com.erui.order.service.PurchGoodsService;
 import com.erui.order.service.util.PurchGoodsFactory;
 import org.slf4j.Logger;
@@ -23,6 +27,10 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
     private static Logger LOGGER = LoggerFactory.getLogger(PurchGoodsServiceImpl.class);
     @Autowired
     private PurchGoodsMapper purchGoodsMapper;
+    @Autowired
+    private PurchMapper purchMapper;
+    @Autowired
+    private PurchContractGoodsService purchContractGoodsService;
 
 
     @Override
@@ -56,7 +64,7 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
     }
 
     @Override
-    public int insert(Long purchId, List<PurchGoodsInfo> PurchGoodsList) {
+    public int insert(Long purchId, List<PurchGoodsInfo> PurchGoodsList) throws Exception {
         int insertNum = 0;
         for (PurchGoodsInfo PurchGoodsInfo : PurchGoodsList) {
             insertNum += insert(purchId, PurchGoodsInfo);
@@ -66,10 +74,24 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
 
 
     @Override
-    public int insert(Long purchId, PurchGoodsInfo PurchGoodsInfo) {
-        PurchGoods purchGoods = PurchGoodsFactory.purchGoods(PurchGoodsInfo);
+    public int insert(Long purchId, PurchGoodsInfo purchGoodsInfo) throws Exception {
+        Purch purch = purchMapper.selectByPrimaryKey(purchId);
+        if (purch == null) {
+            throw new Exception("采购单不存在");
+        }
+
+        PurchStatusEnum purchStatusEnum = PurchStatusEnum.valueOf(purch.getPurchStatus());
+        int preNum = purchGoodsInfo.getPurchaseNum();
+        int num = 0;
+        if (purchStatusEnum == PurchStatusEnum.DONE) {
+            num = purchGoodsInfo.getPurchaseNum();
+        }
+        purchContractGoodsService.updatePurchasedNum(purchGoodsInfo.getPurchContractGoodsId(), preNum, num);
+
+        PurchGoods purchGoods = PurchGoodsFactory.purchGoods(purchGoodsInfo);
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         purchGoods.setPurchId(purchId);
+        purchGoods.setInspectNum(0);
         purchGoods.setPreInspectNum(0);
         if (userInfo != null) {
             purchGoods.setCreateUserId(userInfo.getId());
@@ -87,7 +109,7 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
      * @param ids
      */
     @Override
-    public void delete(Long... ids) {
+    public void delete(Long... ids) throws Exception {
         if (ids == null || ids.length == 0) {
             return;
         }
@@ -95,31 +117,51 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         PurchGoodsExample example = new PurchGoodsExample();
         example.createCriteria().andIdIn(idList);
 
-        PurchGoods PurchGoodsSelective = new PurchGoods();
+        PurchGoods purchGoodsSelective = new PurchGoods();
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
-            PurchGoodsSelective.setUpdateUserId(userInfo.getId());
+            purchGoodsSelective.setUpdateUserId(userInfo.getId());
         }
-        PurchGoodsSelective.setDeleteFlag(Boolean.TRUE);
-        PurchGoodsSelective.setDeleteTime(new Date());
+        purchGoodsSelective.setDeleteFlag(Boolean.TRUE);
+        purchGoodsSelective.setDeleteTime(new Date());
 
-        purchGoodsMapper.updateByExampleSelective(PurchGoodsSelective, example);
+        List<PurchGoods> purchGoodsList = purchGoodsMapper.selectByExample(example);
+        for (PurchGoods purchGoods : purchGoodsList) {
+            purchContractGoodsService.updatePurchasedNum(purchGoods.getPurchContractGoodsId(), -purchGoods.getPurchaseNum(), 0);
+        }
+
+
+        purchGoodsMapper.updateByExampleSelective(purchGoodsSelective, example);
     }
 
     @Override
-    public int updateById(Long id, PurchGoodsInfo PurchGoodsInfo) throws Exception {
-        PurchGoods PurchGoods = purchGoodsMapper.selectByPrimaryKey(id);
-        if (PurchGoods == null) {
+    public int updateById(Long id, PurchGoodsInfo purchGoodsInfo) throws Exception {
+        PurchGoods purchGoods = purchGoodsMapper.selectByPrimaryKey(id);
+        if (purchGoods == null) {
             throw new Exception("采购合同商品不存在");
         }
 
-        PurchGoods contractGoods = PurchGoodsFactory.purchGoods(PurchGoodsInfo);
+        PurchGoods contractGoods = PurchGoodsFactory.purchGoods(purchGoodsInfo);
         contractGoods.setId(id);
         contractGoods.setUpdateTime(new Date());
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         if (userInfo != null) {
             contractGoods.setUpdateUserId(userInfo.getId());
         }
+
+
+        Purch purch = purchMapper.selectByPrimaryKey(purchGoods.getPurchId());
+        if (purch == null) {
+            throw new Exception("采购单不存在");
+        }
+        PurchStatusEnum purchStatusEnum = PurchStatusEnum.valueOf(purch.getPurchStatus());
+        int preNum = purchGoodsInfo.getPurchaseNum() - purchGoods.getPurchaseNum();
+        int num = 0;
+        if (purchStatusEnum == PurchStatusEnum.DONE) {
+            num = purchGoodsInfo.getPurchaseNum();
+        }
+        purchContractGoodsService.updatePurchasedNum(purchGoods.getPurchContractGoodsId(), preNum, num);
+
 
         return purchGoodsMapper.updateByPrimaryKeySelective(contractGoods);
     }
@@ -140,13 +182,12 @@ public class PurchGoodsServiceImpl implements PurchGoodsService {
         PurchGoodsExample example = new PurchGoodsExample();
         example.createCriteria().andPurchIdEqualTo(purchId)
                 .andDeleteFlagEqualTo(Boolean.FALSE);
-        List<PurchGoods> PurchGoodsList = purchGoodsMapper.selectByExample(example);
-        if (PurchGoodsList == null) {
-            PurchGoodsList = new ArrayList<>();
+        List<PurchGoods> purchGoodsList = purchGoodsMapper.selectByExample(example);
+        if (purchGoodsList == null) {
+            purchGoodsList = new ArrayList<>();
         }
-        return PurchGoodsList;
+        return purchGoodsList;
     }
-
 
 }
 

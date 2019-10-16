@@ -211,13 +211,27 @@
 
     function purchaseListFormatOper(val, row, index) {
         var str = '';
-        if (row.purchStatus == 1) {
+        if (row.purchStatus == 2) {
             // 可办理
             str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handlePurchasePage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
-        } else if (row.purchStatus == 2 && !row.insepcted) {
+        } else if (row.purchStatus == 3 && !row.insepcted) {
             str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="handleInspectApplyPage(' + row.id + ',\'' + row.purchNo + '\')">新增报检单</a>&nbsp;&nbsp;&nbsp;';
+        }
+        if (row.purchStatus == 3 && row.payStatus != 3) {
+            str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchasePayDoneHandle(' + row.id + ')">付款完成</a>&nbsp;&nbsp;&nbsp;';
         }
         str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="purchaseInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
         return str;
+    }
+
+
+    function purchasePayDoneHandle(purchId) {
+        $.messager.confirm('删除', '确定完成全部付款吗?', function (r) {
+            if (r) {
+                syncAjaxJson({"url":LOCAL_URL + "/"})
+
+
+            }
+        });
     }
 </script>

@@ -38,7 +38,7 @@
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>合同约定到货日期：</label>
-            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false" style="width:180px;"
+            <input class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false" style="width:180px;"
                    name="arrivalDate"/>
             <label><span style="color:red;">*</span>合同标的物：</label>
             <input class="easyui-textbox" data-options="required:true" name="contractTag"/>
@@ -54,7 +54,7 @@
             <input class="easyui-numberbox" data-options="precision:2,min:0" name="saveAmount" style="width:170px;"/>
             <span style="color:blue;"> 元</span>
             <label><span style="color:red;">*</span>节约方式：</label>
-            <select class="easyui-combobox" editable="false" id="save_purchase_form_save_mode_field" name="saveNode"
+            <select class="easyui-combobox" editable="false" id="save_purchase_form_save_mode_field" name="saveMode"
                     data-options="required:true" validType="selectValueRequired['#save_purchase_form_save_mode_field']"
                     panelHeight="125px">
                 <option value="">无</option>
@@ -165,7 +165,7 @@
                        fit="true" fitColumn="true">
                     <thead>
                     <tr>
-                        <th field="title" width="200">附件名称</th>
+                        <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                         <th field="createUserName" width="120">创建人</th>
                         <th field="attachType" width="100" data-options="
                             formatter:function(value){
@@ -352,7 +352,7 @@
         $("#save_purchase_form_submit_btn").click(function (e) {
             e.preventDefault();
             var formData = assemblyProjectData();
-            formData.purchStatus = 2; // 提交采购
+            formData.purchStatus = 3; // 提交采购
 
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/purch/savePurch"}, formData);
 
@@ -367,7 +367,7 @@
         $("#save_purchase_form_save_btn").click(function (e) {
             e.preventDefault();
             var formData = assemblyProjectData();
-            formData.purchStatus = 1; // 保存采购
+            formData.purchStatus = 2; // 保存采购
 
             var resp = syncAjaxJson({url: LOCAL_URL + "/order/purch/savePurch"}, formData);
 

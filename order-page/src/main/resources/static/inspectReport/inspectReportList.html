@@ -33,7 +33,7 @@
                 </li>
                 <li>
                     <label>质检次数：</label>
-                    <input type="text" class="easyui-numberbox" precision="0"  name="checkTimes"/>
+                    <input type="text" class="easyui-numberbox" precision="0" name="checkTimes"/>
                 </li>
                 <li>
                     <label>报检日期：</label>
@@ -41,8 +41,10 @@
                 </li>
                 <li>
                     <span class="search-btn">
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search" id="inspect_report_list_table_toolbar_form_search_btn">搜索</a>
-                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear" id="inspect_report_list_table_toolbar_form_clear_btn">清空</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-search"
+                           id="inspect_report_list_table_toolbar_form_search_btn">搜索</a>
+                        <a href="javascript:void(0);" class="easyui-linkbutton" iconCls="icon-clear"
+                           id="inspect_report_list_table_toolbar_form_clear_btn">清空</a>
                     </span>
                 </li>
             </ul>
@@ -52,27 +54,28 @@
 <!-- /数据表工具栏 -->
 
 <script type="text/javascript">
-    $(function(){
+    $(function () {
         $("#inspect_report_list_table").datagrid({
-            fit:true,
-            fitColumn:true,
-            method:'post',
-            striped:true,
-            rownumbers:true,
-            pagination:true,
-            singleSelect:true,
-            idField:'id',
-            columns:[[
-                {field:'inspectApplyNo',title:'到货报检单号'},
-                {field:'contractNo',title:'销售合同号'},
-                {field:'projectNo',title:'项目号'},
-                {field:'purchNo',title:'采购合同号'},
-                {field:'supplierName',title:'供应商名称'},
-                {field:'inspectDate',title:'报检日期'},
-                {field:'checkTimes',title:'报检次数'},
-                {field:'inspectReportStatusName',title:'质检状态'},
-                {field:'_operation',title:'操作',
-                    formatter:function(value,row,index){
+            fit: true,
+            fitColumn: true,
+            method: 'post',
+            striped: true,
+            rownumbers: true,
+            pagination: true,
+            singleSelect: true,
+            idField: 'id',
+            columns: [[
+                {field: 'inspectApplyNo', title: '到货报检单号'},
+                {field: 'contractNo', title: '销售合同号'},
+                {field: 'projectNo', title: '项目号'},
+                {field: 'purchNo', title: '采购合同号'},
+                {field: 'supplierName', title: '供应商名称'},
+                {field: 'checkDate', title: '检验日期'},
+                {field: 'checkTimes', title: '报检次数'},
+                {field: 'inspectReportStatusName', title: '质检状态'},
+                {
+                    field: '_operation', title: '操作',
+                    formatter: function (value, row, index) {
                         var str = '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="inspectReportInfoPage(' + row.id + ')">查看</a>&nbsp;&nbsp;&nbsp;';
                         if (row.inspectReportStatus == 1 || row.inspectReportStatus == 2) {
                             str += '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectReportInfoPage(' + row.id + ')">办理</a>&nbsp;&nbsp;&nbsp;';
@@ -82,26 +85,26 @@
                 },
             ]],
             url: LOCAL_URL + '/order/inspectReport/list',
-            onBeforeLoad:function(param){
+            onBeforeLoad: function (param) {
                 var data = $('#inspect_report_list_table_toolbar_form').serializeJson();
                 if (data) {
-                    for(var attr in data){
-                        param[attr]= data[attr];
+                    for (var attr in data) {
+                        param[attr] = data[attr];
                     }
                 }
             },
-            loader:function(param,success,error) {
+            loader: function (param, success, error) {
                 var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts,param,success,error);
+                return tokenAjaxLoader(opts, param, success, error);
             },
             loadFilter: tableLoadFilter
         });
         // 搜索按钮
-        $("#inspect_report_list_table_toolbar_form_search_btn").click(function (){
+        $("#inspect_report_list_table_toolbar_form_search_btn").click(function () {
             $("#inspect_report_list_table").datagrid("reload");
         });
         // 清空按钮
-        $("#inspect_report_list_table_toolbar_form_clear_btn").click(function (){
+        $("#inspect_report_list_table_toolbar_form_clear_btn").click(function () {
             $('#inspect_report_list_table_toolbar_form').form("reset");
             setDatagridToFirstPage("#inspect_report_list_table");
             $("#inspect_report_list_table").datagrid("reload");

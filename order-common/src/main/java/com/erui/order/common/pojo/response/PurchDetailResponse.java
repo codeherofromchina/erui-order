@@ -37,8 +37,8 @@ public class PurchDetailResponse {
     // 节约资金（人民币）
     private BigDecimal saveAmount;
     // 节约方式
-    private Short saveNode;
-    private String saveNodeName;
+    private Short saveMode;
+    private String saveModeName;
     // 定价方式
     private Short priceMode;
     private String priceModeName;
@@ -155,13 +155,6 @@ public class PurchDetailResponse {
         this.saveAmount = saveAmount;
     }
 
-    public Short getSaveNode() {
-        return saveNode;
-    }
-
-    public void setSaveNode(Short saveNode) {
-        this.saveNode = saveNode;
-    }
 
     public Short getPriceMode() {
         return priceMode;
@@ -275,12 +268,20 @@ public class PurchDetailResponse {
         this.currencyBn = currencyBn;
     }
 
-    public String getSaveNodeName() {
-        return saveNodeName;
+    public Short getSaveMode() {
+        return saveMode;
     }
 
-    public void setSaveNodeName(String saveNodeName) {
-        this.saveNodeName = saveNodeName;
+    public void setSaveMode(Short saveMode) {
+        this.saveMode = saveMode;
+    }
+
+    public String getSaveModeName() {
+        return saveModeName;
+    }
+
+    public void setSaveModeName(String saveModeName) {
+        this.saveModeName = saveModeName;
     }
 
     public String getPriceModeName() {

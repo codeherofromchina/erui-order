@@ -16,6 +16,7 @@ public interface PurchContractGoodsService {
      * @throws Exception
      */
     int insertOnDuplicateIdUpdate(Long purchContractId, List<PurchContractGoodsInfo> purchContractGoodsList) throws Exception;
+
     /**
      * 插入采购合同的商品信息
      *
@@ -29,9 +30,12 @@ public interface PurchContractGoodsService {
 
     void delete(Long... ids) throws Exception;
 
-    int updateById(Long id, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception ;
+    int updateById(Long id, PurchContractGoodsInfo purchContractGoodsInfo) throws Exception;
 
     List<PurchContractGoodsInfo> listByPurchContractId(Long purchContractId);
 
     PurchContractGoodsInfo findById(Long purchContractGoodsId);
+
+
+    void updatePurchasedNum(Long purchContractGoodsId, int preNum, int num) throws Exception;
 }

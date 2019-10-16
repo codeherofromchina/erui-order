@@ -1,70 +1,47 @@
 <script type="text/javascript">
-    var saveInspectApplyParams = getQueryStringFromGlobalParams();
-    var save_inspect_apply_form_data = {};
-    var save_inspect_apply_form_goods_table = [];
-    if (saveInspectApplyParams.purchaseId) {
-        var inspectApplyInfo = syncAjaxJson({"url": LOCAL_URL + "/order/inspectApply/detailByPurchId"}, {"id": saveInspectApplyParams.purchaseId});
-        if (inspectApplyInfo.code == 0) {
-            save_inspect_apply_form_data = inspectApplyInfo.data;
+    var inspectReportInfoParams = getQueryStringFromGlobalParams();
+    var inspect_report_info_form_data = {};
+    var inspect_report_info_form_goods_table = [];
+    var inspect_report_info_form_attachment_table = [];
+    if (inspectReportInfoParams.inspectReportId) {
+        var inspectReportInfo = syncAjaxJson({"url": LOCAL_URL + "/order/inspectReport/info"}, {"id": inspectReportInfoParams.inspectReportId});
+        if (inspectReportInfo.code == 0) {
+            inspect_report_info_form_data = inspectReportInfo.data;
+            // 商品内容
+            inspect_report_info_form_goods_table = inspect_report_info_form_data.goodsInfos;
+            delete  inspect_report_info_form_data.goodsInfos;
             // 附件内容
-            save_inspect_apply_form_goods_table = save_inspect_apply_form_data.goodsInfos;
-            delete  save_inspect_apply_form_data.goodsInfos;
+            inspect_report_info_form_attachment_table = inspect_report_info_form_data.attachments;
+            delete  inspect_report_info_form_data.attachments;
         }
     }
 </script>
-<div id="save_inspect_apply_list_panel" class="easyui-panel" title="报检单列表"
-     style="padding:0;background:#fafafa;margin-bottom:10px;"
-     data-options="collapsible:true">
-    <table style="background:#fafafa;" id="save_inspect_apply_list_panel_table">
-        <thead>
-        <tr>
-            <th field="purchNo" width="120px">采购合同号</th>
-            <th field="inspectApplyNo" width="120px">到货报检单号</th>
-            <th field="department" width="120px">下发部门</th>
-            <th field="purchaseName" width="100px">采购经办人</th>
-            <th field="supplierName" width="120px">供应商名称</th>
-            <th field="inspectDate" width="120px">报检日期</th>
-            <th field="num" width="80px">报检次数</th>
-            <th field="pubStatusName" width="80px">质检结果</th>
-            <th field="_operate" width="120px" data-options="formatter:saveInspectApplyListPanelTableFormatOper">操作</th>
-        </tr>
-        </thead>
-    </table>
-</div>
 
-<form id="save_inspect_apply_form">
-    <input type="hidden" v-model="purchId" value="" name="purchId" />
-    <input type="hidden" v-model="pId" value="" name="pId" />
-    <input type="hidden" v-model="id" value="" name="id" />
+<form id="inspect_report_info_form">
+    <input type="hidden" v-model="id" value="" name="id"/>
     <div class="easyui-panel" title="基础信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
-            <label>下发部门：</label>
-            <div class="input-div">{{department}}</div>
-            <label>采购经办人：</label>
-            <div class="input-div">{{purchaseName}}</div>
-            <label>供应商名称：</label>
-            <div class="input-div">{{supplierName}}</div>
+            <label>质检员：</label>
+            <div class="input-div">{{checkUserName}}</div>
+            <label>质检部门：</label>
+            <div class="input-div">{{checkDeptName}}</div>
+            <label>NCR编号：</label>
+            <div class="input-div">{{ncrNo}}</div>
         </div>
         <div class="fitem">
-            <label>报检日期：</label>
-            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="inspectDate" style="width: 150px;"/>
-            <label>是否入易瑞仓：</label>
-            <input class="easyui-radio" type="radio" name="enterEruiWarehouse" id="save_inspect_apply_form_enter_erui_warehouse_01"
-                   value="true" checked>
-            <label style="margin-left:0;width:50px;text-align: left;" for="save_inspect_apply_form_enter_erui_warehouse_01">是</label></input>
-            <input class="easyui-radio" type="radio" name="enterEruiWarehouse" id="save_inspect_apply_form_enter_erui_warehouse_02"
-                   value="false"> <label style="margin-left:0;width:50px;text-align: left;"
-                                         for="save_inspect_apply_form_enter_erui_warehouse_02">否</label></input>
-
+            <label>检验日期：</label>
+            <div class="input-div">{{checkDate}}</div>
+            <label>检验完成日期：</label>
+            <div class="input-div">{{doneDate}}</div>
         </div>
     </div>
 
     <div class="easyui-panel" title="商品信息"
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
-        <table id="save_inspect_apply_panel_goods_table"></table>
+        <table id="inspect_report_info_panel_goods_table"></table>
     </div>
 
     <div class="easyui-panel" title="其他信息"
@@ -72,8 +49,9 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label style="width:120px;">备注：</label>
-            <input class="easyui-textbox" multiline="true" style="width:560px;height:60px;" value=""
-                   name="remark"/>
+            <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">
+                {{reportRemarks}}
+            </div>
         </div>
     </div>
 
@@ -82,24 +60,14 @@
          style="background:#fafafa;margin-bottom:30px;"
          data-options="collapsible:true">
         <div class="easyui-layout" style="width: 100%;height:120px;">
-            <div data-options="region:'west',split:false,border:false" style="width:180px;">
-                <div style="text-align:center;">
-                    <div style="margin-top:16px;margin-bottom:20px;"><span style="font-size: 14px;">采购执行部</span>
-                    </div>
-                    <div style="margin-bottom:8px;"><a href="javascript:void(0);" class="easyui-linkbutton"
-                                                       onclick="openFileDialog(1,'save_inspect_apply_form_attachment_table');"
-                                                       plain="true">上传附件</a></div>
-                </div>
-            </div>
             <div data-options="region:'center',border:false" style="padding:5px;background:#eee;">
                 <table class="easyui-datagrid"
-                       data-options="idField:'url'"
+                       data-options="idField:'url',data:inspect_report_info_form_attachment_table"
                        fit="true"
                        singleSelect="true"
-                       id="save_inspect_apply_form_attachment_table"
                        fitColumn="true">
                     <thead>
-                    <th field="title" width="200">附件名称</th>
+                    <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                     <th field="createUserName" width="120">创建人</th>
                     <th field="attachType" width="100" data-options="
                                 formatter:function(value){
@@ -108,9 +76,6 @@
                                 ">类型
                     </th>
                     <th field="createTime" width="170">日期</th>
-                    <th field="_operate" width="80" data-options="formatter:savePurchRequisitionAttachmentFormatOper">
-                        操作
-                    </th>
                     </thead>
                 </table>
             </div>
@@ -118,211 +83,69 @@
     </div>
 </form>
 
-<div style="margin-top:20px;text-align: center;">
-    <a href="javascript:void(0);" id="save_inspect_apply_form_save_btn" size="large" class="easyui-linkbutton"
-       style="margin-right:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;保存&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-    <a href="javascript:void(0);" id="save_inspect_apply_form_submit_btn" size="large" class="easyui-linkbutton"
-       style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
-</div>
-
 
 <script type="text/javascript">
     new Vue({
-        el: '#save_inspect_apply_form',
-        data: save_inspect_apply_form_data
+        el: '#inspect_report_info_form',
+        data: inspect_report_info_form_data
     });
 
-    $(function(){
-        // 报检单列表
-        $("#save_inspect_apply_list_panel_table").datagrid({
-            fitColumn: true,
-            striped: true,
-            rownumbers: true,
-            singleSelect: true,
-            idField: 'id',
-            url: LOCAL_URL + '/order/inspectApply/list',
-            onBeforeLoad: function (param) {
-                param.id = saveInspectApplyParams.purchaseId;
-            },
-            loader: function (param, success, error) {
-                var opts = $(this).datagrid("options");
-                return tokenAjaxLoader(opts, param, success, error);
-            },
-            loadFilter: tableLoadFilter
-        });
+    $(function () {
         // 商品
-        $("#save_inspect_apply_panel_goods_table").datagrid({
+        $("#inspect_report_info_panel_goods_table").datagrid({
             border: false,
             striped: true,
-            idField: 'purchGoodsId',
+            idField: 'inspectApplyGoodsId',
             columns: [[
                 {field: 'contractNo', width: 120, title: '销售合同号'},
                 {field: 'projectNo', width: 120, title: '项目号'},
+                {
+                    field: 'purchNo', width: 120, title: '采购合同号',
+                    formatter: function (val, row, index) {
+                        return inspect_report_info_form_data.purchNo;
+                    }
+                },
                 {field: 'sku', width: 120, title: '平台SKU'},
                 {field: 'nameEn', width: 100, title: '外文品名'},
                 {field: 'nameZh', width: 100, title: '中文品名'},
-                {field: 'brand', width: 100, title: '品牌'},
-                {field: 'purchaseNum', width: 100, title: '合同数量'},
-                {field: 'preInspectNum', width: 100, title: '已报检数'},
+                {field: 'inspectNum', width: 100, title: '报检数量'},
                 {
-                    field: 'inspectNum', width: 100, title: '报检数量',
-                    editor: {
-                        type: "numberbox"
-                    }
-                },
-                {field: 'unitName', width: 100, title: '单位'},
-                {field: 'purchasedPrice', width: 100, title: '不含税单价'},
-                {field: 'purchasedPrice', width: 100, title: '含税单价'},
-                {field: 'purchContractBrand', width: 100, title: '总价款'},
-                {
-                    field: 'height', width: 120, title: '重量(kg)',
-                    editor: {
-                        type: "numberbox"
-                    }
+                    field: 'samples', width: 100, title: '抽样数'
                 },
                 {
-                    field: 'lwh', width: 80, title: '长*宽*高(cm)',
-                    editor: {
-                        type: "textbox"
-                    }
+                    field: 'unqualified', width: 120, title: '不合格数量'
                 },
-                {field: 'purchasedRemark', width: 100, title: '备注'}
-            ]],
-            onLoadSuccess: function (data) {
-                // 控制表格可以编辑
-                for (var num = 0; num < data.total; ++num) {
-                    $(this).datagrid('beginEdit', num);
+                {
+                    field: 'unqualifiedDesc', width: 80, title: '不合格描述'
+                },
+                {
+                    field: 'unqualifiedType', width: 100, title: '不合格类别',
+                    formatter: function (val, row, index) {
+                        switch (val) {
+                            case 1:
+                                return "性能失效";
+                            case 2:
+                                return "材料问题";
+                            case 3:
+                                return "零配件缺失";
+                            case 4:
+                                return "工序遗漏";
+                            case 5:
+                                return "特殊工艺";
+                            case 6:
+                                return "尺寸问题";
+                            case 7:
+                                return "表面缺陷";
+                            case 8:
+                                return "标识问题";
+                            case 9:
+                                return "资料问题";
+                        }
+                        return val;
+                    }
                 }
-            },
-            data: save_inspect_apply_form_goods_table
-        });
-
-
-        // 保存
-        $("#save_inspect_apply_form_save_btn").click(function (e) {
-            e.preventDefault();
-            var isValid = $("#save_inspect_apply_form").form('validate');
-            if (!isValid){
-                $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
-                return;
-            }
-            var formData = assemblyInspectApplyData();
-            formData.inspectApplyStatus = '2'; // 保存报检单
-            var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectApply/saveInspectApply"}, formData);
-
-            if (resp.code == 0) {
-                $.messager.alert("成功", "保存报检单成功");
-                closeCurrentTab();
-            } else {
-                $.messager.alert("失败", resp.message);
-            }
-        });
-
-        // 提交
-        $("#save_inspect_apply_form_submit_btn").click(function (e) {
-            e.preventDefault();
-            var isValid = $("#save_inspect_apply_form").form('validate');
-            if (!isValid){
-                $.messager.alert('提示','请完整填写表单');	// hide progress bar while the form is invalid
-                return;
-            }
-            var formData = assemblyInspectApplyData();
-            formData.inspectApplyStatus = '3'; // 提交报检单
-            var resp = syncAjaxJson({url: LOCAL_URL + "/order/inspectApply/saveInspectApply"}, formData);
-
-            if (resp.code == 0) {
-                $.messager.alert("成功", "提交报检单成功");
-                closeCurrentTab();
-            } else {
-                $.messager.alert("失败", resp.message);
-            }
+            ]],
+            data: inspect_report_info_form_goods_table
         });
     });
-    function savePurchRequisitionAttachmentFormatOper(val, row, index) {
-        return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectApplyDeleAttachment(\'' + row.url + '\')">删除</a>&nbsp;&nbsp;&nbsp;';
-    }
-
-    // 删除附件的行
-    function saveInspectApplyDeleAttachment(idField) {
-        if (idField) {
-            $.messager.confirm('删除', '确定要删除附件吗?', function (r) {
-                if (r) {
-                    var index = $('#save_inspect_apply_form_attachment_table').datagrid('getRowIndex', idField);
-                    $('#save_inspect_apply_form_attachment_table').datagrid('deleteRow', index);
-                }
-            });
-        }
-    }
-
-
-    // 组装报检单数据
-    function assemblyInspectApplyData() {
-        var formData = $("#save_inspect_apply_form").serializeJson();
-
-        // 商品内容
-        formData.goodsInfos = [];
-
-        var datagridRows = $("#save_inspect_apply_panel_goods_table").datagrid("getRows");
-        $.each(datagridRows, function (index, value) {
-            var edInspectNum = $('#save_inspect_apply_panel_goods_table').datagrid('getEditor', {index: index, field: 'inspectNum'});
-            var inspectNum = $(edInspectNum.target).numberbox('getValue');
-            var edHeight = $('#save_inspect_apply_panel_goods_table').datagrid('getEditor', {index: index, field: 'height'});
-            var height = $(edHeight.target).numberbox('getValue');
-            var edLwh = $('#save_inspect_apply_panel_goods_table').datagrid('getEditor', {index: index, field: 'lwh'});
-            var lwh = $(edLwh.target).textbox('getValue');
-            formData.goodsInfos.push({
-                id: value.inspectApplyGoodsId,
-                purchGoodsId: value.purchGoodsId,
-                inspectNum:inspectNum,
-                height:height,
-                lwh:lwh
-            });
-        });
-
-        // 附件内容
-        var attachmentRows = $("#save_inspect_apply_form_attachment_table").datagrid('getRows');
-        formData.attachments = [];
-        if (attachmentRows) {
-            $.each(attachmentRows, function (index, value) {
-                formData.attachments.push({
-                    id: value.id,
-                    attachGroup: value.attachGroup,
-                    title: value.title,
-                    url: value.url,
-                    attachType: value.attachType
-                });
-            });
-        }
-        return formData;
-    }
-
-    // 报检单列表中的操作
-    function saveInspectApplyListPanelTableFormatOper(val, row, index) {
-        if (row.pubStatus == 2) {
-            return '&nbsp;&nbsp;&nbsp;<a href="javascript:void(0)" onclick="saveInspectApplyListPanelTableHandle(\'' + row.id + '\')">办理</a>&nbsp;&nbsp;&nbsp;';
-        }
-    }
-
-    // 报检单列表的办理
-    function saveInspectApplyListPanelTableHandle(inspectApplyId) {
-        // 拉取数据，然后重新填充表单、商品和附件
-        var inspectApplyInfo = syncAjaxJson({"url": LOCAL_URL + "/order/inspectApply/info"}, {"id": inspectApplyId});
-        if (inspectApplyInfo.code == 0) {
-            save_inspect_apply_form_data = inspectApplyInfo.data;
-            // 商品内容
-            save_inspect_apply_form_goods_table = save_inspect_apply_form_data.goodsInfos;
-            delete save_inspect_apply_form_data.goodsInfos;
-            $("#save_inspect_apply_panel_goods_table").datagrid("loadData",save_inspect_apply_form_goods_table);
-            // 附件内容
-            var attachments = save_inspect_apply_form_data.attachments;
-            delete  save_inspect_apply_form_data.attachments;
-            $("#save_inspect_apply_form_attachment_table").datagrid("loadData",attachments);
-
-
-            $("#save_inspect_apply_form").form('load', save_inspect_apply_form_data);
-        } else {
-            $.messager.alert("提示","获取报检单信息错误");
-        }
-    }
-
 </script>

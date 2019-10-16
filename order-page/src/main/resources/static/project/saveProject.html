@@ -54,6 +54,10 @@
             <div class="input-div">{{sendDeptName}}</div>
             <label>要求采购到货日期：</label>
             <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="requirePurchaseDate" style="width: 150px;"/>
+            <label>品控经办人：</label>
+            <input type="text" id="order_list_table_toolbar_form_quality_uid_field" class="easyui-textbox"
+                   editable="false" name="qualityUid" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_project_quality_uid_dialog').dialog('open');$('#save_project_quality_uid_dialog').dialog('refresh', 'common/saveProjectUserDialog.html');}"/>
         </div>
     </div>
 
@@ -233,7 +237,7 @@
                        fitColumn="true">
                     <thead>
                     <tr>
-                        <th field="title" width="200">附件名称</th>
+                        <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                         <th field="createUserName" width="120">创建人</th>
                         <th field="attachType" width="100" data-options="
                             formatter:function(value){
@@ -263,6 +267,12 @@
        style="margin-left:10px;">&nbsp;&nbsp;提交立项&nbsp;&nbsp;</a>
 </div>
 
+
+<!-- 品控经办人弹出框 -->
+<div id="save_project_quality_uid_dialog" style="width:600px;height:350px;">
+</div>
+<!-- /品控经办人弹出框 -->
+
 <script type="text/javascript">
     new Vue({
         el: '#save_project_form',
@@ -287,6 +297,33 @@
             } else {
                 $.messager.alert("失败", resp.message);
             }
+        });
+
+        $("#save_project_quality_uid_dialog").dialog({
+            title: '品控经办人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_project_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#order_list_table_toolbar_form_quality_uid_field").textbox("setValue", tableSelectedRow.id);
+                        $("#order_list_table_toolbar_form_quality_uid_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#order_list_table_toolbar_form_quality_uid_field").textbox("clear");
+                    }
+                    $("#save_project_quality_uid_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_project_quality_uid_dialog").dialog("close");
+                }
+            }]
         });
 
         // 提交订单

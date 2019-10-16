@@ -74,7 +74,7 @@
         </div>
         <div class="fitem">
             <label style="width:130px;margin-left:5px;"><span style="color:red;">*</span>采购总金额（小写）：</label>
-            <input class="easyui-textbox" name="lowercasePrice"/>
+            <input class="easyui-numberbox" min="0" precision="2" name="lowercasePrice"/>
             <label><span style="color:red;">*</span>币种：</label>
             <select class="easyui-combobox" editable="false" name="currencyBn" panelHeight="100px">
                 <option value="CNY">CNY</option>
@@ -195,7 +195,7 @@
                        id="save_purch_contract_form_attachment_table">
                     <thead>
                     <tr>
-                        <th field="title" width="200">附件名称</th>
+                        <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                         <th field="createUserName" width="120">创建人</th>
                         <th field="attachType" width="100" data-options="
                             formatter:function(value){
@@ -373,8 +373,7 @@
                         if (resp.code == 0) {
                             goodsData = resp.data;
                         }
-                        $("#save_purch_contract_form_project_id_field").textbox("setValue", projectIds.join(","));
-                        $("#save_purch_contract_form_project_id_field").textbox("setText", projectNos.join(","));
+                        $("#save_purch_contract_form_project_id_field").textbox("setValue", projectNos.join(","));
                     } else {
                         $("#save_purch_contract_form_project_id_field").textbox("clear");
                     }
@@ -456,7 +455,7 @@
                 purchRequisitionGoodsId: value.purchRequisitionGoodsId,
                 purchaseNum: purchaseNum,
                 purchasePrice: purchasePrice,
-                purchContractBrand: value.purchContractBrand
+                purchContractBrand: value.brand
             });
         });
 

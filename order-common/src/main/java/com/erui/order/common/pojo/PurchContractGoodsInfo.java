@@ -18,6 +18,8 @@ public class PurchContractGoodsInfo {
     private BigDecimal purchasePrice;
     // '品牌'
     private String purchContractBrand;
+    // 预采购数量
+    private Integer prePurchasedNum;
 
     public Long getId() {
         return id;
@@ -58,6 +60,14 @@ public class PurchContractGoodsInfo {
 
     public void setPurchContractBrand(String purchContractBrand) {
         this.purchContractBrand = purchContractBrand;
+    }
+
+    public Integer getPrePurchasedNum() {
+        return prePurchasedNum;
+    }
+
+    public void setPrePurchasedNum(Integer prePurchasedNum) {
+        this.prePurchasedNum = prePurchasedNum;
     }
 
     public Long getPurchRequisitionGoodsId() {

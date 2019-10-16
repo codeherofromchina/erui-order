@@ -23,7 +23,7 @@
         <thead>
         <tr>
             <th field="purchNo" width="120px">采购合同号</th>
-            <th field="inspectReportNo" width="120px">到货报检单号</th>
+            <th field="inspectApplyNo" width="120px">到货报检单号</th>
             <th field="department" width="120px">下发部门</th>
             <th field="purchaseName" width="100px">采购经办人</th>
             <th field="supplierName" width="120px">供应商名称</th>
@@ -50,9 +50,11 @@
         </div>
         <div class="fitem">
             <label>检验日期：</label>
-            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="checkDate" style="width: 150px;"/>
+            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="checkDate"
+                   style="width: 150px;"/>
             <label>检验完成日期：</label>
-            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="doneDate" style="width: 150px;"/>
+            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="doneDate"
+                   style="width: 150px;"/>
         </div>
     </div>
 
@@ -94,7 +96,7 @@
                        id="save_inspect_report_form_attachment_table"
                        fitColumn="true">
                     <thead>
-                    <th field="title" width="200">附件名称</th>
+                    <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                     <th field="createUserName" width="120">创建人</th>
                     <th field="attachType" width="100" data-options="
                                 formatter:function(value){
@@ -156,7 +158,12 @@
             columns: [[
                 {field: 'contractNo', width: 120, title: '销售合同号'},
                 {field: 'projectNo', width: 120, title: '项目号'},
-                {field: 'purchNo', width: 120, title: '采购合同号'},
+                {
+                    field: 'purchNo', width: 120, title: '采购合同号',
+                    formatter: function (val, row, index) {
+                        return save_inspect_report_form_data.purchNo;
+                    }
+                },
                 {field: 'sku', width: 120, title: '平台SKU'},
                 {field: 'nameEn', width: 100, title: '外文品名'},
                 {field: 'nameZh', width: 100, title: '中文品名'},

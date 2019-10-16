@@ -19,15 +19,15 @@
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
-            <label><span style="color:red;">*</span>合同标的：</label>
+            <label>合同标的：</label>
             <div class="input-div">{{projectName}}</div>
-            <label style="margin-left:5px;width: 130px;"><span style="color:red;">*</span>执行单约定交付日期：</label>
+            <label style="margin-left:5px;width: 130px;">执行单约定交付日期：</label>
             <div class="input-div">{{deliveryDate}}</div>
             <label>客户合同金额：</label>
             <div class="input-div">{{totalPriceUsd| numFilter}} USD</div>
         </div>
         <div class="fitem">
-            <label><span style="color:red;">*</span>初步利润(%)：</label>
+            <label>初步利润(%)：</label>
             <div class="input-div">{{profitPercent}}</div>
             <label>利润额：</label>
             <div class="input-div">{{profit| numFilter}} USD</div>
@@ -51,7 +51,7 @@
             <div class="input-div" style="width:122px;">{{projectProfit.countryName}}</div>
             <label>贸易术语：</label>
             <div class="input-div" style="width:122px;">{{projectProfit.tradeTerm}}</div>
-            <label><span style="color:red;">*</span>项目类型：</label>
+            <label>项目类型：</label>
             <div class="input-div">{{projectProfit.projectTypeName}}</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
@@ -81,7 +81,7 @@
         </div>
         <div class="fitem">
             <label>退税：</label>
-            <div class="input-div">{{projectProfit.taxRefund}}</div>
+            <div class="input-div">{{projectProfit.taxRefund|numFilter}}</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
             物流成本
@@ -100,19 +100,19 @@
             <label>国际运输：</label>
             <div class="input-div">{{projectProfit.internationalTransport| numFilter}}</div>
             <label>关税：</label>
-            <div class="input-div">{{projectProfit.tariff}}</div>
+            <div class="input-div">{{projectProfit.tariff|numFilter}}</div>
         </div>
         <div class="fitem">
             <label>增值税：</label>
-            <div class="input-div">{{projectProfit.vat}}</div>
+            <div class="input-div">{{projectProfit.vat|numFilter}}</div>
             <label>清关杂税：</label>
-            <div class="input-div">{{projectProfit.customsClearFee}}</div>
+            <div class="input-div">{{projectProfit.customsClearFee|numFilter}}</div>
             <label>清关代理费：</label>
             <div class="input-div">{{projectProfit.customsAgentFee| numFilter}}</div>
         </div>
         <div class="fitem">
             <label>货物运输保险：</label>
-            <div class="input-div">{{projectProfit.transportionInsurance}}</div>
+            <div class="input-div">{{projectProfit.transportionInsurance|numFilter}}</div>
             <label>物流成本总计：</label>
             <div class="input-div"></div>
         </div>
@@ -121,20 +121,20 @@
         </div>
         <div class="fitem">
             <label>出口信用险：</label>
-            <div class="input-div">{{projectProfit.exportCreditInsurance}}</div>
+            <div class="input-div">{{projectProfit.exportCreditInsurance|numFilter}}</div>
             <label>其他信用：</label>
-            <div class="input-div">{{projectProfit.otherCredit}}</div>
+            <div class="input-div">{{projectProfit.otherCredit|numFilter}}</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
             项目管理费
         </div>
         <div class="fitem">
             <label>差旅费、业务费等：</label>
-            <div class="input-div">{{projectProfit.travelExpenses}}</div>
+            <div class="input-div">{{projectProfit.travelExpenses|numFilter}}</div>
             <label>主营业务成本小计：</label>
             <div class="input-div"></div>
             <label>项目成本总计：</label>
-            <div class="input-div">{{projectProfit.projectCost}}</div>
+            <div class="input-div">{{projectProfit.projectCost|numFilter}}</div>
         </div>
         <div style="margin:20px;padding:10px 0 10px 10px;line-height:20px;text-indent:24px;background-color: #E9E7E7">
             市场费用
@@ -188,7 +188,7 @@
          style="padding:10px;background:#fafafa;margin-bottom:10px;"
          data-options="collapsible:true">
         <div class="fitem">
-            <label style="width:120px;">项目备注：</label>
+            <label style="width:120px;vertical-align: top;">项目备注：</label>
             <div class="input-div" style="width:560px;height:60px;border:1px solid black;padding:5px;">{{remarks}}</div>
         </div>
     </div>
@@ -205,7 +205,7 @@
                        fitColumn="true">
                     <thead>
                     <tr>
-                        <th field="title" width="200">附件名称</th>
+                        <th field="title" width="200" data-options="formatter:tableAttachmentDownHref">附件名称</th>
                         <th field="createUserName" width="120">创建人</th>
                         <th field="attachType" width="100" data-options="
                             formatter:function(value){

@@ -3,6 +3,7 @@ package com.erui.order.service.util;
 import com.erui.order.common.pojo.PurchGoodsInfo;
 import com.erui.order.model.entity.PurchGoods;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,10 @@ public class PurchGoodsFactory {
         purchGoods.setPurchaseNum(purchGoodsInfo.getPurchaseNum());
         purchGoods.setPurchasePrice(purchGoodsInfo.getPurchasePrice());
         purchGoods.setPurchaseRemark(purchGoodsInfo.getPurchaseRemark());
+        purchGoods.setNonTaxPrice(purchGoodsInfo.getNonTaxPrice());
+        if (purchGoods.getPurchaseNum() != null && purchGoods.getPurchasePrice() != null) {
+            purchGoods.setPurchaseTotalPrice(purchGoods.getPurchasePrice().multiply(new BigDecimal(purchGoods.getPurchaseNum())));
+        }
 
         return purchGoods;
     }

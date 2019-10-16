@@ -1,7 +1,7 @@
 var ORDER_URL = "http://java.eruidev.com:85";
 var LOCAL_URL = "http://wxd.eruidev.com:8090";
 var BPM_URL = "http://bpm.eruidev.com";
-var ERUITOKEN = "83efa424c3695c0fe23204d847fc4303_018410";
+var ERUITOKEN = "0247a276a6aba22986d2cba57fea667e_018410";
 var GLOBAL_PARAMS = null;
 var ATTACHMENT_FILE_TYPE = 1; // 附件的类型
 var ATTACHMENT_FILE_TABLE_ID = null; // 附件的表格ID
@@ -238,8 +238,11 @@ String.prototype.endWith = function (str) {
 // 定义一个 Vue 全局的保留两位小数过滤器
 Vue.filter('numFilter', function (value) {
     // 截取当前数据到小数点后两位
-    var realVal = parseFloat(value).toFixed(2);
-    return realVal
+    if (isNumber(value)) {
+        var realVal = parseFloat(value).toFixed(2);
+        return realVal
+    }
+    return value;
 })
 var d_buttons = $.extend([], $.fn.datebox.defaults.buttons);
 d_buttons.splice(1, 0, {
@@ -248,3 +251,19 @@ d_buttons.splice(1, 0, {
         $(target).datebox('setValue', '');
     }
 });
+
+
+function tableMoneyFormat(val, row, index) {
+    if (isNumber(val)) {
+        return parseFloat(val).toFixed(2);
+    }
+    return val;
+}
+
+function tableAttachmentDownHref(val, row, index) {
+    return "<a href='" + LOCAL_URL + "/order/fastdfs/download?group=" + row.attachGroup + "&fileId=" + row.url + "'>" + val + "</a>";
+}
+
+function isNumber(obj) {
+    return obj === +obj
+}

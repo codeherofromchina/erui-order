@@ -2,6 +2,7 @@ package com.erui.order.service;
 
 import com.erui.order.common.pojo.OrderGoodsInfo;
 
+import java.util.Date;
 import java.util.List;
 
 public interface OrderGoodsService {
@@ -47,5 +48,12 @@ public interface OrderGoodsService {
     OrderGoodsInfo findById(Long id);
 
     List<OrderGoodsInfo> listByOrderId(Long orderId);
+
+    /**
+     * 更新商品的项目变更后日期
+     * @param orderId
+     * @param exeChgDate
+     */
+    void updateExechgDate(Long orderId, Date exeChgDate);
 }
 

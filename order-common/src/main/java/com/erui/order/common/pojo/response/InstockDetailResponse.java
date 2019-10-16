@@ -25,6 +25,8 @@ public class InstockDetailResponse {
     private List<GoodsInfo> goodsInfos;
     // 附件内容
     private List<AttachmentInfo> attachments;
+    // 采购合同号
+    private String purchNo;
 
     public Long getId() {
         return id;
@@ -88,6 +90,14 @@ public class InstockDetailResponse {
 
     public void setAttachments(List<AttachmentInfo> attachments) {
         this.attachments = attachments;
+    }
+
+    public String getPurchNo() {
+        return purchNo;
+    }
+
+    public void setPurchNo(String purchNo) {
+        this.purchNo = purchNo;
     }
 }
 

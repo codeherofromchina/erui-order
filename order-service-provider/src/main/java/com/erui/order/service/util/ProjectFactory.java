@@ -28,6 +28,7 @@ public class ProjectFactory {
         project.setRequirePurchaseDate(projectUpdateRequest.getRequirePurchaseDate());
         project.setRemarks(projectUpdateRequest.getRemarks());
         project.setProjectStatus(projectUpdateRequest.getProjectStatus());
+        project.setQualityUid(projectUpdateRequest.getQualityUid());
         // 是否生成出口通知单
         project.setDeliverConsignHas(Boolean.FALSE);
 

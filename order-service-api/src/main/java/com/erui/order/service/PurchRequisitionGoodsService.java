@@ -7,9 +7,9 @@ import java.util.List;
 public interface PurchRequisitionGoodsService {
     void update(Long purchRequisitionId, List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos) throws Exception;
 
-    int insert(Long purchRequisitionId, List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos);
+    int insert(Long purchRequisitionId, List<PurchRequisitionGoodsInfo> purchRequisitionGoodsInfos) throws Exception;
 
-    int insert(Long purchRequisitionId, PurchRequisitionGoodsInfo purchRequisitionGoodsInfo);
+    int insert(Long purchRequisitionId, PurchRequisitionGoodsInfo purchRequisitionGoodsInfo) throws Exception;
 
     List<PurchRequisitionGoodsInfo> list(Long purchRequisitionId);
 
