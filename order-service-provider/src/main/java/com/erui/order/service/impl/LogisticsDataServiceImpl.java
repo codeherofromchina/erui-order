@@ -64,6 +64,7 @@ public class LogisticsDataServiceImpl implements LogisticsDataService {
         UserInfo userInfo = ThreadLocalUtil.getUserInfo();
         // 组织订单数据
         LogisticsData logisticsData = new LogisticsData();
+        logisticsData.setDeliverDetailId(deliverDetailId);
         logisticsData.setContractNo(deliverDetail.getContractNo());
         logisticsData.setDeliverDetailNo(deliverDetail.getDeliverDetailNo());
         logisticsData.setTheAwbNo(genLogisticsDataTheAwbNo());

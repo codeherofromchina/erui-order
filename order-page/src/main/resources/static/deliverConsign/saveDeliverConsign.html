@@ -11,10 +11,12 @@
             save_deliver_consign_form_goods_table = save_deliver_consign_form_data.goodsInfos;
             delete save_deliver_consign_form_data.goodsInfos;
             // 订舱信息
-            Object.keys(save_deliver_consign_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
-                save_deliver_consign_form_data["deliverConsignBookingSpace." + key] = save_deliver_consign_form_data.deliverConsignBookingSpaceInfo[key];
-            });
-            delete save_deliver_consign_form_data.deliverConsignBookingSpaceInfo;
+            if (save_deliver_consign_form_data.deliverConsignBookingSpaceInfo) {
+                Object.keys(save_deliver_consign_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
+                    save_deliver_consign_form_data["deliverConsignBookingSpace." + key] = save_deliver_consign_form_data.deliverConsignBookingSpaceInfo[key];
+                });
+                delete save_deliver_consign_form_data.deliverConsignBookingSpaceInfo;
+            }
             // 附件内容
             save_deliver_consign_attachment_data = save_deliver_consign_form_data.attachments;
             delete save_deliver_consign_form_data.attachments;

@@ -1,5 +1,6 @@
 <script type="text/javascript">
     var deliverConsignInfoParams = getQueryStringFromGlobalParams();
+    console.info(JSON.stringify(deliverConsignInfoParams));
     var deliver_consign_info_form_data = {};
     var deliver_consign_info_form_goods_table = [];
     var deliver_consign_info_attachment_data = [];
@@ -11,9 +12,11 @@
             deliver_consign_info_form_goods_table = deliver_consign_info_form_data.goodsInfos;
             delete deliver_consign_info_form_data.goodsInfos;
             // 订舱信息
-            Object.keys(deliver_consign_info_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
-                deliver_consign_info_form_data["deliverConsignBookingSpace." + key] = deliver_consign_info_form_data.deliverConsignBookingSpaceInfo[key];
-            });
+            if (deliver_consign_info_form_data.deliverConsignBookingSpaceInfo) {
+                Object.keys(deliver_consign_info_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
+                    deliver_consign_info_form_data["deliverConsignBookingSpace." + key] = deliver_consign_info_form_data.deliverConsignBookingSpaceInfo[key];
+                });
+            }
             delete deliver_consign_info_form_data.deliverConsignBookingSpaceInfo;
             // 附件内容
             deliver_consign_info_attachment_data = deliver_consign_info_form_data.attachments;
@@ -35,7 +38,8 @@
         </div>
         <div class="fitem">
             <label>填表日期：</label>
-            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="writeDate" style="width:185px;"/>
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="writeDate"
+                   style="width:185px;"/>
             <label>销售合同号：</label>
             <div class="input-div">{{contractNo}}</div>
             <label style="width: 145px;margin-left:-10px;">费用承担主体及发票抬头：</label>
@@ -64,7 +68,8 @@
             <label>预收金额({{currencyBn}})：</label>
             <div class="input-div">{{advanceMoney}}</div>
             <label>市场要求订舱日期：</label>
-            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="bookingDate" style="width:185px;"/>
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="bookingDate"
+                   style="width:185px;"/>
         </div>
         <div class="fitem">
             <label>本批次发货金额：</label>
@@ -72,7 +77,8 @@
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>报关金额：</label>
-            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value="" name="declareCustomsMoney"
+            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value=""
+                   name="declareCustomsMoney"
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>清关金额：</label>
@@ -87,11 +93,13 @@
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>直接转口金额：</label>
-            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value="" name="directTransferMoney"
+            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value=""
+                   name="directTransferMoney"
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
             <label>间接转口金额：</label>
-            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value="" name="indirectTransferMoney"
+            <input disabled class="easyui-numberbox" data-options="min:0,precision:2" value=""
+                   name="indirectTransferMoney"
                    style="width:120px;"/>
             <span style="width:60px;color:blue;display: inline-block;"> {{currencyBn}}</span>
         </div>
@@ -103,14 +111,17 @@
         </div>
         <div class="fitem">
             <label>付款方式：</label>
-            <input disabled class="easyui-radio" type="radio" name="payMethod" id="deliver_consign_info_form_pay_method_01"
+            <input disabled class="easyui-radio" type="radio" name="payMethod"
+                   id="deliver_consign_info_form_pay_method_01"
                    value="1" checked>
             <label style="margin-left:0;width:36px;text-align: left;"
                    for="deliver_consign_info_form_pay_method_01">T/T</label></input>
-            <input disabled class="easyui-radio" type="radio" name="payMethod" id="deliver_consign_info_form_pay_method_02"
+            <input disabled class="easyui-radio" type="radio" name="payMethod"
+                   id="deliver_consign_info_form_pay_method_02"
                    value="2"> <label style="margin-left:0;width:36px;text-align: left;"
                                      for="deliver_consign_info_form_pay_method_02">L/T</label></input>
-            <input disabled class="easyui-radio" type="radio" name="payMethod" id="deliver_consign_info_form_pay_method_03"
+            <input disabled class="easyui-radio" type="radio" name="payMethod"
+                   id="deliver_consign_info_form_pay_method_03"
                    value="3"> <label style="margin-left:0;width:36px;text-align: left;"
                                      for="deliver_consign_info_form_pay_method_03">其他</label></input>
 
@@ -121,11 +132,13 @@
         </div>
         <div class="fitem">
             <label>是否为危险品：</label>
-            <input disabled class="easyui-radio" type="radio" name="isDangerous" id="deliver_consign_info_form_isdangerous_01"
+            <input disabled class="easyui-radio" type="radio" name="isDangerous"
+                   id="deliver_consign_info_form_isdangerous_01"
                    value="2" checked>
             <label style="margin-left:0;width:36px;text-align: left;"
                    for="deliver_consign_info_form_isdangerous_01">是</label></input>
-            <input disabled class="easyui-radio" type="radio" name="isDangerous" id="deliver_consign_info_form_isdangerous_02"
+            <input disabled class="easyui-radio" type="radio" name="isDangerous"
+                   id="deliver_consign_info_form_isdangerous_02"
                    value="1"> <label style="margin-left:0;width:36px;text-align: left;"
                                      for="deliver_consign_info_form_isdangerous_02">否</label></input>
             <label style="margin-left:82px;">货物存放地：</label>
@@ -137,11 +150,13 @@
             <label>运输方式：</label>
             <div class="input-div">{{transportTypeName}}</div>
             <label>是否投出口信用保险：</label>
-            <input disabled class="easyui-radio" type="radio" name="hasInsurance" id="deliver_consign_info_form_has_insurance_01"
+            <input disabled class="easyui-radio" type="radio" name="hasInsurance"
+                   id="deliver_consign_info_form_has_insurance_01"
                    value="1" checked>
             <label style="margin-left:0;width:36px;text-align: left;"
                    for="deliver_consign_info_form_has_insurance_01">是</label></input>
-            <input disabled class="easyui-radio" type="radio" name="hasInsurance" id="deliver_consign_info_form_has_insurance_02"
+            <input disabled class="easyui-radio" type="radio" name="hasInsurance"
+                   id="deliver_consign_info_form_has_insurance_02"
                    value="0"> <label style="margin-left:0;width:36px;text-align: left;"
                                      for="deliver_consign_info_form_has_insurance_02">否</label></input>
         </div>
@@ -158,10 +173,12 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label>货物备好日期：</label>
-            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="deliverConsignBookingSpace.readyDate"
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons"
+                   name="deliverConsignBookingSpace.readyDate"
                    style="width:185px;"/>
             <label>要求运抵目的地日期：</label>
-            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons" name="deliverConsignBookingSpace.arrivalDate"
+            <input disabled class="easyui-datebox" data-options="editable:false,buttons:d_buttons"
+                   name="deliverConsignBookingSpace.arrivalDate"
                    style="width:185px;"/>
             <label>订单紧急程度：</label>
             <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.orderEmergency"
@@ -234,11 +251,13 @@
                         <input disabled type="checkbox" value="4" id="deliver_consign_info_form_require_doc_04"><label
                             style="text-align:left;margin-left:5px;width:65px;"
                             for="deliver_consign_info_form_require_doc_04">原产地证</label>
-                        <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.primaryOrigin" checked
+                        <input disabled class="easyui-radio" type="radio"
+                               name="deliverConsignBookingSpace.primaryOrigin" checked
                                id="deliver_consign_info_form_primary_origin_01"
                                value="1"> <label style="margin-left:0;width:50px;text-align: left;"
                                                  for="deliver_consign_info_form_primary_origin_01">中国原产</label></input>
-                        <input disabled class="easyui-radio" type="radio" name="deliverConsignBookingSpace.primaryOrigin"
+                        <input disabled class="easyui-radio" type="radio"
+                               name="deliverConsignBookingSpace.primaryOrigin"
                                id="deliver_consign_info_form_primary_origin_02"
                                value="2"> <label style="margin-left:0;width:60px;text-align: left;"
                                                  for="deliver_consign_info_form_primary_origin_02">含进口成分</label></input>
@@ -260,7 +279,8 @@
                 <div style="display:inline-block;border:1px solid #ddd;padding:15px;width:250px;">
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">公司名称：</label>
-                        <input disabled class="easyui-textbox" value="" name="deliverConsignBookingSpace.corporateName"/>
+                        <input disabled class="easyui-textbox" value=""
+                               name="deliverConsignBookingSpace.corporateName"/>
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">地址：</label>
@@ -272,11 +292,13 @@
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">联系方式：</label>
-                        <input disabled class="easyui-textbox" value="" name="deliverConsignBookingSpace.contactInformation"/>
+                        <input disabled class="easyui-textbox" value=""
+                               name="deliverConsignBookingSpace.contactInformation"/>
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">税号：</label>
-                        <input disabled class="easyui-textbox" value="" name="deliverConsignBookingSpace.dutyParagraph"/>
+                        <input disabled class="easyui-textbox" value=""
+                               name="deliverConsignBookingSpace.dutyParagraph"/>
                     </div>
                     <div class="fitem">
                         <label style="width:60px;margin-left:0px;">邮编：</label>

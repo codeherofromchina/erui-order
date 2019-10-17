@@ -368,7 +368,7 @@ public class DeliverConsignServiceImpl implements DeliverConsignService {
 
 
         int attachmentUpdateNum = attachmentService.insertOnDuplicateIdUpdate(AttachmentTargetObjEnum.DELIVER_CONSIGN, deliverConsign.getId(), updateList);
-        if (attachments.size() != attachmentUpdateNum) {
+        if (updateList.size() != attachmentUpdateNum) {
             throw new Exception("货物签收单上传失败");
         }
         // 更新状态

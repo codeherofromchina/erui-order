@@ -53,22 +53,27 @@ public class DeliverDetailDetailResponse {
     private String billsChkStatus;
     // 检验员
     private Long checkUserId;
+    private String checkUserName;
     // 质检部门
     private String checkDept;
     // 检验日期
     private Date checkDate;
     // 最终放行人
     private Long releaseUserId;
+    private String releaseUserName;
     // 放行日期
     private Date releaseDate;
     // 质量分管领导
     private Long qualityLeaderUserId;
+    private String qualityLeaderUserName;
     // 申请人
     private Long applicantUserId;
+    private String applicantUserName;
     // 申请日期
     private Date applicantDate;
     // 批准人
     private Long approverUserId;
+    private String approverUserName;
     // 批准日期
     private Date approvalDate;
     // 特殊情况产品放行原因
@@ -371,6 +376,46 @@ public class DeliverDetailDetailResponse {
 
     public void setReviewerUserName(String reviewerUserName) {
         this.reviewerUserName = reviewerUserName;
+    }
+
+    public String getCheckUserName() {
+        return checkUserName;
+    }
+
+    public void setCheckUserName(String checkUserName) {
+        this.checkUserName = checkUserName;
+    }
+
+    public String getReleaseUserName() {
+        return releaseUserName;
+    }
+
+    public void setReleaseUserName(String releaseUserName) {
+        this.releaseUserName = releaseUserName;
+    }
+
+    public String getQualityLeaderUserName() {
+        return qualityLeaderUserName;
+    }
+
+    public void setQualityLeaderUserName(String qualityLeaderUserName) {
+        this.qualityLeaderUserName = qualityLeaderUserName;
+    }
+
+    public String getApplicantUserName() {
+        return applicantUserName;
+    }
+
+    public void setApplicantUserName(String applicantUserName) {
+        this.applicantUserName = applicantUserName;
+    }
+
+    public String getApproverUserName() {
+        return approverUserName;
+    }
+
+    public void setApproverUserName(String approverUserName) {
+        this.approverUserName = approverUserName;
     }
 }
 

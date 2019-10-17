@@ -38,7 +38,7 @@ public class CookiesUtil {
             LOGGER.error("获取cookie异常 - {} - {} ", name, ex);
         }
         LOGGER.info("cookie - {} - {} ", name, StringUtils.defaultIfBlank(value, ""));
-        return name;
+        return value;
     }
 
 

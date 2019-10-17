@@ -94,23 +94,32 @@
                 <option value="0">不合格</option>
             </select>
             <label>检验员：</label>
-            <input class="easyui-textbox" name="checkUserId" data-options="editable:false"/>
+            <input type="text" id="save_outstock_quality_table_form_check_user_id_field" class="easyui-textbox"
+                   editable="false" name="checkUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_outstock_quality_check_user_id_dialog').dialog('open');$('#save_outstock_quality_check_user_id_dialog').dialog('refresh', 'common/saveOutstockQualityUserDialog.html');}"/>
         </div>
         <div class="fitem">
             <label>质检部门：</label>
             <input class="easyui-textbox" name="checkDept" data-options="editable:false"/>
             <label><span style="color:red;">*</span>检验日期：</label>
-            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false" style="width:185px;"
+            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false"
+                   style="width:185px;"
                    name="checkDate"/>
             <label>最终放行人：</label>
-            <input class="easyui-textbox" data-options="editable:false" name="releaseUserId" buttonText="请选择"/>
+            <input type="text" id="save_outstock_quality_table_form_release_user_id_field" class="easyui-textbox"
+                   editable="false" name="releaseUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_outstock_quality_release_user_id_dialog').dialog('open');$('#save_outstock_quality_release_user_id_dialog').dialog('refresh', 'common/saveOutstockQuality02UserDialog.html');}"/>
+
         </div>
         <div class="fitem">
             <label><span style="color:red;">*</span>放行日期：</label>
-            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false" style="width:185px;"
+            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,required:true,editable:false"
+                   style="width:185px;"
                    name="releaseDate"/>
             <label>质量分管领导：</label>
-            <input class="easyui-textbox" data-options="editable:false" name="qualityLeaderUserId" buttonText="请选择"/>
+            <input type="text" id="save_outstock_quality_table_form_quality_leader_user_id_field" class="easyui-textbox"
+                   editable="false" name="qualityLeaderUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_outstock_quality_quality_leader_user_id_dialog').dialog('open');$('#save_outstock_quality_quality_leader_user_id_dialog').dialog('refresh', 'common/saveOutstockQuality03UserDialog.html');}"/>
         </div>
     </div>
 
@@ -119,16 +128,22 @@
          data-options="collapsible:true">
         <div class="fitem">
             <label>申请人：</label>
-            <input class="easyui-textbox" data-options="editable:false" name="applicantUserId" buttonText="请选择"/>
+            <input type="text" id="save_outstock_quality_table_form_applicant_user_id_field" class="easyui-textbox"
+                   editable="false" name="applicantUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_outstock_quality_applicant_user_id_dialog').dialog('open');$('#save_outstock_quality_applicant_user_id_dialog').dialog('refresh', 'common/saveOutstockQuality04UserDialog.html');}"/>
             <label>申请日期：</label>
-            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,editable:false" style="width:185px;"
+            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,editable:false"
+                   style="width:185px;"
                    name="applicantDate"/>
             <label>批准人：</label>
-            <input class="easyui-textbox" data-options="editable:false" name="approverUserId" buttonText="请选择"/>
+            <input type="text" id="save_outstock_quality_table_form_approver_user_id_field" class="easyui-textbox"
+                   editable="false" name="approverUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_outstock_quality_approver_user_id_dialog').dialog('open');$('#save_outstock_quality_approver_user_id_dialog').dialog('refresh', 'common/saveOutstockQuality05UserDialog.html');}"/>
         </div>
         <div class="fitem">
             <label>批准日期：</label>
-            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,editable:false" style="width:185px;"
+            <input type="text" class="easyui-datebox" data-options="buttons:d_buttons,editable:false"
+                   style="width:185px;"
                    name="approvalDate"/>
         </div>
         <div class="fitem">
@@ -194,6 +209,12 @@
        style="margin-left:10px;">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;提交&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</a>
 </div>
 
+<!-- 用户弹框 -->
+<div id="save_outstock_quality_check_user_id_dialog" style="width:600px;height:350px;"></div>
+<div id="save_outstock_quality_release_user_id_dialog" style="width:600px;height:350px;"></div>
+<div id="save_outstock_quality_quality_leader_user_id_dialog" style="width:600px;height:350px;"></div>
+<div id="save_outstock_quality_applicant_user_id_dialog" style="width:600px;height:350px;"></div>
+<div id="save_outstock_quality_approver_user_id_dialog" style="width:600px;height:350px;"></div>
 
 <script type="text/javascript">
     new Vue({
@@ -204,6 +225,20 @@
     $(function () {
         setTimeout(function () {
             $("#save_outstock_quality_form").form('load', save_outstock_quality_form_data);
+            $("#save_outstock_quality_table_form_check_user_id_field").textbox("setValue", save_outstock_quality_form_data.checkUserId);
+            $("#save_outstock_quality_table_form_check_user_id_field").textbox("setText", save_outstock_quality_form_data.checkUserName);
+
+            $("#save_outstock_quality_table_form_release_user_id_field").textbox("setValue", save_outstock_quality_form_data.releaseUserId);
+            $("#save_outstock_quality_table_form_release_user_id_field").textbox("setText", save_outstock_quality_form_data.releaseUserName);
+
+            $("#save_outstock_quality_table_form_quality_leader_user_id_field").textbox("setValhue", save_outstock_quality_form_data.qualityLeaderUserId);
+            $("#save_outstock_quality_table_form_quality_leader_user_id_field").textbox("setText", save_outstock_quality_form_data.qualityLeaderUserName);
+
+            $("#save_outstock_quality_table_form_applicant_user_id_field").textbox("setValue", save_outstock_quality_form_data.applicantUserId);
+            $("#save_outstock_quality_table_form_applicant_user_id_field").textbox("setText", save_outstock_quality_form_data.applicantUserName);
+
+            $("#save_outstock_quality_table_form_approver_user_id_field").textbox("setValue", save_outstock_quality_form_data.approverUserId);
+            $("#save_outstock_quality_table_form_approver_user_id_field").textbox("setText", save_outstock_quality_form_data.approverUserName);
         }, 500);
 
         $("#save_outstock_quality_panel_goods_table").datagrid({
@@ -233,6 +268,137 @@
                 }
             ]],
             data: save_outstock_quality_goods_data
+        });
+
+        $("#save_outstock_quality_check_user_id_dialog").dialog({
+            title: '质检员',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_outstock_quality_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_outstock_quality_table_form_check_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_outstock_quality_table_form_check_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_outstock_quality_table_form_check_user_id_field").textbox("clear");
+                    }
+                    $("#save_outstock_quality_check_user_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_outstock_quality_check_user_id_dialog").dialog("close");
+                }
+            }]
+        });
+        $("#save_outstock_quality_release_user_id_dialog").dialog({
+            title: '最终放行人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_outstock_quality02_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_outstock_quality_table_form_release_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_outstock_quality_table_form_release_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_outstock_quality_table_form_release_user_id_field").textbox("clear");
+                    }
+                    $("#save_outstock_quality_release_user_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_outstock_quality_release_user_id_dialog").dialog("close");
+                }
+            }]
+        });
+        $("#save_outstock_quality_quality_leader_user_id_dialog").dialog({
+            title: '质量分管领导',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_outstock_quality03_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_outstock_quality_table_form_quality_leader_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_outstock_quality_table_form_quality_leader_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_outstock_quality_table_form_quality_leader_user_id_field").textbox("clear");
+                    }
+                    $("#save_outstock_quality_quality_leader_user_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_outstock_quality_quality_leader_user_id_dialog").dialog("close");
+                }
+            }]
+        });
+        $("#save_outstock_quality_applicant_user_id_dialog").dialog({
+            title: '申请人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_outstock_quality04_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_outstock_quality_table_form_applicant_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_outstock_quality_table_form_applicant_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_outstock_quality_table_form_applicant_user_id_field").textbox("clear");
+                    }
+                    $("#save_outstock_quality_applicant_user_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_outstock_quality_applicant_user_id_dialog").dialog("close");
+                }
+            }]
+        });
+        $("#save_outstock_quality_approver_user_id_dialog").dialog({
+            title: '批准人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_outstock_quality05_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_outstock_quality_table_form_approver_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_outstock_quality_table_form_approver_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_outstock_quality_table_form_approver_user_id_field").textbox("clear");
+                    }
+                    $("#save_outstock_quality_approver_user_id_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_outstock_quality_approver_user_id_dialog").dialog("close");
+                }
+            }]
         });
 
         $("#save_outstock_quality_form_save_btn").click(function (e) {

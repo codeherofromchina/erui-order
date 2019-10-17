@@ -14,6 +14,7 @@ import org.springframework.stereotype.Component;
 public class ConfigBeanProp {
 
     private String tokenName;
+    private String ssoUrl;
 
 
     public String getTokenName() {
@@ -22,5 +23,13 @@ public class ConfigBeanProp {
 
     public void setTokenName(String tokenName) {
         this.tokenName = tokenName;
+    }
+
+    public String getSsoUrl() {
+        return ssoUrl;
+    }
+
+    public void setSsoUrl(String ssoUrl) {
+        this.ssoUrl = ssoUrl;
     }
 }

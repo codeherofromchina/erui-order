@@ -24,7 +24,8 @@
         <input type="hidden" v-model="id" name="id" value=""/>
         <div class="fitem">
             <label>开单日期：</label>
-            <input class="easyui-datebox" name="billingDate" data-options="editable:false,buttons:d_buttons" style="width:180px;"/>
+            <input class="easyui-datebox" name="billingDate" data-options="editable:false,buttons:d_buttons"
+                   style="width:180px;"/>
             <label>贸易术语：</label>
             <div class="input-div">{{tradeTerms}}</div>
             <label>目的港：</label>
@@ -58,7 +59,8 @@
         </div>
         <div class="fitem">
             <label>提货日期：</label>
-            <input class="easyui-datebox" name="pickupDate" data-options="editable:false,buttons:d_buttons" style="width:185px;"/>
+            <input class="easyui-datebox" name="pickupDate" data-options="editable:false,buttons:d_buttons"
+                   style="width:185px;"/>
             <label>联系电话：</label>
             <input class="easyui-textbox" name="contactTel"/>
         </div>
@@ -72,13 +74,18 @@
             <label>经办部门：</label>
             <input class="easyui-textbox" name="handleDepartment" editable="false" value="仓储配送中心"/>
             <label>发运人员：</label>
-            <input class="easyui-textbox" name="senderUserName"/>
+            <input type="text" id="save_deliver_detail_form_sender_user_id_field" class="easyui-textbox"
+                   editable="false" name="senderUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_deliver_detail_form_sender_user_dialog').dialog('open');$('#save_deliver_detail_form_sender_user_dialog').dialog('refresh', 'common/saveDeliverDetailUserDialog.html');}"/>
         </div>
         <div class="fitem">
             <label>发运日期：</label>
-            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" style="width:185px;" name="sendDate"/>
+            <input class="easyui-datebox" data-options="editable:false,buttons:d_buttons" style="width:185px;"
+                   name="sendDate"/>
             <label>协办/复核人：</label>
-            <input class="easyui-textbox" name="reviewerUserName"/>
+            <input type="text" id="save_deliver_detail_form_reviewer_user_id_field" class="easyui-textbox"
+                   editable="false" name="reviewerUserId" buttonText="请选择"
+                   data-options="onClickButton:function(){$('#save_deliver_detail_form_reviewer_user_dialog').dialog('open');$('#save_deliver_detail_form_reviewer_user_dialog').dialog('refresh', 'common/saveDeliverDetailUserDialog.html');}"/>
         </div>
     </div>
 
@@ -132,6 +139,17 @@
 </div>
 
 
+<!-- 协办/复核人弹出框 -->
+<div id="save_deliver_detail_form_reviewer_user_dialog" style="width:600px;height:350px;">
+</div>
+<!-- /协办/复核人弹出框 -->
+
+
+<!-- 发运人员弹出框 -->
+<div id="save_deliver_detail_form_sender_user_dialog" style="width:600px;height:350px;">
+</div>
+<!-- /发运人员弹出框 -->
+
 <script type="text/javascript">
     new Vue({
         el: '#save_deliver_detail_form',
@@ -141,6 +159,11 @@
     $(function () {
         setTimeout(function () {
             $("#save_deliver_detail_form").form('load', save_deliver_detail_form_data);
+            $("#save_deliver_detail_form_reviewer_user_id_field").textbox("setValue", save_deliver_detail_form_data.reviewerUserId);
+            $("#save_deliver_detail_form_reviewer_user_id_field").textbox("setText", save_deliver_detail_form_data.reviewerUserName);
+            $("#save_deliver_detail_form_sender_user_id_field").textbox("setValue", save_deliver_detail_form_data.senderUserId);
+            $("#save_deliver_detail_form_sender_user_id_field").textbox("setText", save_deliver_detail_form_data.senderUserName);
+
         }, 500);
 
         $("#save_deliver_detail_form_goods_table").datagrid({
@@ -173,7 +196,7 @@
                     editor: {
                         type: "numberbox",
                         options: {
-                            min: 1,
+                            min: 0,
                             precision: 0
                         }
                     }
@@ -193,6 +216,62 @@
                 }
             },
             data: save_deliver_detail_goods_data
+        });
+
+
+        $("#save_deliver_detail_form_reviewer_user_dialog").dialog({
+            title: '协办/复核人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_deliver_detail_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_deliver_detail_form_reviewer_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_deliver_detail_form_reviewer_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_deliver_detail_form_reviewer_user_id_field").textbox("clear");
+                    }
+                    $("#save_deliver_detail_form_reviewer_user_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_deliver_detail_form_reviewer_user_dialog").dialog("close");
+                }
+            }]
+        });
+
+
+        $("#save_deliver_detail_form_sender_user_dialog").dialog({
+            title: '发运人',
+            resizable: true,
+            modal: true,
+            closed: true,
+            buttons: [{
+                text: '确定',
+                iconCls: 'icon-ok',
+                handler: function () {
+                    var tableSelectedRow = $("#common_save_deliver_detail_user_dialog_table").datagrid("getSelected");
+                    if (tableSelectedRow) {
+                        $("#save_deliver_detail_form_sender_user_id_field").textbox("setValue", tableSelectedRow.id);
+                        $("#save_deliver_detail_form_sender_user_id_field").textbox("setText", tableSelectedRow.userName);
+                    } else {
+                        $("#save_deliver_detail_form_sender_user_id_field").textbox("clear");
+                    }
+                    $("#save_deliver_detail_form_sender_user_dialog").dialog("close");
+                }
+            }, {
+                text: '取消',
+                iconCls: 'icon-cancel',
+                handler: function () {
+                    $("#save_deliver_detail_form_sender_user_dialog").dialog("close");
+                }
+            }]
         });
 
         $("#save_deliver_detail_form_save_btn").click(function (e) {

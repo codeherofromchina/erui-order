@@ -27,9 +27,11 @@
                 </li>
                 <li>
                     <label>订舱提交日期：</label>
-                    <input type="text" style="width:100px;" data-options="editable:false,buttons:d_buttons" class="easyui-datebox" name="startTime">
+                    <input type="text" style="width:100px;" data-options="editable:false,buttons:d_buttons"
+                           class="easyui-datebox" name="startTime">
                     <span>-</span>
-                    <input style="width:100px;" data-options="editable:false,buttons:d_buttons" class="easyui-datebox" name="endTime">
+                    <input style="width:100px;" data-options="editable:false,buttons:d_buttons" class="easyui-datebox"
+                           name="endTime">
                 </li>
                 <li>
                     <span class="search-btn">
@@ -147,12 +149,12 @@
         });
     });
 
-    function deliverConsignInfoPage(deliverNoticeId) {
-        var tabTitle = "查看出口通知单-" + deliverNoticeId;
+    function deliverConsignInfoPage(deliverConsignId) {
+        var tabTitle = "查看出口通知单-" + deliverConsignId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "deliverNoticeId=" + deliverNoticeId;
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
             $("#tt").tabs("add", {
                 title: tabTitle,
                 href: 'deliverConsign/deliverConsignInfo.html',
@@ -161,29 +163,29 @@
         }
     }
 
-    function deliverConsignUploadPage(deliverNoticeId) {
-        var tabTitle = "上传货物签收单-" + deliverNoticeId;
+    function deliverConsignUploadPage(deliverConsignId) {
+        var tabTitle = "上传货物签收单-" + deliverConsignId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "deliverNoticeId=" + deliverNoticeId;
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
             $("#tt").tabs("add", {
                 title: tabTitle,
-                href: 'deliverNotice/deliverConsignUpload.html',
+                href: 'deliverConsign/deliverConsignUpload.html',
                 closable: true
             });
         }
     }
 
-    function saveDeliverConsignPage(deliverNoticeId) {
-        var tabTitle = "办理出口通知单-" + deliverNoticeId;
+    function saveDeliverConsignPage(deliverConsignId) {
+        var tabTitle = "办理出口通知单-" + deliverConsignId;
         if ($("#tt").tabs("exists", tabTitle)) { // 判断该Tab页是否已经存在
             $("#tt").tabs("select", tabTitle);
         } else {
-            GLOBAL_PARAMS = "deliverNoticeId=" + deliverNoticeId;
+            GLOBAL_PARAMS = "deliverConsignId=" + deliverConsignId;
             $("#tt").tabs("add", {
                 title: tabTitle,
-                href: 'deliverNotice/saveDeliverConsign.html',
+                href: 'deliverConsign/saveDeliverConsign.html',
                 closable: true
             });
         }

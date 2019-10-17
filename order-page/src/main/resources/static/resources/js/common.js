@@ -1,10 +1,12 @@
 var ORDER_URL = "http://java.eruidev.com:85";
-var LOCAL_URL = "http://wxd.eruidev.com:8090";
+var LOCAL_URL = "http://wxd.eruitest.com:8090";
 var BPM_URL = "http://bpm.eruidev.com";
-var ERUITOKEN = "0247a276a6aba22986d2cba57fea667e_018410";
+var SSO_URL = "http://wxd.eruitest.com:8080";
+var ERUITOKEN = "c4f0cb463745b51ebf616342f6a91aa5_018410";
 var GLOBAL_PARAMS = null;
 var ATTACHMENT_FILE_TYPE = 1; // 附件的类型
 var ATTACHMENT_FILE_TABLE_ID = null; // 附件的表格ID
+var LOGIN_URL = SSO_URL + "/login?returnUrl=http://wxd.eruitest.com:8888/";
 
 function beforeAjaxSend(request) {
     request.setRequestHeader("eruitoken", ERUITOKEN);
@@ -35,6 +37,10 @@ function tokenAjaxLoader(opts, param, success, error) {
 }
 
 function tableLoadFilter(data) {
+    if (data.code == 403) {
+        window.location.href = LOGIN_URL;
+        return;
+    }
     var finalData = {"total": 0, "rows": []};
     if (data.code == 0) {
         if (data.data.total) {
@@ -79,6 +85,10 @@ function syncAjaxJson(opts, param) {
         beforeSend: beforeAjaxSend,
         contentType: 'application/json;charset=utf-8',
         success: function (data) {
+            if (data.code == 403) {
+                window.location.href = LOGIN_URL;
+                return;
+            }
             finalData = data;
         },
         error: function () {
@@ -140,6 +150,9 @@ function uploadFile(file, callback) {
         type: "post",
         data: formData,
         contentType: false,
+        xhrFields: {
+            withCredentials: true
+        },
         processData: false,
         mimeType: "multipart/form-data",
         success: function (resp) {
@@ -266,4 +279,24 @@ function tableAttachmentDownHref(val, row, index) {
 
 function isNumber(obj) {
     return obj === +obj
+}
+
+
+function checkToken() {
+    var checkTokenResp = syncAjaxJson({"url":SSO_URL + "/api/checkToken"},{"tenant":"erui"});
+    console.info("checkToken -> " + JSON.stringify(checkTokenResp));
+    if (checkTokenResp.code == 200) {
+        return checkTokenResp;
+    } else {
+        // 跳转登录
+        window.location.href = LOGIN_URL;
+    }
+}
+
+
+
+function logout() {
+    var checkTokenResp = syncAjaxJson({"url":SSO_URL + "/api/logout"},{"tenant":"erui"});
+    // 跳转登录
+    window.location.href = LOGIN_URL;
 }

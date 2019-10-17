@@ -11,9 +11,11 @@
             deliver_consign_upload_form_goods_table = deliver_consign_upload_form_data.goodsInfos;
             delete deliver_consign_upload_form_data.goodsInfos;
             // 订舱信息
-            Object.keys(deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
-                deliver_consign_upload_form_data["deliverConsignBookingSpace." + key] = deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo[key];
-            });
+            if (deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo) {
+                Object.keys(deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo).forEach(function (key) {
+                    deliver_consign_upload_form_data["deliverConsignBookingSpace." + key] = deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo[key];
+                });
+            }
             delete deliver_consign_upload_form_data.deliverConsignBookingSpaceInfo;
             // 附件内容
             deliver_consign_upload_attachment_data = deliver_consign_upload_form_data.attachments;

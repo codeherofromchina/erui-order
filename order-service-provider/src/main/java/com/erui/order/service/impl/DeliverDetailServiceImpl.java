@@ -217,6 +217,14 @@ public class DeliverDetailServiceImpl implements DeliverDetailService {
 
         // 组织数据
         DeliverDetailDetailResponse detail = DeliverDetailFactory.deliverDetailDetailResponse(deliverDetail);
+        detail.setSenderUserName(userService.findNameById(detail.getSenderUserId()));
+        detail.setReviewerUserName(userService.findNameById(detail.getReviewerUserId()));
+        detail.setCheckUserName(userService.findNameById(detail.getCheckUserId()));
+        detail.setReleaseUserName(userService.findNameById(detail.getReleaseUserId()));
+        detail.setQualityLeaderUserName(userService.findNameById(detail.getQualityLeaderUserId()));
+        detail.setApplicantUserName(userService.findNameById(detail.getApplicantUserId()));
+        detail.setApproverUserName(userService.findNameById(detail.getApproverUserId()));
+
         detail.setToPortName(portService.findPortNameByBn(detail.getToPort()));
         detail.setAttachments(attachmentInfos);
         detail.setGoodsInfos(goodsInfos);

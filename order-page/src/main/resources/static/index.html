@@ -16,8 +16,9 @@
 <div region="north" id="header">
     <img src="resources/img/logo.png" class="logo"/>
     <div class="top-btns">
-        <span>欢迎您，管理员</span>
-        <a href="javascript:void(0);" class="easyui-linkbutton" data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
+        <span id="index_page_welcome_span"></span>
+        <a href="javascript:void(0);" class="easyui-linkbutton" id="index_page_logout_href"
+           data-options="plain:true,iconCls:'icon-clear'">退出系统</a>
     </div>
 </div>
 
@@ -124,6 +125,13 @@
             var file = e.target.files[0] || e.dataTransfer.files[0];
             uploadFile(file, addAttachmentTableRowData);
         });
+
+        $("#index_page_logout_href").click(function () {
+            logout();
+        });
+
+        var resp = checkToken();
+        $("#index_page_welcome_span").html("欢迎您，" + resp.userName);
     });
 </script>
 </body>
